@@ -29,7 +29,7 @@ public interface Observer {
      * @param esRenovacion <code>true</code> si es renovacion.
      *         <code>false</code> en otro caso.
      */
-    public void notificarBienvenida(String servicio, Boolean esRenovacion);
+    public void notificarBienvenida(String servicio, boolean esRenovacion);
     /**
      * NOtifica una despedida
      * @param servicio NOmbre del servicio
@@ -41,11 +41,11 @@ public interface Observer {
      * @param monto El monto de cobro del servicio
      * @param plan Plan contratado/escogido
      */
-    public void  notificarCobroExitoso(String servicio, Double monto, String plan);
+    public void  notificarCobroExitoso(String servicio, double monto, String plan);
     /**
      * Notifica el cobro fallido de un servicio
      * @param servicio NOmbre dle servicio
      * @param monto El monto de cobro del servicio 
      */
-    public void notificarCobroFallido(String servicio, Double monto);
+    public void notificarCobroFallido(String servicio, double monto);
 }

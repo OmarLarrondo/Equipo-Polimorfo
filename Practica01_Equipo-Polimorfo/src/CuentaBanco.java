@@ -17,18 +17,23 @@ public class CuentaBanco {
     /** Lista que mantiene el historial completo de transacciones */
     private List<String> transacciones;
     
+    /** Usuario propietario de la cuenta */
+    private Usuario usuario;
+    
     /**
-     * Constructor que inicializa una nueva cuenta bancaria con un saldo inicial.
+     * Constructor que inicializa una nueva cuenta bancaria con un saldo inicial y usuario.
      * Registra la transacción inicial en el historial.
      * 
      * @param saldoInicial El monto inicial con el que se crea la cuenta
+     * @param usuario El usuario propietario de la cuenta
      * @throws IllegalArgumentException si el saldo inicial es negativo
      */
-    public CuentaBanco(double saldoInicial) {
+    public CuentaBanco(double saldoInicial, Usuario usuario) {
         if (saldoInicial < 0) {
             throw new IllegalArgumentException("El saldo inicial no puede ser negativo");
         }
         this.saldo = saldoInicial;
+        this.usuario = usuario;
         this.transacciones = new ArrayList<>();
         this.transacciones.add(String.format("Cuenta creada con saldo inicial: $%.2f", saldoInicial));
     }
@@ -95,6 +100,50 @@ public class CuentaBanco {
             throw new IllegalArgumentException("El monto a verificar debe ser mayor a cero");
         }
         return this.saldo >= monto;
+    }
+    
+    /**
+     * Procesa una solicitud de cobro de un servicio específico.
+     * Coordina el cobro y notifica el resultado al servicio.
+     * 
+     * @param servicio El servicio que solicita el cobro
+     * @param monto El monto a cobrar
+     * @param concepto Descripción del concepto de cobro
+     * @return true si el cobro fue exitoso, false en caso contrario
+     */
+    public boolean procesarSolicitudCobro(Servicio servicio, double monto, String concepto) {
+        boolean exitoso = realizarPago(monto, concepto);
+        notificarResultadoCobro(servicio, monto, exitoso, concepto);
+        return exitoso;
+    }
+    
+    /**
+     * Notifica al servicio el resultado de un cobro y al usuario correspondiente.
+     * 
+     * @param servicio El servicio involucrado en la transacción
+     * @param monto El monto de la transacción
+     * @param exitoso true si el cobro fue exitoso, false si falló
+     * @param concepto Descripción del concepto de cobro
+     */
+    public void notificarResultadoCobro(Servicio servicio, double monto, boolean exitoso, String concepto) {
+        if (exitoso) {
+            if (usuario != null) {
+                usuario.notificarCobroExitoso(servicio.obtenerNombre(), monto, concepto);
+            }
+        } else {
+            if (usuario != null) {
+                usuario.notificarCobroFallido(servicio.obtenerNombre(), monto);
+            }
+        }
+    }
+    
+    /**
+     * Obtiene el usuario propietario de la cuenta.
+     * 
+     * @return El usuario propietario de la cuenta
+     */
+    public Usuario obtenerUsuario() {
+        return this.usuario;
     }
     
     /**

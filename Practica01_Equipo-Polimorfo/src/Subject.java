@@ -14,7 +14,7 @@ public interface Subject {
      * Remueve un observador de la lista de observadores del sujeto.
      * @param observer El observador que se desea eliminar.
      */
-    public void removeObserver(Observer observer);
+    public void removerObserver(Observer observer);
 
     /**
      * Notifica a todos los observadores los meses que han estado usando el servicio.
