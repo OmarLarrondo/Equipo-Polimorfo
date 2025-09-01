@@ -32,6 +32,7 @@ public class Usuario implements Observer{ // IMPLEMNATAR METODOS DE LA INTERFACE
 	this.dineroInicial = dineroInicial;
 	this.cuentaBanco = cuentaBanco;
     }
+    
     /**
      * Notifca los meses usando un servicio,verifica que el servico sea valido, los meses no sean menores a 0
      * , que este asociado a una cuenta de banco.
@@ -44,44 +45,84 @@ public class Usuario implements Observer{ // IMPLEMNATAR METODOS DE LA INTERFACE
     @Override
     public void notificarMesesUso(String servicio, int meses) {
         if (servicio == null || servicio.trim().isEmpty()) {
-            System.out.println("Servicio inválido, no se puede registrar la notificación.");
+            System.out.println("Servicio inválido, no se puede procesar la notificación.");
             return;
         }
-
-        if (meses < 0) {
-            System.out.println("Meses inválidos, no se puede registrar la notificación.");
-            return;
-        }
-
-        if (cuentaBanco == null) {
-            System.out.println("No hay cuenta asociada a "+nombre +", no se puede procesar la notificación.");
-            return;
-        }   
-
-        System.out.println(String.format(
-            "Usuario %s ha usado %s durante %d meses", nombre, servicio, meses));
-
-        historialSuscripciones.put(servicio, meses);
+    
+        System.out.println(String.format("%s, llevas %d meses usando %s",
+                                                nombre, meses, servicio));
     }
 
+
+
+    
+    /**
+     * Metodo para notificar las recomendaciones en tal mes de un servicio.
+     * Verifica que el servicio sea Valido.
+     * 
+     * @param servicio EL servicio contratado por el usuario
+     * @param recomendaciones las recomendaciones del mes.
+     * @param mes Mes donde se dan las recomendaciones
+     */
     @Override
     public void notificarRecomendacion(String servicio, String recomendaciones, int mes) {
-        // TODO Auto-generated method stub
-        
+        if (servicio == null || servicio.trim().isEmpty()) {
+            System.out.println("Servicio inválido.");
+            return;
+        }
+
+        System.out.println(String.format(
+            "%s, recomendación del mes %d en %s: %s", 
+                    nombre, mes, servicio, recomendaciones));
     }
+
     
+    /**
+     * Notifica al usuario una bienvenida.
+     * Dependiendo del valor de <code>esRenovacion</code>, se imprime un mensaje
+     * de bienvenida general o de bienvenida por renovación.
+     *
+     * @param servicio Nombre del servicio que se ha activado.
+     * @param esRenovacion <code>true</code> si el usuario está renovando un servicio,
+     *                     <code>false</code> si es una contratación nueva.
+     */
     @Override
     public void notificarBienvenida(String servicio, boolean esRenovacion) {
-        // TODO Auto-generated method stub
-        
+        if (servicio == null || servicio.trim().isEmpty()) {
+            System.out.println("Servicio inválido.");
+            return;
+        }
+        if(esRenovacion){
+            System.out.println(String.format(
+                        "Bienvenid@ de vuelta %s”.", 
+                                nombre));
+        }else{
+        System.out.println(String.format(
+                        "%s, Bienvenid@ Graciaas por contratar %s    ", 
+                                nombre, servicio));
+        }
     }
 
+    /**
+     * Metodo para notifcar al usuario una despedida.
+     * 
+     * @param servicio Nombre del servicio que se despide
+     * 
+     */
     @Override
     public void notificarDespedida(String servicio) {
-        // TODO Auto-generated method stub
-        
+        if (servicio == null || servicio.trim().isEmpty()) {
+            System.out.println("Servicio inválido.");
+            return;
+        }
+        System.out.println(String.format(  
+                    "Ya no tienes contratado %s.", 
+                            servicio));
     }
 
+    /**
+     * Metodo para notif
+     */
     @Override
     public void notificarCobroExitoso(String servicio, double monto, String plan) {
         // TODO Auto-generated method stub
