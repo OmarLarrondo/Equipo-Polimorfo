@@ -1,3 +1,5 @@
+package patrones;
+
 /**
  * Interfaz Observer para recibir notificaciones relacionadas con
  * los servicios que utiliza un Usuario.

@@ -1,15 +1,19 @@
+package servicios;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-public class HVOMax extends Servicio{
+/**
+ * Clase Spootify, es un servicio. Debe implemntar todos los metodos 
+ * de Servicio.
+ */
+public class Spootify extends Servicio {
     /**
      * Constructor, cada servicioo debe inicializarlo
      * @param nombre
      */
 
-    public HVOMax(String nombre) {
+    public Spootify(String nombre) {
         super(nombre);
         this.observers = new ArrayList<>();
         this.recomendacionesPorMes = new java.util.HashMap<>();
@@ -45,5 +49,5 @@ public class HVOMax extends Servicio{
     }
 
 
-
+    
 }

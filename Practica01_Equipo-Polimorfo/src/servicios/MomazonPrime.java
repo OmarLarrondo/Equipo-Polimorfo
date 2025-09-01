@@ -1,8 +1,7 @@
+package servicios;
+
 import java.util.ArrayList;
 import java.util.List;
-
-
-import main.java.mx.unam.ciencias.modeladoyprogramacion.Servicio;
 
 /**
  * clase de momazonPrime, extiende servicio, debe 

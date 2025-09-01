@@ -1,5 +1,9 @@
+package modelo;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import servicios.Servicio;
 
 /**
  * Clase que representa una cuenta bancaria para el sistema de simulación de servicios de streaming.
