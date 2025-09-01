@@ -121,17 +121,38 @@ public class Usuario implements Observer{ // IMPLEMNATAR METODOS DE LA INTERFACE
     }
 
     /**
-     * Metodo para notif
+     * Metodo para notificar el cobro exitos realizado por un servicio.
+     * 
+     * @param servicio Nombre del servicio que tiene contratado el cleinte. 
+     * @param monto monto que cobra el servicio..
+     * @param plan plan contratado por el cliete.
+     * 
      */
     @Override
     public void notificarCobroExitoso(String servicio, double monto, String plan) {
-        // TODO Auto-generated method stub
-        
+        if (servicio == null || servicio.trim().isEmpty()) {
+            System.out.println("Servicio inválido.");
+            return;
+        }
+        System.out.println(String.format(
+            "%s paga $%.2f por el servicio de %s para %s"
+            , nombre, monto , servicio, plan  ));
     }
+    /**
+     * Metodo para notificar al usuario un cobro fallido.
+     * 
+     * @param servicio el nombre del servicio que no salio bien el pago
+     * @param monto el monto que se debio descontar, pero no se desconto
+     */
 
     @Override
     public void notificarCobroFallido(String servicio, double monto) {
-        // TODO Auto-generated method stub
+        if (servicio == null || servicio.trim().isEmpty()) {
+            System.out.println("Servicio inválido.");
+            return;
+        }
+        System.out.println(String.format("El pago de %s, por la cantidad de $%.2f fallo"
+        , servicio,monto));
         
     }
 
