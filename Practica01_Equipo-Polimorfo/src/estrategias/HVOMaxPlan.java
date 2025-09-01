@@ -1,3 +1,7 @@
+package estrategias;
+
+import patrones.EstrategiaCobro;
+
 /**
  * Estrategia de cobro para HVO Max con período gratuito inicial.
  * 

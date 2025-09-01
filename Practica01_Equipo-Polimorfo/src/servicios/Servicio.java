@@ -1,5 +1,14 @@
+package servicios;
+
 import java.util.List;
 import java.util.Map;
+
+import patrones.Observer;
+import patrones.Subject;
+import patrones.EstrategiaCobro;
+import modelo.Usuario;
+import modelo.HistorialServicio;
+import modelo.ResultadoCobro;
 
 public abstract class Servicio {
 

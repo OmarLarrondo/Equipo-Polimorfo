@@ -1,3 +1,7 @@
+package estrategias;
+
+import patrones.EstrategiaCobro;
+
 /**
  * Estrategia de cobro para Memeflix con plan de un solo dispositivo.
  * 

@@ -1,24 +1,29 @@
+package estrategias;
+
+import patrones.EstrategiaCobro;
+
 /**
- * Estrategia de cobro para Momazon Prime Video en su versión normal.
+ * Estrategia de cobro para Spootify en su versión premium.
  * 
- * Esta implementación maneja el plan básico de Momazon Prime Video con
- * una tarifa fija mensual de $110.
+ * Esta implementación maneja el plan premium de Spootify que incluye
+ * funcionalidades adicionales como música sin anuncios y calidad mejorada
+ * con una tarifa fija mensual de $80.
  * 
  * @author Equipo Polimórfo
  * @version 1.0
  */
-public class MomazonNormal implements EstrategiaCobro {
+public class SpootifyPremium implements EstrategiaCobro {
     
     /**
-     * Constante que define el costo mensual del plan normal de Momazon.
+     * Constante que define el costo mensual del plan premium de Spootify.
      */
-    private static final double COSTO_MENSUAL = 110.0;
+    private static final double COSTO_MENSUAL = 80.0;
     
     /**
-     * Calcula el costo mensual para el plan normal de Momazon Prime Video.
+     * Calcula el costo mensual para el plan premium de Spootify.
      * 
      * @param mesesContratados número total de meses contratados (no afecta el precio)
-     * @return el costo fijo mensual de $110.00
+     * @return el costo fijo mensual de $80.00
      */
     @Override
     public double calcularCosto(int mesesContratados) {
@@ -28,11 +33,11 @@ public class MomazonNormal implements EstrategiaCobro {
     /**
      * Obtiene la descripción del plan de suscripción.
      * 
-     * @return descripción del plan "Momazon versión normal"
+     * @return descripción del plan "Spootify versión premium"
      */
     @Override
     public String obtenerDescripcionPlan() {
-        return "Momazon versión normal";
+        return "Spootify versión premium";
     }
     
     /**

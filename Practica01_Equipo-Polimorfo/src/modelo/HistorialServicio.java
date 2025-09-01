@@ -1,3 +1,7 @@
+package modelo;
+
+import patrones.EstrategiaCobro;
+
 /**
  * Clase que representa el historial de suscripción de un usuario a un servicio específico.
  * Mantiene el estado completo de la relación usuario-servicio, incluyendo los meses totales

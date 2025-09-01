@@ -1,7 +1,11 @@
+package modelo;
+
 import java.io.*;
 import java.util.Map;
 import java.util.Date;
 import java.util.HashMap;
+
+import patrones.Observer;
 
 /**
  * Clase para representar un Usuario con atrubutos como nombre, 

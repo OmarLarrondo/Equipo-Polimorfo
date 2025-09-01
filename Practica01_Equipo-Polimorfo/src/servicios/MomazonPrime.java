@@ -1,17 +1,21 @@
+package servicios;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Clase Spootify, es un servicio. Debe implemntar todos los metodos 
- * de Servicio.
+ * clase de momazonPrime, extiende servicio, debe 
+ * implementar los metodos de servicio
  */
-public class Spootify extends Servicio {
+
+public class MomazonPrime extends Servicio{
+
     /**
      * Constructor, cada servicioo debe inicializarlo
      * @param nombre
      */
 
-    public Spootify(String nombre) {
+    public MomazonPrime(String nombre) {
         super(nombre);
         this.observers = new ArrayList<>();
         this.recomendacionesPorMes = new java.util.HashMap<>();

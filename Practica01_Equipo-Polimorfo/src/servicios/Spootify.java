@@ -1,19 +1,19 @@
+package servicios;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Clase Memeflix, es un servicio. Debe implemntar todos los metodos 
+ * Clase Spootify, es un servicio. Debe implemntar todos los metodos 
  * de Servicio.
  */
-
-public class Memeflix extends Servicio{
-
+public class Spootify extends Servicio {
     /**
      * Constructor, cada servicioo debe inicializarlo
      * @param nombre
      */
 
-    public Memeflix(String nombre) {
+    public Spootify(String nombre) {
         super(nombre);
         this.observers = new ArrayList<>();
         this.recomendacionesPorMes = new java.util.HashMap<>();
@@ -47,8 +47,6 @@ public class Memeflix extends Servicio{
     public void inicializarRecomendaciones(){
         //hacer
     }
-
-
 
 
     

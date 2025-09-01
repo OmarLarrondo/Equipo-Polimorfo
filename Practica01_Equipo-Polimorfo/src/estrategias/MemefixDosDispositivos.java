@@ -1,25 +1,28 @@
+package estrategias;
+
+import patrones.EstrategiaCobro;
+
 /**
- * Estrategia de cobro para Spootify en su versión premium.
+ * Estrategia de cobro para Memeflix con plan de dos dispositivos.
  * 
- * Esta implementación maneja el plan premium de Spootify que incluye
- * funcionalidades adicionales como música sin anuncios y calidad mejorada
- * con una tarifa fija mensual de $80.
+ * Esta implementación maneja el plan intermedio de Memeflix que permite
+ * streaming simultáneo en dos dispositivos con una tarifa fija mensual de $170.
  * 
  * @author Equipo Polimórfo
  * @version 1.0
  */
-public class SpootifyPremium implements EstrategiaCobro {
+public class MemefixDosDispositivos implements EstrategiaCobro {
     
     /**
-     * Constante que define el costo mensual del plan premium de Spootify.
+     * Constante que define el costo mensual del plan de dos dispositivos.
      */
-    private static final double COSTO_MENSUAL = 80.0;
+    private static final double COSTO_MENSUAL = 170.0;
     
     /**
-     * Calcula el costo mensual para el plan premium de Spootify.
+     * Calcula el costo mensual para el plan de Memeflix de dos dispositivos.
      * 
      * @param mesesContratados número total de meses contratados (no afecta el precio)
-     * @return el costo fijo mensual de $80.00
+     * @return el costo fijo mensual de $170.00
      */
     @Override
     public double calcularCosto(int mesesContratados) {
@@ -29,11 +32,11 @@ public class SpootifyPremium implements EstrategiaCobro {
     /**
      * Obtiene la descripción del plan de suscripción.
      * 
-     * @return descripción del plan "Spootify versión premium"
+     * @return descripción del plan "Memeflix para 2 dispositivos"
      */
     @Override
     public String obtenerDescripcionPlan() {
-        return "Spootify versión premium";
+        return "Memeflix para 2 dispositivos";
     }
     
     /**

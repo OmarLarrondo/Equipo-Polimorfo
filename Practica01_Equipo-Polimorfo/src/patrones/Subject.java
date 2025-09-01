@@ -1,3 +1,5 @@
+package patrones;
+
 /**
  * Interfaz que define un sujeto (Subject) en el patrón Observer.
  * Un sujeto mantiene una lista de observadores y notifica cambios a estos.

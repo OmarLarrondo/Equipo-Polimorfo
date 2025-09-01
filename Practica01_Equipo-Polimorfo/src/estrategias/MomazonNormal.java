@@ -1,24 +1,28 @@
+package estrategias;
+
+import patrones.EstrategiaCobro;
+
 /**
- * Estrategia de cobro para Memeflix con plan de dos dispositivos.
+ * Estrategia de cobro para Momazon Prime Video en su versión normal.
  * 
- * Esta implementación maneja el plan intermedio de Memeflix que permite
- * streaming simultáneo en dos dispositivos con una tarifa fija mensual de $170.
+ * Esta implementación maneja el plan básico de Momazon Prime Video con
+ * una tarifa fija mensual de $110.
  * 
  * @author Equipo Polimórfo
  * @version 1.0
  */
-public class MemefixDosDispositivos implements EstrategiaCobro {
+public class MomazonNormal implements EstrategiaCobro {
     
     /**
-     * Constante que define el costo mensual del plan de dos dispositivos.
+     * Constante que define el costo mensual del plan normal de Momazon.
      */
-    private static final double COSTO_MENSUAL = 170.0;
+    private static final double COSTO_MENSUAL = 110.0;
     
     /**
-     * Calcula el costo mensual para el plan de Memeflix de dos dispositivos.
+     * Calcula el costo mensual para el plan normal de Momazon Prime Video.
      * 
      * @param mesesContratados número total de meses contratados (no afecta el precio)
-     * @return el costo fijo mensual de $170.00
+     * @return el costo fijo mensual de $110.00
      */
     @Override
     public double calcularCosto(int mesesContratados) {
@@ -28,11 +32,11 @@ public class MemefixDosDispositivos implements EstrategiaCobro {
     /**
      * Obtiene la descripción del plan de suscripción.
      * 
-     * @return descripción del plan "Memeflix para 2 dispositivos"
+     * @return descripción del plan "Momazon versión normal"
      */
     @Override
     public String obtenerDescripcionPlan() {
-        return "Memeflix para 2 dispositivos";
+        return "Momazon versión normal";
     }
     
     /**

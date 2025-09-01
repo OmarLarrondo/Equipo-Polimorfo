@@ -1,3 +1,5 @@
+package patrones;
+
 /**
  * Interfaz que define el patrón Strategy para el cálculo de costos de servicios de streaming.
  * 

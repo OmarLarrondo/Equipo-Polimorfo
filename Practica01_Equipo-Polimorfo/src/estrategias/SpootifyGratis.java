@@ -1,3 +1,7 @@
+package estrategias;
+
+import patrones.EstrategiaCobro;
+
 /**
  * Estrategia de cobro para Spootify en su versión gratuita.
  * 
