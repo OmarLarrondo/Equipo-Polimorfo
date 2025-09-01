@@ -197,10 +197,10 @@ public class HistorialServicio {
     @Override
     public String toString() {
         return String.format("HistorialServicio{servicio='%s', meses=%d, activa=%s, estrategia=%s, ultimoPago=%d}", 
-                           this.nombreServicio, 
-                           this.totalMesesContratados, 
-                           this.suscripcionActiva,
-                           this.estrategiaActual != null ? this.estrategiaActual.obtenerDescripcionPlan() : "null",
-                           this.fechaUltimoPago);
+                        this.nombreServicio, 
+                        this.totalMesesContratados, 
+                        this.suscripcionActiva,
+                        this.estrategiaActual != null ? this.estrategiaActual.obtenerDescripcionPlan() : "null",
+                        this.fechaUltimoPago);
     }
 }

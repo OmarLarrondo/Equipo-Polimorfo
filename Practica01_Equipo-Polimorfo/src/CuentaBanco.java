@@ -154,6 +154,6 @@ public class CuentaBanco {
     @Override
     public String toString() {
         return String.format("CuentaBanco{saldo=%.2f, transacciones=%d}", 
-                           this.saldo, this.transacciones.size());
+                        this.saldo, this.transacciones.size());
     }
 }
