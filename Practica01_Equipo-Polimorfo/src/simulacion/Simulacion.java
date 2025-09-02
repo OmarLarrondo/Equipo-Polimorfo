@@ -169,7 +169,12 @@ public class Simulacion {
      *          {@code false} en caso contrario.
      */
     public boolean suscribirUsuarioAServicio(Usuario usuario, Servicio servicio, EstrategiaCobro estrategia){
-        return false;
+        if(usuario == null || servicio == null || estrategia == null ){
+            return false;
+        }else{
+        servicio.agregarObserver(usuario, estrategia);
+        return true;
+        }
     }
 
     /**
@@ -180,7 +185,7 @@ public class Simulacion {
      * @return {@code true} si la cancelación fue exitosa, 
      *          {@code false} en caso contrario.
      */
-    public boolean cancelarSUscripcion(Usuario usuario, Servicio servicio){
+    public boolean cancelarSuscripcion(Usuario usuario, Servicio servicio){
         return false;
     }
 
@@ -212,8 +217,12 @@ public class Simulacion {
      *              {@code null} si no existe.
      */
     public Usuario obtenerUsuario(String nombre){
-        //aqui va su codigo
-        return null;
+        for(Usuario user: usuarios){
+            if(user.obtenerNombre().equals(nombre)){
+                return user;
+            }
+        }
+        return  null;
     }
 
     /**
@@ -224,7 +233,11 @@ public class Simulacion {
      *              {@code null} si no existe.
      */
     public Servicio obtenerServicio(String nombre){
-        // aqui va su codigo 
-        return null;
+        for(Servicio servi: servicios){
+            if(servi.obtenerNombreServicio().equals(nombre)){
+                return servi;
+            }
+        }
+        return  null;
     }
 }
