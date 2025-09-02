@@ -21,24 +21,24 @@ public interface Observer {
     /**
      * Notifica las recomendaciones de un servicio
      * @param servicio Nombre del servicio
-     * @param recomendaciones Recomendaciones del servicio  //creo que deberia ser una lista o no se
-     * @param mes Numero de meses se uso
+     * @param recomendaciones Recomendaciones del servicio
+     * @param mes Número de meses de uso
      */
-    public void notificarRecomendacion(String servicio, String recomendaciones, int mes); // creo que las recomendaciones deberia ser una lista de Strings, o no se xd
+    public void notificarRecomendacion(String servicio, String recomendaciones, int mes);
     /**
      * Notifica una bienvenida
-     * @param servicio Nmbre dle servicio
+     * @param servicio Nombre del servicio
      * @param esRenovacion <code>true</code> si es renovacion.
      *         <code>false</code> en otro caso.
      */
     public void notificarBienvenida(String servicio, boolean esRenovacion);
     /**
-     * NOtifica una despedida
-     * @param servicio NOmbre del servicio
+     * Notifica una despedida
+     * @param servicio Nombre del servicio
      */ 
     public void notificarDespedida(String servicio);
     /**
-     * Notifca el cobro exitoso de un servicio
+     * Notifica el cobro exitoso de un servicio
      * @param servicio Nombre del servicio
      * @param monto El monto de cobro del servicio
      * @param plan Plan contratado/escogido
@@ -46,7 +46,7 @@ public interface Observer {
     public void  notificarCobroExitoso(String servicio, double monto, String plan);
     /**
      * Notifica el cobro fallido de un servicio
-     * @param servicio NOmbre dle servicio
+     * @param servicio Nombre del servicio
      * @param monto El monto de cobro del servicio 
      */
     public void notificarCobroFallido(String servicio, double monto);

@@ -9,8 +9,9 @@ public interface Subject {
     /**
      * Agrega un observador a la lista de observadores del sujeto.
      * @param observer El observador que se desea agregar.
+     * @param estrategia La estrategia de cobro asociada con la suscripción.
      */
-    public void agregarObserver(Observer observer);
+    public void agregarObserver(Observer observer, EstrategiaCobro estrategia);
     
     /**
      * Remueve un observador de la lista de observadores del sujeto.

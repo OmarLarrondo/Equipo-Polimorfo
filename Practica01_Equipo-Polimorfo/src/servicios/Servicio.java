@@ -23,7 +23,7 @@ public abstract class Servicio implements Subject {
     /**Recomendaciones por mes<MES,RECOMENDACIONES> */
     protected Map<Integer, List<String>> recomendacionesPorMes;
     /**Historial de los usuarios del servicio */
-    protected Map<Integer, List<String>> historialesUsuarios;
+    protected Map<Usuario, HistorialServicio> historialesUsuarios;
 
     /**
      * Constructor para inicializar los atributos de Servicio... <code> \n </code>
@@ -40,8 +40,9 @@ public abstract class Servicio implements Subject {
      * lo debe override un servicio
      * 
      * @param observer observador que se agregara a servicio
+     * @param estrategia estrategia de cobro asociada con la suscripción
      */
-    public void agregarObserver(Observer observer) {
+    public void agregarObserver(Observer observer, EstrategiaCobro estrategia) {
         if (observer != null && !observers.contains(observer)) {
             observers.add(observer);
         } else {
@@ -111,7 +112,7 @@ public abstract class Servicio implements Subject {
      * @return
      */
     public boolean suscribirUsuario(Usuario usuario, EstrategiaCobro estrategia){
-        return 
+        return false;
     }
 
     /**

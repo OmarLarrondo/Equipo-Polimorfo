@@ -23,7 +23,7 @@ public class HVOMax extends Servicio{
     }
 
     @Override
-    public void agregarObserver(Observer observer) {
+    public void agregarObserver(Observer observer, EstrategiaCobro estrategia) {
         if (observer != null && !observers.contains(observer)) {
             observers.add(observer);
         }
