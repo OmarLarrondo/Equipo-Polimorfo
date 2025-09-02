@@ -210,7 +210,17 @@ public abstract class Servicio implements Subject {
     public abstract void inicializarRecomendaciones();
 
     /**
-     * Obtiene el nombre
+     * Obtiene el nombre del servicio.
+     * 
+     * @return el nombre del servicio
+     */
+    public String obtenerNombre() {
+        return this.nombre;
+    }
+
+    /**
+     * Obtiene el nombre del servicio (método abstracto para implementaciones específicas).
+     * 
      * @return el nombre del Servicio
      */
     public abstract String obtenerNombreServicio();
