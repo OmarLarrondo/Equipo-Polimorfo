@@ -35,7 +35,7 @@ public interface Observer {
     /**
      * NOtifica una despedida
      * @param servicio NOmbre del servicio
-     */
+     */ 
     public void notificarDespedida(String servicio);
     /**
      * Notifca el cobro exitoso de un servicio
