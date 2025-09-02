@@ -1,11 +1,12 @@
 package utilidades;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,12 +22,23 @@ import java.util.Scanner;
 public class GestorArchivos {
 
 
+    /**
+     * Debe escribir las transacciones en <code>nombreArchivo</code>. 
+     * Si <code>nombreArchivo</code>,existe se debe confirmar que se borrara todo el contenido 
+     * del archivo y no se podra recuperar. 
+     * Si <code>nombreArchivo</code> NO existe, se crea un txt con el nombre de {@link nombreArchivo} 
+     * 
+     * Escribe linea por linea todas las transacciones en <code>nombreArchivo</code>
+     * 
+     * @param transacciones todas las transacciones hechas
+     * @param nombreArchivo El nombre del archico.txt en donde se guardan todas
+     *  las transacciones hechas en cada mes y para cada cliente 
+     */
     public void escribirTransaccionesCompletas(List<String> transacciones, String nombreArchivo){
-
-        Path path = Paths.get(nombreArchivo);
+        Path rutaArchivo = Paths.get(nombreArchivo);
         try {
             
-            if (Files.exists(path)) {
+            if (Files.exists(rutaArchivo)) {
                 // Si existe, limpia el contenido PREGUNTAR PORQUE ES PELIGROSO
                 Scanner sc = new Scanner(System.in);
                 System.out.println(String.format(
@@ -41,7 +53,7 @@ public class GestorArchivos {
                     String desicionDos = sc.nextLine();
                     desicionDos = desicionDos.trim().toLowerCase();
                     if(desicionDos.equals("si") || desicionDos.equals("s")){
-                    Files.write(path, new byte[0]); // deja el archivo vacío
+                    Files.write(rutaArchivo, new byte[0]); // deja el archivo vacío
                     }else{
                         return;
                     }
@@ -51,21 +63,34 @@ public class GestorArchivos {
             //Si no existe el archivo, lo crea 
             } else {
                 // Si no existe, lo crea
-                Files.createFile(path);
+                Files.createFile(rutaArchivo);
                 System.out.println("Se creo el archivo correctamente");
             }
+            try (BufferedWriter writer = Files.newBufferedWriter(rutaArchivo, StandardCharsets.UTF_8)) {
+                for (String transaccion : transacciones) {
+                    writer.write(transaccion);
+                    writer.newLine(); // agrega salto de línea
+                }
+            }
+
         } catch (IOException e) {
             System.out.println("Error al crear o limpiar el archivo: " + e.getMessage());
         }
+
+
     }
 
 
-    public void escribirResumenMnesual(int mes, List<String> transacciones, String nombreArchivo){
-        Path path = Paths.get(nombreArchivo);
-
+    /**
+     * 
+     * @param mes el mes para obtener el resumen de transacciones
+     * @param transacciones 
+     * @param nombreArchivo
+     */
+    public void escribirResumenMensual(int mes, List<String> transacciones, String nombreArchivo){
+        Path nombreArchiivo = Paths.get(nombreArchivo);
         String mesFormato = String.format("-%02d-", mes);
 
-        // Filtrar transacciones que contienen ese mes
         List<String> filtradas = transacciones.stream()
                 .filter(t -> t.contains(mesFormato))
                 .toList();
