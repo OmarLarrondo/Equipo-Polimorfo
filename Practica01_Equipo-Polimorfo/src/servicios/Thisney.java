@@ -53,7 +53,7 @@ public class Thisney extends Servicio{
     }
 
     @Override
-    public void agregarObserver(Observer observer) {
+    public void agregarObserver(Observer observer, EstrategiaCobro estrategia) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'agregarObserver'");
     }
