@@ -15,16 +15,14 @@ import modelo.CuentaBanco;
 
 public abstract class Servicio implements Subject {
 
-    //EN EL DIAGRAMA DE CLASES LOS ATRIBUTOS SON PRIVADOS, NO PROTECT CHECAR
-
     /**Nombre del servicio */
-    protected String nombre;
+    private String nombre;
     /**Lista de observadores */
-    protected List<Observer> observers;
+    private List<Observer> observers;
     /**Lista de contenidos audiovisuales disponibles */
-    protected List<String> audiovisuales;
+    private List<String> audiovisuales;
     /**Historial de los usuarios del servicio */
-    protected Map<Observer, HistorialServicio> historialesUsuarios;
+    private Map<Observer, HistorialServicio> historialesUsuarios;
 
     /**
      * Constructor para inicializar los atributos de Servicio... <code> \n </code>
