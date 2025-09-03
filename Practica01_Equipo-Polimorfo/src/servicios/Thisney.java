@@ -2,103 +2,82 @@ package servicios;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 import modelo.Usuario;
 import patrones.EstrategiaCobro;
 import patrones.Observer;
 
 /**
- * Clase Memeflix, es un servicio. Debe implemntar todos los metodos 
- * de Servicio.
+ * Clase Thisney, servicio de streaming con tarifa progresiva.
+ * Plan único:
+ * - Primeros 3 meses: $130
+ * - Del cuarto mes en adelante: $160
  */
 public class Thisney extends Servicio{
+    
     /**
-     * Constructor, cada servicioo debe inicializarlo
-     * @param nombre
+     * Constructor para inicializar el servicio Thisney
+     * @param nombre Nombre del servicio (debería ser "Thisney+")
      */
-
     public Thisney(String nombre) {
         super(nombre);
-        this.observers = new ArrayList<>();
-        this.recomendacionesPorMes = new java.util.HashMap<>();
         inicializarRecomendaciones();
     }
 
     /**
-     * metodo para obtener las estrategias disponibles de memeflix
-     * @return la lista de estrategias de memeflix
+     * Obtiene las estrategias de cobro disponibles para Thisney
+     * @return Lista con la descripción del plan único disponible
      */
     @Override
     public List<String> obtenerEstrategiasDisponibles(){
-        return null;
-        //aqui va s codfig 
-        
+        return Arrays.asList("plan único");
     }
 
     /**
-     * metodo para obtener las recomendaciones
-     * @return las recomendaciones de memeflix
+     * Obtiene la recomendación específica para un mes dado
+     * @param mes El número de mes (1-12) para el cual se solicita la recomendación
+     * @return String La recomendación de contenido Disney para el mes especificado
      */
     @Override
     public String obtenerRecomendacion(int mes){
-        return null; //HACER
+        List<String> recomendaciones = recomendacionesPorMes.get(mes);
+        if (recomendaciones != null && !recomendaciones.isEmpty()) {
+            return recomendaciones.get(0);
+        }
+        return "Contenido familiar de Thisney";
     }
 
-    @Override
     /**
-     * metodo para inicializar las recomendaciones
+     * Inicializa las recomendaciones mensuales específicas de Thisney
+     * Cada mes tiene contenido familiar y clásicos Disney
      */
+    @Override
     public void inicializarRecomendaciones(){
-        //hacer
+        // Enero
+        recomendacionesPorMes.put(1, Arrays.asList("Frozen II", "The Mandalorian"));
+        // Febrero  
+        recomendacionesPorMes.put(2, Arrays.asList("WandaVision", "Soul"));
+        // Marzo
+        recomendacionesPorMes.put(3, Arrays.asList("The Falcon and The Winter Soldier", "Raya and the Last Dragon"));
+        // Abril
+        recomendacionesPorMes.put(4, Arrays.asList("The Bad Batch", "Cruella"));
+        // Mayo
+        recomendacionesPorMes.put(5, Arrays.asList("Loki", "Black Widow"));
+        // Junio
+        recomendacionesPorMes.put(6, Arrays.asList("Luca", "What If...?"));
+        // Julio
+        recomendacionesPorMes.put(7, Arrays.asList("Jungle Cruise", "Turner & Hooch"));
+        // Agosto
+        recomendacionesPorMes.put(8, Arrays.asList("Free Guy", "The Book of Boba Fett"));
+        // Septiembre
+        recomendacionesPorMes.put(9, Arrays.asList("Shang-Chi", "Hawkeye"));
+        // Octubre
+        recomendacionesPorMes.put(10, Arrays.asList("Eternals", "Dopesick"));
+        // Noviembre
+        recomendacionesPorMes.put(11, Arrays.asList("Encanto", "The Beatles: Get Back"));
+        // Diciembre
+        recomendacionesPorMes.put(12, Arrays.asList("Spider-Man: No Way Home", "The Book of Boba Fett"));
     }
-
-    @Override
-    public void agregarObserver(Observer observer, EstrategiaCobro estrategia) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'agregarObserver'");
-    }
-
-    @Override
-    public void removerObserver(Observer observer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removerObserver'");
-    }
-
-    @Override
-    public void notificarMesesUso() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarMesesUso'");
-    }
-
-    @Override
-    public void notificarRecomendacion(int mes) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarRecomendacion'");
-    }
-
-    @Override
-    public void notificarBienvenida(Observer observer, boolean esRenovacion) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarBienvenida'");
-    }
-
-    @Override
-    public void notificarDespedida(Observer observer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarDespedida'");
-    }
-
-    @Override
-    public void actualizarHistorialUsuario(Usuario usuario, EstrategiaCobro estratehia) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actualizarHistorialUsuario'");
-    }
-
-    @Override
-    public String obtenerNombreServicio() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerNombreServicio'");
-    }
-   
 }
 

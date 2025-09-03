@@ -132,11 +132,11 @@ public class CuentaBanco {
     public void notificarResultadoCobro(Servicio servicio, double monto, boolean exitoso, String concepto) {
         if (exitoso) {
             if (usuario != null) {
-                usuario.notificarCobroExitoso(servicio.obtenerNombre(), monto, concepto);
+                usuario.notificarCobroExitoso(servicio.obtenerNombreServicio(), monto, concepto);
             }
         } else {
             if (usuario != null) {
-                usuario.notificarCobroFallido(servicio.obtenerNombre(), monto);
+                usuario.notificarCobroFallido(servicio.obtenerNombreServicio(), monto);
             }
         }
     }

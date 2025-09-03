@@ -2,106 +2,84 @@ package servicios;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 import modelo.Usuario;
 import patrones.EstrategiaCobro;
 import patrones.Observer;
 
 /**
- * clase de momazonPrime, extiende servicio, debe 
- * implementar los metodos de servicio
+ * Clase MomazonPrime, servicio de streaming con dos planes diferentes.
+ * Planes disponibles:
+ * - Normal: $110
+ * - Premium: $150
  */
-
 public class MomazonPrime extends Servicio{
 
     /**
-     * Constructor, cada servicioo debe inicializarlo
-     * @param nombre
+     * Constructor para inicializar el servicio MomazonPrime
+     * @param nombre Nombre del servicio (debería ser "Momazon Prime Video")
      */
-
     public MomazonPrime(String nombre) {
         super(nombre);
-        this.observers = new ArrayList<>();
-        this.recomendacionesPorMes = new java.util.HashMap<>();
         inicializarRecomendaciones();
     }
 
     /**
-     * metodo para obtener las estrategias disponibles de memeflix
-     * @return la lista de estrategias de memeflix
+     * Obtiene las estrategias de cobro disponibles para MomazonPrime
+     * @return Lista con las descripciones de los planes disponibles
      */
     @Override
     public List<String> obtenerEstrategiasDisponibles(){
-        return null;
-        //aqui va s codfig 
-        
+        return Arrays.asList(
+            "versión normal",
+            "versión premium"
+        );
     }
 
     /**
-     * metodo para obtener las recomendaciones
-     * @return las recomendaciones de memeflix
+     * Obtiene la recomendación específica para un mes dado
+     * @param mes El número de mes (1-12) para el cual se solicita la recomendación
+     * @return String La recomendación de contenido para el mes especificado
      */
     @Override
     public String obtenerRecomendacion(int mes){
-        return null; //HACER
+        List<String> recomendaciones = recomendacionesPorMes.get(mes);
+        if (recomendaciones != null && !recomendaciones.isEmpty()) {
+            return recomendaciones.get(0);
+        }
+        return "Contenido original de Momazon Prime";
     }
 
-    @Override
     /**
-     * metodo para inicializar las recomendaciones
+     * Inicializa las recomendaciones mensuales específicas de MomazonPrime
+     * Cada mes tiene contenido diferente enfocado en producciones originales
      */
+    @Override
     public void inicializarRecomendaciones(){
-        //hacer
+        // Enero
+        recomendacionesPorMes.put(1, Arrays.asList("The Boys", "Marvelous Mrs. Maisel"));
+        // Febrero  
+        recomendacionesPorMes.put(2, Arrays.asList("Jack Ryan", "The Man in the High Castle"));
+        // Marzo
+        recomendacionesPorMes.put(3, Arrays.asList("Fleabag", "Good Omens"));
+        // Abril
+        recomendacionesPorMes.put(4, Arrays.asList("The Expanse", "Hunters"));
+        // Mayo
+        recomendacionesPorMes.put(5, Arrays.asList("Upload", "Tales from the Loop"));
+        // Junio
+        recomendacionesPorMes.put(6, Arrays.asList("The Wheel of Time", "Invincible"));
+        // Julio
+        recomendacionesPorMes.put(7, Arrays.asList("Bosch", "Mozart in the Jungle"));
+        // Agosto
+        recomendacionesPorMes.put(8, Arrays.asList("Transparent", "Catastrophe"));
+        // Septiembre
+        recomendacionesPorMes.put(9, Arrays.asList("The Grand Tour", "American Gods"));
+        // Octubre
+        recomendacionesPorMes.put(10, Arrays.asList("Carnival Row", "Undone"));
+        // Noviembre
+        recomendacionesPorMes.put(11, Arrays.asList("The Terminal List", "Reacher"));
+        // Diciembre
+        recomendacionesPorMes.put(12, Arrays.asList("The Power", "Citadel"));
     }
-
-    @Override
-    public void agregarObserver(Observer observer, EstrategiaCobro estrategia) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'agregarObserver'");
-    }
-
-    @Override
-    public void removerObserver(Observer observer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removerObserver'");
-    }
-
-    @Override
-    public void notificarMesesUso() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarMesesUso'");
-    }
-
-    @Override
-    public void notificarRecomendacion(int mes) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarRecomendacion'");
-    }
-
-    @Override
-    public void notificarBienvenida(Observer observer, boolean esRenovacion) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarBienvenida'");
-    }
-
-    @Override
-    public void notificarDespedida(Observer observer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarDespedida'");
-    }
-
-    @Override
-    public void actualizarHistorialUsuario(Usuario usuario, EstrategiaCobro estratehia) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actualizarHistorialUsuario'");
-    }
-
-    @Override
-    public String obtenerNombreServicio() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerNombreServicio'");
-    }
-
-
-    
 }
