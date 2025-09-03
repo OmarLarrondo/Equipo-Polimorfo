@@ -93,8 +93,19 @@ public class Simulacion {
 
     /**
      * Ejecuta el flujo completo de la simulación.
+     * Se debe inicializan las estructuras principales, rprocesar mes por mes,
+     * generar el reportecompleto un archivio creo
      */
     public void ejecutarSimulacioh(){
+        inicializarUsuarios();
+        inicialzarServicios();
+        registroCompleto = new ArrayList<>();
+        gestorArchivos = new GestorArchivos();
+
+        for(int mes = mesActual; mes<=12; mes++){
+            procesarMes();
+        }
+        generarReporteCompleto();
 
     }
 
@@ -102,6 +113,15 @@ public class Simulacion {
      * Procesa todas las operaciones correspondientes a un mes de la simulación.
      */
     public void procesarMes(){
+        int mes = mesActual++;
+        aplicarComportamientoAlicia(mes);
+        aplicarComportamientoBob(mes);
+        aplicarComportamientoCesar(mes);
+        aplicarComportamientoDiego(mes);
+        aplicarComportamientoErika(mes);
+        aplicarComportamientoFausto(mes);
+
+        
 
     }
 
@@ -161,6 +181,7 @@ public class Simulacion {
 
     /**
      * Suscribe a un usuario a un servicio bajo una estrategia de cobro específica.
+     * verifica que sea valido los parametros y verifica que tenga dineor disponible
      *
      * @param usuario usuario que se suscribe.
      * @param servicio servicio al que se suscribe el usuario.
@@ -169,7 +190,18 @@ public class Simulacion {
      *          {@code false} en caso contrario.
      */
     public boolean suscribirUsuarioAServicio(Usuario usuario, Servicio servicio, EstrategiaCobro estrategia){
-        return false;
+        if(usuario == null || servicio == null || estrategia == null){
+            return false;
+        }
+        if(usuario.obtenerDineroDisponible()< estrategia.calcularCosto(mesActual)){
+            return false;
+        }
+        try {
+            servicio.agregarObserver(usuario, estrategia);
+            return true;
+        } catch (Exception e) {
+            return false;        
+        }
     }
 
     /**
@@ -180,8 +212,13 @@ public class Simulacion {
      * @return {@code true} si la cancelación fue exitosa, 
      *          {@code false} en caso contrario.
      */
-    public boolean cancelarSUscripcion(Usuario usuario, Servicio servicio){
-        return false;
+    public boolean cancelarSuscripcion(Usuario usuario, Servicio servicio){
+        try {
+            servicio.removerObserver(usuario);
+            return true;   
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -194,7 +231,19 @@ public class Simulacion {
      *           {@code false} en caso contrario.
      */
     public boolean cambiarSuscripcionUsuario(Usuario usuario, Servicio servicio, EstrategiaCobro estrategia){
-        return false;
+        if(usuario == null || estrategia == null){
+            return false;
+        }
+        if (usuario.obtenerDineroDisponible() < estrategia.calcularCosto(mesActual)) {
+            return false;   
+        }
+        try {
+            servicio.cambiarPlanUsuario(usuario, estrategia);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
     /**
@@ -212,7 +261,11 @@ public class Simulacion {
      *              {@code null} si no existe.
      */
     public Usuario obtenerUsuario(String nombre){
-        //aqui va su codigo
+        for (Usuario user: usuarios){
+            if(user.obtenerNombre().equals(nombre)){
+                return user;
+            }
+        }
         return null;
     }
 
@@ -224,7 +277,11 @@ public class Simulacion {
      *              {@code null} si no existe.
      */
     public Servicio obtenerServicio(String nombre){
-        // aqui va su codigo 
+        for (Servicio servi: servicios){
+            if(servi.obtenerNombreServicio().equals(nombre)){
+                return servi;
+            }
+        }
         return null;
     }
 }
