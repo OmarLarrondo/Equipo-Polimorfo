@@ -1,25 +1,26 @@
 package modelo;
 
-
-import servicios.Servicio;
-
-
+/**
+ * Clase que encapsula la información sobre el resultado de un cobro específico.
+ * Esta clase es inmutable una vez creada, representando un registro histórico
+ * de una transacción financiera en el sistema.
+ */
 public class ResultadoCobro {
     
-    /**EL usuario al que se cobrara */
-    private Usuario usuario;
+    /**El usuario al que se cobró */
+    private final Usuario usuario;
 
-    /**EL servicio que realizara el cobro */
-    private String servicio;
+    /**El servicio que realizó el cobro */
+    private final String servicio;
 
-    /**EL monto que se cobrara al usuario */
-    private double monto;
+    /**El monto que se cobró al usuario */
+    private final double monto;
 
     /**Resultado del cobro*/
-    private boolean exitoso;
+    private final boolean exitoso;
 
-    /**La descripcion del cobro realizado */
-    private String descripcion;
+    /**La descripción del cobro realizado */
+    private final String descripcion;
 
     public ResultadoCobro(Usuario usuario, String servicio
     , double monto, boolean exitoso, String descripcion) {
@@ -29,10 +30,6 @@ public class ResultadoCobro {
         this.exitoso = exitoso;
         this.descripcion = descripcion;
     }
-
-
-    //metodos getters
-
 
     /**
      * Obtiene el usuario al que se le realizó el cobro.
@@ -44,90 +41,50 @@ public class ResultadoCobro {
     }
 
     /**
-     * Obtiene el servicio que realizo el cobro
+     * Obtiene el nombre del servicio que realizó el cobro
      * 
-     * @return la instancia de {@link Servicio} correspondiente al cobro
+     * @return el nombre del servicio correspondiente al cobro
      */
     public String getServicio() {
         return servicio;
     }
 
     /**
-     * Obtiene el monto que se realizo
+     * Obtiene el monto que se realizó
      * 
      * @return el monto cobrado
      */
-
     public double getMonto() {
         return monto;
     }
 
     /**
-     * Indica si el cobro se realizo
+     * Indica si el cobro se realizó exitosamente
      * 
-     * @return {@code true} si el cobro se realizo correctamente 
-     *          {@code false} en caso contrario.
+     * @return {@code true} si el cobro se realizó correctamente, 
+     *         {@code false} en caso contrario
      */
-    public boolean getExitoso() {
+    public boolean isExitoso() {
         return exitoso;
     }
 
     /**
-     * Obtiene la descripcion a detalle dle cobro
+     * Obtiene la descripción a detalle del cobro
      * 
-     * @return la descripcion del resultado del cobro
+     * @return la descripción del resultado del cobro
      */
-
     public String getDescripcion() {
         return descripcion;
     }
 
-
-    //metodos setters
-
-
     /**
-     * Establece el usuario al que se le realizó el cobro.
-     *
-     * @param usuario la instancia de {@link Usuario} asociada al cobro
+     * Representación textual del resultado del cobro
+     * 
+     * @return una cadena con la información del cobro
      */
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    @Override
+    public String toString() {
+        return String.format("ResultadoCobro[usuario=%s, servicio=%s, monto=%.2f, exitoso=%s, descripcion='%s']",
+                usuario.obtenerNombre(), servicio, monto, exitoso, descripcion);
     }
-
-    /**
-     * Establece el nombre del servicio por el cual se realiza el cobro.
-     *
-     * @param servicio el nombre del servicio
-     */
-    public void setServicio(String servicio) {
-        this.servicio = servicio;
-    }
-
-    /**
-     * Establece el monto del cobro.
-     *
-     * @param monto la cantidad a cobrar
-     */
-    public void setMonto(double monto) {
-        this.monto = monto;
-    }
-
-    /**
-     * Establece si el cobro fue exitoso o fallido.
-     *
-     * @param exitoso true si el cobro fue exitoso, false en caso contrario
-     */
-    public void setExitoso(boolean exitoso) {
-        this.exitoso = exitoso;
-    }
-
-    /**
-     * Establece la descripción o detalle del resultado del cobro.
-     *
-     * @param descripcion el texto descriptivo del resultado del cobro
-     */
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }    
 }
