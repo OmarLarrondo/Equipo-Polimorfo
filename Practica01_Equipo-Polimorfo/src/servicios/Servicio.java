@@ -23,10 +23,8 @@ public abstract class Servicio implements Subject {
     protected List<Observer> observers;
     /**Lista de contenidos audiovisuales disponibles */
     protected List<String> audiovisuales;
-    /**Recomendaciones por mes<MES,RECOMENDACIONES> */
-    protected Map<Integer, List<String>> recomendacionesPorMes;
     /**Historial de los usuarios del servicio */
-    protected Map<Integer, List<String>> historialesUsuarios;
+    protected Map<Observer, HistorialServicio> historialesUsuarios;
 
     /**
      * Constructor para inicializar los atributos de Servicio... <code> \n </code>
@@ -44,7 +42,7 @@ public abstract class Servicio implements Subject {
      * 
      * @param observer observador que se agregara a servicio
      */
-    protected void agregarObserver(Observer usuario, EstrategiaCobro planUsuario) {
+    protected void agregarObserver(Observer usuario) {
 	observers.add(observer);
     }
 
@@ -56,51 +54,6 @@ public abstract class Servicio implements Subject {
     protected void removerObserver(Observer usuario){
 	this.observers.remove(observer);
     }
-    
-    /**
-     * Notifica a un Usuario los meses que ha contradado una suscripción a un servicio
-     * @param usuario Usuario a quien va dirigida la notificación
-     * 
-     */
-    public abstract void notificarMesesUso(Observer usuario);
-
-    /**
-     * Notifica las recomendaciones a un Usuario de un servicio
-     * @param usuario Usuario a quien va dirigida la notificación
-     */
-    public abstract void notificarRecomendacion(Observer usuario);
-
-    /**
-     * Notifica la bienvenida al Usuario de un servicio
-     * @param usuario Usuario a quien va dirigida la notificación
-     * @param esRenovacion
-     */
-    public abstract void notificarBienvenida(Observer usuario, boolean esRenovacion);
-
-    /**
-     * Notifica al Usuario que la renta no se pudo realizar por fondos insuficientes.
-     * @param usuario Usuario a quien va dirigida la notificación
-     */
-    public abstract void notificarSaldoInsuficiente(Observer usuario);
-    
-    /**
-     * Notifica la despedida a un Usuario de un Servicio
-     * @param usuario Usuario a quien va dirigida la notificación
-     */
-    public abstract void notificarDespedida(Observer usuario);
-
-
-    /**
-     * Notifica a un Usuario que ya no se encuentra suscrito como para realizar acciones de un suscriptor
-     * @param usuario Usuario a quien va dirigida la notificación
-     */
-    public abstract void notificarUsuarioNoRegistrado(Observer usuario);
-
-    /**
-     * Notifica a un Usuario que ya se encuentra suscrito
-     * @param usuario Usuario a quien va dirigida la notificación
-     */
-    public abstract void notificarSuscripcionYaActiva(Observer usuario);
 
     /**
      * Metodo para procesar el cobro mensual de todos los usuarios.   
@@ -113,13 +66,13 @@ public abstract class Servicio implements Subject {
      * @param usuario Usuario a quien realizarle el cobro
      * @return boolean Indicador del éxito de realizar un cobro
      */
-    public boolean solicitarCobroMensual(Observer usuario){
+    public boolean solicitarCobroMensual(Usuario usuario){
 	if(usuario == null){
 	    return false;
 	}
 
 	if(!this.tieneSuscripcionActiva(usuario)){
-	    this.notificarUsuarioNoRegistrado(usuario);
+	    this.notificarUsuarioNoSuscrito(usuario);
 	    return false;
 	}
 	
@@ -156,14 +109,14 @@ public abstract class Servicio implements Subject {
      * @param planUsuario Plan del servicio que se desea contratar
      * @return boolean Indicador del éxito de la suscripción
      */
-    public boolean suscribirUsuario(Observer nuevoUsuario, EstrategiaCobro planUsuario){
+    public boolean suscribirUsuario(Usuario nuevoUsuario, EstrategiaCobro planUsuario){
         if (nuevoUsuario == null) {
 	    return false;
 	}
 
 	// Verifica que no esté ya suscrito
 	if(this.tieneSuscripcionActiva(nuevoUsuario)){
-	    this.notificarSuscripcionYaActiva(nuevoUsuario);
+	    this.notificarUsuarioYaSuscrito(nuevoUsuario);
 	    return false;
 	}
 
@@ -195,12 +148,12 @@ public abstract class Servicio implements Subject {
 	    try{
 		// Trata de crear un nuevo historial, y recibe una excepción si el plan no corresponde al servicio
 		HistorialServicio nuevoHistorial = this.crearHistorialUsuario(cuentaBancoUsuario, planUsuario);
-		this.historialesUsuarios.put(nuevoUsuario, nuevoHistorial);
 	    }
 	    catch (Exception e){
 		this.notificarPlanInvalido(nuevoUsuario);
 		return false;
 	    }
+	    this.historialesUsuarios.put(nuevoUsuario, nuevoHistorial);
 	    esRenovacion = false;
 	}
 	
@@ -221,12 +174,12 @@ public abstract class Servicio implements Subject {
      * @param usuario Usuario a quien cancelarle la suscripción
      * @return boolean Indicador del éxito de la cancelación
      */
-    public boolean cancelarSuscripcionUsuario(Observer usuario){
+    public boolean cancelarSuscripcionUsuario(Usuario usuario){
 	if (nuevoUsuario == null) {
 	    return false;
 	}
 	if(!this.tieneSuscripcionActiva(usuario)){
-	    this.notificarUsuarioNoRegistrado(usuario);
+	    this.notificarUsuarioNoSuscrito(usuario);
 	    return false;
 	}
 	
@@ -254,7 +207,7 @@ public abstract class Servicio implements Subject {
 	    return false;
 	}
 	if(!this.tieneSuscripcionActiva(usuario)){
-	    this.notificarUsuarioNoRegistrado(usuario);
+	    this.notificarUsuarioNoSuscrito(usuario);
 	    return false;
 	}
 
@@ -271,6 +224,37 @@ public abstract class Servicio implements Subject {
     }
 
     /**
+     * Obtiene el nombre del servicio
+     * Verifica si un usuario tiene una suscripcion de un servicio activa
+     * 
+     * Este método está implementado en la clase abstracta para proporcionar
+     * una funcionalidad común que todas las subclases pueden usar directamente.
+     * Las subclases pueden sobrescribir este método si requieren un comportamiento
+     * diferente.
+     * @param usuario Usuario de quien se busca saber si tiene suscripción activa
+     * @return boolean Indicador de si el usuario está suscrito o no
+     * @return String el nombre del Servicio
+     */
+    public String obtenerNombreServicio(){
+	return this.nombre;
+    }
+
+    /**
+     * Verifica si un usuario tiene una suscripcion de un servicio activa
+     * 
+     * Este método está implementado en la clase abstracta para proporcionar
+     * una funcionalidad común que todas las subclases pueden usar directamente.
+     * Las subclases pueden sobrescribir este método si requieren un comportamiento
+     * diferente.
+     * @param usuario Usuario de quien se busca saber si tiene suscripción activa
+     * @return boolean Indicador de si el usuario está suscrito o no
+     */
+    public boolean tieneSuscripcionActiva(Usuario usuario){
+	return this.observers.contains(usuario);
+    }
+
+    
+    /**
      * Obtiene el historial del usuario. 
      * 
      * Este método está implementado en la clase abstracta para proporcionar
@@ -281,7 +265,7 @@ public abstract class Servicio implements Subject {
      * @return HistorialServicio Historial asociado al usuario
      * @throws NullPointerException en caso de insertar valores inválidos a un Map
      */
-    public HistorialServicio obtenerHistorialUsuario(Observer usuario) throws NullPointerException {
+    public HistorialServicio obtenerHistorialUsuario(Usuario usuario) throws NullPointerException {
 	return this.historialesUsuarios.get(usuario);
     }
 
@@ -301,31 +285,60 @@ public abstract class Servicio implements Subject {
 	return HistorialServicio nuevoHistorialUsuario = new HistorialServicio(usuario.cuentaBanco, EstrategiaCobro planUsuario);
     }
 
-    /**
-     * Verifica si un usuario tiene una suscripcion de un servicio activa
+        /**
+     * Notifica a un Usuario los meses que ha contradado una suscripción a un servicio
+     * @param usuario Usuario a quien va dirigida la notificación
      * 
-     * Este método está implementado en la clase abstracta para proporcionar
-     * una funcionalidad común que todas las subclases pueden usar directamente.
-     * Las subclases pueden sobrescribir este método si requieren un comportamiento
-     * diferente.
-     * @param usuario Usuario de quien se busca saber si tiene suscripción activa
-     * @return boolean Indicador de si el usuario está suscrito o no
      */
-    public boolean tieneSuscripcionActiva(Usuario usuario){
-	return this.observers.contains(usuario);
-    } 
+    public abstract void notificarMesesUso(Usuario usuario);
 
+    /**
+     * Notifica las recomendaciones a un Usuario de un servicio
+     * @param usuario Usuario a quien va dirigida la notificación
+     */
+    public abstract void notificarRecomendacion(Usuario usuario);
+
+    /**
+     * Notifica la bienvenida al Usuario de un servicio
+     * @param usuario Usuario a quien va dirigida la notificación
+     * @param esRenovacion
+     */
+    public abstract void notificarBienvenida(Usuario usuario, boolean esRenovacion);
+
+    /**
+     * Notifica al Usuario que la renta no se pudo realizar por fondos insuficientes.
+     * @param usuario Usuario a quien va dirigida la notificación
+     */
+    public abstract void notificarSaldoInsuficiente(Usuario usuario);
+    
+    /**
+     * Notifica la despedida a un Usuario de un Servicio
+     * @param usuario Usuario a quien va dirigida la notificación
+     */
+    public abstract void notificarDespedida(Usuario usuario);
+    
+    /**
+     * Notifica a un Usuario que ya no se encuentra suscrito como para realizar acciones de un suscriptor
+     * @param usuario Usuario a quien va dirigida la notificación
+     */
+    public abstract void notificarUsuarioNoSuscrito(Usuario usuario);
+
+    /**
+     * Notifica a un Usuario que ya se encuentra suscrito
+     * @param usuario Usuario a quien va dirigida la notificación
+     */
+    public abstract void notificarUsuarioYaSuscrito(Usuario usuario);
+    
     /**
      * Obtiene las estrategias de cobro disponibles
      * @return List<String> Estrategias de cobro disponibles
      */
-    public abstract List<String> obtenerEstrategiasDisponibles();    
+    public abstract List<String> obtenerEstrategiasDisponibles();
 
-    /**
-     * Obtiene el nombre
-     * @return String el nombre del Servicio
+        
+     /**
+     * Notifica la despedida a un Usuario de un Servicio
+     * @returns List<String> Lista de recomendaciones 
      */
-    public String obtenerNombreServicio(){
-	return this.nombre;
-    }
+    protected abstract List<String> generarRecomendacionesMensuales();
 }
