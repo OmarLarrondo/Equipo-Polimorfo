@@ -25,7 +25,7 @@ public abstract class Servicio implements Subject {
     private Map<Observer, HistorialServicio> historialesUsuarios;
 
     /**
-     * Constructor para inicializar los atributos de Servicio... <code> \n </code>
+     * Constructor para inicializar los atributos de Servicio...
      * observers y recomendacionesPorMes se inicializarán en la implementación
      * 
      * @param nombre nombre de servicio a inicializar
