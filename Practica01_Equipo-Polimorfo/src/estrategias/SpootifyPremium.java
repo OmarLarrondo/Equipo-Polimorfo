@@ -33,11 +33,11 @@ public class SpootifyPremium implements EstrategiaCobro {
     /**
      * Obtiene la descripción del plan de suscripción.
      * 
-     * @return descripción del plan "Spootify versión premium"
+     * @return descripción del plan "premium"
      */
     @Override
     public String obtenerDescripcionPlan() {
-        return "Spootify versión premium";
+        return "premium";
     }
     
     /**

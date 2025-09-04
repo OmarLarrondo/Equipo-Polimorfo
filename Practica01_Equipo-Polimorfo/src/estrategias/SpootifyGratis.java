@@ -27,11 +27,11 @@ public class SpootifyGratis implements EstrategiaCobro {
     /**
      * Obtiene la descripción del plan de suscripción.
      * 
-     * @return descripción del plan "Spootify versión gratuita"
+     * @return descripción del plan "gratis"
      */
     @Override
     public String obtenerDescripcionPlan() {
-        return "Spootify versión gratuita";
+        return "gratis";
     }
     
     /**

@@ -32,8 +32,8 @@ public class Spootify extends Servicio {
     @Override
     public List<String> obtenerEstrategiasDisponibles(){
         return Arrays.asList(
-            "versión normal",
-            "versión premium"
+            "gratis",
+            "premium"
         );
     }
 

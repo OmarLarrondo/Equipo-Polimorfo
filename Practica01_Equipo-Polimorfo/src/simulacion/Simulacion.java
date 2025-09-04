@@ -685,12 +685,15 @@ public class Simulacion {
         if(usuario == null || servicio == null || estrategia == null){
             return false;
         }
-        if(usuario.obtenerDineroDisponible()< estrategia.calcularCosto(mesActual)){
+        
+        double costoMes1 = estrategia.calcularCosto(1);
+        double dineroDisponible = usuario.obtenerDineroDisponible();
+        
+        if(dineroDisponible < costoMes1){
             return false;
         }
         try {
-            servicio.suscribirUsuario(usuario, estrategia);
-            return true;
+            return servicio.suscribirUsuario(usuario, estrategia);
         } catch (Exception e) {
             return false;        
         }

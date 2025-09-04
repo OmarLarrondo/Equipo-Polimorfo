@@ -50,11 +50,11 @@ public class CuentaBanco {
      * @param monto El monto a descontar de la cuenta
      * @param concepto Descripción del concepto por el cual se realiza el pago
      * @return true si el pago se realizó exitosamente, false si no hay fondos suficientes
-     * @throws IllegalArgumentException si el monto es negativo o cero
+     * @throws IllegalArgumentException si el monto es negativo
      */
     public boolean realizarPago(double monto, String concepto) {
-        if (monto <= 0) {
-            throw new IllegalArgumentException("El monto del pago debe ser mayor a cero");
+        if (monto < 0) {
+            throw new IllegalArgumentException("El monto del pago no puede ser negativo");
         }
         
         if (concepto == null || concepto.trim().isEmpty()) {
@@ -97,11 +97,11 @@ public class CuentaBanco {
      * 
      * @param monto El monto que se desea verificar
      * @return true si hay fondos suficientes, false en caso contrario
-     * @throws IllegalArgumentException si el monto es negativo o cero
+     * @throws IllegalArgumentException si el monto es negativo
      */
     public boolean puedeRealizarPago(double monto) {
-        if (monto <= 0) {
-            throw new IllegalArgumentException("El monto a verificar debe ser mayor a cero");
+        if (monto < 0) {
+            throw new IllegalArgumentException("El monto a verificar no puede ser negativo");
         }
         return this.saldo >= monto;
     }

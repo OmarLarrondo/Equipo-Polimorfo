@@ -32,11 +32,11 @@ public class MomazonNormal implements EstrategiaCobro {
     /**
      * Obtiene la descripción del plan de suscripción.
      * 
-     * @return descripción del plan "Momazon versión normal"
+     * @return descripción del plan "normal"
      */
     @Override
     public String obtenerDescripcionPlan() {
-        return "Momazon versión normal";
+        return "normal";
     }
     
     /**

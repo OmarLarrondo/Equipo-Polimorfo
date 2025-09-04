@@ -32,8 +32,8 @@ public class MomazonPrime extends Servicio{
     @Override
     public List<String> obtenerEstrategiasDisponibles(){
         return Arrays.asList(
-            "versión normal",
-            "versión premium"
+            "normal",
+            "premium"
         );
     }
 
