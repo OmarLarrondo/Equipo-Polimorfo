@@ -19,8 +19,6 @@ import modelo.Usuario;
  * organizadas de manera clara y legible utilizando objetos ResultadoCobro
  * para estructurar correctamente la información.
  * 
- * La implementación es robusta para manejar la escritura de archivos
- * y el formateo adecuado de la información según los requerimientos de la práctica.
  * 
  * @author Equipo Polimórfo
  * @version 1.0
@@ -122,10 +120,10 @@ public class GestorArchivos {
             if (transaccionesMes.isEmpty()) {
                 contenido.add("No hay transacciones registradas en el mes " + mes);
             } else {
-                long exitosas = transaccionesMes.stream().filter(ResultadoCobro::getExitoso).count();
+                long exitosas = transaccionesMes.stream().filter(ResultadoCobro::isExitoso).count();
                 long fallidas = transaccionesMes.size() - exitosas;
                 double totalCobrado = transaccionesMes.stream()
-                    .filter(ResultadoCobro::getExitoso)
+                    .filter(ResultadoCobro::isExitoso)
                     .mapToDouble(ResultadoCobro::getMonto)
                     .sum();
                 
@@ -220,7 +218,7 @@ public class GestorArchivos {
      * @return cadena formateada con la información de la transacción
      */
     private String formatearTransaccion(ResultadoCobro transaccion) {
-        String estado = transaccion.getExitoso() ? "✓ EXITOSO" : "✗ FALLIDO";
+        String estado = transaccion.isExitoso() ? "EXITOSO" : "FALLIDO";
         return String.format("[%s] %s - $%.2f - %s",
             estado,
             transaccion.getUsuario().obtenerNombre(),
