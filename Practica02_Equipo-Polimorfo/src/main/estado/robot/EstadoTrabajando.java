@@ -1,6 +1,7 @@
 package main.estado.robot;
 
 import main.productos.Producto;
+import main.sistema.Pedido;
 import main.sistema.Robot;
 
 /**
@@ -49,14 +50,14 @@ public class EstadoTrabajando implements EstadoActualRobot {
      * se lanza una excepcion o un print</p>
      */
     @Override
-    public void atenderPedido() {
+    public void atenderPedido(Pedido pedido) {
         System.out.println("El robot ya está trabajando. No puede atender otro cliente.");
         // o tambien  throw new UnsupportedOperationException("El robot ya está trabajando");
     }
 
     /**
      * No se puede agregar un producto cuando el robot esta trabajando 
-     * 
+
      * <p>Si se llama a este método mientras el robot esta trabajando ,
      * se lanza una excepcion o un print</p>
      * 

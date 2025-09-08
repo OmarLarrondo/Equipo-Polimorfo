@@ -1,6 +1,7 @@
 package main.estado.robot;
 
 import main.productos.Producto;
+import main.sistema.Pedido;
 import main.sistema.Robot;
 
 /**
@@ -24,8 +25,10 @@ public interface EstadoActualRobot {
     /**
      * Método que se ejecuta cuando el robot debe atender un pedido.
      * Cada estado implementará este comportamiento según corresponda.
+     * 
+     * @param pedido el pedido a atender
      */
-    public void atenderPedido();
+    public void atenderPedido(Pedido pedido);
 
     /**
      * Método para agregar un producto al pedido actual del robot.

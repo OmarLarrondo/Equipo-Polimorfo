@@ -1,6 +1,7 @@
 package main.estado.robot;
 
 import main.productos.Producto;
+import main.sistema.Pedido;
 import main.sistema.Robot;
 
 public class EstadoDormido implements EstadoActualRobot {
@@ -17,48 +18,44 @@ public class EstadoDormido implements EstadoActualRobot {
 
     @Override
     public void atenterCliente() {
-        
+        System.out.println("Cliente ha llamado. EL robot se desperto y esta tomando la orden:");
+        robot.setEstado(new EstadoEnEspera(robot));
+        robot.atenderPedido(new Pedido());
     }
 
     @Override
-    public void atenderPedido() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atenderPedido'");
+    public void atenderPedido(Pedido pedido) {
+        
+
     }
 
     @Override
     public void agregarProducto(Producto producto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'agregarProducto'");
+        throw new IllegalStateException("No se puede agregar el producto, el robot esta durmiendo");
     }
 
     @Override
     public void confirmarOrden() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'confirmarOrden'");
+        throw new IllegalStateException("No se puede confirmar la orden, el robot esta durmiendo");
     }
 
     @Override
     public void iniciarPreparacion() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'iniciarPreparacion'");
+        throw new IllegalStateException("No se puede iniciar la preparacion, el robot esta durmiendo");
     }
 
     @Override
     public void solicitarEntrega() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'solicitarEntrega'");
+        throw new IllegalStateException("No se puede solicitar la entrega, el robot esta durmiendo");
     }
 
     @Override
     public void entregar() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'entregar'");
+                throw new IllegalStateException("No se puede entregar el pedido, el robot esta durmiendo");
     }
 
     @Override
     public void cancelarOrden() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cancelarOrden'");
+                throw new IllegalStateException("No se puede cancelar la orden, el robot esta durmiendo");
     }
 }

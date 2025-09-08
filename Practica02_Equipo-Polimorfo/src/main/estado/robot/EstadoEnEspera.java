@@ -1,6 +1,7 @@
 package main.estado.robot;
 
 import main.productos.Producto;
+import main.sistema.Pedido;
 import main.sistema.Robot;
 
 public class EstadoEnEspera implements EstadoActualRobot {
@@ -21,7 +22,7 @@ public class EstadoEnEspera implements EstadoActualRobot {
     }
 
     @Override
-    public void atenderPedido() {
+    public void atenderPedido(Pedido pedido) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'atenderPedido'");
     }
