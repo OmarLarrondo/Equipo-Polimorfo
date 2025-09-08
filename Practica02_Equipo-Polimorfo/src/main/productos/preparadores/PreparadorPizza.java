@@ -15,11 +15,12 @@ import main.enums.TipoMasa;
  * 3. Colocar salsa de tomate
  * 4. Colocar queso (personalizable)
  * 5. Colocar especias
- * 6. Colocar proteína (personalizable)
- * 7. Meter al horno
- * 8. Esperar
- * 9. Sacar del horno
- * 10. Empaquetar
+ * 6. Colocar ingredientes especiales (hook opcional)
+ * 7. Colocar proteína (hook opcional)
+ * 8. Meter al horno
+ * 9. Esperar
+ * 10. Sacar del horno
+ * 11. Empaquetar
  * 
  * @author Equipo-Polimorfo
  * @version 1.0
@@ -41,6 +42,7 @@ public abstract class PreparadorPizza {
         colocarSalsaTomate();
         colocarQueso();
         colocarEspecias();
+        colocarIngredientesEspeciales();
         colocarProteina();
         meterAlHorno();
         esperar();
@@ -102,12 +104,32 @@ public abstract class PreparadorPizza {
     }
     
     /**
-     * Coloca la proteína específica para cada tipo de pizza.
-     * Este método debe ser implementado por cada subclase concreta
-     * según el tipo de proteína que corresponda a cada pizza.
-     * Para pizzas vegetarianas, este método puede no agregar proteína.
+     * Método hook para colocar ingredientes especiales específicos de cada pizza.
+     * 
+     * Este método se ejecuta después de colocar las especias y antes de la proteína,
+     * permitiendo que cada tipo de pizza agregue ingredientes únicos como albahaca fresca,
+     * vegetales variados, o cualquier ingrediente especial que no sea proteína animal.
+     * 
+     * La implementación por defecto no hace nada, las subclases pueden sobrescribirlo
+     * opcionalmente según sus necesidades específicas.
      */
-    protected abstract void colocarProteina();
+    protected void colocarIngredientesEspeciales() {
+	
+    }
+    
+    /**
+     * Método hook para colocar la proteína específica de cada tipo de pizza.
+     * 
+     * Este método permite que las subclases agreguen proteína animal específica
+     * según el tipo de pizza. La implementación por defecto no hace nada,
+     * lo cual es apropiado para pizzas vegetarianas que no requieren proteína animal.
+     * 
+     * Las pizzas que sí requieren proteína deben sobrescribir este método
+     * para agregar los ingredientes proteicos correspondientes.
+     */
+    protected void colocarProteina() {
+	
+    }
     
     /**
      * Introduce la pizza al horno para su cocción.
