@@ -20,6 +20,7 @@ package main.productos.preparadores;
  */
 public class PreparadorPizzaCarneLovery extends PreparadorPizza {
 
+
     /**
      * Coloca queso cheddar maduro rallado sobre la pizza Carne Lovery.
      * 

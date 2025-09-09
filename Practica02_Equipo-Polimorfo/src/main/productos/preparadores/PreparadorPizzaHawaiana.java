@@ -1,5 +1,6 @@
 package main.productos.preparadores;
 
+
 /**
  * Preparador concreto para Pizza Hawaiana utilizando el patrón Template Method.
  * 

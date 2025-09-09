@@ -18,6 +18,7 @@ package main.productos.preparadores;
  */
 public class PreparadorPizzaMargherita extends PreparadorPizza {
 
+
     /**
      * Coloca mozzarella fresca di bufala sobre la pizza Margherita.
      * 
