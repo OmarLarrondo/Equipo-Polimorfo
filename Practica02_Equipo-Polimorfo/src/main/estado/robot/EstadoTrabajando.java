@@ -1,8 +1,12 @@
 package main.estado.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import main.productos.Producto;
 import main.sistema.Pedido;
 import main.sistema.Robot;
+import main.sistema.Ticket;
 
 /**
  * Clase que representa el estado "Trabajando" del Robot.
@@ -40,7 +44,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void atenterCliente() {
-        //aqui va codigo 
+        throw new IllegalStateException("Espera, no te puedo atender, estoy trabajando");
     }
 
     /**
@@ -51,8 +55,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void atenderPedido(Pedido pedido) {
-        System.out.println("El robot ya está trabajando. No puede atender otro cliente.");
-        // o tambien  throw new UnsupportedOperationException("El robot ya está trabajando");
+        throw new IllegalStateException("Espera, no puedo atender tu pedido, estoy trabajando");
     }
 
     /**
@@ -65,7 +68,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void agregarProducto(Producto producto) {
-        // Aquí va el código de agregación
+        throw new IllegalStateException("Espera, no puedo agregar un producto, estoy trabajando");
     }
 
     /**
@@ -76,30 +79,45 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void confirmarOrden() {
-        // Aquí va el código de confirmación
+        throw new IllegalStateException("Espera, no puedo confirmar la orden,  estoy trabajando");
     }
 
     /**
-     * Inicia la preparación de los productos del pedido.
+     * No se puede iniciar una preparacion, cuando ya se esta trabajando en una.
      * 
-     * <p>El robot comienza a ejecutar los pasos correspondientes
-     * a cada producto (pizza o helado) según la receta o instrucciones.</p>
+     * <p>Si se llama a este método mientras el robot esta trabajando ,
+     * se lanza una excepcion o un print</p>
      */
     @Override
     public void iniciarPreparacion() {
-        // Aquí va el código de preparación
+        throw new IllegalStateException("Espera, no puedo iniciar la preparacion porque estoy trabajando en una.");
     }
 
     /**
-     * No se puede solicitar la entrega si el robot esta trabajando.
+     * No se puede solicitar la entrega si el robot esta trabajando.                                                                                                                                                                            1
      * 
      * <p>Si se llama a este método mientras el robot esta trabajando ,
      * se lanza una excepcion o un print</p>
      */
     @Override
     public void solicitarEntrega() {
-        // Aquí va el código de solicitud de entrega
+    Pedido pedido = robot.getPedidoActual();
+
+    if (pedido == null) {
+        System.out.println("No hay pedido activo para entregar.");
+        return;
     }
+
+    if (preparada == false) {
+        System.out.println("El pedido aún no está preparado. No se puede solicitar entrega.");
+        return;
+    }
+
+    System.out.println("Pedido listo, solicitando entrega...");
+    robot.setEstado(robot.getEstadoEnEspera());
+    entregar();
+}
+
 
     /**
      * No se puede entregar el pedido si el robot esta trabajando.
@@ -109,13 +127,43 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void entregar() {
-        // Aquí va el código de entrega
+        Pedido pedido = robot.getPedidoActual();
+
+        if (pedido == null) {
+        System.out.println("No hay pedido para entregar.");
+        return;
+        }
+        if (!preparada) {
+        System.out.println("El pedido aún no está preparado. No se puede entregar.");
+        return;
+        }
+
+        List<Producto> productos = pedido.getProductos();
+
+        // Convertimos a List<String> con los nombres de los productos
+        List<String> nombresProductos = new ArrayList<>();
+        for (Producto p : productos) {
+            nombresProductos.add(p.getNombre());
+        }
+
+        double total = 0;
+        for(Producto p: productos){
+            total +=p.getPrecio();
+        }
+
+        // Ahora sí puedes pasar nombresProductos al Ticket
+        Ticket ticket = new Ticket(nombresProductos,total);
+        ticket.imprimir();
+
+        robot.setPedidoActual(null);
+        robot.setEstado(robot.getEstadoDormido());
+
+        System.out.println("Pedido entregado, el robot vuelve a dormir.");
     }
+
 
     @Override
     public void cancelarOrden() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cancelarOrden'");
+        throw new IllegalStateException("No se puede cancelar la orden estoy trabajando en una.");
     }
-
 }

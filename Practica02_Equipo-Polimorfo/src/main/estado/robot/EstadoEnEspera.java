@@ -18,52 +18,98 @@ public class EstadoEnEspera implements EstadoActualRobot {
 
     @Override
     public void atenterCliente(){
-        System.out.println("Espera, estoy atendiendo a un cliente");
+        throw new IllegalStateException("Espera, estoy atendiendo a un cliente");
     }
 
     @Override
     public void atenderPedido(Pedido pedido) {
-        System.out.println("Espera, estoy atendiendo a un cliente");
+        // si no hay pedido actual, ent atiende al nuevo
+        if (robot.getPedidoActual() == null) {
+            robot.setPedidoActual(pedido);
+            System.out.println("Pedido asignado al robot y listo para agregar productos.");
+        }
     }
 
 @Override
-public void agregarProducto(Producto producto) {
+    public void agregarProducto(Producto producto) {
     if (producto == null) {
         System.out.println("Ops, el producto no existe.");
         return;
     }
-    //aqui va su codiog 
-}
 
-    @Override
-    public void confirmarOrden() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'confirmarOrden'");
+    Pedido pedidoActual = robot.getPedidoActual();
+    if (pedidoActual == null) {
+        System.out.println("No hay pedido activo para agregar productos.");
+        return;
+    }
+    try {
+    pedidoActual.agregarArticulo(producto);
+    System.out.println("Producto agregado: " + producto.getNombre());
+    } catch (Exception e) {
+        System.out.println("Error no se puede agregar" +producto.getNombre());
+        }
     }
 
     @Override
+    public void confirmarOrden() {
+    Pedido pedido = robot.getPedidoActual();
+    if (pedido == null) {
+        System.out.println("No hay pedido activo para confirmar.");
+        return;
+    }
+    if (pedido.estaConfirmado()) {
+        System.out.println("El pedido ya fue confirmado.");
+        return;
+    }
+
+    pedido.confirmar();
+    System.out.println("Pedido confirmado. Iniciando preparación...");
+
+    robot.setEstado(robot.getEstadoTrabajando());
+}
+
+
+    @Override
     public void iniciarPreparacion() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'iniciarPreparacion'");
+        Pedido pedido = robot.getPedidoActual();
+        if (pedido == null) {
+        System.out.println("No hay pedido activo para preparar.");
+        return;
+        }
+
+        if(pedido.estaConfirmado()){
+            System.out.println("El robot inicio la preparacion del pedido.");
+            robot.setEstado(robot.getEstadoTrabajando());
+        }else{
+            System.out.println("EL pedido no esta confirmado. ");
+        }
     }
 
     @Override
     public void solicitarEntrega() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'solicitarEntrega'");
+        throw new IllegalStateException("Espera, el robot debe terminar el pedido primero.");
     }
 
     @Override
     public void entregar() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'entregar'");
+        throw new IllegalStateException("Espera, el robot debe terminar el pedido primero.");
     }
 
     @Override
     public void cancelarOrden() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cancelarOrden'");
+    Pedido pedido = robot.getPedidoActual();
+
+    if (pedido == null) {
+    System.out.println("No hay pedido activo para cancelar.");
+    return;
     }
-
-
+    if (pedido.estaConfirmado()) {
+        System.out.println("El pedido ya fue confirmado y no es posible cancelarlo");
+        return;
+    }
+    pedido.cancelar();;
+    System.out.println("Pedido cancelado, el robot volvio a dormir.");
+    robot.setPedidoActual(null); 
+    robot.setEstado(robot.getEstadoDormido()); //vueleve a dormir.
+    }
 }

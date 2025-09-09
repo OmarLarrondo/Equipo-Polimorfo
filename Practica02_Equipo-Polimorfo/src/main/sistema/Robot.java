@@ -41,25 +41,28 @@ public class Robot {
     /** Mapa de pedidos listos para entrega, identificados por un ID del pedido. */
     private HashMap<Integer,Pedido> pedidosListos;
 
+    private Pedido pedidoActual; // pedido que está siendo procesado actualmente
+
     /**
      * Constructor de la clase {@code Robot}, inicializa todos los estados y colecciones.
-     * 
-     * @param estadoDormido referencia al estado dormido
-     * @param estadoTrabajando referencia al estado trabajando
-     * @param estadoEnEspera referencia al estado en espera
-     * @param estadoActual estado inicial del robot
-     * @param pedidos la pila de pedidos en proceso
-     * @param pedidosListos mapa de pedidos listos para entrega.
      */
-    public Robot(EstadoActualRobot estadoDormido, EstadoActualRobot estadoTrabajando, EstadoActualRobot estadoEnEspera,
-            EstadoActualRobot estadoActual, Stack<Pedido> pedidos, HashMap<Integer, Pedido> pedidosListos) {
+    public Robot() {
         this.estadoDormido = new EstadoDormido(this);
         this.estadoTrabajando = new EstadoTrabajando(this, false);
         this.estadoEnEspera = new EstadoEnEspera(this);
-        this.estadoActual = estadoDormido; // el robot inicia dormido
-        this.pedidos = pedidos;
-        this.pedidosListos = pedidosListos;
+        this.estadoActual = estadoDormido;
+        this.pedidos = new Stack<>();
+        this.pedidosListos = new HashMap<>();
     }
+
+    public Pedido getPedidoActual() {
+        return pedidoActual;
+    }
+    
+    public void setPedidoActual(Pedido pedidoActual) {
+        this.pedidoActual = pedidoActual;
+}
+
 
     /**
      * Indica que un pedido está listo en la sucursal para ser entregado.

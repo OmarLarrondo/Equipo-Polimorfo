@@ -18,16 +18,18 @@ public class EstadoDormido implements EstadoActualRobot {
 
     @Override
     public void atenterCliente() {
-        System.out.println("Cliente ha llamado. EL robot se desperto y esta tomando la orden:");
+        System.out.println("Nuevo cliente llego, el robot de desperto");
+
+        Pedido nuevoPedido = new Pedido();
+        robot.setPedidoActual(nuevoPedido);
+
         robot.setEstado(new EstadoEnEspera(robot));
-        robot.atenderPedido(new Pedido());
     }
+
 
     @Override
     public void atenderPedido(Pedido pedido) {
-        System.out.println("Robot se despertó y está tomando la orden.");
-        robot.setEstado(new EstadoEnEspera(robot));
-        robot.atenderPedido(pedido);
+        throw new IllegalStateException("No se puede atender el pediido , el robot esta durmiendo");
     }
 
     @Override

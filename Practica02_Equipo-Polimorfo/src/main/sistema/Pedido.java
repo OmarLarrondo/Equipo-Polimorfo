@@ -25,6 +25,8 @@ public class Pedido {
 
     /**Estado actual del pedido (estadoNoOrdenado, estadoOrdenado, estadoHecho, estadoEntregado)*/
     private EstadoPedido estadoPedido;
+    /**Si el pedido esta confirmado o no */
+    private boolean confirmado;
 
     /**
      * Constructor vacío. Crea un pedido inicial sin nombre de cliente ni sucursal,
@@ -50,7 +52,7 @@ public class Pedido {
      * Agrega un producto al pedido.
      * @param articuloNuevo el producto a agregar
      */
-    private void agregarArticulo(Producto articuloNuevo) {
+    public void agregarArticulo(Producto articuloNuevo) {
         productos.add(articuloNuevo);
     }
 
@@ -59,7 +61,7 @@ public class Pedido {
      * @param sucursal la sucursal a la que se enviará la orden
      */
     private void enviarOrden(Sucursal sucursal) {
-        // aquí va su código
+        
     }
 
     /**
@@ -94,5 +96,36 @@ public class Pedido {
      */
     public void procesarPeticionEntrega(Sucursal sucursal) {
         // aquí va código
+    }
+    
+    /**
+     * Metodo para confirmar una orden
+     */
+    public void confirmar() {
+        this.confirmado = true;
+    }
+    
+    /**
+     * Metodo para cancelar la orden
+     */
+    public void cancelar() {
+        this.confirmado = false;
+    }
+    
+    /**
+     * Indica si la orden ha sido confirmada.
+     *
+     * @return true si la orden está confirmada, false en caso contrario.
+     */
+    public boolean estaConfirmado() {
+        return confirmado;
+    }
+
+    /**
+     * Devuelve la lista de productos del pedido.
+     * @return lista de productos
+     */
+    public List<Producto> getProductos() {
+        return productos;
     }
 }
