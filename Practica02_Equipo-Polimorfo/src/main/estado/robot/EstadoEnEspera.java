@@ -18,20 +18,22 @@ public class EstadoEnEspera implements EstadoActualRobot {
 
     @Override
     public void atenterCliente(){
-
+        System.out.println("Espera, estoy atendiendo a un cliente");
     }
 
     @Override
     public void atenderPedido(Pedido pedido) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atenderPedido'");
+        System.out.println("Espera, estoy atendiendo a un cliente");
     }
 
-    @Override
-    public void agregarProducto(Producto producto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'agregarProducto'");
+@Override
+public void agregarProducto(Producto producto) {
+    if (producto == null) {
+        System.out.println("Ops, el producto no existe.");
+        return;
     }
+    //aqui va su codiog 
+}
 
     @Override
     public void confirmarOrden() {

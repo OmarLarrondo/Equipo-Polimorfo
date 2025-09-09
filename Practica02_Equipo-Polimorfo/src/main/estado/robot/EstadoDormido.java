@@ -25,8 +25,9 @@ public class EstadoDormido implements EstadoActualRobot {
 
     @Override
     public void atenderPedido(Pedido pedido) {
-        
-
+        System.out.println("Robot se despertó y está tomando la orden.");
+        robot.setEstado(new EstadoEnEspera(robot));
+        robot.atenderPedido(pedido);
     }
 
     @Override
