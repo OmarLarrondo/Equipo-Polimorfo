@@ -51,11 +51,11 @@ public class ThisneyPlan implements EstrategiaCobro {
     /**
      * Obtiene la descripción del plan de suscripción.
      * 
-     * @return descripción del plan "Thisney+"
+     * @return descripción del plan "plan único"
      */
     @Override
     public String obtenerDescripcionPlan() {
-        return "Thisney+";
+        return "plan único";
     }
     
     /**

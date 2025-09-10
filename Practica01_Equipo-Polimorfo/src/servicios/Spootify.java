@@ -2,104 +2,84 @@ package servicios;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 import modelo.Usuario;
 import patrones.EstrategiaCobro;
 import patrones.Observer;
 
 /**
- * Clase Spootify, es un servicio. Debe implemntar todos los metodos 
- * de Servicio.
+ * Clase Spootify, servicio de música streaming con dos planes.
+ * Planes disponibles:
+ * - Normal: Gratis (con publicidad)
+ * - Premium: $80 (sin publicidad y funciones extra)
  */
 public class Spootify extends Servicio {
+    
     /**
-     * Constructor, cada servicioo debe inicializarlo
-     * @param nombre
+     * Constructor para inicializar el servicio Spootify
+     * @param nombre Nombre del servicio (debería ser "Spootify")
      */
-
     public Spootify(String nombre) {
         super(nombre);
-        this.observers = new ArrayList<>();
-        this.recomendacionesPorMes = new java.util.HashMap<>();
         inicializarRecomendaciones();
     }
 
     /**
-     * metodo para obtener las estrategias disponibles de memeflix
-     * @return la lista de estrategias de memeflix
+     * Obtiene las estrategias de cobro disponibles para Spootify
+     * @return Lista con las descripciones de los planes disponibles
      */
     @Override
     public List<String> obtenerEstrategiasDisponibles(){
-        return null;
-        //aqui va s codfig 
-        
+        return Arrays.asList(
+            "gratis",
+            "premium"
+        );
     }
 
     /**
-     * metodo para obtener las recomendaciones
-     * @return las recomendaciones de memeflix
+     * Obtiene la recomendación específica para un mes dado
+     * @param mes El número de mes (1-12) para el cual se solicita la recomendación
+     * @return String La recomendación musical para el mes especificado
      */
     @Override
     public String obtenerRecomendacion(int mes){
-        return null; //HACER
+        List<String> recomendaciones = recomendacionesPorMes.get(mes);
+        if (recomendaciones != null && !recomendaciones.isEmpty()) {
+            return recomendaciones.get(0);
+        }
+        return "Playlist personalizada de Spootify";
     }
 
-    @Override
     /**
-     * metodo para inicializar las recomendaciones
+     * Inicializa las recomendaciones mensuales específicas de Spootify
+     * Cada mes tiene diferentes artistas y géneros musicales
      */
+    @Override
     public void inicializarRecomendaciones(){
-        //hacer
+        // Enero
+        recomendacionesPorMes.put(1, Arrays.asList("Playlist: Top Hits 2024", "Bad Bunny - Nuevo Album"));
+        // Febrero  
+        recomendacionesPorMes.put(2, Arrays.asList("Playlist: Amor y Romance", "Taylor Swift - Love Songs"));
+        // Marzo
+        recomendacionesPorMes.put(3, Arrays.asList("Playlist: Spring Vibes", "Dua Lipa - Dance Collection"));
+        // Abril
+        recomendacionesPorMes.put(4, Arrays.asList("Playlist: Workout Mix", "The Weeknd - Greatest Hits"));
+        // Mayo
+        recomendacionesPorMes.put(5, Arrays.asList("Playlist: Reggaeton Hits", "J Balvin - Colores"));
+        // Junio
+        recomendacionesPorMes.put(6, Arrays.asList("Playlist: Summer Festival", "Harry Styles - As It Was"));
+        // Julio
+        recomendacionesPorMes.put(7, Arrays.asList("Playlist: Rock Clásico", "Queen - Greatest Hits"));
+        // Agosto
+        recomendacionesPorMes.put(8, Arrays.asList("Playlist: Hip Hop Evolution", "Drake - Certified Lover Boy"));
+        // Septiembre
+        recomendacionesPorMes.put(9, Arrays.asList("Playlist: Back to School", "Olivia Rodrigo - SOUR"));
+        // Octubre
+        recomendacionesPorMes.put(10, Arrays.asList("Playlist: Halloween Hits", "Billie Eilish - Happier Than Ever"));
+        // Noviembre
+        recomendacionesPorMes.put(11, Arrays.asList("Playlist: Indie Folk", "Lana Del Rey - Blue Banisters"));
+        // Diciembre
+        recomendacionesPorMes.put(12, Arrays.asList("Playlist: Holiday Classics", "Mariah Carey - All I Want for Christmas"));
     }
-
-    @Override
-    public void agregarObserver(Observer observer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'agregarObserver'");
-    }
-
-    @Override
-    public void removerObserver(Observer observer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removerObserver'");
-    }
-
-    @Override
-    public void notificarMesesUso() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarMesesUso'");
-    }
-
-    @Override
-    public void notificarRecomendacion(int mes) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarRecomendacion'");
-    }
-
-    @Override
-    public void notificarBienvenida(Observer observer, boolean esRenovacion) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarBienvenida'");
-    }
-
-    @Override
-    public void notificarDespedida(Observer observer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificarDespedida'");
-    }
-
-    @Override
-    public void actualizarHistorialUsuario(Usuario usuario, EstrategiaCobro estratehia) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actualizarHistorialUsuario'");
-    }
-
-    @Override
-    public String obtenerNombreServicio() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerNombreServicio'");
-    }
-
-
-    
 }

@@ -32,11 +32,11 @@ public class MemefixCuatroDispositivos implements EstrategiaCobro {
     /**
      * Obtiene la descripción del plan de suscripción.
      * 
-     * @return descripción del plan "Memeflix para 4 dispositivos"
+     * @return descripción del plan "4 dispositivos"
      */
     @Override
     public String obtenerDescripcionPlan() {
-        return "Memeflix para 4 dispositivos";
+        return "4 dispositivos";
     }
     
     /**

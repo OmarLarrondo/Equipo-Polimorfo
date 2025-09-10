@@ -32,11 +32,11 @@ public class MomazonPremium implements EstrategiaCobro {
     /**
      * Obtiene la descripción del plan de suscripción.
      * 
-     * @return descripción del plan "Momazon versión premium"
+     * @return descripción del plan "premium"
      */
     @Override
     public String obtenerDescripcionPlan() {
-        return "Momazon versión premium";
+        return "premium";
     }
     
     /**

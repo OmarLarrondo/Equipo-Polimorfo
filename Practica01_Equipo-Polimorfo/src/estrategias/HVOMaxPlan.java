@@ -46,11 +46,11 @@ public class HVOMaxPlan implements EstrategiaCobro {
     /**
      * Obtiene la descripción del plan de suscripción.
      * 
-     * @return descripción del plan "HVO Max"
+     * @return descripción del plan "plan único"
      */
     @Override
     public String obtenerDescripcionPlan() {
-        return "HVO Max";
+        return "plan único";
     }
     
     /**
