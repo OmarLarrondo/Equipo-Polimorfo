@@ -1,24 +1,24 @@
-package main.estado.robot;
+package estado.robot;
 
-import main.productos.Producto;
-import main.sistema.Pedido;
-import main.sistema.Robot;
+import productos.Producto;
+import sistema.Pedido;
+import sistema.Robot;
 
-public class EstadoEnEspera implements EstadoActualRobot {
+public class EstadoTomandoOrden implements EstadoActualRobot{
+
     private final Robot robot; // coincide con el UML
 
-    
     /**
-     * El constructor para inicializar el EstadoEnEspera del Robot
+     * EL constructor para iniciaizar el EstadoDormido del Robot
      * @param robot  el robot al que pertenece este estado, utilizado para cambiar su estado o acceder a sus pedidos
      */
-    public EstadoEnEspera(Robot robot) {
+    public EstadoTomandoOrden(Robot robot) {
         this.robot = robot;
     }
 
     @Override
-    public void atenterCliente(){
-        throw new IllegalStateException("Espera, estoy atendiendo a un cliente");
+    public void atenterCliente() {
+        System.out.println("Ya estoy atentiendo.");
     }
 
     @Override
@@ -28,9 +28,10 @@ public class EstadoEnEspera implements EstadoActualRobot {
             robot.setPedidoActual(pedido);
             System.out.println("Pedido asignado al robot y listo para agregar productos.");
         }
+        System.out.println("Espera, ya estoy atendiendo un pedido.");
     }
 
-@Override
+    @Override
     public void agregarProducto(Producto producto) {
     if (producto == null) {
         System.out.println("Ops, el producto no existe.");
@@ -52,47 +53,36 @@ public class EstadoEnEspera implements EstadoActualRobot {
 
     @Override
     public void confirmarOrden() {
-    Pedido pedido = robot.getPedidoActual();
-    if (pedido == null) {
+        Pedido pedido = robot.getPedidoActual();
+
+        if (pedido == null) {
         System.out.println("No hay pedido activo para confirmar.");
         return;
     }
     if (pedido.estaConfirmado()) {
-        System.out.println("El pedido ya fue confirmado.");
+        System.out.println("El pedido ya fue confirmado, anteriormente");
         return;
     }
 
     pedido.confirmar();
     System.out.println("Pedido confirmado. Iniciando preparación...");
 
-    robot.setEstado(robot.getEstadoTrabajando());
-}
-
+    robot.setEstadoActual(robot.getEstadoConfirmarOrden());
+    }
 
     @Override
     public void iniciarPreparacion() {
-        Pedido pedido = robot.getPedidoActual();
-        if (pedido == null) {
-        System.out.println("No hay pedido activo para preparar.");
-        return;
-        }
-
-        if(pedido.estaConfirmado()){
-            System.out.println("El robot inicio la preparacion del pedido.");
-            robot.setEstado(robot.getEstadoTrabajando());
-        }else{
-            System.out.println("EL pedido no esta confirmado. ");
-        }
+        System.out.println("Estoy tomando la orden, debes confirmar primero");
     }
 
     @Override
     public void solicitarEntrega() {
-        throw new IllegalStateException("Espera, el robot debe terminar el pedido primero.");
+        System.out.println("Estoy tomando la orden. Espera");
     }
 
     @Override
     public void entregar() {
-        throw new IllegalStateException("Espera, el robot debe terminar el pedido primero.");
+        System.out.println("Estoy tomando la orden. Espera");
     }
 
     @Override
@@ -103,13 +93,15 @@ public class EstadoEnEspera implements EstadoActualRobot {
     System.out.println("No hay pedido activo para cancelar.");
     return;
     }
+
     if (pedido.estaConfirmado()) {
         System.out.println("El pedido ya fue confirmado y no es posible cancelarlo");
         return;
     }
+
     pedido.cancelar();;
-    System.out.println("Pedido cancelado, el robot volvio a dormir.");
+    System.out.println("Pedido cancelado, el robot vuelve a dormir.");
     robot.setPedidoActual(null); 
-    robot.setEstado(robot.getEstadoDormido()); //vueleve a dormir.
-    }
+    robot.setEstadoActual(robot.getEstadoDormido()); //vueleve a dormir.
+    }    
 }

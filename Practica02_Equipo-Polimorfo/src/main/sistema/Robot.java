@@ -1,13 +1,12 @@
-package main.sistema;
+package sistema;
 
-import java.util.HashMap;
-import java.util.Stack;
-
-import main.estado.robot.EstadoActualRobot;
-import main.estado.robot.EstadoDormido;
-import main.estado.robot.EstadoEnEspera;
-import main.estado.robot.EstadoTrabajando;
-import main.productos.Producto;
+import estado.robot.EstadoActualRobot;
+import estado.robot.EstadoConfirmarOrden;
+import estado.robot.EstadoDormido;
+import estado.robot.EstadoEsperandoEntregar;
+import estado.robot.EstadoTomandoOrden;
+import estado.robot.EstadoTrabajando;
+import productos.Producto;
 
 /**
  * La clase {@code Robot} representa el robot de la sucursal, es el encargado de atender y preparar los productos.
@@ -16,7 +15,7 @@ import main.productos.Producto;
  * <ul>
  *   <li>{@link EstadoDormido}: El robot está dormido y espera ser despertado.</li>
  *   <li>{@link EstadoEnEspera}: El robot está listo para recibir órdenes o atender clientes.</li>
- *   <li>{@link EstadoTrabajando}: El robot se encuentra preparando un pediido.</li>
+ *   <li>{@link EstadoTrabajando}: El robot se encuentra preparando un pedido.</li>
  * </ul>
  * 
  * <p>El robot mantiene una pila de pedidos en proceso y un registro de pedidos listos.
@@ -27,21 +26,23 @@ import main.productos.Producto;
  * @version 1.0
  */
 public class Robot {
-    /** Estado del robot, se encuentra dormido.*/
-    private EstadoActualRobot estadoDormido;
-    /** Estado en el que el robot está disponible esperando órdenes. */
-    private EstadoActualRobot estadoEnEspera;
-    /** Estado en el que el robot se encuentra preparando un pedido.*/
-    private EstadoActualRobot estadoTrabajando;
-    /** Estado actual del robot (se actualiza dinámicamente según el flujo de pedidos). */
+
+    /** Estado dormido del robot. */
+    private EstadoDormido estadoDormido;
+    /** Estado en el que el robot está tomando una orden. */
+    private EstadoTomandoOrden estadoTomandoOrden;
+    /** Estado en el que el robot confirma la orden. */
+    private EstadoConfirmarOrden estadoConfirmarOrden;
+    /** Estado en el que el robot se encuentra preparando un pedido. */
+    private EstadoTrabajando estadoTrabajando;
+    /** Estado en el que el robot espera a que el cliente solicite la entrega. */
+    private EstadoEsperandoEntregar estadoEsperandoEntregar;
+    /** Estado en el que el robot entregó la orden. */
+
+    /** Estado actual del robot (interfaz). */
     private EstadoActualRobot estadoActual;
-
-    /** Pila de pedidos pendientes por procesar. */
-    private Stack<Pedido> pedidos;
-    /** Mapa de pedidos listos para entrega, identificados por un ID del pedido. */
-    private HashMap<Integer,Pedido> pedidosListos;
-
-    private Pedido pedidoActual; // pedido que está siendo procesado actualmente
+    /** Pedido que está siendo procesado actualmente por el robot. */
+    private Pedido pedidoActual;
 
     /**
      * Constructor de la clase {@code Robot}, inicializa todos los estados y colecciones.
@@ -49,161 +50,180 @@ public class Robot {
     public Robot() {
         this.estadoDormido = new EstadoDormido(this);
         this.estadoTrabajando = new EstadoTrabajando(this, false);
-        this.estadoEnEspera = new EstadoEnEspera(this);
+        this.estadoTomandoOrden = new EstadoTomandoOrden(this);
+        this.estadoConfirmarOrden = new EstadoConfirmarOrden(this);
+        this.estadoEsperandoEntregar = new EstadoEsperandoEntregar(this);
         this.estadoActual = estadoDormido;
-        this.pedidos = new Stack<>();
-        this.pedidosListos = new HashMap<>();
     }
 
+    // ========== Acciones que el robot hace al pedido =============
+
+    /**
+     * Obtiene el pedido que actualmente está siendo procesado por el robot. 
+     * @return el pedido actual, o {@code null} si no hay ninguno.
+     */
     public Pedido getPedidoActual() {
         return pedidoActual;
     }
-    
+
+    /**
+     * Asigna un pedido como el pedido actual que el robot está procesando. 
+     * @param pedidoActual el pedido a asignar como actual
+     */
     public void setPedidoActual(Pedido pedidoActual) {
         this.pedidoActual = pedidoActual;
-}
-
-
-    /**
-     * Indica que un pedido está listo en la sucursal para ser entregado.
-     * @param sucursal la sucursal que recibirá el pedido listo
-     */
-    private void inidcarPedidoListo(Sucursal sucursal){
-        // aqui va codigo
     }
 
+    // ==================== Acciones delegadas al estado ====================
+
     /**
-     * Atiende un nuevo pedido asignado al robot.
+     * Atiende un pedido. La acción se le pasa al estado actual del robot.
      * @param pedido el pedido que será atendido
      */
-    public void atenderPedido(Pedido pedido){
+    public void atenderPedido(Pedido pedido) {
         estadoActual.atenderPedido(pedido);
     }
 
     /**
-     * El robot agrega un producto al pedido.
-     * @param producto el producto que se desea agregar al pedido
+     * Agrega un producto al pedido actual. Encargado al estado actual.
+     * @param producto el producto que se desea agregar
      */
     public void agregarProducto(Producto producto) {
         estadoActual.agregarProducto(producto);
     }
 
     /**
-     * Confirma la orden actual, ya no se puede cancelar
+     * Confirma la orden actual. Encargado al estado actual.
      */
-    public void confirmarOrden(){
+    public void confirmarOrden() {
         estadoActual.confirmarOrden();
     }
 
     /**
-     * Cancela la orden en curso.
+     * Cancela la orden en curso. Encargado al estado actual.
      */
-    public void cancelarOrden(){
+    public void cancelarOrden() {
         estadoActual.cancelarOrden();
     }
 
     /**
-     * Inicia la preparación de la orden actual.
+     * Inicia la preparación de la orden actual. Encargado al estado actual.
      */
-    public void iniciarPreparacion(){
+    public void iniciarPreparacion() {
         estadoActual.iniciarPreparacion();
     }
 
     /**
-     * Solicita la entrega de un pedido terminado a la sucursal.
+     * Solicita la entrega de un pedido terminado. Encargado al estado actual.
      */
-    public void solicitarEntrega(){
+    public void solicitarEntrega() {
         estadoActual.solicitarEntrega();
     }
 
     /**
-     * Realiza la entrega de un pedido listo al cliente.
+     * Realiza la entrega del pedido al cliente. Encargado al estado actual.
      */
-    public void entregar(){
+    public void entregar() {
         estadoActual.entregar();
     }
 
+    // ============ Getters y setters de los estados concretos ===================
+
     /**
-     * @return el estado ACTUAL dormido del robot
+     * Obtiene el estado dormido del robot.
+     * @return el estado dormido
      */
-    public EstadoActualRobot getEstadoDormido() {
+    public EstadoDormido getEstadoDormido() {
         return estadoDormido;
     }
 
     /**
-     * @param estadoDormido el estado dormido a asignar
+     * Asigna el estado dormido al robot.
+     * @param estadoDormido el estado a asignar
      */
-    public void setEstadoDormido(EstadoActualRobot estadoDormido) {
+    public void setEstadoDormido(EstadoDormido estadoDormido) {
         this.estadoDormido = estadoDormido;
     }
 
     /**
-     * @return el estado trabajando del robot
+     * Obtiene el estado trabajando del robot.
+     * @return el estado trabajando
      */
-    public EstadoActualRobot getEstadoTrabajando() {
+    public EstadoTrabajando getEstadoTrabajando() {
         return estadoTrabajando;
     }
 
     /**
-     * @param estadoTrabajando el estado trabajando a asignar
+     * Asigna el estado trabajando al robot.
+     * @param estadoTrabajando el estado a asignar
      */
-    public void setEstadoTrabajando(EstadoActualRobot estadoTrabajando) {
+    public void setEstadoTrabajando(EstadoTrabajando estadoTrabajando) {
         this.estadoTrabajando = estadoTrabajando;
     }
 
     /**
-     * @return el estado en espera del robot
+     * Obtiene el estado tomando orden del robot.
+     * @return el estado tomando orden
      */
-    public EstadoActualRobot getEstadoEnEspera() {
-        return estadoEnEspera;
+    public EstadoTomandoOrden getEstadoTomandoOrden() {
+        return estadoTomandoOrden;
     }
 
     /**
-     * @param estadoEnEspera el estado en espera a asignar
+     * Asigna el estado tomando orden al robot.
+     * @param estadoTomandoOrden el estado a asignar
      */
-    public void setEstadoEnEspera(EstadoActualRobot estadoEnEspera) {
-        this.estadoEnEspera = estadoEnEspera;
+    public void setEstadoTomandoOrden(EstadoTomandoOrden estadoTomandoOrden) {
+        this.estadoTomandoOrden = estadoTomandoOrden;
     }
 
     /**
-     * @return el estado actual del robot
+     * Obtiene el estado confirmando orden del robot.
+     * @return el estado confirmando orden
      */
-    public EstadoActualRobot getEstado() {
+    public EstadoConfirmarOrden getEstadoConfirmarOrden() {
+        return estadoConfirmarOrden;
+    }
+
+    /**
+     * Asigna el estado confirmando orden al robot.
+     * @param estadoConfirmarOrden el estado a asignar
+     */
+    public void setEstadoConfirmarOrden(EstadoConfirmarOrden estadoConfirmarOrden) {
+        this.estadoConfirmarOrden = estadoConfirmarOrden;
+    }
+
+    /**
+     * Obtiene el estado esperando entregar del robot.
+     * @return el estado esperando entregar
+     */
+    public EstadoEsperandoEntregar getEstadoEsperandoEntregar() {
+        return estadoEsperandoEntregar;
+    }
+
+    /**
+     * Asigna el estado esperando entregar al robot.
+     * @param estadoEsperandoEntregar el estado a asignar
+     */
+    public void setEstadoEsperandoEntregar(EstadoEsperandoEntregar estadoEsperandoEntregar) {
+        this.estadoEsperandoEntregar = estadoEsperandoEntregar;
+    }
+
+    // ==================== Estado actual (interfaz) ====================
+
+    /**
+     * Obtiene el estado actual del robot.
+     * @return el estado actual
+     */
+    public EstadoActualRobot getEstadoActual() {
         return estadoActual;
     }
 
     /**
-     * @param estado el nuevo estado actual del robot
+     * Asigna el estado actual del robot .
+     * @param estadoActual el estado a asignar
      */
-    public void setEstado(EstadoActualRobot estado) {
-        this.estadoActual = estado;
-    }
-
-    /**
-     * @return la pila de pedidos en proceso
-     */
-    public Stack<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    /**
-     * @param pedidos la pila de pedidos a asignar
-     */
-    public void setPedidos(Stack<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }
-
-    /**
-     * @return el mapa de pedidos listos
-     */
-    public HashMap<Integer, Pedido> getPedidosListos() {
-        return pedidosListos;
-    }
-
-    /**
-     * @param pedidosListos el mapa de pedidos listos a asignar
-     */
-    public void setPedidosListos(HashMap<Integer, Pedido> pedidosListos) {
-        this.pedidosListos = pedidosListos;
+    public void setEstadoActual(EstadoActualRobot estadoActual) {
+        this.estadoActual = estadoActual;
     }
 }
