@@ -1,12 +1,12 @@
-package main.estado.robot;
+package estado.robot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import main.productos.Producto;
-import main.sistema.Pedido;
-import main.sistema.Robot;
-import main.sistema.Ticket;
+import productos.Producto;
+import sistema.Pedido;
+import sistema.Robot;
+import sistema.Ticket;
 
 /**
  * Clase que representa el estado "Trabajando" del Robot.
@@ -44,7 +44,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void atenterCliente() {
-        throw new IllegalStateException("Espera, no te puedo atender, estoy trabajando");
+        System.out.println("Espera, no te puedo atender, estoy trabajando");
     }
 
     /**
@@ -55,7 +55,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void atenderPedido(Pedido pedido) {
-        throw new IllegalStateException("Espera, no puedo atender tu pedido, estoy trabajando");
+        System.out.println("Espera, no puedo atender tu pedido, estoy trabajando");
     }
 
     /**
@@ -68,7 +68,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void agregarProducto(Producto producto) {
-        throw new IllegalStateException("Espera, no puedo agregar un producto, estoy trabajando");
+        System.out.println("Espera, no puedo agregar un producto, estoy trabajando");
     }
 
     /**
@@ -79,7 +79,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void confirmarOrden() {
-        throw new IllegalStateException("Espera, no puedo confirmar la orden,  estoy trabajando");
+        System.out.println("Espera, no puedo confirmar la orden,  estoy trabajando");
     }
 
     /**
@@ -90,7 +90,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void iniciarPreparacion() {
-        throw new IllegalStateException("Espera, no puedo iniciar la preparacion porque estoy trabajando en una.");
+        System.out.println("Espera, no puedo iniciar la preparacion porque estoy trabajando en una.");
     }
 
     /**
@@ -114,7 +114,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
     }
 
     System.out.println("Pedido listo, solicitando entrega...");
-    robot.setEstado(robot.getEstadoEnEspera());
+    robot.setEstadoActual(robot.getEstadoEsperandoEntregar());
     entregar();
 }
 
@@ -127,43 +127,12 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void entregar() {
-        Pedido pedido = robot.getPedidoActual();
-
-        if (pedido == null) {
-        System.out.println("No hay pedido para entregar.");
-        return;
-        }
-        if (!preparada) {
-        System.out.println("El pedido aún no está preparado. No se puede entregar.");
-        return;
-        }
-
-        List<Producto> productos = pedido.getProductos();
-
-        // Convertimos a List<String> con los nombres de los productos
-        List<String> nombresProductos = new ArrayList<>();
-        for (Producto p : productos) {
-            nombresProductos.add(p.getNombre());
-        }
-
-        double total = 0;
-        for(Producto p: productos){
-            total +=p.getPrecio();
-        }
-
-        // Ahora sí puedes pasar nombresProductos al Ticket
-        Ticket ticket = new Ticket(nombresProductos,total);
-        ticket.imprimir();
-
-        robot.setPedidoActual(null);
-        robot.setEstado(robot.getEstadoDormido());
-
-        System.out.println("Pedido entregado, el robot vuelve a dormir.");
+        System.out.println("Estoy trabajando, no te pueod entregar.");
     }
 
 
     @Override
     public void cancelarOrden() {
-        throw new IllegalStateException("No se puede cancelar la orden estoy trabajando en una.");
+        System.out.println("No se puede cancelar la orden estoy trabajando en una.");
     }
 }

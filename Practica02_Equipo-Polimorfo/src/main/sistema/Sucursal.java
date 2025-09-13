@@ -1,5 +1,9 @@
-package main.sistema;
+package sistema;
 
+import estado.robot.EstadoActualRobot;
+import estado.robot.EstadoDormido;
+import estado.robot.EstadoEsperandoEntregar;
+import estado.robot.EstadoEsperandoEntregar;
 /**
  * Clase para representar una sucursal del sistema.
  * Cada sucursal tiene un nombre y un empleado robot
@@ -17,16 +21,33 @@ public class Sucursal {
      * @param nuevoPedido el pedido que ha sido recibido en la sucursal
      */
     public void procesarRecepcionPedido(Pedido nuevoPedido) {
-        // aquí va código
+
+        if (empleadoRobot.getEstadoActual() instanceof EstadoDormido) {
+            empleadoRobot.getEstadoActual().atenterCliente();
+        }
+
+        empleadoRobot.atenderPedido(nuevoPedido);
+
+        asignarNuevoPedido(nuevoPedido);
     }
+
 
     /**
      * Procesa la petición de entrega de un pedido ya registrado en la sucursal.
-
-     * @param idPedido id único del pedido que realizo la peticion
+     * @param pedido el pedido que realizo el cliente.
      */
-    public void procesarPeticionEntrega(int idPedido) {
-        // aquí va código
+    public void procesarPeticionEntrega(Pedido pedido) {
+        if(empleadoRobot.getEstadoActual() instanceof EstadoEsperandoEntregar){
+            if(empleadoRobot.getPedidoActual().equals(pedido)){
+            empleadoRobot.solicitarEntrega();
+            empleadoRobot.setPedidoActual(null);
+            }else{
+            System.out.println("El pedido no existe en la sucursal: " + nombre);
+            }
+        }else{
+            System.out.println("El robot no está listo para entregar pedidos");
+        }
+        
     }
 
     /**
@@ -35,7 +56,8 @@ public class Sucursal {
      * @param pedido el pedido que será asignado al robot
      */
     private void asignarNuevoPedido(Pedido pedido) {
-        // aquí va código
+        empleadoRobot.setPedidoActual(pedido);
+    
     }
 
     /**
@@ -45,5 +67,7 @@ public class Sucursal {
      */
     private void entregarPedidoListo(Pedido pedido) {
         // aquí va código
+        //Creo que no es necesario, porque en procesoPeticionEntrega, ya se encarga de entregarlo
+        //
     }
 }
