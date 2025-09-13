@@ -1,8 +1,8 @@
-package main.estado.robot;
+package estado.robot;
 
-import main.productos.Producto;
-import main.sistema.Pedido;
-import main.sistema.Robot;
+import productos.Producto;
+import sistema.Pedido;
+import sistema.Robot;
 
 public class EstadoDormido implements EstadoActualRobot {
     private final Robot robot; // coincide con el UML
@@ -18,45 +18,46 @@ public class EstadoDormido implements EstadoActualRobot {
 
     @Override
     public void atenterCliente() {
-        System.out.println("Cliente ha llamado. EL robot se desperto y esta tomando la orden:");
-        robot.setEstado(new EstadoEnEspera(robot));
-        robot.atenderPedido(new Pedido());
+        System.out.println("Nuevo cliente llego, el robot de desperto");
+
+        Pedido nuevoPedido = new Pedido();
+        robot.setPedidoActual(nuevoPedido);
+
+        robot.setEstadoActual(new EstadoTomandoOrden(robot));
     }
 
     @Override
     public void atenderPedido(Pedido pedido) {
-        System.out.println("Robot se despertó y está tomando la orden.");
-        robot.setEstado(new EstadoEnEspera(robot));
-        robot.atenderPedido(pedido);
+        System.out.println("No se puede atender el pedido , el robot esta durmiendo");
     }
 
     @Override
     public void agregarProducto(Producto producto) {
-        throw new IllegalStateException("No se puede agregar el producto, el robot esta durmiendo");
+        System.out.println("No se puede agregar el producto, el robot esta durmiendo");
     }
 
     @Override
     public void confirmarOrden() {
-        throw new IllegalStateException("No se puede confirmar la orden, el robot esta durmiendo");
+        System.out.println("No se puede confirmar la orden, el robot esta durmiendo");
     }
 
     @Override
     public void iniciarPreparacion() {
-        throw new IllegalStateException("No se puede iniciar la preparacion, el robot esta durmiendo");
+        System.out.println("No se puede iniciar la preparacion, el robot esta durmiendo");
     }
 
     @Override
     public void solicitarEntrega() {
-        throw new IllegalStateException("No se puede solicitar la entrega, el robot esta durmiendo");
+        System.out.println("No se puede solicitar la entrega, el robot esta durmiendo");
     }
 
     @Override
     public void entregar() {
-                throw new IllegalStateException("No se puede entregar el pedido, el robot esta durmiendo");
+                System.out.println("No se puede entregar el pedido, el robot esta durmiendo");
     }
 
     @Override
     public void cancelarOrden() {
-                throw new IllegalStateException("No se puede cancelar la orden, el robot esta durmiendo");
+                System.out.println("No se puede cancelar la orden, el robot esta durmiendo");
     }
 }

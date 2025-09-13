@@ -1,8 +1,12 @@
-package main.estado.robot;
+package estado.robot;
 
-import main.productos.Producto;
-import main.sistema.Pedido;
-import main.sistema.Robot;
+import java.util.ArrayList;
+import java.util.List;
+
+import productos.Producto;
+import sistema.Pedido;
+import sistema.Robot;
+import sistema.Ticket;
 
 /**
  * Clase que representa el estado "Trabajando" del Robot.
@@ -40,7 +44,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void atenterCliente() {
-        //aqui va codigo 
+        System.out.println("Espera, no te puedo atender, estoy trabajando");
     }
 
     /**
@@ -51,8 +55,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void atenderPedido(Pedido pedido) {
-        System.out.println("El robot ya está trabajando. No puede atender otro cliente.");
-        // o tambien  throw new UnsupportedOperationException("El robot ya está trabajando");
+        System.out.println("Espera, no puedo atender tu pedido, estoy trabajando");
     }
 
     /**
@@ -65,7 +68,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void agregarProducto(Producto producto) {
-        // Aquí va el código de agregación
+        System.out.println("Espera, no puedo agregar un producto, estoy trabajando");
     }
 
     /**
@@ -76,30 +79,45 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void confirmarOrden() {
-        // Aquí va el código de confirmación
+        System.out.println("Espera, no puedo confirmar la orden,  estoy trabajando");
     }
 
     /**
-     * Inicia la preparación de los productos del pedido.
+     * No se puede iniciar una preparacion, cuando ya se esta trabajando en una.
      * 
-     * <p>El robot comienza a ejecutar los pasos correspondientes
-     * a cada producto (pizza o helado) según la receta o instrucciones.</p>
+     * <p>Si se llama a este método mientras el robot esta trabajando ,
+     * se lanza una excepcion o un print</p>
      */
     @Override
     public void iniciarPreparacion() {
-        // Aquí va el código de preparación
+        System.out.println("Espera, no puedo iniciar la preparacion porque estoy trabajando en una.");
     }
 
     /**
-     * No se puede solicitar la entrega si el robot esta trabajando.
+     * No se puede solicitar la entrega si el robot esta trabajando.                                                                                                                                                                            1
      * 
      * <p>Si se llama a este método mientras el robot esta trabajando ,
      * se lanza una excepcion o un print</p>
      */
     @Override
     public void solicitarEntrega() {
-        // Aquí va el código de solicitud de entrega
+    Pedido pedido = robot.getPedidoActual();
+
+    if (pedido == null) {
+        System.out.println("No hay pedido activo para entregar.");
+        return;
     }
+
+    if (preparada == false) {
+        System.out.println("El pedido aún no está preparado. No se puede solicitar entrega.");
+        return;
+    }
+
+    System.out.println("Pedido listo, solicitando entrega...");
+    robot.setEstadoActual(robot.getEstadoEsperandoEntregar());
+    entregar();
+}
+
 
     /**
      * No se puede entregar el pedido si el robot esta trabajando.
@@ -109,13 +127,12 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void entregar() {
-        // Aquí va el código de entrega
+        System.out.println("Estoy trabajando, no te pueod entregar.");
     }
+
 
     @Override
     public void cancelarOrden() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cancelarOrden'");
+        System.out.println("No se puede cancelar la orden estoy trabajando en una.");
     }
-
 }
