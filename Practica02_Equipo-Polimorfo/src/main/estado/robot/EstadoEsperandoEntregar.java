@@ -16,45 +16,38 @@ public class EstadoEsperandoEntregar implements EstadoActualRobot{
      * @param robot  el robot al que pertenece este estado, utilizado para cambiar su estado o acceder a sus pedidos
      */
 
-
     public EstadoEsperandoEntregar(Robot robot) {
         this.robot = robot;
     }
-
     @Override
     public void atenterCliente() {
-        // TODO Auto-generated method stub
-        System.out.println("Unimplemented method 'atenterCliente'");
+        System.out.println("No es posible atender un cliente.");
     }
 
     @Override
     public void atenderPedido(Pedido pedido) {
-        // TODO Auto-generated method stub
-        System.out.println("Unimplemented method 'atenderPedido'");
+        System.out.println("Debo entregar mi pedido actual primero.");
     }
 
     @Override
     public void agregarProducto(Producto producto) {
-        // TODO Auto-generated method stub
-        System.out.println("Unimplemented method 'agregarProducto'");
+        System.out.println("Debo entregar mi pedido actual primero.");
     }
 
     @Override
     public void confirmarOrden() {
-        // TODO Auto-generated method stub
-        System.out.println("Unimplemented method 'confirmarOrden'");
+        System.out.println("Debo entregar mi pedido actual primero.");
     }
 
     @Override
     public void iniciarPreparacion() {
-        // TODO Auto-generated method stub
-        System.out.println("Unimplemented method 'iniciarPreparacion'");
+        System.out.println("Debo entregar mi pedido actual primero.");
     }
 
     @Override
     public void solicitarEntrega() {
-        // TODO Auto-generated method stub
-        System.out.println("Unimplemented method 'solicitarEntrega'");
+        System.out.println("Claro, te entregare tu pedido");
+        entregar();
     }
 
     @Override
@@ -89,8 +82,7 @@ public class EstadoEsperandoEntregar implements EstadoActualRobot{
 
     @Override
     public void cancelarOrden() {
-        // TODO Auto-generated method stub
-        System.out.println("Unimplemented method 'cancelarOrden'");
+        System.out.println("Debo entregar mi pedido actual primero.");
     }
     
 }
