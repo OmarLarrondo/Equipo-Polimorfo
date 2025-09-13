@@ -1,7 +1,8 @@
-package main.estado.pedido;
+package estado.pedido;
 
-import main.sistema.Pedido;
-import main.sistema.Sucursal;
+import productos.Producto;
+import sistema.Pedido;
+import sistema.Sucursal;
 
 public class EstadoHecho implements EstadoPedido{
         /** */
@@ -18,18 +19,22 @@ public class EstadoHecho implements EstadoPedido{
 
 
     @Override
-    public void procesarAgregadoArticulo() {
-        //aqui va codigo
+    public void agregarArticulo(Producto articuloNuevo) {
+        throw new UnsupportedOperationException("Unimplemented method 'agregarArticulo'");
     }
 
-    @Override
-    public void procesarEnvioOrden(Sucursal sucursal) {
-        //aqui va codigo
-    }
 
     @Override
-    public void procesarPeticionEntrega(Sucursal sucursal) {
-        //aqui va codigo 
+    public void enviarOrden(Sucursal sucursal) {
+        throw new UnsupportedOperationException("Unimplemented method 'enviarOrden'");
     }
+
+
+    @Override
+    public void solicitarEntrega(Sucursal sucursal) {
+        throw new UnsupportedOperationException("Unimplemented method 'solicitarEntrega'");
+    }
+
+
 
 }

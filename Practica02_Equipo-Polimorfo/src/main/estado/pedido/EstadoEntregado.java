@@ -1,12 +1,12 @@
-package main.estado.pedido;
+package estado.pedido;
 
-import main.sistema.Pedido;
-import main.sistema.Sucursal;
+import productos.Producto;
+import sistema.Pedido;
+import sistema.Sucursal;
 
 public class EstadoEntregado implements EstadoPedido {
     /** */
     private final Pedido pedido; // coincide con el UML
-
 
     /**
      * El constructor para iniciaizar el estado entregado del pedido
@@ -18,18 +18,21 @@ public class EstadoEntregado implements EstadoPedido {
 
 
     @Override
-    public void procesarAgregadoArticulo() {
-        //aqui va su codigo 
+    public void agregarArticulo(Producto articuloNuevo) {
+        throw new UnsupportedOperationException("Unimplemented method 'agregarArticulo'");
     }
 
-    @Override
-    public void procesarEnvioOrden(Sucursal sucursal) {
-        //aqui va codido
-    }
 
     @Override
-    public void procesarPeticionEntrega(Sucursal sucursal) {
-        //aqui va cosido
+    public void enviarOrden(Sucursal sucursal) {
+        throw new UnsupportedOperationException("Unimplemented method 'enviarOrden'");
     }
+
+
+    @Override
+    public void solicitarEntrega(Sucursal sucursal) {
+        throw new UnsupportedOperationException("Unimplemented method 'solicitarEntrega'");
+    }
+
 
 }

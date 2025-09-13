@@ -1,4 +1,4 @@
-package main.sistema;
+package sistema;
 
 import java.util.List;
 import java.time.LocalDateTime;
@@ -33,8 +33,26 @@ public class Ticket {
      * Debe mostrar los precios de los productos y el total y la fecha/hora.
      */
     public void imprimir() {
-        // aquí va codigo
+    System.out.println("========================================");
+    
+    System.out.println("=== EL Pequeño Cesarin ===");
+    System.out.println("=== Investigación Científica, C.U., Coyoacán, 04510 Ciudad de México, CDMX ===");
+    System.out.println("Fecha/Hora: " + fechaHora);
+    System.out.println("Folio: "+ (int)(Math.random()*10000));
+
+    System.out.println("========================================");
+    for (String item : items) {
+        System.out.println(item);
     }
+    System.out.println("-----------------------");
+    System.out.println("Total: $" + total);
+    System.out.println("=======================");
+    System.out.println("--- Gracias por su compra! ---");
+
+    //Observacion: el ticket solo imprime 
+
+}
+
 
     /**
      * Obtiene la lista de artículos del ticket.
