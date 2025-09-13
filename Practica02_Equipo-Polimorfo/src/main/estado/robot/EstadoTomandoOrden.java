@@ -30,31 +30,31 @@ public class EstadoTomandoOrden implements EstadoActualRobot{
         }
         System.out.println("Espera, ya estoy atendiendo un pedido.");
     }
-
+    
     @Override
     public void agregarProducto(Producto producto) {
-    if (producto == null) {
-        System.out.println("Ops, el producto no existe.");
-        return;
-    }
-
-    Pedido pedidoActual = robot.getPedidoActual();
-    if (pedidoActual == null) {
-        System.out.println("No hay pedido activo para agregar productos.");
-        return;
-    }
-    try {
-    pedidoActual.agregarArticulo(producto);
-    System.out.println("Producto agregado: " + producto.getNombre());
-    } catch (Exception e) {
-        System.out.println("Error no se puede agregar" +producto.getNombre());
+	if (producto == null) {
+	    System.out.println("Ops, el producto no existe.");
+	    return;
+	}
+	
+	Pedido pedidoActual = robot.getPedidoActual();
+	if (pedidoActual == null) {
+	    System.out.println("No hay pedido activo para agregar productos.");
+	    return;
+	}
+	try {
+	    pedidoActual.agregarArticulo(producto);
+	    System.out.println("Producto agregado: " + producto.getNombre());
+	} catch (Exception e) {
+	    System.out.println("Error! No se puede agregar" +producto.getNombre());
         }
     }
-
+    
     @Override
     public void confirmarOrden() {
         Pedido pedido = robot.getPedidoActual();
-
+	
         if (pedido == null) {
         System.out.println("No hay pedido activo para confirmar.");
         return;
@@ -87,21 +87,21 @@ public class EstadoTomandoOrden implements EstadoActualRobot{
 
     @Override
     public void cancelarOrden() {
-    Pedido pedido = robot.getPedidoActual();
-
-    if (pedido == null) {
-    System.out.println("No hay pedido activo para cancelar.");
-    return;
-    }
-
-    if (pedido.estaConfirmado()) {
-        System.out.println("El pedido ya fue confirmado y no es posible cancelarlo");
-        return;
-    }
-
-    pedido.cancelar();;
-    System.out.println("Pedido cancelado, el robot vuelve a dormir.");
-    robot.setPedidoActual(null); 
-    robot.setEstadoActual(robot.getEstadoDormido()); //vueleve a dormir.
+	Pedido pedido = robot.getPedidoActual();
+	
+	if (pedido == null) {
+	    System.out.println("No hay pedido activo para cancelar.");
+	    return;
+	}
+	
+	if (pedido.estaConfirmado()) {
+	    System.out.println("El pedido ya fue confirmado y no es posible cancelarlo");
+	    return;
+	}
+	
+	pedido.cancelar();
+	System.out.println("Pedido cancelado, el robot vuelve a dormir.");
+	robot.setPedidoActual(null); 
+	robot.setEstadoActual(robot.getEstadoDormido()); //vuelve a dormir.
     }    
 }

@@ -101,22 +101,22 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void solicitarEntrega() {
-    Pedido pedido = robot.getPedidoActual();
-
-    if (pedido == null) {
-        System.out.println("No hay pedido activo para entregar.");
-        return;
+	Pedido pedido = robot.getPedidoActual();
+	
+	if (pedido == null) {
+	    System.out.println("No hay pedido activo para entregar.");
+	    return;
+	}
+	
+	if (preparada == false) {
+	    System.out.println("El pedido aún no está preparado. No se puede solicitar entrega.");
+	    return;
+	}
+	
+	System.out.println("Pedido listo, solicitando entrega...");
+	robot.setEstadoActual(robot.getEstadoEsperandoEntregar());
+	entregar();
     }
-
-    if (preparada == false) {
-        System.out.println("El pedido aún no está preparado. No se puede solicitar entrega.");
-        return;
-    }
-
-    System.out.println("Pedido listo, solicitando entrega...");
-    robot.setEstadoActual(robot.getEstadoEsperandoEntregar());
-    entregar();
-}
 
 
     /**
@@ -127,7 +127,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void entregar() {
-        System.out.println("Estoy trabajando, no te pueod entregar.");
+        System.out.println("Estoy trabajando, no te puedo entregar.");
     }
 
 
