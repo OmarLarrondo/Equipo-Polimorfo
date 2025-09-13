@@ -127,7 +127,7 @@ public class EstadoTrabajando implements EstadoActualRobot {
      */
     @Override
     public void entregar() {
-        System.out.println("Estoy trabajando, no te pueod entregar.");
+        System.out.println("Estoy trabajando, no te puedo entregar.");
     }
 
 
