@@ -1,12 +1,12 @@
-package estado.robot;
+package main.estado.robot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import productos.Producto;
-import sistema.Pedido;
-import sistema.Robot;
-import sistema.Ticket;
+import main.productos.Producto;
+import main.sistema.Pedido;
+import main.sistema.Robot;
+import main.sistema.Ticket;
 
 public class EstadoEsperandoEntregar implements EstadoActualRobot{
 

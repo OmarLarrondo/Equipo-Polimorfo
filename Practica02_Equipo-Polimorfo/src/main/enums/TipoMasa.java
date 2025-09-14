@@ -1,4 +1,4 @@
-package enums;
+package main.enums;
 
 /**
  * Enumeración que representa los tipos de masa disponibles para las pizzas

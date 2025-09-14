@@ -1,4 +1,4 @@
-package enums;
+package main.enums;
 
 /**
  * Enumeración que representa los sabores de helado disponibles 

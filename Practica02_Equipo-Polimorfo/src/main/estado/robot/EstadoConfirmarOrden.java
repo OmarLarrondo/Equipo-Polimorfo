@@ -1,8 +1,8 @@
-package estado.robot;
+package main.estado.robot;
 
-import productos.Producto;
-import sistema.Pedido;
-import sistema.Robot;
+import main.productos.Producto;
+import main.sistema.Pedido;
+import main.sistema.Robot;
 
 public class EstadoConfirmarOrden implements EstadoActualRobot{
     private final Robot robot; // coincide con el UML

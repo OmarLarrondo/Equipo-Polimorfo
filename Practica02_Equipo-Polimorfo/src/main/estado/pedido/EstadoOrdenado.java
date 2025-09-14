@@ -1,8 +1,8 @@
-package estado.pedido;
+package main.estado.pedido;
 
-import productos.Producto;
-import sistema.Pedido;
-import sistema.Sucursal;
+import main.productos.Producto;
+import main.sistema.Pedido;
+import main.sistema.Sucursal;
 
 public class EstadoOrdenado implements EstadoPedido{
     /** */
