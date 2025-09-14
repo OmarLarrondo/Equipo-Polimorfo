@@ -1,5 +1,6 @@
 package main.sistema;
 
+import main.productos.Producto;
 import main.productos.helados.ComponenteHelado;
 import main.productos.helados.HeladoSimple;
 import main.productos.helados.GomitasGusano;
@@ -12,6 +13,9 @@ import main.productos.helados.Manguitos;
 import main.productos.helados.Kiwis;
 import main.enums.SaborHelado;
 import main.enums.TipoMasa;
+
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Interfaz de usuario basada en línea de comandos (CLI) para el sistema de gestión
@@ -146,6 +150,25 @@ public class InterfazUsuarioCLI {
         System.out.println("4. Regresar al menú anterior");
         System.out.println();
     }
+
+
+    public void menuSeleccionarIngredientesHelado(String descripcionHeladoActual, double precioHeladoActual){
+	System.out.println("\n=== AGREGAR INGREDIENTES ===");
+	System.out.println("Helado actual: " + descripcionHeladoActual);
+	System.out.println("Precio actual: $" + String.format("%.2f", precioHeladoActual));
+	System.out.println();
+	System.out.println("Ingredientes disponibles (máximo 3 de cada uno):");
+	System.out.println("1. Gomitas de gusano - $8.00");
+	System.out.println("2. Gomitas de panda - $8.00");
+	System.out.println("3. Gomitas de aro - $8.00");
+	System.out.println("4. Chispas de chocolate - $6.00");
+	System.out.println("5. Malvaviscos - $7.00");
+	System.out.println("6. Fresitas - $9.00");
+	System.out.println("7. Manguitos - $9.00");
+	System.out.println("8. Kiwis - $10.00");
+	System.out.println("9. Finalizar personalización");
+	System.out.println();
+    }
     
     /**
      * Presenta el menú de ingredientes extras para decorar un helado usando el patrón Decorator.
@@ -177,21 +200,7 @@ public class InterfazUsuarioCLI {
         boolean continuar = true;
         
         while (continuar) {
-            System.out.println("\n=== AGREGAR INGREDIENTES ===");
-            System.out.println("Helado actual: " + heladoActual.getDescripcion());
-            System.out.println("Precio actual: $" + String.format("%.2f", heladoActual.getPrecio()));
-            System.out.println();
-            System.out.println("Ingredientes disponibles (máximo 3 de cada uno):");
-            System.out.println("1. Gomitas de gusano - $8.00");
-            System.out.println("2. Gomitas de panda - $8.00");
-            System.out.println("3. Gomitas de aro - $8.00");
-            System.out.println("4. Chispas de chocolate - $6.00");
-            System.out.println("5. Malvaviscos - $7.00");
-            System.out.println("6. Fresitas - $9.00");
-            System.out.println("7. Manguitos - $9.00");
-            System.out.println("8. Kiwis - $10.00");
-            System.out.println("9. Finalizar personalización");
-            System.out.println();
+	    this.menuSeleccionarIngredientesHelado(heladoActual.getDescripcion(), heladoActual.getPrecio());
             
             int opcion = gestorEntrada.leerOpcion(1, 9);
             
@@ -295,5 +304,78 @@ public class InterfazUsuarioCLI {
         if (estado != null && !estado.trim().isEmpty()) {
             System.out.println("[ROBOT] Estado: " + estado);
         }
+    }
+
+
+    public void mostrarMenuTiposPizza(){
+	String mensajeMenu = "\n=== SELECCIONAR HELADO ===" +
+	    "\n Seleccione el tipo de pizza:" +
+	    "\n 1. Pizza Margherita" +
+	    "\n 2. Pizza Pepperoni" +
+	    "\n 3. Pizza Hawaiana" +
+	    "\n 4. Pizza Vegetariana" +
+	    "\n 5. Pizza Carne Lovery";
+	this.mostrarMensaje(mensajeMenu);
+    }
+
+
+    public void mostrarMenuTiposMasa(){
+	String mensajeMenu = "\n \nSeleccione el tipo de masa:" +
+	    "\n 1. Napolitana" +
+	    "\n 2. Romana" +
+	    "\n 3. Americana";
+	this.mostrarMensaje(mensajeMenu);
+    }
+
+    
+    public void mostrarMenuSaboresHelado(){
+	String mensajeMenu = "\n=== SELECCIONAR HELADO ===" +
+	    "Seleccione el sabor del helado:" +
+	    "\n1. Fresa" +
+	    "\n2. Vainilla" +
+	    "\n3. Chocolate";
+	this.mostrarMensaje(mensajeMenu);
+    }
+	    
+    public void mostrarMenuIngredientesHelado(){
+	String mensajeMenu = "\n¿Desea agregar ingredientes extra?" +
+	    "\n 1. Gomitas de gusano (+$8.00)" +
+	    "\n 2. Gomitas de panda (+$10.00)" +
+	    "\n 3. Gomitas de aro (+$7.00)" +
+	    "\n 4. Chispas de chocolate (+$5.00)" +
+	    "\n 5. Malvaviscos (+$12.00)" +
+	    "\n 6. Fresitas (+$15.00)" +
+	    "\n 7. Manguitos (+$18.00)" +
+	    "\n 8. Kiwis (+$20.00)" +
+	    "\n 9. Terminar helado" +
+	    "\n";
+	this.mostrarMensaje(mensajeMenu);
+    }
+
+
+    public void mostrarMenuCancelacionOrden(String clienteActual){
+	String mensajeMenu = "\n=== CANCELACIÓN DE ORDEN ===" +
+	    "\n¿Está seguro de que desea cancelar el pedido de " + clienteActual + "?" +
+	    "\n 1. Sí, cancelar pedido" +
+	    "\n 2. No, regresar al menú";
+	this.mostrarMensaje(mensajeMenu);
+    }
+
+    public void mostrarMenuConfirmacion(String clienteActual, List<Producto> productosPedidoActual){
+	String mensajeMenu = "\n=== CONFIRMACIÓN DE ORDEN ===" +
+	    "\nCliente: " + clienteActual +
+	    "\nProductos en el pedido:";
+
+	double total = 0.0;
+	for (int i = 0; i < productosPedidoActual.size(); i++) {
+            var producto = productosPedidoActual.get(i);
+            mensajeMenu += "\n " + (i + 1) + ". " + producto.getNombre() + " - $" + producto.getPrecio();
+            total += producto.getPrecio();
+        }
+	mensajeMenu += "\n\n - Total: $" + total +
+	    "\n\n¿Confirma la orden? (Una vez confirmada no se puede cancelar)" +
+	    "\n1. Sí, confirmar orden" +
+	    "\n2. No, regresar al menú";
+	this.mostrarMensaje(mensajeMenu);
     }
 }
