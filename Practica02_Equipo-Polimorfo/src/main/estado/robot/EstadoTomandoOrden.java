@@ -47,7 +47,7 @@ public class EstadoTomandoOrden implements EstadoActualRobot{
 	    pedidoActual.agregarArticulo(producto);
 	    System.out.println("Producto agregado: " + producto.getNombre());
 	} catch (Exception e) {
-	    System.out.println("Error! No se puede agregar" +producto.getNombre());
+	    System.out.println("Error no se puede agregar" +producto.getNombre());
         }
     }
     
@@ -56,35 +56,35 @@ public class EstadoTomandoOrden implements EstadoActualRobot{
         Pedido pedido = robot.getPedidoActual();
 	
         if (pedido == null) {
-        System.out.println("No hay pedido activo para confirmar.");
-        return;
+	    System.out.println("No hay pedido activo para confirmar.");
+	    return;
+	}
+	if (pedido.estaConfirmado()) {
+	    System.out.println("El pedido ya fue confirmado, anteriormente");
+	    return;
+	}
+	
+	pedido.confirmar();
+	System.out.println("Pedido confirmado. Iniciando preparación...");
+	
+	robot.setEstadoActual(robot.getEstadoConfirmarOrden());
     }
-    if (pedido.estaConfirmado()) {
-        System.out.println("El pedido ya fue confirmado, anteriormente");
-        return;
-    }
-
-    pedido.confirmar();
-    System.out.println("Pedido confirmado. Iniciando preparación...");
-
-    robot.setEstadoActual(robot.getEstadoConfirmarOrden());
-    }
-
+    
     @Override
     public void iniciarPreparacion() {
         System.out.println("Estoy tomando la orden, debes confirmar primero");
     }
-
+    
     @Override
     public void solicitarEntrega() {
         System.out.println("Estoy tomando la orden. Espera");
     }
-
+    
     @Override
     public void entregar() {
         System.out.println("Estoy tomando la orden. Espera");
     }
-
+    
     @Override
     public void cancelarOrden() {
 	Pedido pedido = robot.getPedidoActual();
@@ -98,10 +98,9 @@ public class EstadoTomandoOrden implements EstadoActualRobot{
 	    System.out.println("El pedido ya fue confirmado y no es posible cancelarlo");
 	    return;
 	}
-	
 	pedido.cancelar();
 	System.out.println("Pedido cancelado, el robot vuelve a dormir.");
 	robot.setPedidoActual(null); 
-	robot.setEstadoActual(robot.getEstadoDormido()); //vuelve a dormir.
+	robot.setEstadoActual(robot.getEstadoDormido()); //vueleve a dormir.
     }    
 }
