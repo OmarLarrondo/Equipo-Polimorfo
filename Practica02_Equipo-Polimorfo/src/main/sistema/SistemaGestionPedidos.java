@@ -425,7 +425,7 @@ public class SistemaGestionPedidos {
         if (confirmacion == 1) {
             pedidoActual.confirmar();
             sucursal.getEmpleadoRobot().confirmarOrden();
-            // Transición del pedido a EstadoOrdenado
+	    
             pedidoActual.procesarEnvioOrden(sucursal);
 
             interfazUsuario.mostrarMensaje("¡Orden confirmada exitosamente!");
@@ -524,7 +524,6 @@ public class SistemaGestionPedidos {
         interfazUsuario.mostrarMensaje("\n¡Preparación completada!");
         interfazUsuario.mostrarMensaje("El robot está esperando la solicitud de entrega.");
         
-        // Transición del pedido a EstadoHecho
         pedidoActual.marcarComoHecho();
     }
     
@@ -558,7 +557,6 @@ public class SistemaGestionPedidos {
         
         interfazUsuario.mostrarTicket(ticket);
         
-        // Transición del pedido a EstadoEntregado
         pedidoActual.procesarPeticionEntrega(sucursal);
         
         robot.entregar();
