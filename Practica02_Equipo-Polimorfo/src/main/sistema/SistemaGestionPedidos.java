@@ -8,6 +8,7 @@ import main.productos.helados.*;
 import main.productos.preparadores.*;
 import main.enums.TipoMasa;
 import main.enums.SaborHelado;
+import main.estado.robot.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
  * 2. Robot despierto → Tomar orden (pizza/helado)
  * 3. Confirmar orden → Robot no puede volver a dormir
  * 4. Iniciar preparación → Robot trabaja
- * 5. Solicitar entrega → Mostrar ticket y entregar
+ * 5. Solicitar entrega →  ticket y entregar
  * 6. Robot vuelve a dormir
  * 
  * @author Equipo-Polimorfo
@@ -149,8 +150,7 @@ public class SistemaGestionPedidos {
                         break;
                     case 3:
                         if (pedidoActual != null && !pedidoActual.getProductos().isEmpty()) {
-                            confirmarOrden();
-                            ordenCompleta = true;
+                            ordenCompleta = confirmarOrden();
                         } else {
                             interfazUsuario.mostrarError("No hay productos en el pedido. Agregue al menos un producto antes de confirmar.");
                         }
@@ -217,8 +217,8 @@ public class SistemaGestionPedidos {
         interfazUsuario.mostrarMensaje("\n¡Pedido entregado exitosamente!");
         interfazUsuario.mostrarMensaje("El robot está regresando al estado dormido...");
         
-        this.pedidoActual = null;
-        this.clienteActual = null;
+        pedidoActual = null;
+        clienteActual = null;
     }
     
     /**
@@ -228,10 +228,10 @@ public class SistemaGestionPedidos {
     public void iniciarNuevoPedido() {
         interfazUsuario.mostrarMensaje("\n=== NUEVO PEDIDO ===");
         
-        this.clienteActual = gestorEntrada.leerTexto("Ingrese el nombre del cliente: ");
+        clienteActual = gestorEntrada.leerTexto("Ingrese el nombre del cliente: ");
         
-        this.pedidoActual = new Pedido();
-        this.pedidoActual.setNombreCliente(clienteActual);
+        pedidoActual = new Pedido();
+        pedidoActual.setNombreCliente(clienteActual);
         
         sucursal.getEmpleadoRobot().setPedidoActual(pedidoActual);
         
@@ -244,29 +244,28 @@ public class SistemaGestionPedidos {
      * seleccionar una pizza con su tipo de masa.
      */
     public void agregarPizza() {
-        interfazUsuario.mostrarMensaje("\n=== SELECCIONAR PIZZA ===");
-        interfazUsuario.mostrarMensaje("Seleccione el tipo de pizza:");
-        interfazUsuario.mostrarMensaje("1. Pizza Margherita");
-        interfazUsuario.mostrarMensaje("2. Pizza Pepperoni");
-        interfazUsuario.mostrarMensaje("3. Pizza Hawaiana");
-        interfazUsuario.mostrarMensaje("4. Pizza Vegetariana");
-        interfazUsuario.mostrarMensaje("5. Pizza Carne Lovery");
+        interfazUsuario.mostrarMenuTiposPizza();
         
         int tipoPizza = gestorEntrada.leerOpcion(1, 5);
         
-        interfazUsuario.mostrarMensaje("\nSeleccione el tipo de masa:");
-        interfazUsuario.mostrarMensaje("1. Napolitana");
-        interfazUsuario.mostrarMensaje("2. Romana");
-        interfazUsuario.mostrarMensaje("3. Americana");
-        
+        interfazUsuario.mostrarMenuTiposMasa();
+	
         int tipoMasaOpcion = gestorEntrada.leerOpcion(1, 3);
         TipoMasa tipoMasa;
         
         switch (tipoMasaOpcion) {
-            case 1: tipoMasa = TipoMasa.NAPOLITANA; break;
-            case 2: tipoMasa = TipoMasa.ROMANA; break;
-            case 3: tipoMasa = TipoMasa.AMERICANA; break;
-            default: tipoMasa = TipoMasa.NAPOLITANA; break;
+            case 1:
+		tipoMasa = TipoMasa.NAPOLITANA;
+		break;
+            case 2:
+		tipoMasa = TipoMasa.ROMANA;
+		break;
+            case 3:
+		tipoMasa = TipoMasa.AMERICANA;
+		break;
+            default:
+		tipoMasa = TipoMasa.NAPOLITANA;
+		break;
         }
         
         Pizza pizza = null;
@@ -306,13 +305,7 @@ public class SistemaGestionPedidos {
      * seleccionar un sabor y agregar ingredientes extra usando el patrón Decorator.
      */
     public void agregarHelado() {
-        interfazUsuario.mostrarMensaje("\n=== SELECCIONAR HELADO ===");
-        
-        interfazUsuario.mostrarMensaje("Seleccione el sabor del helado:");
-        interfazUsuario.mostrarMensaje("1. Fresa");
-        interfazUsuario.mostrarMensaje("2. Vainilla");
-        interfazUsuario.mostrarMensaje("3. Chocolate");
-        
+        interfazUsuario.mostrarMenuSaboresHelado();        
         int saborOpcion = gestorEntrada.leerOpcion(1, 3);
         SaborHelado sabor;
         
@@ -324,20 +317,11 @@ public class SistemaGestionPedidos {
         }
         
         ComponenteHelado helado = new HeladoSimple(sabor);
-        
+
+	int cantidadIngredientesDisponibles = 3;
         boolean agregarIngredientes = true;
         while (agregarIngredientes) {
-            interfazUsuario.mostrarMensaje("\n¿Desea agregar ingredientes extra?");
-            interfazUsuario.mostrarMensaje("1. Gomitas de gusano (+$8.00)");
-            interfazUsuario.mostrarMensaje("2. Gomitas de panda (+$10.00)");
-            interfazUsuario.mostrarMensaje("3. Gomitas de aro (+$7.00)");
-            interfazUsuario.mostrarMensaje("4. Chispas de chocolate (+$5.00)");
-            interfazUsuario.mostrarMensaje("5. Malvaviscos (+$12.00)");
-            interfazUsuario.mostrarMensaje("6. Fresitas (+$15.00)");
-            interfazUsuario.mostrarMensaje("7. Manguitos (+$18.00)");
-            interfazUsuario.mostrarMensaje("8. Kiwis (+$20.00)");
-            interfazUsuario.mostrarMensaje("9. Terminar helado");
-            
+            interfazUsuario.mostrarMenuIngredientesHelado();            
             int ingredienteOpcion = gestorEntrada.leerOpcion(1, 9);
             
             switch (ingredienteOpcion) {
@@ -349,9 +333,17 @@ public class SistemaGestionPedidos {
                 case 6:
                 case 7:
                 case 8:
-		    
-                    interfazUsuario.mostrarMensaje("¿Cuántas porciones desea agregar? (1-3)");
-                    int cantidad = gestorEntrada.leerOpcion(1, 3);
+
+		    int cantidad;
+		    if(cantidadIngredientesDisponibles > 1){
+			interfazUsuario.mostrarMensaje("¿Cuántas porciones desea agregar? (1-" + cantidadIngredientesDisponibles + ")");
+			cantidad = gestorEntrada.leerOpcion(1, cantidadIngredientesDisponibles);
+		    }
+		    else {
+			cantidad = 1;
+		    }
+
+		    cantidadIngredientesDisponibles -= cantidad;
                     
                     switch (ingredienteOpcion) {
                         case 1:
@@ -395,6 +387,9 @@ public class SistemaGestionPedidos {
                     interfazUsuario.mostrarError("Opción no válida.");
                     break;
             }
+	    if (cantidadIngredientesDisponibles < 1){
+		agregarIngredientes = false;
+	    }
         }
         
         if (helado != null && pedidoActual != null) {
@@ -411,46 +406,32 @@ public class SistemaGestionPedidos {
      * Confirma la orden actual con el robot.
      * Una vez confirmada, la orden no puede ser cancelada.
      */
-    public void confirmarOrden() {
+    public boolean confirmarOrden() {
         if (pedidoActual == null) {
             interfazUsuario.mostrarError("No hay pedido para confirmar.");
-            return;
+            return false;
         }
         
         if (pedidoActual.getProductos().isEmpty()) {
             interfazUsuario.mostrarError("No se puede confirmar un pedido vacío.");
-            return;
+            return false;
         }
         
-        interfazUsuario.mostrarMensaje("\n=== CONFIRMACIÓN DE ORDEN ===");
-        interfazUsuario.mostrarMensaje("Cliente: " + clienteActual);
-        interfazUsuario.mostrarMensaje("Productos en el pedido:");
-        
-        double total = 0.0;
-        for (int i = 0; i < pedidoActual.getProductos().size(); i++) {
-            var producto = pedidoActual.getProductos().get(i);
-            interfazUsuario.mostrarMensaje((i + 1) + ". " + producto.getNombre() + " - $" + producto.getPrecio());
-            total += producto.getPrecio();
-        }
-        
-        interfazUsuario.mostrarMensaje("\nTotal: $" + total);
-        
-        interfazUsuario.mostrarMensaje("\n¿Confirma la orden? (Una vez confirmada no se puede cancelar)");
-        interfazUsuario.mostrarMensaje("1. Sí, confirmar orden");
-        interfazUsuario.mostrarMensaje("2. No, regresar al menú");
+	interfazUsuario.mostrarMenuConfirmacion(clienteActual, pedidoActual.getProductos());
         
         int confirmacion = gestorEntrada.leerOpcion(1, 2);
         
-        if (confirmacion == 1) {
-	    
+        if (confirmacion == 1) {	    
             pedidoActual.confirmar();
             sucursal.getEmpleadoRobot().confirmarOrden();
             
             interfazUsuario.mostrarMensaje("¡Orden confirmada exitosamente!");
             interfazUsuario.mostrarMensaje("El robot ya no puede dormir hasta completar el pedido.");
-        } else {
-            interfazUsuario.mostrarMensaje("Confirmación cancelada. Puede seguir modificando el pedido.");
-        }
+	    return true;
+	}
+	
+	interfazUsuario.mostrarMensaje("Confirmación cancelada. Puede seguir modificando el pedido.");
+	return false;
     }
     
     /**
@@ -468,10 +449,7 @@ public class SistemaGestionPedidos {
             return;
         }
         
-        interfazUsuario.mostrarMensaje("\n=== CANCELACIÓN DE ORDEN ===");
-        interfazUsuario.mostrarMensaje("¿Está seguro de que desea cancelar el pedido de " + clienteActual + "?");
-        interfazUsuario.mostrarMensaje("1. Sí, cancelar pedido");
-        interfazUsuario.mostrarMensaje("2. No, regresar al menú");
+        interfazUsuario.mostrarMenuCancelacionOrden(clienteActual);
         
         int confirmacion = gestorEntrada.leerOpcion(1, 2);
         
@@ -483,8 +461,8 @@ public class SistemaGestionPedidos {
             interfazUsuario.mostrarMensaje("Pedido cancelado exitosamente.");
             interfazUsuario.mostrarMensaje("El robot está regresando al estado dormido...");
             
-            this.pedidoActual = null;
-            this.clienteActual = null;
+            pedidoActual = null;
+            clienteActual = null;
         } else {
             interfazUsuario.mostrarMensaje("Cancelación abortada. El pedido permanece activo.");
         }
@@ -502,6 +480,7 @@ public class SistemaGestionPedidos {
         
         if (estadoActual.equals("EstadoDormido")) {
             interfazUsuario.mostrarMensaje("El robot está dormido. Despertándolo...");
+	    robot.setEstadoActual(robot.getEstadoTomandoOrden());
             
             interfazUsuario.mostrarMensaje("¡Robot despierto y listo para tomar órdenes!");
             

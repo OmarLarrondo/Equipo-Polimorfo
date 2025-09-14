@@ -30,7 +30,7 @@ public class EstadoTomandoOrden implements EstadoActualRobot{
         }
         System.out.println("Espera, ya estoy atendiendo un pedido.");
     }
-
+    
     @Override
     public void agregarProducto(Producto producto) {
 	if (producto == null) {
@@ -98,8 +98,7 @@ public class EstadoTomandoOrden implements EstadoActualRobot{
 	    System.out.println("El pedido ya fue confirmado y no es posible cancelarlo");
 	    return;
 	}
-	
-	pedido.cancelar();;
+	pedido.cancelar();
 	System.out.println("Pedido cancelado, el robot vuelve a dormir.");
 	robot.setPedidoActual(null); 
 	robot.setEstadoActual(robot.getEstadoDormido()); //vueleve a dormir.

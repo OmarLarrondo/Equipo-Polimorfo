@@ -18,7 +18,7 @@ import modelo.CuentaBanco;
 public abstract class Servicio implements Subject {
 
     /**Nombre del servicio */
-    protected String nombre;
+    private String nombre;
     /**Lista de observadores */
     protected List<Observer> observers;
     /**Lista de contenidos audiovisuales disponibles */
@@ -477,6 +477,7 @@ public abstract class Servicio implements Subject {
      * una funcionalidad común que todas las subclases pueden usar directamente.
      * Las subclases pueden sobrescribir este método si requieren un comportamiento
      * diferente.
+
      * @param usuario Usuario de quien se quiere obtener el historial
      * @return HistorialServicio Historial asociado al usuario, null si no existe
      */

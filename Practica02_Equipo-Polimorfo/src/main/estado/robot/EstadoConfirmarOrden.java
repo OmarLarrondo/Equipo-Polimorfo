@@ -46,7 +46,7 @@ public class EstadoConfirmarOrden implements EstadoActualRobot{
             System.out.println("El robot inicio la preparacion del pedido.");
             robot.setEstadoActual(robot.getEstadoTrabajando());
         }else{
-            System.out.println("EL pedido no esta confirmado. ");
+            System.out.println("El pedido no esta confirmado. ");
         }
     }
 
