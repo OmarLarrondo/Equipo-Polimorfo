@@ -94,6 +94,7 @@ public class SistemaGestionPedidos {
         boolean continuar = true;
         
         while (continuar) {
+	    
             try {
                 interfazUsuario.mostrarMenuPrincipal();
                 int opcion = gestorEntrada.leerOpcion(1, 3);
