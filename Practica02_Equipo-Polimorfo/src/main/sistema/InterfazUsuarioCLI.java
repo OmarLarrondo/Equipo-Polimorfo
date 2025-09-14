@@ -76,38 +76,12 @@ public class InterfazUsuarioCLI {
         System.out.println("=== SISTEMA DE GESTIÓN DE PEDIDOS ===");
         System.out.println();
         System.out.println("1. Realizar nuevo pedido");
-        System.out.println("2. Mostrar estado del robot");
-        System.out.println("3. Salir");
+        System.out.println("2. Recoger pedido");
+        System.out.println("3. Mostrar estado del robot");
+        System.out.println("4. Salir");
         System.out.println();
     }
     
-    /**
-     * Ejecuta la opción seleccionada del menú principal.
-     * 
-     * Lee la opción del usuario y determina si debe continuar ejecutando
-     * el sistema o si debe terminar la ejecución.
-     * 
-     * @return true si el sistema debe continuar ejecutándose,
-     *         false si el usuario eligió salir del sistema
-     */
-    public boolean ejecutarOpcionPrincipal() {
-        int opcion = gestorEntrada.leerOpcion(1, 3);
-        
-        switch (opcion) {
-            case 1:
-                mostrarMensaje("Iniciando nuevo pedido...");
-                return true;
-            case 2:
-                mostrarMensaje("Consultando estado del robot...");
-                return true;
-            case 3:
-                mostrarMensaje("Gracias por usar El Pequeño Cesarín. ¡Hasta pronto!");
-                return false;
-            default:
-                mostrarError("Opción no válida");
-                return true;
-        }
-    }
     
     /**
      * Muestra el menú de selección de pizzas disponibles.
@@ -282,6 +256,18 @@ public class InterfazUsuarioCLI {
         if (mensaje != null && !mensaje.trim().isEmpty()) {
             System.out.println("[INFO] " + mensaje);
         }
+    }
+
+    public void mostrarMensajeInicioPreparacion(String clienteActual){
+	String mensaje = "\n=== INICIANDO PREPARACIÓN ===" +
+	    "\nEl robot comenzará a preparar el pedido de " + clienteActual + ".";
+	this.mostrarMensaje(mensaje);
+    }
+
+    public void mostrarMensajePreparacionCompleta(String clienteActual){
+	String mensaje = "\n¡Preparación completada!" +
+	    "\nEl robot está esperando la solicitud de entrega de " + clienteActual + ".";
+	this.mostrarMensaje(mensaje);	
     }
     
     /**

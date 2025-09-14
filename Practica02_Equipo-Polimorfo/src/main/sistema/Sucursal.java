@@ -49,12 +49,10 @@ public class Sucursal {
     public void procesarRecepcionPedido(Pedido nuevoPedido) {
 
         if (empleadoRobot.getEstadoActual() instanceof EstadoDormido) {
-            empleadoRobot.getEstadoActual().atenterCliente();
+            empleadoRobot.getEstadoActual().atenderCliente();
         }
 
         empleadoRobot.atenderPedido(nuevoPedido);
-
-        asignarNuevoPedido(nuevoPedido);
     }
 
 
@@ -74,16 +72,6 @@ public class Sucursal {
             System.out.println("El robot no está listo para entregar pedidos");
         }
         
-    }
-
-    /**
-     * Asigna un nuevo pedido al robot de la sucursal para que lo procese.
-     *
-     * @param pedido el pedido que será asignado al robot
-     */
-    private void asignarNuevoPedido(Pedido pedido) {
-        empleadoRobot.setPedidoActual(pedido);
-    
     }
 
     /**

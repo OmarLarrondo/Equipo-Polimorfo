@@ -89,32 +89,34 @@ public class SistemaGestionPedidos {
      */
     public void ejecutar() {
         interfazUsuario.mostrarMensaje("¡Bienvenido al sistema de El Pequeño Cesarín!");
-        interfazUsuario.mostrarMensaje("El robot está inicializado y listo para trabajar.");
-        
+	mostrarEstadoRobot();
+	
         boolean continuar = true;
         
         while (continuar) {
 	    
             try {
                 interfazUsuario.mostrarMenuPrincipal();
-                int opcion = gestorEntrada.leerOpcion(1, 3);
+                int opcion = gestorEntrada.leerOpcion(1, 4);
                 
                 switch (opcion) {
-                    case 1:
-                        procesarPedido();
-                        break;
-                    case 2:
-                        mostrarEstadoRobot();
-                        break;
-                    case 3:
-                        interfazUsuario.mostrarMensaje("Liberando recursos...");
-                        gestorEntrada.liberarRecursos();
-                        interfazUsuario.mostrarMensaje("Gracias por usar El Pequeño Cesarín. ¡Hasta pronto!");
-                        continuar = false;
-                        break;
-                    default:
-                        interfazUsuario.mostrarError("Opción no válida. Por favor, elija una opción del 1 al 3.");
-                        break;
+		case 1:
+		    procesarPedido();
+		    break;
+		case 2:
+		    solicitarEntrega();
+		case 3:
+		    mostrarEstadoRobot();
+		    break;
+		case 4:
+		    interfazUsuario.mostrarMensaje("Liberando recursos...");
+		    gestorEntrada.liberarRecursos();
+		    interfazUsuario.mostrarMensaje("Gracias por usar El Pequeño Cesarín. ¡Hasta pronto!");
+		    continuar = false;
+		    break;
+		default:
+		    interfazUsuario.mostrarError("Opción no válida. Por favor, elija una opción del 1 al 3.");
+		    break;
                 }
             } catch (Exception e) {
                 interfazUsuario.mostrarError("Error en el sistema: " + e.getMessage());
@@ -127,10 +129,14 @@ public class SistemaGestionPedidos {
      * Procesa un pedido completo coordinando todos los componentes del sistema.
      */
     public void procesarPedido() {
-        try {
-            llamarRobot();
-            
-            iniciarNuevoPedido();
+	Robot robot = sucursal.getEmpleadoRobot();
+	boolean disponibilidadAtencion = robot.atenderCliente();
+	
+	if(!disponibilidadAtencion)
+	    return;
+
+	try {
+	    iniciarNuevoPedido();
             
             boolean ordenCompleta = false;
             while (!ordenCompleta) {
@@ -164,9 +170,9 @@ public class SistemaGestionPedidos {
                         break;
                 }
             }
-            
-            coordinarRobot();
-            
+	    
+            procesoDePreparacion();
+	    
         } catch (Exception e) {
             interfazUsuario.mostrarError("Error procesando el pedido: " + e.getMessage());
 	    
@@ -176,57 +182,14 @@ public class SistemaGestionPedidos {
         }
     }
     
-    /**
-     * Coordina las acciones del robot según su estado actual.
-     * Maneja las transiciones de estado y las acciones disponibles.
-     */
-    public void coordinarRobot() {
-        Robot robot = sucursal.getEmpleadoRobot();
-        
-        interfazUsuario.mostrarMensaje("\n=== COORDINACIÓN DEL ROBOT ===");
-        
-        interfazUsuario.mostrarMensaje("Orden confirmada. El robot procederá con la preparación.");
-        
-        interfazUsuario.mostrarMensaje("\n¿Desea que el robot inicie la preparación?");
-        interfazUsuario.mostrarMensaje("1. Sí, iniciar preparación");
-        interfazUsuario.mostrarMensaje("2. Esperar");
-        
-        int opcionPreparacion = gestorEntrada.leerOpcion(1, 2);
-        
-        if (opcionPreparacion == 1) {
-            iniciarPreparacion();
-        } else {
-            interfazUsuario.mostrarMensaje("Esperando instrucciones para iniciar preparación...");
-            return;
-        }
-        
-        interfazUsuario.mostrarMensaje("\nLa preparación ha terminado. El robot está esperando la solicitud de entrega.");
-        
-        interfazUsuario.mostrarMensaje("¿Desea solicitar la entrega del pedido?");
-        interfazUsuario.mostrarMensaje("1. Sí, solicitar entrega");
-        interfazUsuario.mostrarMensaje("2. Esperar");
-        
-        int opcionEntrega = gestorEntrada.leerOpcion(1, 2);
-        
-        if (opcionEntrega == 1) {
-            solicitarEntrega();
-        } else {
-            interfazUsuario.mostrarMensaje("El pedido está listo. Puede solicitar la entrega cuando esté preparado.");
-            return;
-        }
-        
-        interfazUsuario.mostrarMensaje("\n¡Pedido entregado exitosamente!");
-        interfazUsuario.mostrarMensaje("El robot está regresando al estado dormido...");
-        
-        pedidoActual = null;
-        clienteActual = null;
-    }
     
     /**
      * Inicia un nuevo pedido solicitando el nombre del cliente
      * y preparando el sistema para recibir la orden.
      */
     public void iniciarNuevoPedido() {
+	Robot robot = sucursal.getEmpleadoRobot();
+
         interfazUsuario.mostrarMensaje("\n=== NUEVO PEDIDO ===");
         
         clienteActual = gestorEntrada.leerTexto("Ingrese el nombre del cliente: ");
@@ -234,7 +197,7 @@ public class SistemaGestionPedidos {
         pedidoActual = new Pedido();
         pedidoActual.setNombreCliente(clienteActual);
         
-        sucursal.getEmpleadoRobot().setPedidoActual(pedidoActual);
+        robot.setPedidoActual(pedidoActual);
         
         interfazUsuario.mostrarMensaje("Pedido iniciado para el cliente: " + clienteActual);
         interfazUsuario.mostrarMensaje("El robot está listo para tomar la orden.");
@@ -293,7 +256,6 @@ public class SistemaGestionPedidos {
         }
         
         if (pizza != null && pedidoActual != null) {
-            pedidoActual.agregarArticulo(pizza);
             sucursal.getEmpleadoRobot().agregarProducto(pizza);
             interfazUsuario.mostrarMensaje("Pizza agregada: " + pizza.getNombre() + " con masa " + tipoMasa);
         } else {
@@ -395,7 +357,6 @@ public class SistemaGestionPedidos {
         
         if (helado != null && pedidoActual != null) {
             Helado heladoFinal = new Helado(helado);
-            pedidoActual.agregarArticulo(heladoFinal);
             sucursal.getEmpleadoRobot().agregarProducto(heladoFinal);
             interfazUsuario.mostrarMensaje("Helado agregado: " + helado.getDescripcion() + " - $" + helado.getPrecio());
         } else {
@@ -482,8 +443,8 @@ public class SistemaGestionPedidos {
         
         if (estadoActual.equals("EstadoDormido")) {
             interfazUsuario.mostrarMensaje("El robot está dormido. Despertándolo...");
-            robot.setEstadoActual(robot.getEstadoTomandoOrden());
-            
+            robot.atenderCliente();
+
             interfazUsuario.mostrarMensaje("¡Robot despierto y listo para tomar órdenes!");
             
         } else {
@@ -495,17 +456,15 @@ public class SistemaGestionPedidos {
     /**
      * Solicita al robot que inicie la preparación del pedido confirmado.
      */
-    public void iniciarPreparacion() {
+    public void procesoDePreparacion() {
         if (pedidoActual == null || !pedidoActual.estaConfirmado()) {
             interfazUsuario.mostrarError("No hay pedido confirmado para preparar.");
             return;
         }
         
         Robot robot = sucursal.getEmpleadoRobot();
-        
-        interfazUsuario.mostrarMensaje("\n=== INICIANDO PREPARACIÓN ===");
-        interfazUsuario.mostrarMensaje("El robot comenzará a preparar el pedido de " + clienteActual);
-        
+
+        interfazUsuario.mostrarMensajeInicioPreparacion(clienteActual);
         robot.iniciarPreparacion();
         
         interfazUsuario.mostrarMensaje("El robot está preparando los siguientes productos:");
@@ -520,10 +479,12 @@ public class SistemaGestionPedidos {
                 producto.preparar();
             }
         }
-        
+
+        robot.setEstadoActual(robot.getEstadoEsperandoEntregar());
         interfazUsuario.mostrarMensaje("\n¡Preparación completada!");
         interfazUsuario.mostrarMensaje("El robot está esperando la solicitud de entrega.");
-        
+        interfazUsuario.mostrarMensajePreparacionCompleta(clienteActual);
+
         pedidoActual.marcarComoHecho();
     }
     
@@ -563,6 +524,9 @@ public class SistemaGestionPedidos {
         
         interfazUsuario.mostrarMensaje("\n¡Pedido entregado exitosamente a " + clienteActual + "!");
         interfazUsuario.mostrarMensaje("Gracias por su compra en El Pequeño Cesarín.");
+	
+        pedidoActual = null;
+        clienteActual = null;
     }
     
     /**

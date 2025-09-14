@@ -77,6 +77,13 @@ public class Robot {
     // ==================== Acciones delegadas al estado ====================
 
     /**
+     * Se despierta para comenzar a trabajar. La acción se le pasa al estado actual del robot.
+     */
+    public boolean atenderCliente() {
+        return estadoActual.atenderCliente();
+    } 
+    
+    /**
      * Atiende un pedido. La acción se le pasa al estado actual del robot.
      * @param pedido el pedido que será atendido
      */

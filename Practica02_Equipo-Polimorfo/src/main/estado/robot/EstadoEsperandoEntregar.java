@@ -20,8 +20,9 @@ public class EstadoEsperandoEntregar implements EstadoActualRobot{
         this.robot = robot;
     }
     @Override
-    public void atenterCliente() {
+    public boolean atenderCliente() {
         System.out.println("No es posible atender un cliente.");
+	return false;
     }
 
     @Override
