@@ -1,8 +1,8 @@
-package estado.robot;
+package main.estado.robot;
 
-import productos.Producto;
-import sistema.Pedido;
-import sistema.Robot;
+import main.productos.Producto;
+import main.sistema.Pedido;
+import main.sistema.Robot;
 
 /**
  * Interfaz que representa el comportamiento de los distintos estados del Robot.

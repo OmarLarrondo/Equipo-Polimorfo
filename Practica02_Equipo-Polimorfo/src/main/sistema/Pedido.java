@@ -1,10 +1,10 @@
-package sistema;
+package main.sistema;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import estado.pedido.EstadoPedido;
-import productos.Producto;
+import main.estado.pedido.EstadoPedido;
+import main.productos.Producto;
 
 /**
  * Clase para representar un pedido realizado por un cliente en una sucursal hacia el robot.

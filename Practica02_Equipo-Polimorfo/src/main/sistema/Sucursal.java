@@ -1,9 +1,9 @@
-package sistema;
+package main.sistema;
 
-import estado.robot.EstadoActualRobot;
-import estado.robot.EstadoDormido;
-import estado.robot.EstadoEsperandoEntregar;
-import estado.robot.EstadoEsperandoEntregar;
+import main.estado.robot.EstadoActualRobot;
+import main.estado.robot.EstadoDormido;
+import main.estado.robot.EstadoEsperandoEntregar;
+
 /**
  * Clase para representar una sucursal del sistema.
  * Cada sucursal tiene un nombre y un empleado robot
@@ -13,6 +13,32 @@ public class Sucursal {
     private String nombre;
     /** Robot empleado en la sucursal para atender y procesar pedidos*/
     private Robot empleadoRobot;
+
+    /**
+     * Constructor de la sucursal.
+     * Inicializa la sucursal con un nombre y crea el robot empleado.
+     * @param nombre el nombre de la sucursal
+     */
+    public Sucursal(String nombre) {
+        this.nombre = nombre;
+        this.empleadoRobot = new Robot();
+    }
+
+    /**
+     * Obtiene el robot empleado de la sucursal.
+     * @return el robot empleado
+     */
+    public Robot getEmpleadoRobot() {
+        return empleadoRobot;
+    }
+
+    /**
+     * Obtiene el nombre de la sucursal.
+     * @return el nombre de la sucursal
+     */
+    public String getNombre() {
+        return nombre;
+    }
 
     /**
      * Procesa la recepción de un nuevo pedido en la sucursal.

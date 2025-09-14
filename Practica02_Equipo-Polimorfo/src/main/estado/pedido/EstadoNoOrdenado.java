@@ -1,9 +1,9 @@
-package estado.pedido;
+package main.estado.pedido;
 
-import productos.Producto;
-import sistema.Pedido;
-import sistema.Robot;
-import sistema.Sucursal;
+import main.productos.Producto;
+import main.sistema.Pedido;
+import main.sistema.Robot;
+import main.sistema.Sucursal;
 
 public class EstadoNoOrdenado  implements EstadoPedido{
     /** */

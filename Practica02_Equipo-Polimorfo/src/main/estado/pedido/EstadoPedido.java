@@ -1,7 +1,7 @@
-package estado.pedido;
+package main.estado.pedido;
 
-import productos.Producto;
-import sistema.Sucursal;
+import main.productos.Producto;
+import main.sistema.Sucursal;
 
 /**
  * Interfaz que define los comportamientos de un pedido según su estado en que se encuentra.

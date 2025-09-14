@@ -1,12 +1,12 @@
-package sistema;
+package main.sistema;
 
-import estado.robot.EstadoActualRobot;
-import estado.robot.EstadoConfirmarOrden;
-import estado.robot.EstadoDormido;
-import estado.robot.EstadoEsperandoEntregar;
-import estado.robot.EstadoTomandoOrden;
-import estado.robot.EstadoTrabajando;
-import productos.Producto;
+import main.estado.robot.EstadoActualRobot;
+import main.estado.robot.EstadoConfirmarOrden;
+import main.estado.robot.EstadoDormido;
+import main.estado.robot.EstadoEsperandoEntregar;
+import main.estado.robot.EstadoTomandoOrden;
+import main.estado.robot.EstadoTrabajando;
+import main.productos.Producto;
 
 /**
  * La clase {@code Robot} representa el robot de la sucursal, es el encargado de atender y preparar los productos.
