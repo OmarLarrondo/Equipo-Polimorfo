@@ -249,23 +249,23 @@ public class SistemaGestionPedidos {
         int tipoPizza = gestorEntrada.leerOpcion(1, 5);
         
         interfazUsuario.mostrarMenuTiposMasa();
-	
+
         int tipoMasaOpcion = gestorEntrada.leerOpcion(1, 3);
         TipoMasa tipoMasa;
         
         switch (tipoMasaOpcion) {
             case 1:
-		tipoMasa = TipoMasa.NAPOLITANA;
-		break;
+                tipoMasa = TipoMasa.NAPOLITANA;
+                break;
             case 2:
-		tipoMasa = TipoMasa.ROMANA;
-		break;
+                tipoMasa = TipoMasa.ROMANA;
+                break;
             case 3:
-		tipoMasa = TipoMasa.AMERICANA;
-		break;
+                tipoMasa = TipoMasa.AMERICANA;
+                break;
             default:
-		tipoMasa = TipoMasa.NAPOLITANA;
-		break;
+                tipoMasa = TipoMasa.NAPOLITANA;
+                break;
         }
         
         Pizza pizza = null;
@@ -318,7 +318,7 @@ public class SistemaGestionPedidos {
         
         ComponenteHelado helado = new HeladoSimple(sabor);
 
-	int cantidadIngredientesDisponibles = 3;
+        int cantidadIngredientesDisponibles = 3;
         boolean agregarIngredientes = true;
         while (agregarIngredientes) {
             interfazUsuario.mostrarMenuIngredientesHelado();            
@@ -334,16 +334,16 @@ public class SistemaGestionPedidos {
                 case 7:
                 case 8:
 
-		    int cantidad;
-		    if(cantidadIngredientesDisponibles > 1){
-			interfazUsuario.mostrarMensaje("¿Cuántas porciones desea agregar? (1-" + cantidadIngredientesDisponibles + ")");
-			cantidad = gestorEntrada.leerOpcion(1, cantidadIngredientesDisponibles);
-		    }
-		    else {
-			cantidad = 1;
-		    }
+                    int cantidad;
+                    if(cantidadIngredientesDisponibles > 1){
+                        interfazUsuario.mostrarMensaje("¿Cuántas porciones desea agregar? (1-" + cantidadIngredientesDisponibles + ")");
+                        cantidad = gestorEntrada.leerOpcion(1, cantidadIngredientesDisponibles);
+                    }
+                    else {
+                        cantidad = 1;
+                    }
 
-		    cantidadIngredientesDisponibles -= cantidad;
+                    cantidadIngredientesDisponibles -= cantidad;
                     
                     switch (ingredienteOpcion) {
                         case 1:
@@ -387,9 +387,9 @@ public class SistemaGestionPedidos {
                     interfazUsuario.mostrarError("Opción no válida.");
                     break;
             }
-	    if (cantidadIngredientesDisponibles < 1){
-		agregarIngredientes = false;
-	    }
+            if (cantidadIngredientesDisponibles < 1){
+                agregarIngredientes = false;
+            }
         }
         
         if (helado != null && pedidoActual != null) {
@@ -417,21 +417,21 @@ public class SistemaGestionPedidos {
             return false;
         }
         
-	interfazUsuario.mostrarMenuConfirmacion(clienteActual, pedidoActual.getProductos());
+        interfazUsuario.mostrarMenuConfirmacion(clienteActual, pedidoActual.getProductos());
         
         int confirmacion = gestorEntrada.leerOpcion(1, 2);
         
-        if (confirmacion == 1) {	    
+        if (confirmacion == 1) {
             pedidoActual.confirmar();
             sucursal.getEmpleadoRobot().confirmarOrden();
-            
+
             interfazUsuario.mostrarMensaje("¡Orden confirmada exitosamente!");
             interfazUsuario.mostrarMensaje("El robot ya no puede dormir hasta completar el pedido.");
-	    return true;
-	}
-	
-	interfazUsuario.mostrarMensaje("Confirmación cancelada. Puede seguir modificando el pedido.");
-	return false;
+            return true;
+        }
+
+        interfazUsuario.mostrarMensaje("Confirmación cancelada. Puede seguir modificando el pedido.");
+        return false;
     }
     
     /**
@@ -454,7 +454,6 @@ public class SistemaGestionPedidos {
         int confirmacion = gestorEntrada.leerOpcion(1, 2);
         
         if (confirmacion == 1) {
-	    
             pedidoActual.cancelar();
             sucursal.getEmpleadoRobot().cancelarOrden();
             
@@ -480,7 +479,7 @@ public class SistemaGestionPedidos {
         
         if (estadoActual.equals("EstadoDormido")) {
             interfazUsuario.mostrarMensaje("El robot está dormido. Despertándolo...");
-	    robot.setEstadoActual(robot.getEstadoTomandoOrden());
+            robot.setEstadoActual(robot.getEstadoTomandoOrden());
             
             interfazUsuario.mostrarMensaje("¡Robot despierto y listo para tomar órdenes!");
             
