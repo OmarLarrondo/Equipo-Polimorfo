@@ -149,7 +149,7 @@ public class SistemaGestionPedidos {
                         agregarHelado();
                         break;
                     case 3:
-                        if (pedidoActual != null && !pedidoActual.getProductos().isEmpty()) {
+                        if (pedidoActual != null && !pedidoActual.getArticulos().isEmpty()) {
                             ordenCompleta = confirmarOrden();
                         } else {
                             interfazUsuario.mostrarError("No hay productos en el pedido. Agregue al menos un producto antes de confirmar.");
@@ -412,12 +412,12 @@ public class SistemaGestionPedidos {
             return false;
         }
         
-        if (pedidoActual.getProductos().isEmpty()) {
+        if (pedidoActual.getArticulos().isEmpty()) {
             interfazUsuario.mostrarError("No se puede confirmar un pedido vacío.");
             return false;
         }
         
-        interfazUsuario.mostrarMenuConfirmacion(clienteActual, pedidoActual.getProductos());
+        interfazUsuario.mostrarMenuConfirmacion(clienteActual, pedidoActual.getArticulos());
         
         int confirmacion = gestorEntrada.leerOpcion(1, 2);
         
@@ -506,7 +506,7 @@ public class SistemaGestionPedidos {
         robot.iniciarPreparacion();
         
         interfazUsuario.mostrarMensaje("El robot está preparando los siguientes productos:");
-        for (var producto : pedidoActual.getProductos()) {
+        for (var producto : pedidoActual.getArticulos()) {
             interfazUsuario.mostrarMensaje("- " + producto.getNombre());
             
             if (producto instanceof Pizza) {
@@ -543,7 +543,7 @@ public class SistemaGestionPedidos {
         List<String> productosTicket = new ArrayList<>();
         double totalTicket = 0.0;
         
-        for (var producto : pedidoActual.getProductos()) {
+        for (var producto : pedidoActual.getArticulos()) {
             productosTicket.add(producto.getNombre() + " - $" + producto.getPrecio());
             totalTicket += producto.getPrecio();
         }
@@ -595,7 +595,7 @@ public class SistemaGestionPedidos {
         if (pedidoActual != null && clienteActual != null) {
             interfazUsuario.mostrarMensaje("\nPedido actual:");
             interfazUsuario.mostrarMensaje("Cliente: " + clienteActual);
-            interfazUsuario.mostrarMensaje("Productos: " + pedidoActual.getProductos().size());
+            interfazUsuario.mostrarMensaje("Productos: " + pedidoActual.getArticulos().size());
             interfazUsuario.mostrarMensaje("Estado del pedido: " + (pedidoActual.estaConfirmado() ? "Confirmado" : "En construcción"));
         } else {
             interfazUsuario.mostrarMensaje("\nNo hay pedido activo.");
