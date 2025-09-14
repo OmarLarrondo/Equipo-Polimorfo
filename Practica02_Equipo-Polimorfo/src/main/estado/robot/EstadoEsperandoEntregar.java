@@ -59,7 +59,7 @@ public class EstadoEsperandoEntregar implements EstadoActualRobot{
         return;
         }
 
-        List<Producto> productos = pedido.getProductos();
+        List<Producto> productos = pedido.getArticulos();
 
         List<String> nombresProductos = new ArrayList<>();
         for (Producto p : productos) {
