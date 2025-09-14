@@ -41,10 +41,12 @@ public class EstadoTrabajando implements EstadoActualRobot {
      * 
      * <p>Si se llama a este método mientras el robot esta trabajando,
      * se lanza una excepcion o un print</p>
+     * @return posibilidad de atender a un cliente
      */
     @Override
-    public void atenterCliente() {
+    public boolean atenderCliente() {
         System.out.println("Espera, no te puedo atender, estoy trabajando");
+	return false;
     }
 
     /**

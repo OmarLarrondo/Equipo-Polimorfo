@@ -11,16 +11,13 @@ import main.sistema.Robot;
  * 
  */
 public interface EstadoActualRobot {
-
-
-    //en el diagrama de clases, no entendi la parte de +robot: Robot
-    //NO SE SI SEA FINAL O COMO XD
-
+    
     /***
      * Metodo que se ejecuta cuando el Robot debe atender un cliente 
      * Cada estado implementa este omportamiento segun corresponda
+     * @return posibilidad de atender a un cliente
      */
-    public void atenterCliente();
+    public boolean atenderCliente();
 
     /**
      * Método que se ejecuta cuando el robot debe atender un pedido.

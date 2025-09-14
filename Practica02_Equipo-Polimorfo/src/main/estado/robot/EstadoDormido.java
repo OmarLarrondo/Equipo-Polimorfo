@@ -5,7 +5,7 @@ import main.sistema.Pedido;
 import main.sistema.Robot;
 
 public class EstadoDormido implements EstadoActualRobot {
-    private final Robot robot; // coincide con el UML
+    private final Robot robot;
 
     
     /**
@@ -17,13 +17,14 @@ public class EstadoDormido implements EstadoActualRobot {
     }
 
     @Override
-    public void atenterCliente() {
-        System.out.println("Nuevo cliente llego, el robot de desperto");
+    public boolean atenderCliente() {
+        System.out.println("Nuevo cliente llegó, el robot se despertó");
 
         Pedido nuevoPedido = new Pedido();
         robot.setPedidoActual(nuevoPedido);
 
         robot.setEstadoActual(new EstadoTomandoOrden(robot));
+	return true;
     }
 
     @Override

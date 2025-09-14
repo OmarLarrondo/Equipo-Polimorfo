@@ -17,8 +17,9 @@ public class EstadoTomandoOrden implements EstadoActualRobot{
     }
 
     @Override
-    public void atenterCliente() {
-        System.out.println("Ya estoy atentiendo.");
+    public boolean atenderCliente() {
+        System.out.println("Ya estoy atendiendo.");
+	return false;
     }
 
     @Override
