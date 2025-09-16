@@ -1,5 +1,6 @@
 package main.Academia.Campos;
 
-public class ValleDelDragon {
-    
+public class ValleDelDragon extends CampoEntrenamiento {
+    private String nombre;
+    private String descripcion;   
 }
