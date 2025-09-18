@@ -1,4 +1,4 @@
-package Academia.Listas;
+package main.Academia.Listas;
 
 /**
  * Interfaz genérica del patrón Iterator que define el contrato para iterar

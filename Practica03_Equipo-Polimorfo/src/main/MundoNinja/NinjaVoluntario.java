@@ -82,9 +82,23 @@ public class NinjaVoluntario {
         this.nivelHabilidad = nivelHabilidad;
     }
     
-    private int getCapacidadvoluntarios(){
-        //aqui va codifgo 
-        return 0;
+    /**
+     * Obtiene la capacidad máxima de aspirantes que puede liderar este voluntario
+     * según su rango: Genin (1), Chunin (2), Jonin (3).
+     *
+     * @return El número máximo de aspirantes que puede liderar
+     */
+    public int getCapacidadVoluntarios(){
+        switch (rango) {
+            case GENIN:
+                return 1;
+            case CHUNIN:
+                return 2;
+            case JONIN:
+                return 3;
+            default:
+                return 0;
+        }
     }
 
     @Override
