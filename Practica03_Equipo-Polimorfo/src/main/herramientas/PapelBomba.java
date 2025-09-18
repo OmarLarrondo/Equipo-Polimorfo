@@ -1,4 +1,4 @@
-package main.HerramientasDisponibles;
+package herramientas;
 
 public class PapelBomba extends Herramienta {
 

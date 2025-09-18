@@ -1,4 +1,4 @@
-package main.HerramientasDisponibles;
+package herramientas;
 
 public abstract class  Herramienta {
     //facrory here
