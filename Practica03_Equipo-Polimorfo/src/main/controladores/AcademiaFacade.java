@@ -1,9 +1,15 @@
 package controladores;
 
 import Academia.Academia;
-import main.MundoNinja.Grupo;
+import MundoNinja.Grupo;
+import MundoNinja.EstudianteNinja;
 import ui.GestorInteraccion;
 
+import Academia.Listas.Iterator;
+import Academia.Paquetes.GestorPaquetes;
+import Academia.Paquetes.PaqueteBuilder;
+import MundoNinja.NinjaVoluntario;
+import PaquetesHerramientas.PaquetesHerramientas;
 /**
  * Facade que proporciona una interfaz simplificada para las operaciones
  * de alto nivel de la Academia Ninja. Encapsula la complejidad del subsistema
@@ -37,18 +43,26 @@ public class AcademiaFacade {
      * Muestra todos los estudiantes disponibles en el sistema.
      */
     public void mostrarEstudiantesDisponibles() {
-        // Implementación pendiente - requiere acceso a la lista de estudiantes
         System.out.println("=== ESTUDIANTES DISPONIBLES ===");
-        System.out.println("Funcionalidad en desarrollo...");
+    
+        Iterator<EstudianteNinja> iter = academia.getAspirantes().iterator();
+        while (iter.hasNext()) {
+            EstudianteNinja e = iter.next();
+            System.out.println(e.toString());
+        }
     }
+
 
     /**
      * Muestra todos los voluntarios disponibles en el sistema.
      */
     public void mostrarVoluntariosDisponibles() {
-        // Implementación pendiente - requiere acceso a la lista de voluntarios
         System.out.println("=== VOLUNTARIOS DISPONIBLES ===");
-        System.out.println("Funcionalidad en desarrollo...");
+        Iterator<NinjaVoluntario> iter = academia.getVoluntarios().iterator();
+        while (iter.hasNext()) {
+            NinjaVoluntario v = iter.next();
+            System.out.println(v.toString());
+        }
     }
 
     /**
@@ -67,9 +81,55 @@ public class AcademiaFacade {
      * @param gestorInteraccion Gestor para la interacción con el usuario
      */
     public void asignarPaqueteInteractivo(Grupo grupo, GestorInteraccion gestorInteraccion) {
-        // Implementación pendiente - requiere integración con el sistema de paquetes
         System.out.println("Asignando paquete al grupo dirigido por: " + grupo.toString());
-        System.out.println("Funcionalidad de selección interactiva en desarrollo...");
+        int eleccion = gestorInteraccion.leerEntero("Seleccione el paquete a asignar : \n1) Básico  \n2) Avanzado  \n3) Táctico  \n4) Personalizado");
+
+        boolean confirmado = gestorInteraccion.confirmarAccion("¿Está seguro?");
+        if (!confirmado) {
+            System.out.println("Asignación cancelada por el usuario.");
+            return;
+        }
+
+        GestorPaquetes gp = new GestorPaquetes(null); 
+        PaquetesHerramientas paqueteElegido = null;
+        
+        switch (eleccion) {
+            case 1:
+            paqueteElegido = gp.construirPaqueteBasico();
+                break;
+            case 2:
+            paqueteElegido = gp.construirPaqueteAvanzado();
+                break;
+            case 3:
+            paqueteElegido = gp.construirPaqueteTactico();
+                break;
+            case 4:
+            PaqueteBuilder builder = gp.dirigirConstruccionPersonalizada();
+
+            int kunais = gestorInteraccion.leerEntero("Cuántos kunais quieres?");
+            builder.addKunai(kunais);
+
+            int shurikens = gestorInteraccion.leerEntero("Cuántos shurikens quieres?");
+            builder.addShuriken(shurikens);
+
+            int papeles = gestorInteraccion.leerEntero("Cuántos papeles bomba?");
+            builder.addPapelBomba(papeles);
+
+            int bombasHumo = gestorInteraccion.leerEntero("Cuántas bombas de humo?");
+            builder.addBombaHumo(bombasHumo);
+
+            int botiquines = gestorInteraccion.leerEntero("Cuántos botiquines quieres?");
+            builder.addBotiquin(botiquines);
+
+            paqueteElegido = builder.build(); 
+                break;
+            default:
+                System.out.println("Opción no válida.");
+                return;
+                }
+
+        grupo.asignarPaquete(paqueteElegido);
+        System.out.println("Paquete asignado correctamente al grupo.");
     }
 
     /**
@@ -95,8 +155,7 @@ public class AcademiaFacade {
      * @return true si hay grupos formados, false en caso contrario
      */
     public boolean hayGruposFormados() {
-        // Implementación pendiente - requiere acceso a la lista de grupos
-        return true; // Temporal - siempre retorna true para pruebas
+        return academia.getGruposFormados() != null && !academia.getGruposFormados().isEmpty();
     }
 
     /**
@@ -104,7 +163,8 @@ public class AcademiaFacade {
      *
      * @return Lista de grupos formados en la academia
      */
-    public java.util.List<main.MundoNinja.Grupo> obtenerGrupos() {
+    public Object obtenerGrupos() {
+        System.out.println("Obteniendo lista de grupos...");
         return academia.getGruposFormados();
     }
 }
