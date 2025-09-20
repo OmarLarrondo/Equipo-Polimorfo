@@ -1,21 +1,24 @@
 package main.Academia.Campos;
 
+/**
+ * Clase abstracta que representa un campo de entrenamiento.
+ * Contiene información básica como nombre y descripción del campo.
+ */
 public abstract class CampoEntrenamiento {
-    /**NOmbre del campo de entraniento (ejemplo: Valle del dragon, ect).*/
+    /**Nombre del campo de entraniento (ejemplo: Valle del dragon, ect).*/
     private String nombre;
     /** Descripcion del campo de entranamiento (ejemplo: "Es un valle ubicado a las afueras de la Montaña Paoz que se encuentra lleno de huesos y está habitado por lobos carnívoros").*/
-    private String descripción;
+    private String descripcion;
 
-    
     /**
      * Constructor para inicializar un objeto de tipo CampoEntranimento.
-     * Crae un nuevo campo de entrenamiento con nombre y descripcion.
+     * Crea un nuevo campo de entrenamiento con nombre y descripcion.
      * @param nombre EL nombre del campo.
      * @param descripción La descripcion del campo.
      */
-    public CampoEntrenamiento(String nombre, String descripción) {
+    public CampoEntrenamiento(String nombre, String descripcion) {
         this.nombre = nombre;
-        this.descripción = descripción;
+        this.descripcion = descripcion;
     }
     /**@return El nombre del campo*/
     public String getNombre() {
@@ -27,22 +30,10 @@ public abstract class CampoEntrenamiento {
     }
     /**@return La descripcion del campo */
     public String getDescripción() {
-        return descripción;
+        return descripcion;
     }
     /**@param descripcion Descripcion del campo */
     public void setDescripción(String descripción) {
-        this.descripción = descripción;
+        this.descripcion = descripción;
     }
-
-    public String getNombre(){
-        return nombre;
-    }
-
-    private int sumaNivelesIntegrantes(){
-        //aqui va codigo
-        return 0;
-    }
-    
-
-    
 }

@@ -1,4 +1,4 @@
-package main.Academia;
+package Academia;
 
 import java.util.*;
 import java.util.function.*;

@@ -20,7 +20,7 @@ public class CampoConcreteFactory implements CampoFactory {
         String tipoCampo = determinarTipoCampo(sumaNiveles);
 
         switch (tipoCampo) {
-            case "Valle del Dragón":
+            case "Valle del Dragon":
                 return new ValleDelDragon("Valle del dragon","Es un valle ubicado a las afueras de la Montaña Paoz que se encuentra lleno de huesos y está habitado por lobos carnívoros. ");
             case "Bosque Sombrío":
                 return new BosqueSombrio("Bosque Sombrio", "Es un bosque con forma circular perteneciente a Konohagakure. Este lugar se suele tomar como base de la segunda etapa de los Exámenes Chūnin, en su momento a cargo de Anko Mitarashi. ");
@@ -38,8 +38,8 @@ public class CampoConcreteFactory implements CampoFactory {
      * @return Nombre del tipo de campo
      */
     private String determinarTipoCampo(int suma) {
-        if (suma < 7) {
-            return "Valle del Dragón";
+        if (suma <= 7) {
+            return "Valle del Dragon";
         } else if (suma >= 8 && suma <= 11) {
             return "Bosque Sombrío";
         } else {

@@ -17,9 +17,9 @@ public class MontañaEspiritual extends CampoEntrenamiento {
      * Crea un nuevo campo de entrenamiento de tipo Montaña Espiritual.
      *
      * @param nombre Nombre del campo (por ejemplo, "Montaña Espiritual")
-     * @param descripción Descripción detallada del campo
+     * @param descripcion Descripción detallada del campo
      */
-    public MontañaEspiritual(String nombre, String descripción) {
-        super(nombre, descripción);
+    public MontañaEspiritual(String nombre, String descripcion) {
+        super(nombre, descripcion);
     }
 }

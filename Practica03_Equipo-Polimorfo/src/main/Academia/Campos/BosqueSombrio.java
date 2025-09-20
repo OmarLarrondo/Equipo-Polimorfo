@@ -16,12 +16,10 @@ public class BosqueSombrio extends CampoEntrenamiento{
     /**
      * Crea un nuevo campo de entrenamiento de tipo Bosque Sombrio.
      *
-     * @param nombre Nombre del campo (por ejemplo, "Bosque sombrio"")
+     * @param nombre Nombre del campo (por ejemplo, "Bosque sombrio")
      * @param descripción Descripción detallada del campo
      */
-    public BosqueSombrio(String nombre, String descripción) {
-        super(nombre, descripción);
-    }
-
-    
+    public BosqueSombrio(String nombre, String descripcion) {
+        super(nombre, descripcion);
+    }   
 }

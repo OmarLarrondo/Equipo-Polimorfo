@@ -17,9 +17,9 @@ public class ValleDelDragon extends CampoEntrenamiento {
      * Crea un nuevo campo de entrenamiento de tipo Valle del dragon.
      *
      * @param nombre Nombre del campo (por ejemplo, "valle del dragon")
-     * @param descripción Descripción detallada del campo
+     * @param descripcion Descripción detallada del campo
      */
-    public ValleDelDragon(String nombre, String descripción) {
-        super(nombre, descripción);
+    public ValleDelDragon(String nombre, String descripcion) {
+        super(nombre, descripcion);
     }
 }
