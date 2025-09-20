@@ -26,15 +26,15 @@ public class HerramientaConcreteFactory implements HerramientaFactory {
 
         switch (tipo.toLowerCase()) {
             case "kunai":
-                return new Kunai();
+                return new Kunai(tipo,5,cantidad);
             case "shuriken":
-                return new Shuriken();
+                return new Shuriken(tipo,10,cantidad);
             case "papel_bomba":
-                return new PapelBomba();
+                return new PapelBomba(tipo,15,cantidad);
             case "bomba_humo":
-                return new BombaHumo();
+                return new BombaHumo(tipo,20,cantidad);
             case "botiquin":
-                return new Botiquin();
+                return new Botiquin(tipo,25,cantidad);
             default:
                 throw new IllegalArgumentException("Tipo de herramienta no reconocido: " + tipo);
         }
@@ -49,9 +49,9 @@ public class HerramientaConcreteFactory implements HerramientaFactory {
     private boolean validarTipo(String tipo) {
         String tipoLower = tipo.toLowerCase();
         return tipoLower.equals("kunai") ||
-               tipoLower.equals("shuriken") ||
-               tipoLower.equals("papel_bomba") ||
-               tipoLower.equals("bomba_humo") ||
-               tipoLower.equals("botiquin");
+            tipoLower.equals("shuriken") ||
+            tipoLower.equals("papel_bomba") ||
+            tipoLower.equals("bomba_humo") ||
+            tipoLower.equals("botiquin");
     }
 }
