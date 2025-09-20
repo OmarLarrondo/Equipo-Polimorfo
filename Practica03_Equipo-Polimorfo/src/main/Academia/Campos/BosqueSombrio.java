@@ -1,4 +1,4 @@
-package Academia.Campos;
+package main.Academia.Campos;
 
 
 public class BosqueSombrio extends CampoEntrenamiento{

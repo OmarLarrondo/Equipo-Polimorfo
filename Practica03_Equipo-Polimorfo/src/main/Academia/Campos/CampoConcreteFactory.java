@@ -1,4 +1,4 @@
-package Academia.Campos;
+package main.Academia.Campos;
 
 /**
  * Implementación concreta del patrón Factory para la creación de campos de entrenamiento.
@@ -21,13 +21,13 @@ public class CampoConcreteFactory implements CampoFactory {
 
         switch (tipoCampo) {
             case "Valle del Dragón":
-                return new ValleDragon();
+                return new ValleDelDragon();
             case "Bosque Sombrío":
                 return new BosqueSombrio();
             case "Montaña Espiritual":
                 return new MontañaEspiritual();
             default:
-                return new ValleDragon(); // Campo por defecto
+                return new ValleDelDragon(); // Campo por defecto
         }
     }
 

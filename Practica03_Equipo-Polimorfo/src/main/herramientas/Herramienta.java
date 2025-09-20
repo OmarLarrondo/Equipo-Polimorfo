@@ -1,4 +1,4 @@
-package herramientas;
+package main.herramientas;
 
 /**
  * Representa una Herramienta con nobre y un peso.

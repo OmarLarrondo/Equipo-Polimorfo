@@ -1,4 +1,4 @@
-package Academia.Campos;
+package main.Academia.Campos;
 
 public abstract class CampoEntrenamiento {
     private String nombre;
@@ -6,6 +6,10 @@ public abstract class CampoEntrenamiento {
 
     public String getDescripcion(){
         return descripción;
+    }
+
+    public String getNombre(){
+        return nombre;
     }
 
     private int sumaNivelesIntegrantes(){

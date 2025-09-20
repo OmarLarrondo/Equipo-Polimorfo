@@ -1,4 +1,4 @@
-package herramientas;
+package main.herramientas;
 
 /**
  * Interfaz del patrón Factory para la creación de herramientas ninja.

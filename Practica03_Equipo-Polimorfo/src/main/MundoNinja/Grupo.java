@@ -1,10 +1,10 @@
-package MundoNinja;
+package main.MundoNinja;
 
 import java.util.List;
 
-import Academia.Campos.CampoConcreteFactory;
-import Academia.Campos.CampoEntrenamiento;
-import PaquetesHerramientas.PaquetesHerramientas;
+import main.Academia.Campos.CampoConcreteFactory;
+import main.Academia.Campos.CampoEntrenamiento;
+import main.PaquetesHerramientas.PaquetesHerramientas;
 
 /**
  * Clase para reresentar un grupo, formado por: un lider, una Lista de aspirantes,
@@ -113,5 +113,41 @@ public class Grupo {
         sb.append("Lugar de entrenamiento").append(lugarEntrenamiento).append("\n");
         sb.append("Descripcion del lugar: ").append(lugarEntrenamiento.getDescripcion());
         return sb.toString();
+    }
+
+    /**
+     * Obtiene el líder del grupo.
+     *
+     * @return El ninja voluntario que lidera el grupo
+     */
+    public NinjaVoluntario getLider() {
+        return lider;
+    }
+
+    /**
+     * Obtiene la lista de estudiantes del grupo.
+     *
+     * @return Lista de estudiantes ninja en el grupo
+     */
+    public List<EstudianteNinja> getEstudiantes() {
+        return estudiantes;
+    }
+
+    /**
+     * Obtiene el paquete de herramientas asignado al grupo.
+     *
+     * @return El paquete de herramientas del grupo
+     */
+    public PaquetesHerramientas getPaquete() {
+        return paquete;
+    }
+
+    /**
+     * Obtiene el lugar de entrenamiento asignado al grupo.
+     *
+     * @return El campo de entrenamiento del grupo
+     */
+    public CampoEntrenamiento getLugarEntrenamiento() {
+        return lugarEntrenamiento;
     }
 }

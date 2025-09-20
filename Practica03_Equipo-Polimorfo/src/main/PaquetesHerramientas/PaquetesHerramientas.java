@@ -1,6 +1,6 @@
-package PaquetesHerramientas;
+package main.PaquetesHerramientas;
 
-import herramientas.Herramienta;
+import main.herramientas.Herramienta;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;

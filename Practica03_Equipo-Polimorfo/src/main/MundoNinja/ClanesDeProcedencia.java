@@ -1,4 +1,4 @@
-package MundoNinja;
+package main.MundoNinja;
 
 /**
  * Enum que representa los Clanes de procedencia de un Aspirante o de un Voluntario.

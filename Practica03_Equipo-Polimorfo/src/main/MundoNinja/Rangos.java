@@ -1,4 +1,4 @@
-package MundoNinja;
+package main.MundoNinja;
 
 /**
  * Enum que representa los rangos de un Ninja Voluntario.

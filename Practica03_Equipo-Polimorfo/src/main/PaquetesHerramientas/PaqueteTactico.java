@@ -1,6 +1,6 @@
-package PaquetesHerramientas;
+package main.PaquetesHerramientas;
 
-import herramientas.*;
+import main.herramientas.*;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Stream;

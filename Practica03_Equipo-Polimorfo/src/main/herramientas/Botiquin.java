@@ -1,4 +1,4 @@
-package herramientas;
+package main.herramientas;
 
 /**
  * Representa una herramienta concreta de tipo Botiquin.
