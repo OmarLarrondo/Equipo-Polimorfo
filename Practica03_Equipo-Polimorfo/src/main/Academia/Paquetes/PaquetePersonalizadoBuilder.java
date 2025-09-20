@@ -1,4 +1,4 @@
-package Academia.Paquetes;
+package main.Academia.Paquetes;
 
 import herramientas.Herramienta;
 import herramientas.HerramientaConcreteFactory;
