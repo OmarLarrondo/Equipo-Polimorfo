@@ -1,6 +1,6 @@
-package main.PaquetesHerramientas;
+package PaquetesHerramientas;
 
-import main.herramientas.Herramienta;
+import herramientas.Herramienta;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -77,7 +77,7 @@ public class PaquetePersonalizado extends PaquetesHerramientas {
     @Override
     public String getDescripcion() {
         if (herramientas.isEmpty()) {
-            return String.format("Paquete Personalizado '%s' - Vacío (0.0 kg)", nombreCustom);
+            return String.format("Paquete Personalizado '%s' - Vacío (0 kg)", nombreCustom);
         }
 
         Map<String, Long> inventario = herramientas.stream()
@@ -96,7 +96,7 @@ public class PaquetePersonalizado extends PaquetesHerramientas {
 
         String estadisticas = generarEstadisticas();
 
-        return String.format("Paquete Personalizado '%s' - Contiene: %s (Peso: %.2f kg) | %s",
+        return String.format("Paquete Personalizado '%s' - Contiene: %s (Peso: %d kg) | %s",
                            nombreCustom, contenidoDetallado, getPesoTotal(), estadisticas);
     }
 

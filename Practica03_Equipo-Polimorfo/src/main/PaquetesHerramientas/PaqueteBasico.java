@@ -1,6 +1,6 @@
-package main.PaquetesHerramientas;
+package PaquetesHerramientas;
 
-import main.herramientas.*;
+import herramientas.*;
 import java.util.stream.Stream;
 
 /**
@@ -49,7 +49,7 @@ public class PaqueteBasico extends PaquetesHerramientas {
             .map(entry -> entry.getValue() + " " + entry.getKey())
             .collect(java.util.stream.Collectors.joining(", "));
 
-        return String.format("Paquete Básico - Contiene: %s (Peso total: %.2f kg)",
+        return String.format("Paquete Básico - Contiene: %s (Peso total: %d kg)",
                            contenido, getPesoTotal());
     }
 

@@ -1,6 +1,6 @@
-package main.PaquetesHerramientas;
+package PaquetesHerramientas;
 
-import main.herramientas.*;
+import herramientas.*;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -67,7 +67,7 @@ public class PaqueteTactico extends PaquetesHerramientas {
                 (entry.getValue() > 1 ? "s" : ""))
             .collect(java.util.stream.Collectors.joining(", "));
 
-        return String.format("Paquete Táctico - Arsenal: %s (Peso total: %.2f kg)",
+        return String.format("Paquete Táctico - Arsenal: %s (Peso total: %d kg)",
                            contenidoTactico, getPesoTotal());
     }
 

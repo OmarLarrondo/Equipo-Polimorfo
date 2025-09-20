@@ -1,6 +1,6 @@
-package main.PaquetesHerramientas;
+package PaquetesHerramientas;
 
-import main.herramientas.*;
+import herramientas.*;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -57,7 +57,7 @@ public class PaqueteAvanzado extends PaquetesHerramientas {
                 (entry.getValue() > 1 ? "s" : ""))
             .collect(java.util.stream.Collectors.joining(", "));
 
-        return String.format("Paquete Avanzado - Contiene: %s (Peso total: %.2f kg)",
+        return String.format("Paquete Avanzado - Contiene: %s (Peso total: %d kg)",
                            contenido, getPesoTotal());
     }
 

@@ -1,6 +1,6 @@
-package main.PaquetesHerramientas;
+package PaquetesHerramientas;
 
-import main.herramientas.Herramienta;
+import herramientas.Herramienta;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -78,10 +78,10 @@ public abstract class PaquetesHerramientas {
     /**
      * Obtiene el peso total del paquete.
      *
-     * @return Peso total actual
+     * @return Peso total actual como entero
      */
-    public double getPesoTotal() {
-        return pesoTotal;
+    public int getPesoTotal() {
+        return (int) Math.round(pesoTotal);
     }
 
     /**

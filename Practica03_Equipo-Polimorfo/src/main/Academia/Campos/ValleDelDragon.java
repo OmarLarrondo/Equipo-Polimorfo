@@ -1,4 +1,4 @@
-package main.Academia.Campos;
+package Academia.Campos;
 
 public class ValleDelDragon extends CampoEntrenamiento {
     private String nombre;
