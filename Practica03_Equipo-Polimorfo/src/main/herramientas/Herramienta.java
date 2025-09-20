@@ -73,8 +73,4 @@ public abstract class  Herramienta {
         return String.format("Herramienta [nombre= %s, peso= %.2f, cantidad= %d]"
                             , nombre, peso, cantidad);
     }
-    
-    
-    
-
 }
