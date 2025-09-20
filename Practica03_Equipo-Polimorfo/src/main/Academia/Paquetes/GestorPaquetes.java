@@ -1,6 +1,6 @@
-package main.Academia.Paquetes;
+package Academia.Paquetes;
 
-import main.PaquetesHerramientas.PaquetesHerramientas;
+import PaquetesHerramientas.PaquetesHerramientas;
 import java.util.function.Function;
 
 /**

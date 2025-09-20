@@ -1,6 +1,6 @@
-package main.Academia.Listas;
+package Academia.Listas;
 
-import main.MundoNinja.NinjaVoluntario;
+import MundoNinja.NinjaVoluntario;
 import java.util.NoSuchElementException;
 
 /**

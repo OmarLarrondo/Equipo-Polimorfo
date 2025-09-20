@@ -1,10 +1,10 @@
-package main.Academia.Listas;
+package Academia.Listas;
 
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.NoSuchElementException;
 
-import main.MundoNinja.EstudianteNinja;
+import MundoNinja.EstudianteNinja;
 
 /**
  * Implementación de lista de estudiantes ninja usando HashTable como almacenamiento.

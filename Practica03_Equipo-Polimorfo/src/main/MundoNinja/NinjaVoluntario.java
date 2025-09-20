@@ -1,4 +1,4 @@
-package main.MundoNinja;
+package MundoNinja;
 
 /**
  * Representa un Voluntario Ninja con nombre, edad, clan de procedencia, rango y nivel de habilidad.

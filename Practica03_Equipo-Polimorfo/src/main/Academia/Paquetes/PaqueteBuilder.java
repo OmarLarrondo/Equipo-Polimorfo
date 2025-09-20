@@ -1,6 +1,6 @@
-package main.Academia.Paquetes;
+package Academia.Paquetes;
 
-import main.PaquetesHerramientas.PaquetesHerramientas;
+import PaquetesHerramientas.PaquetesHerramientas;
 
 /**
  * Interfaz que define el contrato para construir paquetes de herramientas ninja.

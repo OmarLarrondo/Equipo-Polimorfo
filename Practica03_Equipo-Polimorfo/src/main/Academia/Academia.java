@@ -5,11 +5,11 @@ import java.util.function.*;
 import java.util.stream.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-import main.MundoNinja.*;
-import main.Academia.Listas.*;
-import main.Academia.Paquetes.*;
-import main.Academia.Campos.*;
-import main.PaquetesHerramientas.*;
+import MundoNinja.*;
+import Academia.Listas.*;
+import Academia.Paquetes.*;
+import Academia.Campos.*;
+import PaquetesHerramientas.*;
 
 /**
  * Clase de dominio que coordina todas las actividades de la Academia Ninja.
@@ -311,5 +311,14 @@ public class Academia {
                 )
             ));
     }
+
+    public ListaEstudiantesNinjas getAspirantes() {
+        return aspirantes;
+    }
+
+    public ListaNinjaVoluntarios getVoluntarios(){
+        return voluntarios;
+    }
+
 
 }

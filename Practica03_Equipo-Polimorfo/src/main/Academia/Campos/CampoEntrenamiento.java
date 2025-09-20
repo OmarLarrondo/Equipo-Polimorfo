@@ -1,4 +1,4 @@
-package main.Academia.Campos;
+package Academia.Campos;
 
 /**
  * Clase abstracta que representa un campo de entrenamiento.
@@ -29,7 +29,7 @@ public abstract class CampoEntrenamiento {
         this.nombre = nombre;
     }
     /**@return La descripcion del campo */
-    public String getDescripción() {
+    public String getDescripcion() {
         return descripcion;
     }
     /**@param descripcion Descripcion del campo */

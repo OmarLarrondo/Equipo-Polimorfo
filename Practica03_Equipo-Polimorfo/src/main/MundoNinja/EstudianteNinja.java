@@ -1,4 +1,4 @@
-package main.MundoNinja;
+package MundoNinja;
 
 
 /**

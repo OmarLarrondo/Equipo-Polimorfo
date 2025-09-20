@@ -1,6 +1,6 @@
-package main.Academia.Listas;
+package Academia.Listas;
 
-import main.MundoNinja.NinjaVoluntario;
+import MundoNinja.NinjaVoluntario;
 
 /**
  * Clase que representa una lista de ninjas voluntarios utilizando un array.

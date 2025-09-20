@@ -1,4 +1,4 @@
-package main.Academia.Listas;
+package Academia.Listas;
 
 /**
  * Interfaz genérica que define una colección iterable siguiendo el patrón Iterator.
