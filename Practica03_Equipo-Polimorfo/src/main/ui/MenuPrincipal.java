@@ -1,5 +1,12 @@
 package ui;
 
+import main.Academia.Paquetes.GestorPaquetes;
+import main.Academia.Paquetes.PaquetePersonalizadoBuilder;
+import main.Academia.Paquetes.PaqueteBuilder;
+import main.PaquetesHerramientas.PaquetesHerramientas;
+import java.util.function.*;
+import java.util.stream.*;
+
 /**
  * Clase que maneja la presentación y lógica del menú principal de la aplicación.
  * Proporciona opciones para gestionar estudiantes, voluntarios, grupos, paquetes
@@ -9,6 +16,17 @@ package ui;
  * @version 1.0
  */
 public class MenuPrincipal {
+
+    /**
+     * Enumeración que define los tipos de paquetes disponibles.
+     */
+    public enum TipoPaquete {
+        BASICO,
+        AVANZADO,
+        TACTICO,
+        PERSONALIZADO,
+        OPCION_INVALIDA
+    }
 
     /** Gestor de interacciones con el usuario */
     private GestorInteraccion gestorInteraccion;
@@ -95,10 +113,95 @@ public class MenuPrincipal {
      */
     public void mostrarBanner() {
         gestorInteraccion.mostrarLinea("\n" + "=".repeat(60));
-        gestorInteraccion.mostrarLinea("    🥷 ACADEMIA NINJA - ALDEA DE LAS CIENCIAS 🥷");
+        gestorInteraccion.mostrarLinea("    ACADEMIA NINJA - ALDEA DE LAS CIENCIAS ");
         gestorInteraccion.mostrarLinea("          Sistema de Gestión de Actividades");
         gestorInteraccion.mostrarLinea("=".repeat(60));
         gestorInteraccion.mostrarLinea("    Bienvenido al sistema del Vickage");
         gestorInteraccion.mostrarLinea("=".repeat(60));
+    }
+
+    /**
+     * Procesa la opción seleccionada por el usuario en el menú de paquetes
+     * y retorna el tipo de paquete correspondiente.
+     *
+     * @param opcion Número de opción seleccionada por el usuario (1-4)
+     * @return TipoPaquete correspondiente a la selección del usuario
+     */
+    public TipoPaquete procesarOpcionPaquete(int opcion) {
+        switch (opcion) {
+            case 1:
+                return TipoPaquete.BASICO;
+            case 2:
+                return TipoPaquete.AVANZADO;
+            case 3:
+                return TipoPaquete.TACTICO;
+            case 4:
+                return TipoPaquete.PERSONALIZADO;
+            default:
+                return TipoPaquete.OPCION_INVALIDA;
+        }
+    }
+
+    /**
+     * Guía al usuario en la creación de un paquete personalizado usando el patrón Builder.
+     * Solicita la cantidad de cada tipo de herramienta y construye el paquete según
+     * las especificaciones del usuario.
+     *
+     * @param gestorInteraccion Gestor para manejar las interacciones con el usuario
+     * @return Paquete personalizado construido según las especificaciones del usuario
+     */
+    public PaquetesHerramientas crearPaquetePersonalizado(GestorInteraccion gestorInteraccion) {
+        Supplier<Void> mostrarEncabezado = () -> {
+            gestorInteraccion.mostrarLinea("\n" + "=".repeat(50));
+            gestorInteraccion.mostrarLinea("        CREACIÓN DE PAQUETE PERSONALIZADO");
+            gestorInteraccion.mostrarLinea("=".repeat(50));
+            gestorInteraccion.mostrarLinea("Especifique la cantidad de cada herramienta:");
+            gestorInteraccion.mostrarLinea("(Ingrese 0 si no desea incluir esa herramienta)");
+            gestorInteraccion.mostrarLinea("");
+            return null;
+        };
+
+        Function<String, BiFunction<PaqueteBuilder, Integer, PaqueteBuilder>> configurarHerramienta = tipo -> {
+            switch (tipo) {
+                case "Kunai": return (builder, cantidad) -> { builder.addKunai(cantidad); return builder; };
+                case "Shuriken": return (builder, cantidad) -> { builder.addShuriken(cantidad); return builder; };
+                case "PapelBomba": return (builder, cantidad) -> { builder.addPapelBomba(cantidad); return builder; };
+                case "BombaHumo": return (builder, cantidad) -> { builder.addBombaHumo(cantidad); return builder; };
+                case "Botiquin": return (builder, cantidad) -> { builder.addBotiquin(cantidad); return builder; };
+                default: return (builder, cantidad) -> builder;
+            }
+        };
+
+        Function<PaqueteBuilder, Function<String[], PaqueteBuilder>> procesarHerramientas = builder -> herramientas -> {
+            return Stream.of(herramientas)
+                .reduce(builder, (currentBuilder, tipo) -> {
+                    int cantidad = gestorInteraccion.leerEntero(tipo + ": ");
+                    return cantidad > 0 ?
+                        configurarHerramienta.apply(tipo.replace(" ", "")).apply(currentBuilder, cantidad) :
+                        currentBuilder;
+                }, (b1, b2) -> b2);
+        };
+
+        Consumer<PaquetesHerramientas> mostrarResultado = paquete -> {
+            gestorInteraccion.mostrarLinea("");
+            gestorInteraccion.mostrarLinea("¡Paquete personalizado creado exitosamente!");
+            gestorInteraccion.mostrarLinea("Descripción: " + paquete.getDescripcion());
+            gestorInteraccion.mostrarLinea("=".repeat(50));
+        };
+
+        mostrarEncabezado.get();
+
+        PaqueteBuilder builder = new GestorPaquetes(new PaquetePersonalizadoBuilder())
+            .dirigirConstruccionPersonalizada();
+
+        String[] tiposHerramientas = {"Kunai", "Shuriken", "Papeles Bomba", "Bombas de Humo", "Botiquin"};
+
+        PaquetesHerramientas paquetePersonalizado = procesarHerramientas
+            .apply(builder)
+            .apply(tiposHerramientas)
+            .build();
+
+        mostrarResultado.accept(paquetePersonalizado);
+        return paquetePersonalizado;
     }
 }

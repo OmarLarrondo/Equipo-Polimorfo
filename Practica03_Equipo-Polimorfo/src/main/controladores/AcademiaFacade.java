@@ -1,7 +1,7 @@
 package controladores;
 
 import Academia.Academia;
-import MundoNinja.Grupo;
+import main.MundoNinja.Grupo;
 import ui.GestorInteraccion;
 
 /**
@@ -100,13 +100,11 @@ public class AcademiaFacade {
     }
 
     /**
-     * Obtiene la lista de grupos formados (para funcionalidades futuras).
+     * Obtiene la lista de grupos formados.
      *
-     * @return Lista de grupos (implementación pendiente)
+     * @return Lista de grupos formados en la academia
      */
-    public Object obtenerGrupos() {
-        // Implementación pendiente - requiere definir el tipo de retorno apropiado
-        System.out.println("Obteniendo lista de grupos...");
-        return null; // Temporal
+    public java.util.List<main.MundoNinja.Grupo> obtenerGrupos() {
+        return academia.getGruposFormados();
     }
 }

@@ -4,6 +4,14 @@ import Academia.Academia;
 import ui.MenuPrincipal;
 import ui.GestorInteraccion;
 import ui.MenuOpcion;
+import main.MundoNinja.Grupo;
+import main.Academia.Paquetes.GestorPaquetes;
+import main.Academia.Paquetes.PaquetePersonalizadoBuilder;
+import main.PaquetesHerramientas.PaquetesHerramientas;
+import java.util.List;
+import java.util.function.*;
+import java.util.stream.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Controlador principal de la aplicación que coordina todos los componentes
@@ -140,9 +148,112 @@ public class AplicacionControlador {
 
     /**
      * Maneja la asignación interactiva de paquetes para cada grupo.
+     * Itera sobre todos los grupos formados y permite al usuario seleccionar
+     * un paquete para cada uno.
      */
     private void asignarPaquetesInteractivo() {
-        // Esta funcionalidad se implementará cuando tengamos la lista de grupos
-        gestorInteraccion.mostrarMensaje("Funcionalidad de asignación de paquetes en desarrollo...");
+        List<Grupo> grupos = academiaFacade.obtenerGrupos();
+
+        Predicate<List<Grupo>> gruposVacios = List::isEmpty;
+        if (gruposVacios.test(grupos)) {
+            gestorInteraccion.mostrarMensaje("No hay grupos formados para asignar paquetes.");
+            return;
+        }
+
+        Consumer<List<Grupo>> mostrarEncabezado = listaGrupos -> {
+            gestorInteraccion.mostrarMensaje("\n=== ASIGNACIÓN DE PAQUETES ===");
+            gestorInteraccion.mostrarMensaje("Total de grupos formados: " + listaGrupos.size());
+        };
+
+        Function<MenuPrincipal.TipoPaquete, Function<GestorPaquetes, PaquetesHerramientas>> seleccionarPaquete = tipo -> gestor -> {
+            switch (tipo) {
+                case BASICO:
+                    gestorInteraccion.mostrarMensaje("Paquete Básico seleccionado.");
+                    return gestor.construirPaqueteBasico();
+                case AVANZADO:
+                    gestorInteraccion.mostrarMensaje("Paquete Avanzado seleccionado.");
+                    return gestor.construirPaqueteAvanzado();
+                case TACTICO:
+                    gestorInteraccion.mostrarMensaje("Paquete Táctico seleccionado.");
+                    return gestor.construirPaqueteTactico();
+                case PERSONALIZADO:
+                    return menuPrincipal.crearPaquetePersonalizado(gestorInteraccion);
+                default:
+                    gestorInteraccion.mostrarMensaje("Opción no válida. Intente nuevamente.");
+                    return null;
+            }
+        };
+
+        Function<Grupo, Function<Integer, Consumer<GestorPaquetes>>> procesarGrupo = grupo -> numeroGrupo -> gestor -> {
+            gestorInteraccion.mostrarMensaje("\n" + "=".repeat(60));
+            gestorInteraccion.mostrarMensaje("GRUPO " + numeroGrupo + " de " + grupos.size());
+            gestorInteraccion.mostrarMensaje("=".repeat(60));
+
+            mostrarInformacionGrupo(grupo);
+
+            Supplier<PaquetesHerramientas> solicitarPaquete = () -> {
+                PaquetesHerramientas paquete = null;
+                while (paquete == null) {
+                    menuPrincipal.mostrarMenuPaquetes();
+                    int opcionPaquete = gestorInteraccion.leerEntero("Seleccione un paquete para este grupo: ");
+                    MenuPrincipal.TipoPaquete tipoPaquete = menuPrincipal.procesarOpcionPaquete(opcionPaquete);
+                    paquete = seleccionarPaquete.apply(tipoPaquete).apply(gestor);
+                }
+                return paquete;
+            };
+
+            PaquetesHerramientas paqueteSeleccionado = solicitarPaquete.get();
+            if (grupo.asignarPaquete(paqueteSeleccionado)) {
+                gestorInteraccion.mostrarMensaje("¡Paquete asignado exitosamente!");
+                gestorInteraccion.mostrarMensaje("Descripción: " + paqueteSeleccionado.getDescripcion());
+            } else {
+                gestorInteraccion.mostrarMensaje("Error al asignar el paquete.");
+            }
+        };
+
+        mostrarEncabezado.accept(grupos);
+        GestorPaquetes gestorPaquetes = new GestorPaquetes(new PaquetePersonalizadoBuilder());
+        AtomicInteger contador = new AtomicInteger(1);
+
+        grupos.stream()
+            .forEach(grupo -> {
+                int numeroActual = contador.getAndIncrement();
+                procesarGrupo.apply(grupo).apply(numeroActual).accept(gestorPaquetes);
+                if (numeroActual < grupos.size()) {
+                    gestorInteraccion.pausar();
+                }
+            });
+
+        gestorInteraccion.mostrarMensaje("\n¡Asignación de paquetes completada para todos los grupos!");
+    }
+
+    /**
+     * Muestra información detallada de un grupo específico.
+     *
+     * @param grupo Grupo del cual mostrar información
+     */
+    private void mostrarInformacionGrupo(Grupo grupo) {
+        Consumer<Grupo> mostrarLider = g -> {
+            gestorInteraccion.mostrarMensaje("INFORMACIÓN DEL GRUPO:");
+            gestorInteraccion.mostrarMensaje("Líder: " + g.getLider().getNombre() +
+                                           " (Rango: " + g.getLider().getRango() +
+                                           ", Habilidad: " + g.getLider().getNivelHabilidad() + ")");
+        };
+
+        Consumer<Grupo> mostrarEstudiantes = g -> {
+            gestorInteraccion.mostrarMensaje("Estudiantes (" + g.getEstudiantes().size() + "):");
+            g.getEstudiantes().stream()
+                .map(estudiante -> "  - " + estudiante.getNombre() +
+                                  " (Habilidad: " + estudiante.getNivelHabilidad() + ")")
+                .forEach(gestorInteraccion::mostrarMensaje);
+        };
+
+        Consumer<Grupo> mostrarResumen = g -> {
+            gestorInteraccion.mostrarMensaje("Suma total de habilidades: " + g.calcularSumaHabilidades());
+            gestorInteraccion.mostrarMensaje("");
+        };
+
+        Stream.of(mostrarLider, mostrarEstudiantes, mostrarResumen)
+            .forEach(funcion -> funcion.accept(grupo));
     }
 }
