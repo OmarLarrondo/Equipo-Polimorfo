@@ -1,10 +1,10 @@
-package Academia.Paquetes;
+package main.Academia.Paquetes;
 
-import herramientas.Herramienta;
-import herramientas.HerramientaConcreteFactory;
-import herramientas.HerramientaFactory;
-import PaquetesHerramientas.PaquetePersonalizado;
-import PaquetesHerramientas.PaquetesHerramientas;
+import main.herramientas.Herramienta;
+import main.herramientas.HerramientaConcreteFactory;
+import main.herramientas.HerramientaFactory;
+import main.PaquetesHerramientas.PaquetePersonalizado;
+import main.PaquetesHerramientas.PaquetesHerramientas;
 
 import java.util.ArrayList;
 import java.util.List;

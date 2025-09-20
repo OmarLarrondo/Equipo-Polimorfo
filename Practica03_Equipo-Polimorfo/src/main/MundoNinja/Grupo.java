@@ -1,10 +1,10 @@
-package MundoNinja;
+package main.MundoNinja;
 
 import java.util.List;
 
-import Academia.Campos.CampoConcreteFactory;
-import Academia.Campos.CampoEntrenamiento;
-import PaquetesHerramientas.PaquetesHerramientas;
+import main.Academia.Campos.CampoConcreteFactory;
+import main.Academia.Campos.CampoEntrenamiento;
+import main.PaquetesHerramientas.PaquetesHerramientas;
 
 /**
  * Clase para reresentar un grupo, formado por: un lider, una Lista de aspirantes,

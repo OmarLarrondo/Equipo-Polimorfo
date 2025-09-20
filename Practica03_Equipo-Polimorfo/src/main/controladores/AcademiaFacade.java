@@ -1,15 +1,15 @@
 package controladores;
 
-import Academia.Academia;
-import MundoNinja.Grupo;
-import MundoNinja.EstudianteNinja;
+import main.Academia.Academia;
+import main.MundoNinja.Grupo;
+import main.MundoNinja.EstudianteNinja;
 import ui.GestorInteraccion;
 
-import Academia.Listas.Iterator;
-import Academia.Paquetes.GestorPaquetes;
-import Academia.Paquetes.PaqueteBuilder;
-import MundoNinja.NinjaVoluntario;
-import PaquetesHerramientas.PaquetesHerramientas;
+import main.Academia.Listas.Iterator;
+import main.Academia.Paquetes.GestorPaquetes;
+import main.Academia.Paquetes.PaqueteBuilder;
+import main.MundoNinja.NinjaVoluntario;
+import main.PaquetesHerramientas.PaquetesHerramientas;
 /**
  * Facade que proporciona una interfaz simplificada para las operaciones
  * de alto nivel de la Academia Ninja. Encapsula la complejidad del subsistema

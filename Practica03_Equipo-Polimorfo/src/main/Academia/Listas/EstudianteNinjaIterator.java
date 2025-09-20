@@ -1,6 +1,6 @@
-package Academia.Listas;
+package main.Academia.Listas;
 
-import MundoNinja.EstudianteNinja;
+import main.MundoNinja.EstudianteNinja;
 
 /**
  * Interfaz que define el contrato para contenedores iterables de EstudianteNinja.

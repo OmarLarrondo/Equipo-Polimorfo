@@ -1,4 +1,4 @@
-package Academia.Campos;
+package main.Academia.Campos;
 
 /**
  * Clase abstracta que representa un campo de entrenamiento.

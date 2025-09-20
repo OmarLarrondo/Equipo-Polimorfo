@@ -24,19 +24,13 @@ public class PaqueteAvanzado extends PaquetesHerramientas {
     }
 
     /**
-     * Inicializa las herramientas del paquete avanzado usando un enfoque
-     * funcional declarativo con Map y streams para manejar cantidades múltiples.
+     * Inicializa las herramientas del paquete avanzado.
      */
     public void inicializarHerramientas() {
-        Map<Supplier<Herramienta>, Integer> herramientasConfig = Map.of(
-            Shuriken::new, 2,
-            PapelBomba::new, 3,
-            BombaHumo::new, 2,
-            Botiquin::new, 2
-        );
-
-        herramientasConfig.entrySet().stream()
-            .forEach(entry -> agregarHerramientas(entry.getKey(), entry.getValue()));
+        agregarHerramienta(new Shuriken("Shuriken", 0.3, 2));
+        agregarHerramienta(new PapelBomba("Papel Bomba", 0.1, 3));
+        agregarHerramienta(new BombaHumo("Bomba de Humo", 0.4, 2));
+        agregarHerramienta(new Botiquin("Botiquín", 1.2, 2));
     }
 
     /**

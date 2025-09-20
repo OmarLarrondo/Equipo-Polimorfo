@@ -1,15 +1,15 @@
-package Academia;
+package main.Academia;
 
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-import MundoNinja.*;
-import Academia.Listas.*;
-import Academia.Paquetes.*;
-import Academia.Campos.*;
-import PaquetesHerramientas.*;
+import main.MundoNinja.*;
+import main.Academia.Listas.*;
+import main.Academia.Paquetes.*;
+import main.Academia.Campos.*;
+import main.PaquetesHerramientas.*;
 
 /**
  * Clase de dominio que coordina todas las actividades de la Academia Ninja.

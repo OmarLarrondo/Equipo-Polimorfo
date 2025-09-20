@@ -1,20 +1,18 @@
 package controladores;
 
 import java.util.List;
-
-import Academia.Academia;
-import MundoNinja.Grupo;
-import ui.MenuPrincipal;
-import ui.GestorInteraccion;
-import ui.MenuOpcion;
-import main.MundoNinja.Grupo;
-import main.Academia.Paquetes.GestorPaquetes;
-import main.Academia.Paquetes.PaquetePersonalizadoBuilder;
-import main.PaquetesHerramientas.PaquetesHerramientas;
-import java.util.List;
 import java.util.function.*;
 import java.util.stream.*;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import main.Academia.Academia;
+import main.MundoNinja.Grupo;
+import ui.MenuPrincipal;
+import ui.GestorInteraccion;
+import ui.MenuOpcion;
+import main.Academia.Paquetes.GestorPaquetes;
+import main.Academia.Paquetes.PaquetePersonalizadoBuilder;
+import main.PaquetesHerramientas.PaquetesHerramientas;
 
 /**
  * Controlador principal de la aplicación que coordina todos los componentes

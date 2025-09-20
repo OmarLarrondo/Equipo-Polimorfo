@@ -25,12 +25,9 @@ public class PaqueteBasico extends PaquetesHerramientas {
      * Inicializa las herramientas del paquete básico.
      */
     public void inicializarHerramientas() {
-        Stream.of(
-            Kunai::new,
-            Shuriken::new,
-            Botiquin::new
-        ).map(java.util.function.Supplier::get)
-         .forEach(this::agregarHerramienta);
+        agregarHerramienta(new Kunai("Kunai", 0.5, 1));
+        agregarHerramienta(new Shuriken("Shuriken", 0.3, 1));
+        agregarHerramienta(new Botiquin("Botiquín", 1.2, 1));
     }
 
     /**

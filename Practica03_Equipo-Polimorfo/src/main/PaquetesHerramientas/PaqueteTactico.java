@@ -24,19 +24,13 @@ public class PaqueteTactico extends PaquetesHerramientas {
     }
 
     /**
-     * Inicializa las herramientas del paquete táctico usando un enfoque
-     * declarativo optimizado para combate táctico.
+     * Inicializa las herramientas del paquete táctico.
      */
     public void inicializarHerramientas() {
-        Map<Supplier<Herramienta>, Integer> configTactica = Map.of(
-            Kunai::new, 3,          
-            Shuriken::new, 2,      
-            PapelBomba::new, 4,     
-            BombaHumo::new, 2
-        );
-
-        configTactica.entrySet().stream()
-            .forEach(entry -> agregarHerramientas(entry.getKey(), entry.getValue()));
+        agregarHerramienta(new Kunai("Kunai", 0.5, 3));
+        agregarHerramienta(new Shuriken("Shuriken", 0.3, 2));
+        agregarHerramienta(new PapelBomba("Papel Bomba", 0.1, 4));
+        agregarHerramienta(new BombaHumo("Bomba de Humo", 0.4, 2));
     }
 
     /**
