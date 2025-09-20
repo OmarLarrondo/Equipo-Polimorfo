@@ -21,13 +21,13 @@ public class CampoConcreteFactory implements CampoFactory {
 
         switch (tipoCampo) {
             case "Valle del Dragón":
-                return new ValleDragon();
+                return new ValleDelDragon("Valle del dragon","Es un valle ubicado a las afueras de la Montaña Paoz que se encuentra lleno de huesos y está habitado por lobos carnívoros. ");
             case "Bosque Sombrío":
-                return new BosqueSombrio();
+                return new BosqueSombrio("Bosque Sombrio", "Es un bosque con forma circular perteneciente a Konohagakure. Este lugar se suele tomar como base de la segunda etapa de los Exámenes Chūnin, en su momento a cargo de Anko Mitarashi. ");
             case "Montaña Espiritual":
-                return new MontañaEspiritual();
+                return new MontañaEspiritual("Montaña Espiritual", "Es una de las tres grandes regiones de sabios inexploradas , un lugar legendario. Es el hogar de sapos grandes y pequeños por igual ");
             default:
-                return new ValleDragon(); // Campo por defecto
+                return new ValleDelDragon("Valle del dragon","Es un valle ubicado a las afueras de la Montaña Paoz que se encuentra lleno de huesos y está habitado por lobos carnívoros. ");// Campo por defecto
         }
     }
 

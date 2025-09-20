@@ -2,7 +2,7 @@ package herramientas;
 
 /**
  * Interfaz del patrón Factory para la creación de herramientas ninja.
- * Define el contrato para las factorías que crean diferentes tipos de herramientas.
+ * Define el contrato para las fabricas que crean diferentes tipos de herramientas.
  *
  * @author Equipo-Polimorfo
  * @version 1.0
