@@ -16,5 +16,5 @@ public interface HerramientaFactory {
      * @param cantidad Cantidad de herramientas del tipo especificado
      * @return Herramienta creada con las características especificadas
      */
-    Herramienta crearHerramienta(String tipo, int cantidad);
+    public Herramienta crearHerramienta(String tipo, int cantidad);
 }
