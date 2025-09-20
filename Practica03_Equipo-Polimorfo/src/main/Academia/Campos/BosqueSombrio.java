@@ -1,6 +1,7 @@
-package main.Academia.Campos;
+package Academia.Campos;
 
-public class BosqueSombrillo extends CampoEntrenamiento{
+
+public class BosqueSombrio extends CampoEntrenamiento{
     private String nombre;
     private String descripcion;
     

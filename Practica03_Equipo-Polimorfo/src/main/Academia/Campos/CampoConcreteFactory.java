@@ -16,7 +16,6 @@ public class CampoConcreteFactory implements CampoFactory {
      * @param sumaNiveles Suma total de niveles de habilidad del grupo
      * @return Campo de entrenamiento apropiado para el nivel
      */
-    @Override
     public CampoEntrenamiento crearCampo(int sumaNiveles) {
         String tipoCampo = determinarTipoCampo(sumaNiveles);
 

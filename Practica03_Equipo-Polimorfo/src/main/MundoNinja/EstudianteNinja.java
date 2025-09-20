@@ -1,84 +1,134 @@
-package main.MundoNinja;
-import main.MundoNinja.ClanesDeProcedencia;
+package MundoNinja;
 
+
+/**
+ * Representa un estudiante ninja con nombre, edad, clan de procedencia y nivel de habilidad.
+ * Se utiliza el patrón Builder aqui para crearlos de forma mas flexible
+ */
 public class EstudianteNinja {
+
+    /** Nombre del estudiante ninja */
     private String nombre;
+    /** Edad del estudiante (0-100) */
     private int edad;
+    /** Clan de procedencia del estudiante */
     private ClanesDeProcedencia clan;
+    /** Nivel de habilidad del estudiante (1-3)*/
     private int nivelHabilidad;
+    
+    /** Constructor privado para forzar el uso del Builder */
+    private EstudianteNinja() {
 
-    private EstudianteNinja(){}
+    }
 
-    public static class Builder{
+    /**
+     * Builder para crear instancias de EstudianteNinja.
+     */
+    public static class Builder {
+        /** Instancia interna que se construye paso a paso */
         private EstudianteNinja estudiante = new EstudianteNinja();
 
-        public Builder nombre(String nombreBuilder){
+        /**
+         * Asigna el nombre del estudiante.
+         * @param nombreBuilder Nombre del estudiante
+         * @return El Builder actual
+         */
+        public Builder nombre(String nombreBuilder) {
             estudiante.nombre = nombreBuilder;
             return this;
         }
 
-        public Builder edad(int edadBuilder){
+        /**
+         * Asigna la edad del estudiante.
+         * @param edadBuilder Edad del estudiante
+         * @return El Builder actual
+         */
+        public Builder edad(int edadBuilder) {
             estudiante.edad = edadBuilder;
             return this;
         }
 
-        public Builder clanesDeProcedencia(ClanesDeProcedencia clanBuilder){
+        /**
+         * Asigna el clan de procedencia del estudiante.
+         * @param clanBuilder Clan del estudiante
+         * @return El Builder actual
+         */
+        public Builder clanesDeProcedencia(ClanesDeProcedencia clanBuilder) {
             estudiante.clan = clanBuilder;
             return this;
         }
 
-        public Builder nivelHabilidad(int nivelHabilidadBuilder){
+        /**
+         * Asigna el nivel de habilidad del estudiante. (1-3)
+         * @param nivelHabilidadBuilder Nivel de habilidad
+         * @return El Builder actual
+         */
+        public Builder nivelHabilidad(int nivelHabilidadBuilder) {
             estudiante.nivelHabilidad = nivelHabilidadBuilder;
             return this;
         }
 
-        public EstudianteNinja build(){
+        /**
+         * Construye y devuelve la instancia de EstudianteNinja.
+         * @return EstudianteNinja construido
+         */
+        public EstudianteNinja build() {
             return estudiante;
         }
     }
 
-    public String getNombre() {
-        return nombre;
+    /** Getters y Setters */
+
+    /** @return Nombre del estudiante */
+    public String getNombre() { 
+        return nombre; 
     }
 
+    /** @param nombre Nombre del estudiante */
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre; 
     }
 
-    public int getEdad() {
-        return edad;
+    /** @return Edad del estudiante */
+    public int getEdad() { 
+        return edad; 
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+    /** @param edad Edad del estudiante */
+    public void setEdad(int edad) { 
+        this.edad = edad; 
     }
 
-    public ClanesDeProcedencia getClan() {
-        return clan;
+    /** @return Clan del estudiante */
+    public ClanesDeProcedencia getClan() { 
+        return clan; 
     }
 
-    public void setClan(ClanesDeProcedencia clan) {
-        this.clan = clan;
+    /** @param clan Clan del estudiante */
+    public void setClan(ClanesDeProcedencia clan) { 
+        this.clan = clan; 
     }
 
-    public int getNivelHabilidad() {
-        return nivelHabilidad;
+    /** @return Nivel de habilidad del estudiante */
+    public int getNivelHabilidad() { 
+        return nivelHabilidad; 
     }
 
-    public void setNivelHabilidad(int nivelHabilidad) {
-        this.nivelHabilidad = nivelHabilidad;
+    /** @param nivelHabilidad Nivel de habilidad del estudiante */
+    public void setNivelHabilidad(int nivelHabilidad) { 
+        this.nivelHabilidad = nivelHabilidad; 
     }
+
     
+    /**
+     * Devuelve una representación en texto del estudiante ninja.
+     * @return String con los datos del estudiante
+     */
     @Override
     public String toString() {
-        return "EstudianteNinja {" +
-            "nombre='" + nombre + '\'' +
-            ", edad=" + edad +
-            ", clan=" + clan +
-            ", nivelHabilidad=" + nivelHabilidad +
-            '}';
+        return String.format(
+            "Estudiante Ninja {nombre: %s \nedad: %d \nclan: %s \nnivelHabilidad: %d}",
+            nombre, edad, clan, nivelHabilidad
+        );
     }
-
-
-    
 }
