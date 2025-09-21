@@ -219,12 +219,64 @@ public class Academia {
 
     /**
      * Crea un paquete personalizado de herramientas usando el Builder.
+     * Utiliza cantidades predeterminadas para demostración.
      *
      * @return Paquete personalizado construido
      */
     public PaquetesHerramientas crearPaquetePersonalizado() {
-        // Por ahora retorna un paquete táctico como personalizado
-        // TODO: Implementar verdadera personalización cuando esté disponible
+        return crearPaquetePersonalizado(2, 2, 1, 1, 2);
+    }
+
+    /**
+     * Crea un paquete personalizado de herramientas con cantidades específicas.
+     * Utiliza el patrón Builder para construir el paquete según las especificaciones.
+     *
+     * @param cantidadKunais Cantidad de kunais a incluir
+     * @param cantidadShurikens Cantidad de shurikens a incluir
+     * @param cantidadPapelesBomba Cantidad de papeles bomba a incluir
+     * @param cantidadBombasHumo Cantidad de bombas de humo a incluir
+     * @param cantidadBotiquines Cantidad de botiquines a incluir
+     * @return Paquete personalizado construido según las especificaciones
+     */
+    public PaquetesHerramientas crearPaquetePersonalizado(int cantidadKunais, int cantidadShurikens,
+            int cantidadPapelesBomba, int cantidadBombasHumo, int cantidadBotiquines) {
+
+        return gestorPaquetes.dirigirConstruccionPersonalizada()
+            .addKunai(Math.max(0, cantidadKunais))
+            .addShuriken(Math.max(0, cantidadShurikens))
+            .addPapelBomba(Math.max(0, cantidadPapelesBomba))
+            .addBombaHumo(Math.max(0, cantidadBombasHumo))
+            .addBotiquin(Math.max(0, cantidadBotiquines))
+            .build();
+    }
+
+    /**
+     * Crea un paquete básico predefinido de herramientas ninja.
+     * Contiene: 1 Kunai, 1 Shuriken, 1 Botiquín.
+     *
+     * @return Paquete básico de herramientas ninja
+     */
+    public PaquetesHerramientas construirPaqueteBasico() {
+        return gestorPaquetes.construirPaqueteBasico();
+    }
+
+    /**
+     * Crea un paquete avanzado predefinido de herramientas ninja.
+     * Contiene: 2 Shurikens, 3 Papeles Bomba, 2 Bombas de Humo, 2 Botiquines.
+     *
+     * @return Paquete avanzado de herramientas ninja
+     */
+    public PaquetesHerramientas construirPaqueteAvanzado() {
+        return gestorPaquetes.construirPaqueteAvanzado();
+    }
+
+    /**
+     * Crea un paquete táctico predefinido de herramientas ninja.
+     * Contiene: 3 Kunais, 2 Shurikens, 4 Papeles Bomba, 2 Bombas de Humo.
+     *
+     * @return Paquete táctico de herramientas ninja
+     */
+    public PaquetesHerramientas construirPaqueteTactico() {
         return gestorPaquetes.construirPaqueteTactico();
     }
 

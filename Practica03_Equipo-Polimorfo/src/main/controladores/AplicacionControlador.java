@@ -154,12 +154,17 @@ public class AplicacionControlador {
      */
     private void asignarPaquetesInteractivo() {
         if(academiaFacade.hayGruposFormados() != true){
-            System.out.println("No hay grupos formados para asignar paquetes");
+            gestorInteraccion.mostrarMensaje("No hay grupos formados para asignar paquetes");
             return;
         }
+        gestorInteraccion.mostrarMensaje("Obteniendo lista de grupos...");
         List<Grupo> grupos = (List<Grupo>)academiaFacade.obtenerGrupos();
         for(Grupo g: grupos){
-            System.out.println(g);
+            gestorInteraccion.mostrarLinea("\n" + "=".repeat(50));
+            gestorInteraccion.mostrarLinea("INFORMACIÓN DEL GRUPO:");
+            gestorInteraccion.mostrarLinea("=".repeat(50));
+            gestorInteraccion.mostrarLinea(g.toString());
+            gestorInteraccion.mostrarLinea("=".repeat(50));
             boolean respuesta = gestorInteraccion.confirmarAccion("Asignar paquete a este grupo?"   );
 
             if(respuesta){

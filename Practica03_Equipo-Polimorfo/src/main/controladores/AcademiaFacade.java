@@ -6,8 +6,6 @@ import main.MundoNinja.EstudianteNinja;
 import ui.GestorInteraccion;
 
 import main.Academia.Listas.Iterator;
-import main.Academia.Paquetes.GestorPaquetes;
-import main.Academia.Paquetes.PaqueteBuilder;
 import main.MundoNinja.NinjaVoluntario;
 import main.PaquetesHerramientas.PaquetesHerramientas;
 /**
@@ -90,43 +88,31 @@ public class AcademiaFacade {
             return;
         }
 
-        GestorPaquetes gp = new GestorPaquetes(null); 
         PaquetesHerramientas paqueteElegido = null;
-        
+
         switch (eleccion) {
             case 1:
-            paqueteElegido = gp.construirPaqueteBasico();
+                paqueteElegido = academia.construirPaqueteBasico();
                 break;
             case 2:
-            paqueteElegido = gp.construirPaqueteAvanzado();
+                paqueteElegido = academia.construirPaqueteAvanzado();
                 break;
             case 3:
-            paqueteElegido = gp.construirPaqueteTactico();
+                paqueteElegido = academia.construirPaqueteTactico();
                 break;
             case 4:
-            PaqueteBuilder builder = gp.dirigirConstruccionPersonalizada();
+                int kunais = gestorInteraccion.leerEntero("Cuántos kunais quieres?");
+                int shurikens = gestorInteraccion.leerEntero("Cuántos shurikens quieres?");
+                int papeles = gestorInteraccion.leerEntero("Cuántos papeles bomba?");
+                int bombasHumo = gestorInteraccion.leerEntero("Cuántas bombas de humo?");
+                int botiquines = gestorInteraccion.leerEntero("Cuántos botiquines quieres?");
 
-            int kunais = gestorInteraccion.leerEntero("Cuántos kunais quieres?");
-            builder.addKunai(kunais);
-
-            int shurikens = gestorInteraccion.leerEntero("Cuántos shurikens quieres?");
-            builder.addShuriken(shurikens);
-
-            int papeles = gestorInteraccion.leerEntero("Cuántos papeles bomba?");
-            builder.addPapelBomba(papeles);
-
-            int bombasHumo = gestorInteraccion.leerEntero("Cuántas bombas de humo?");
-            builder.addBombaHumo(bombasHumo);
-
-            int botiquines = gestorInteraccion.leerEntero("Cuántos botiquines quieres?");
-            builder.addBotiquin(botiquines);
-
-            paqueteElegido = builder.build(); 
+                paqueteElegido = academia.crearPaquetePersonalizado(kunais, shurikens, papeles, bombasHumo, botiquines);
                 break;
             default:
                 System.out.println("Opción no válida.");
                 return;
-                }
+        }
 
         grupo.asignarPaquete(paqueteElegido);
         System.out.println("Paquete asignado correctamente al grupo.");
@@ -164,7 +150,6 @@ public class AcademiaFacade {
      * @return Lista de grupos formados en la academia
      */
     public Object obtenerGrupos() {
-        System.out.println("Obteniendo lista de grupos...");
         return academia.getGruposFormados();
     }
 }

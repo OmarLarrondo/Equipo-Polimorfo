@@ -103,15 +103,31 @@ public class Grupo {
      */
     public String resumenTotal(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Lider: ").append(lider).append("\n");
+        sb.append("Lider: ").append(lider != null ? lider.getNombre() : "No asignado").append("\n");
         sb.append("Estudiantes: \n");
-        for(EstudianteNinja e : estudiantes){
-            sb.append("--").append(e.getNombre()).append("--");
+        if(estudiantes != null && !estudiantes.isEmpty()) {
+            for(EstudianteNinja e : estudiantes){
+                sb.append("  - ").append(e.getNombre()).append("\n");
+            }
+        } else {
+            sb.append("  No hay estudiantes asignados\n");
         }
-        sb.append("Paquete: ").append(paquete).append("\n");
-        sb.append("Peso total de las Herramientas: ").append(paquete.getPesoTotal()).append("\n");
-        sb.append("Lugar de entrenamiento").append(lugarEntrenamiento).append("\n");
-        sb.append("Descripcion del lugar: ").append(lugarEntrenamiento.getDescripcion());
+
+        if(paquete != null) {
+            sb.append("Paquete: ").append(paquete.getDescripcion()).append("\n");
+            sb.append("Peso total de las Herramientas: ").append(paquete.getPesoTotal()).append(" kg\n");
+        } else {
+            sb.append("Paquete: No asignado\n");
+            sb.append("Peso total de las Herramientas: 0 kg\n");
+        }
+
+        if(lugarEntrenamiento != null) {
+            sb.append("Lugar de entrenamiento: ").append(lugarEntrenamiento.getNombre()).append("\n");
+            sb.append("Descripcion del lugar: ").append(lugarEntrenamiento.getDescripcion());
+        } else {
+            sb.append("Lugar de entrenamiento: No asignado\n");
+            sb.append("Descripcion del lugar: No disponible");
+        }
         return sb.toString();
     }
 
@@ -149,5 +165,16 @@ public class Grupo {
      */
     public CampoEntrenamiento getLugarEntrenamiento() {
         return lugarEntrenamiento;
+    }
+
+    /**
+     * Proporciona una representación en String del grupo.
+     * Delega al método resumenTotal() para mostrar toda la información del grupo.
+     *
+     * @return Una representación completa del grupo como String
+     */
+    @Override
+    public String toString() {
+        return resumenTotal();
     }
 }

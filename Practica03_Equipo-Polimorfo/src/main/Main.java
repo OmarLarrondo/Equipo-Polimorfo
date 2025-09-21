@@ -3,9 +3,9 @@ package main;
 import controladores.AplicacionControlador;
 
 /**
- * Clase principal de la aplicaci�n de la Academia Ninja.
+ * Clase principal de la aplicacion de la Academia Ninja.
  * Punto de entrada del sistema que inicia el controlador principal
- * y maneja el flujo general de la aplicación.
+ * y maneja el flujo general de la aplicacion.
  *
  * @author Equipo-Polimorfo
  * @version 1.0
@@ -13,10 +13,10 @@ import controladores.AplicacionControlador;
 public class Main {
 
     /**
-     * M�todo principal que inicia la aplicaci�n del sistema de gestión
+     * Metodo principal que inicia la aplicacion del sistema de gestion
      * de la Academia Ninja de la Aldea de las Ciencias.
      *
-     * @param args Argumentos de l�nea de comandos (no utilizados)
+     * @param args Argumentos de linea de comandos (no utilizados)
      */
     public static void main(String[] args) {
         AplicacionControlador controlador = crearControladorAplicacion();
