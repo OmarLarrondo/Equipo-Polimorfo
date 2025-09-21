@@ -158,7 +158,7 @@ public class AplicacionControlador {
             return;
         }
         gestorInteraccion.mostrarMensaje("Obteniendo lista de grupos...");
-        List<Grupo> grupos = (List<Grupo>)academiaFacade.obtenerGrupos();
+        List<Grupo> grupos = academiaFacade.obtenerGrupos();
         for(Grupo g: grupos){
             gestorInteraccion.mostrarLinea("\n" + "=".repeat(50));
             gestorInteraccion.mostrarLinea("INFORMACIÓN DEL GRUPO:");

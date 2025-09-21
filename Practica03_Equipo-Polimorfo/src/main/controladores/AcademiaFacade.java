@@ -1,5 +1,6 @@
 package controladores;
 
+import java.util.List;
 import main.Academia.Academia;
 import main.MundoNinja.Grupo;
 import main.MundoNinja.EstudianteNinja;
@@ -80,42 +81,59 @@ public class AcademiaFacade {
      */
     public void asignarPaqueteInteractivo(Grupo grupo, GestorInteraccion gestorInteraccion) {
         System.out.println("Asignando paquete al grupo dirigido por: " + grupo.toString());
-        int eleccion = gestorInteraccion.leerEntero("Seleccione el paquete a asignar : \n1) Básico  \n2) Avanzado  \n3) Táctico  \n4) Personalizado");
 
-        boolean confirmado = gestorInteraccion.confirmarAccion("¿Está seguro?");
-        if (!confirmado) {
-            System.out.println("Asignación cancelada por el usuario.");
-            return;
-        }
+        while (true) {
+            System.out.println("Seleccione el paquete a asignar :");
+            System.out.println("1) Básico");
+            System.out.println("2) Avanzado");
+            System.out.println("3) Táctico");
+            System.out.println("4) Personalizado");
+            System.out.println("5) Cancelar asignación");
+            int eleccion = gestorInteraccion.leerEntero(">> Ingrese su opción: ");
 
-        PaquetesHerramientas paqueteElegido = null;
-
-        switch (eleccion) {
-            case 1:
-                paqueteElegido = academia.construirPaqueteBasico();
-                break;
-            case 2:
-                paqueteElegido = academia.construirPaqueteAvanzado();
-                break;
-            case 3:
-                paqueteElegido = academia.construirPaqueteTactico();
-                break;
-            case 4:
-                int kunais = gestorInteraccion.leerEntero("Cuántos kunais quieres?");
-                int shurikens = gestorInteraccion.leerEntero("Cuántos shurikens quieres?");
-                int papeles = gestorInteraccion.leerEntero("Cuántos papeles bomba?");
-                int bombasHumo = gestorInteraccion.leerEntero("Cuántas bombas de humo?");
-                int botiquines = gestorInteraccion.leerEntero("Cuántos botiquines quieres?");
-
-                paqueteElegido = academia.crearPaquetePersonalizado(kunais, shurikens, papeles, bombasHumo, botiquines);
-                break;
-            default:
-                System.out.println("Opción no válida.");
+            if (eleccion == 5) {
+                System.out.println("Asignación cancelada por el usuario.");
                 return;
-        }
+            }
 
-        grupo.asignarPaquete(paqueteElegido);
-        System.out.println("Paquete asignado correctamente al grupo.");
+            if (eleccion < 1 || eleccion > 4) {
+                System.out.println("Opción no válida. Intente nuevamente.");
+                continue;
+            }
+
+            boolean confirmado = gestorInteraccion.confirmarAccion("¿Está seguro?");
+            if (!confirmado) {
+                System.out.println("Selección cancelada. Puede elegir otra opción.");
+                continue;
+            }
+
+            PaquetesHerramientas paqueteElegido = null;
+
+            switch (eleccion) {
+                case 1:
+                    paqueteElegido = academia.construirPaqueteBasico();
+                    break;
+                case 2:
+                    paqueteElegido = academia.construirPaqueteAvanzado();
+                    break;
+                case 3:
+                    paqueteElegido = academia.construirPaqueteTactico();
+                    break;
+                case 4:
+                    int kunais = gestorInteraccion.leerEntero("Cuántos kunais quieres?");
+                    int shurikens = gestorInteraccion.leerEntero("Cuántos shurikens quieres?");
+                    int papeles = gestorInteraccion.leerEntero("Cuántos papeles bomba?");
+                    int bombasHumo = gestorInteraccion.leerEntero("Cuántas bombas de humo?");
+                    int botiquines = gestorInteraccion.leerEntero("Cuántos botiquines quieres?");
+
+                    paqueteElegido = academia.crearPaquetePersonalizado(kunais, shurikens, papeles, bombasHumo, botiquines);
+                    break;
+            }
+
+            grupo.asignarPaquete(paqueteElegido);
+            System.out.println("Paquete asignado correctamente al grupo.");
+            break;
+        }
     }
 
     /**
@@ -149,7 +167,7 @@ public class AcademiaFacade {
      *
      * @return Lista de grupos formados en la academia
      */
-    public Object obtenerGrupos() {
+    public List<Grupo> obtenerGrupos() {
         return academia.getGruposFormados();
     }
 }
