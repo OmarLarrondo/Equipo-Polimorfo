@@ -40,7 +40,7 @@ public class CampoConcreteFactory implements CampoFactory {
     private String determinarTipoCampo(int suma) {
         if (suma <= 7) {
             return "Valle del Dragon";
-        } else if (suma < 11) {
+        } else if (suma <= 11) {
             return "Bosque Sombrío";
         } else {
             return "Montaña Espiritual";
