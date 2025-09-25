@@ -1,9 +1,9 @@
 package Adapter;
 
 public class DiscoMusicalAdapter {
-    private DIscoMusicalLegacy discoLegacy;
+    private DiscoMusicalLegacy discoLegacy;
 
-    public DiscoMusicalAdapter(DIscoMusicalLegacy discoLegacy) {
+    public DiscoMusicalAdapter(DiscoMusicalLegacy discoLegacy) {
         this.discoLegacy = discoLegacy;
     }
     
