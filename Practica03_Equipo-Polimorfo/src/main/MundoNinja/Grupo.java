@@ -72,9 +72,9 @@ public class Grupo {
      * Asigna al grupo el campo de entranmiento que corresponda segun a la suma total
      * <p>Dependiendo la suma de las habilidades: </p>
      * <ul>
-     * <li>Si sumaHabilidades <7: Valle del Dragón</li>
+     * <li>Si sumaHabilidades <=7: Valle del Dragón</li>
      * <li>Si sumaHabilidades esta entre 8-11: Bosque Sombrío </li>
-     * <li> Si sumaHabilidades >12: Montaña Espiritual</li>
+     * <li> Si sumaHabilidades >=12: Montaña Espiritual</li>
      * </ul>
      * @return {@code true} si se asigno correctamente {@code false} en otro caso 
      */
