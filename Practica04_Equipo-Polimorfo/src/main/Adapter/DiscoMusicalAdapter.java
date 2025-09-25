@@ -15,7 +15,7 @@ public class DiscoMusicalAdapter extends ProductoComponente {
      * Constructor que inicializa el adaptador a partir de un disco legacy.
      *
      * @param nombre el nombre del producto (heredado de {@code ProductoComponente})
-     * @param genero el género del producto
+     * @param genero el género del producto 
      * @param precio el precio del producto
      * @param discoLegacy el objeto de tipo {@code DiscoMusicalLegacy} que se adapta
      */

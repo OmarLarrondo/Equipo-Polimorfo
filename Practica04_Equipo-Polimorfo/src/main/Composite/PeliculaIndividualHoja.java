@@ -101,4 +101,29 @@ public class PeliculaIndividualHoja extends ProductoComponente {
         return "Pelicula [nombre=" + nombre + ", director=" + director + ", genero=" + genero
                 + ", sinopsis=" + sinopsis + ", precio=" + precio + ", minutosDuracion=" + minutosDuracion + "]";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PeliculaIndividualHoja other = (PeliculaIndividualHoja) obj;
+        if (director == null) {
+            if (other.director != null)
+                return false;
+        } else if (!director.equals(other.director))
+            return false;
+        if (sinopsis == null) {
+            if (other.sinopsis != null)
+                return false;
+        } else if (!sinopsis.equals(other.sinopsis))
+            return false;
+        if (minutosDuracion != other.minutosDuracion)
+            return false;
+        return true;
+    }
+    
 }

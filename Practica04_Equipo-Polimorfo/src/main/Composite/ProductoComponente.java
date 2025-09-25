@@ -65,4 +65,6 @@ public abstract class ProductoComponente {
      */
     public abstract String reproducir();  
 
+    public abstract boolean equals(Object obj);
+
 }

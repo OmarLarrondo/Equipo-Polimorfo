@@ -107,4 +107,24 @@ public class Saga extends ProductoComponente{
         return "Saga [nombre=" + nombre + ", genero=" + genero + ", precio=" + precio + ", componentes=" + componentes
                 + ", descuento=" + descuento + "]";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Saga other = (Saga) obj;
+        if (componentes == null) {
+            if (other.componentes != null)
+                return false;
+        } else if (!componentes.equals(other.componentes))
+            return false;
+        if (Double.doubleToLongBits(descuento) != Double.doubleToLongBits(other.descuento))
+            return false;
+        return true;
+    }
+    
 }
