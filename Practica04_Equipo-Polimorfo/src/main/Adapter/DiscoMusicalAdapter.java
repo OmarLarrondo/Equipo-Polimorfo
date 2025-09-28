@@ -70,4 +70,60 @@ public class DiscoMusicalAdapter extends ProductoComponente {
     public String reproducir() {
         return discoLegacy.reproducir();
     }
+
+    /**
+     * {@inheritDoc}
+     * <p>Compara este adaptador con otro objeto para determinar igualdad.
+     * Dos adaptadores son iguales si tienen las mismas propiedades heredadas de ProductoComponente
+     * y contienen discos legacy con las mismas características.</p>
+     *
+     * @param obj el objeto a comparar con este adaptador
+     * @return {@code true} si los objetos son iguales, {@code false} en caso contrario
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        DiscoMusicalAdapter other = (DiscoMusicalAdapter) obj;
+
+        return compararPropiedadesBase(other) && compararDiscoLegacy(other);
+    }
+
+    /**
+     * Compara las propiedades base heredadas de ProductoComponente.
+     *
+     * @param other el otro adaptador a comparar
+     * @return {@code true} si las propiedades base son iguales
+     */
+    private boolean compararPropiedadesBase(DiscoMusicalAdapter other) {
+        return java.util.Objects.equals(nombre, other.nombre) &&
+               java.util.Objects.equals(genero, other.genero) &&
+               Double.compare(precio, other.precio) == 0;
+    }
+
+    /**
+     * Compara los discos legacy contenidos en los adaptadores.
+     *
+     * @param other el otro adaptador a comparar
+     * @return {@code true} si los discos legacy son iguales
+     */
+    private boolean compararDiscoLegacy(DiscoMusicalAdapter other) {
+        if (discoLegacy == null) {
+            return other.discoLegacy == null;
+        }
+        if (other.discoLegacy == null) {
+            return false;
+        }
+
+        return java.util.Objects.equals(discoLegacy.getNombre(), other.discoLegacy.getNombre()) &&
+               java.util.Objects.equals(discoLegacy.getArtista(), other.discoLegacy.getArtista()) &&
+               java.util.Objects.equals(discoLegacy.getGeneroMusical(), other.discoLegacy.getGeneroMusical()) &&
+               discoLegacy.getAnoEstreno() == other.discoLegacy.getAnoEstreno() &&
+               Double.compare(discoLegacy.getPrecioVenta(), other.discoLegacy.getPrecioVenta()) == 0;
+    }
 }
