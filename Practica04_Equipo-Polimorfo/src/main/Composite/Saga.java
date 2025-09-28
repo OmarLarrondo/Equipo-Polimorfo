@@ -96,8 +96,84 @@ public class Saga extends ProductoComponente{
         for (ProductoComponente prodComp : componentes) {
             sb.append("==").append(prodComp.reproducir());   
         }
-        return sb.toString(); 
+        return sb.toString();
     }
+
+    /**
+     * Agrega un componente a la saga.
+     *
+     * @param componente el componente a agregar
+     */
+    public void agregarComponente(ProductoComponente componente) {
+        if (componente != null) {
+            componentes.add(componente);
+        }
+    }
+
+    /**
+     * Remueve un componente de la saga.
+     *
+     * @param componente el componente a remover
+     */
+    public void removerComponente(ProductoComponente componente) {
+        componentes.remove(componente);
+    }
+
+    /**
+     * Obtiene la lista de componentes hijos de la saga.
+     *
+     * @return una nueva lista con los componentes de la saga
+     */
+    public List<ProductoComponente> obtenerHijos() {
+        return new ArrayList<>(componentes);
+    }
+
+    /**
+     * Verifica si este producto es compuesto (siempre true para sagas).
+     *
+     * @return true, ya que las sagas siempre son productos compuestos
+     */
+    public boolean esCompuesto() {
+        return true;
+    }
+
+    /**
+     * Obtiene la información completa de la saga y todos sus componentes.
+     *
+     * @return la información completa de la saga en formato String
+     */
+    public String obtenerInformacionCompleta() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== SAGA: ").append(nombre).append(" ===\n");
+        sb.append("Género: ").append(genero).append("\n");
+        sb.append("Precio individual: $").append(String.format("%.2f", precio)).append("\n");
+        sb.append("Precio con descuento: $").append(String.format("%.2f", getPrecioSaga())).append("\n");
+        sb.append("Descuento aplicado: ").append(String.format("%.1f", descuento * 100)).append("%\n");
+        sb.append("Duración total: ").append(getMinutosDuracion()).append(" minutos\n");
+        sb.append("Componentes:\n");
+
+        for (ProductoComponente componente : componentes) {
+            sb.append("  • ").append(componente.getNombre());
+            if (componente instanceof Saga) {
+                sb.append(" (Saga)");
+            }
+            sb.append(" - ").append(componente.getGenero());
+            sb.append(" - $").append(String.format("%.2f", componente.getPrecio())).append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Obtiene la duración total de la saga en minutos.
+     * Alias del método getMinutosDuracion() para cumplir con el diagrama.
+     *
+     * @return la duración total en minutos
+     */
+    public int getDuracionTotal() {
+        return getMinutosDuracion();
+    }
+
     /**
      * {@inheritDoc}
      * <p>Devuelve la representación en cadena de la saga y sus componentes.</p>

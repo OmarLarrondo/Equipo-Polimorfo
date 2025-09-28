@@ -108,6 +108,27 @@ public class FiltroPrecioMaximo  implements FiltroProducto{
     }
 
     /**
+     * Filtra una lista de productos por precio máximo.
+     * <p>
+     * Versión sobrecargada que recibe directamente el precio máximo como double.
+     * Para las sagas, utiliza el precio con descuento aplicado (getPrecioSaga()).
+     * Para otros productos, utiliza el precio base (getPrecio()).
+     * </p>
+     *
+     * @param Items la lista de productos a filtrar
+     * @param precioMaximo el precio máximo como double
+     * @return una nueva lista que contiene solo los productos con precio menor o igual al máximo especificado,
+     *         o una lista vacía si no se encuentran coincidencias o la lista es nula
+     */
+    public List<ProductoComponente> filtrar(List<ProductoComponente> Items, double precioMaximo) {
+        return (Items == null) ?
+            new ArrayList<>() :
+            Items.stream()
+                .filter(producto -> producto != null && obtenerPrecioProducto(producto) <= precioMaximo)
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+    }
+
+    /**
      * Convierte el criterio String a Double.
      *
      * @param criterio el criterio a convertir
