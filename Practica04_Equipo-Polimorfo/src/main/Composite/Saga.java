@@ -92,7 +92,7 @@ public class Saga extends ProductoComponente{
     @Override
     public String reproducir() {
         StringBuilder sb = new StringBuilder();
-        sb.append("▶ Reproduciendo la Saga: "+nombre+ "\n");
+        sb.append(" Reproduciendo la Saga: "+nombre+ "\n");
         for (ProductoComponente prodComp : componentes) {
             sb.append("==").append(prodComp.reproducir());   
         }

@@ -1,3 +1,5 @@
+package Modelo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,11 +10,11 @@ import Filtros.FiltroGenero;
 import Filtros.FiltroPrecioMaximo;
 
 /**
- * Clase que representa el catálogo de productos de RockBuster.
+ * Clase que representa el catalogo de productos de RockBuster.
  * <p>
- * Gestiona una colección de productos (películas, sagas y discos musicales adaptados)
- * y proporciona funcionalidades de filtrado y visualización utilizando el patrón Strategy
- * para los filtros y el patrón de inyección de dependencias para el visualizador.
+ * Gestiona una coleccion de productos (peliculas, sagas y discos musicales adaptados)
+ * y proporciona funcionalidades de filtrado y visualizacion utilizando el patron Strategy
+ * para los filtros y el patron de inyeccion de dependencias para el visualizador.
  * </p>
  *
  * @author Equipo-Polimorfo
@@ -27,10 +29,10 @@ public class Catalogo {
     
     
     /**
-     * Constructor para inicializar el catálogo con productos y dependencias.
+     * Constructor para inicializar el catalogo con productos y dependencias.
      *
      * @param productos la lista inicial de productos
-     * @param visualizador el visualizador a utilizar para mostrar información
+     * @param visualizador el visualizador a utilizar para mostrar informacion
      */
     public Catalogo(List<ProductoComponente> productos, VisualizadorProducto visualizador) {
         this.productos = productos != null ? new ArrayList<>(productos) : new ArrayList<>();
@@ -40,7 +42,7 @@ public class Catalogo {
     }
 
     /**
-     * Agrega un producto al catálogo.
+     * Agrega un producto al catalogo.
      *
      * @param producto el producto a agregar
      */
@@ -51,7 +53,7 @@ public class Catalogo {
     }
     
     /**
-     * Remueve un producto del catálogo.
+     * Remueve un producto del catalogo.
      *
      * @param producto el producto a remover
      */
@@ -59,36 +61,36 @@ public class Catalogo {
         productos.remove(producto);
     }
     /**
-     * Obtiene la lista completa de productos en el catálogo.
+     * Obtiene la lista completa de productos en el catalogo.
      *
-     * @return una nueva lista con todos los productos del catálogo
+     * @return una nueva lista con todos los productos del catalogo
      */
     public List<ProductoComponente> verCatalogoCompleto(){
         return new ArrayList<>(productos);
     }
     /**
-     * Filtra los productos del catálogo por género.
+     * Filtra los productos del catalogo por genero.
      *
-     * @param genero el género por el cual filtrar
-     * @return una lista de productos que coinciden con el género especificado
+     * @param genero el genero por el cual filtrar
+     * @return una lista de productos que coinciden con el genero especificado
      */
     public List<ProductoComponente> filtrarPorGenero(String genero){
         return filtroGenero.filtrar(productos, genero);
     }
     /**
-     * Filtra los productos del catálogo por precio máximo.
+     * Filtra los productos del catalogo por precio maximo.
      *
-     * @param precioMaximo el precio máximo permitido
-     * @return una lista de productos con precio menor o igual al máximo especificado
+     * @param precioMaximo el precio maximo permitido
+     * @return una lista de productos con precio menor o igual al maximo especificado
      */
     public List<ProductoComponente> filtrarPorPrecioMaximo(double precioMaximo){
         return ((FiltroPrecioMaximo) filtroPrecio).filtrar(productos, precioMaximo);
     }
     /**
-     * Muestra la información completa de un producto específico.
+     * Muestra la informacion completa de un producto especifico.
      *
-     * @param producto el producto del cual mostrar información completa
-     * @return la representación completa del producto
+     * @param producto el producto del cual mostrar informacion completa
+     * @return la representacion completa del producto
      */
     public String mostrarProductoCompleto(ProductoComponente producto){
         return (producto != null && visualizador != null) ?
@@ -96,10 +98,10 @@ public class Catalogo {
             "";
     } 
     /**
-     * Muestra el catálogo de productos (resumen).
+     * Muestra el catalogo de productos (resumen).
      *
      * @param productos la lista de productos a mostrar
-     * @return la lista de productos para visualización
+     * @return la lista de productos para visualizacion
      */
     public List<ProductoComponente> mostrarCatalogo(List<ProductoComponente> productos){
         return (productos != null) ? new ArrayList<>(productos) : new ArrayList<>();

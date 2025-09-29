@@ -97,14 +97,14 @@ public class FiltroPrecioMaximo  implements FiltroProducto{
     @Override
     public List<ProductoComponente> filtrar(List<ProductoComponente> Items, String criterio) {
         if (Items == null || criterio == null) {
-            return new ArrayList<>();
+            return new ArrayList<ProductoComponente>();
         }
 
         return convertirCriterioADouble(criterio.trim())
             .map(precioMaximo -> Items.stream()
                 .filter(producto -> producto != null && obtenerPrecioProducto(producto) <= precioMaximo)
-                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll))
-            .orElse(new ArrayList<>());
+                .collect(ArrayList<ProductoComponente>::new, ArrayList::add, ArrayList::addAll))
+            .orElse(new ArrayList<ProductoComponente>());
     }
 
     /**
@@ -122,10 +122,10 @@ public class FiltroPrecioMaximo  implements FiltroProducto{
      */
     public List<ProductoComponente> filtrar(List<ProductoComponente> Items, double precioMaximo) {
         return (Items == null) ?
-            new ArrayList<>() :
+            new ArrayList<ProductoComponente>() :
             Items.stream()
                 .filter(producto -> producto != null && obtenerPrecioProducto(producto) <= precioMaximo)
-                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+                .collect(ArrayList<ProductoComponente>::new, ArrayList::add, ArrayList::addAll);
     }
 
     /**
