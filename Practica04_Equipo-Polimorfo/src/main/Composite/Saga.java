@@ -184,6 +184,15 @@ public class Saga extends ProductoComponente{
                 + ", descuento=" + descuento + "]";
     }
 
+    /**
+     * Compara este objeto Saga con otro objeto para determinar si son iguales.
+     * <p>Dos sagas se consideran iguales si tienen la misma lista de componentes y el mismo descuento.
+     * La comparación maneja correctamente valores null, verifica el tipo del objeto y usa
+     * Double.doubleToLongBits() para comparar valores double de forma precisa.</p>
+     *
+     * @param obj el objeto a comparar con esta saga
+     * @return true si los objetos son iguales, false en caso contrario
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

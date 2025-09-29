@@ -80,16 +80,16 @@ public class PeliculaIndividualHoja extends ProductoComponente {
     }
 
     /**
-     * Reproduce la película mostrando la información en consola.
-     * <p>No devuelve ningún valor, simplemente simula la acción de reproducir.</p> //CHECAR NO SE
+     * Reproduce la película generando la información de reproducción.
+     * <p>Devuelve una cadena formateada con todos los detalles de la película
+     * incluyendo nombre, duración, director, género, sinopsis y precio.</p>
+     * @return Una cadena con la información completa de reproducción de la película.
      */
     @Override
     public String reproducir() {
-        //NO SE BIEN SI ES DIRECTO EN LA TERMINAL. ES QUE ES VOID, SEGUN YO IGUAL DEBERIA DEVOLVER UN STRING PEROOOOOO NO SEEEEEEE LOL.
-        String salida = String.format("▶ Reproduciendo película: %s \nDuracion: %d\n Director: %s \n Genero: %s \n Sinopsis: %s\n Precio de renta: %.2f ", nombre, minutosDuracion,director,genero,sinopsis,precio );
-        System.out.println(salida);
-        return salida;
+        return String.format(" Reproduciendo película: %s \nDuracion: %d\n Director: %s \n Genero: %s \n Sinopsis: %s\n Precio de renta: %.2f ", nombre, minutosDuracion,director,genero,sinopsis,precio );
     }
+    
     /**
      * Devuelve una representacion en cadena de esta Pelicula.<p></>
      * El formato es Nombre: [nombre], Director: [director] etc...
@@ -102,6 +102,14 @@ public class PeliculaIndividualHoja extends ProductoComponente {
                 + ", sinopsis=" + sinopsis + ", precio=" + precio + ", minutosDuracion=" + minutosDuracion + "]";
     }
 
+    /**
+     * Compara este objeto PeliculaIndividualHoja con otro objeto para determinar si son iguales.
+     * <p>Dos películas se consideran iguales si tienen el mismo director, sinopsis y duración en minutos.
+     * La comparación maneja correctamente valores null y verifica el tipo del objeto.</p>
+     *
+     * @param obj el objeto a comparar con esta película
+     * @return true si los objetos son iguales, false en caso contrario
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
