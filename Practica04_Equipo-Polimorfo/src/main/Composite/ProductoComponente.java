@@ -1,10 +1,34 @@
 package Composite;
+
+/**
+ * Clase abstracta que representa un componente del patrón Composite.
+ * Define la interfaz común para productos simples (películas, discos) y compuestos (sagas).
+ * Todos los productos del catálogo RockBuster heredan de esta clase.
+ */
 public abstract class ProductoComponente {
 
+    /**
+     * El nombre del producto.
+     */
     protected String nombre;
+
+    /**
+     * El género del producto (por ejemplo: Ciencia Ficción, Rock, etc.).
+     */
     protected String genero;
+
+    /**
+     * El precio del producto en unidades monetarias.
+     */
     protected double precio;
 
+    /**
+     * Constructor de ProductoComponente.
+     *
+     * @param nombre El nombre del producto.
+     * @param genero El género del producto.
+     * @param precio El precio del producto.
+     */
     public ProductoComponente(String nombre, String genero, double precio) {
         this.nombre = nombre;
         this.genero = genero;
@@ -63,8 +87,14 @@ public abstract class ProductoComponente {
      * </ul>
      * </p>
      */
-    public abstract String reproducir();  
+    public abstract String reproducir();
 
+    /**
+     * Compara este producto con otro objeto para determinar si son iguales.
+     *
+     * @param obj El objeto a comparar con este producto.
+     * @return true si los objetos son iguales, false en caso contrario.
+     */
     public abstract boolean equals(Object obj);
 
 }

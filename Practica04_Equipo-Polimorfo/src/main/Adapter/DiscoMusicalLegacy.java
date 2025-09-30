@@ -99,7 +99,7 @@ public class DiscoMusicalLegacy {
      * @return un mensaje indicando que el disco está siendo reproducido
      */
     public String reproducir() {
-        return "💿 Reproduciendo disco '" + nombre + "' de " + artista + " estrenado en: " + anoEstreno;
+        return " Reproduciendo disco '" + nombre + "' de " + artista + " estrenado en: " + anoEstreno;
     }
 
     /**
