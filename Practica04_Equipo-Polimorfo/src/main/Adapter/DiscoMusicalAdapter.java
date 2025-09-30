@@ -72,6 +72,18 @@ public class DiscoMusicalAdapter extends ProductoComponente {
     }
 
     /**
+     * Devuelve una representación en cadena de este disco musical.
+     * <p>Delega al sistema legacy para obtener los detalles completos del disco
+     * incluyendo nombre, artista, género musical, año de estreno y precio de venta.</p>
+     *
+     * @return una cadena con toda la información formateada del disco musical
+     */
+    @Override
+    public String toString() {
+        return discoLegacy.obtenerDetallesCompletos();
+    }
+
+    /**
      * {@inheritDoc}
      * <p>Compara este adaptador con otro objeto para determinar igualdad.
      * Dos adaptadores son iguales si tienen las mismas propiedades heredadas de ProductoComponente
