@@ -126,9 +126,7 @@ public class ComponenteCompuesto implements ComponentePC {
      * @return un Iterator de ComponentePC
      */
     public Iterator<ComponentePC> getIterator(){
-        if (componentes == null) {
-            componentes = new ArrayList<>();
-        }
-        return componentes.iterator();
+        //aqui va su codigo
+        return null;
     }
 }
