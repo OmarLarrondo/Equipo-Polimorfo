@@ -14,7 +14,7 @@ package modelo.componente;
  * <p>Los componentes hoja son aquellos que no contienen subcomponentes, a diferencia
  * de los componentes compuestos.
  * 
- * @author TuNombre
+ * @author Equipo-polimorfo
  * @version 1.0
  */
 public abstract class ComponenteHoja implements ComponentePC {
@@ -36,6 +36,10 @@ public abstract class ComponenteHoja implements ComponentePC {
      * @param tipo el tipo de componente (CPU, GPU, RAM, etc.)
      */
     public ComponenteHoja(String nombre, double precio, String marca, String tipo) {
+        if (nombre == null || marca == null || tipo == null)
+        throw new IllegalArgumentException("Los datos del componente no pueden ser nulos");
+        if (precio <= 0)
+            throw new IllegalArgumentException("El precio debe ser positivo");
         this.nombre = nombre;
         this.precio = precio;
         this.marca = marca;
@@ -82,6 +86,7 @@ public abstract class ComponenteHoja implements ComponentePC {
      * 
      * @return los detalles del componente como cadena
      */
+    @Override
     public String mostrarDetalles() {
         return toString();
     }
@@ -93,8 +98,25 @@ public abstract class ComponenteHoja implements ComponentePC {
      * de componente (por ejemplo, un AMD no es compatible con ninguna de las motherbords 
      * de monosChinosMX), y cada subclase debe definir su propia lógica.
      * 
+     * @param componenete el componente a verificar compatibilidad.
+     * 
      * @return {@code true} si es compatible, {@code false} en caso contrario
      */
-    public abstract boolean esCompatibleConComponentePC();
+    public boolean esCompatibleConComponentePC() {
+        if (obtenerMarca().equalsIgnoreCase("AMD")) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Devueleve una cadena de texto, que representa un componente.
+     * @return La cadena que detalla el componente.
+     */
+    @Override
+    public String toString() {
+        return String.format("%s [%s] - Marca: %s - Precio: $%.2f", tipo, nombre, marca, precio);
+    }
+
 }
 

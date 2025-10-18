@@ -8,7 +8,7 @@ package modelo.componente;
  *
  * <p>Las AMD no pueden ser compatibles con ninguna motherboards
  * 
- * @author TuNombre
+ * @author Equipo-polimorfo
  * @version 1.0
  */
 public class MotherBoard extends ComponenteHoja {
@@ -62,20 +62,21 @@ public class MotherBoard extends ComponenteHoja {
     public String getArquitecturaSeparada() {
         return arquitecturaSeparada;
     }
-
+    
     /**
-     * Determina si esta motherboard es compatible con otro componente de PC.
+     * Devuelve una representación en texto con los detalles completos de la motherboard.
+     * <p>Este método sobrescribe {@link ComponenteHoja#mostrarDetalles()} para incluir
+     * información específica de una {@code MotherBoard}, como el chipset, el socket
+     * y la arquitectura soportada, además de los datos generales del componente.
      * 
-     * <p>Actualmente, la validación puede incluir compatibilidad con GPUs AMD
-     * y CPUs según el chipset, socket y arquitectura. 
-     * 
-     * @return {@code true} si es compatible con el componente dado, 
-     *         {@code false} en caso contrario
-     * @throws UnsupportedOperationException si aún no se implementa la lógica
+     * @return una cadena formateada con el nombre, marca, chipset, socket,
+     *         arquitectura y precio de la motherboard.
      */
     @Override
-    public boolean esCompatibleConComponentePC() {
-        // TODO: Implementar la lógica de compatibilidad con GPUs y CPUs
-        throw new UnsupportedOperationException("Método no implementado: esCompatibleConComponentePC");
+    public String mostrarDetalles() {
+        return String.format(
+            "Motherboard: %s | Marca: %s | Chipset: %s | Socket: %s | Arquitectura: %s | Precio: $%.2f",
+            obtenerNombre(), obtenerMarca(), chipset, socket, arquitecturaSeparada, obtenerPrecio()
+        );
     }
 }

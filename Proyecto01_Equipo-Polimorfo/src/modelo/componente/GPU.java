@@ -11,7 +11,7 @@ package modelo.componente;
  * {@link #esCompatibleConComponentePC()} debe ser implementado considerando
  * esa regla.
  * 
- * @author TuNombre
+ * @author Equipo-polimorfo
  * @version 1.0
  */
 public class GPU extends ComponenteHoja {
@@ -52,20 +52,5 @@ public class GPU extends ComponenteHoja {
      */
     public int getVRAM() {
         return vRam;
-    }
-
-    /**
-     * Determina si esta GPU es compatible con otro componente de PC.
-     * 
-     * <p>Actualmente, la validación de compatibilidad solo se aplica a GPUs AMD
-     * con motherboards compatibles.  (SEGUN LO QUE ENTENDI A ALVARO EN LA CLASE XD)
-     * 
-     * @return {@code true} si la GPU es compatible con el componente dado,
-     *         {@code false} en caso contrario
-     * @throws UnsupportedOperationException si aún no se implementa la lógica
-     */
-    @Override
-    public boolean esCompatibleConComponentePC() {
-        return true;
     }
 }

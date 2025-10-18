@@ -29,7 +29,7 @@ public interface ComponentePC {
 
     /**
      * Obtiene la marca o fabricante del componente.
-     * @return la marca del componente (por ejemplo, "AMD", "Intel", "Kingston", "ASUS", "Corsair", "Yeyian", etc ...
+     * @return la marca del componente (por ejemplo, "AMD", "Intel", "Kingston", "ASUS", "Corsair", "Yeyian", etc ...)
      */
     String obtenerMarca();
 
