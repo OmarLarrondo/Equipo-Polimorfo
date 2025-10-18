@@ -60,22 +60,45 @@ public abstract class SoftwareDecorator implements ComputadoraBase {
     @Override
     public abstract String obtenerDescripcion();
 
+    /**
+     * Calcula el precio total de la computadora incluyendo el software.
+     *
+     * @return El precio total de la computadora base mas el precio del software.
+     */
+    @Override
     public double obtenerPrecioTotal(){
-        //aqui va su codigo 
-        return 0;
+        return computadora.obtenerPrecioTotal() + precioSoftware;
     }
+    /**
+     * Obtiene la lista de componentes de la computadora decorada.
+     *
+     * @return La lista de componentes de la computadora base.
+     */
+    @Override
     public List<ComponentePC> obtenerComponentes(){
-        //aqui va su codigo 
-        return null;
-
+        return computadora.obtenerComponentes();
     }
+    /**
+     * Agrega un componente a la computadora decorada.
+     *
+     * @param componente El componente a agregar a la computadora.
+     */
+    @Override
     public void agregarComponente(ComponentePC componente){
-        //aqui va su codigo
-
+        computadora.agregarComponente(componente);
     }
+    /**
+     * Verifica si la computadora tiene un software especifico instalado.
+     * Comprueba si el nombre del software actual coincide con el buscado,
+     * o delega la busqueda a la computadora decorada.
+     *
+     * @param sotfwareABuscar El nombre del software a buscar.
+     * @return {@code true} si la computadora tiene el software instalado,
+     *         {@code false} en otro caso.
+     */
+    @Override
     public boolean tieneSotfware(String sotfwareABuscar){
-        return false;
-        //aqui va su codigo 
+        return nombreSoftware.equals(sotfwareABuscar) || computadora.tieneSotfware(sotfwareABuscar);
     }
     
 
