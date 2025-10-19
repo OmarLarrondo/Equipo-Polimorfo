@@ -15,11 +15,13 @@ import java.util.List;
  * @version 1.0
  */
 public class ComponenteCompuesto implements ComponentePC {
-    /** La lista de componenete */
+    /** Lista de componentes hijos que conforman este componente compuesto */
     private List<ComponentePC> componentes;
-    /**Noombre del componente compuesto */ 
+
+    /** Nombre del componente compuesto */
     private String nombre;
-    /**Tipo del componente compuesto */
+
+    /** Tipo del componente compuesto */
     private String tipo;
 
     /**
@@ -37,8 +39,11 @@ public class ComponenteCompuesto implements ComponentePC {
 
     /**
      * Agrega un componente hijo al componente compuesto.
-     * 
+     *
+     * <p>Si la lista de componentes es null, se inicializa automáticamente.
+     *
      * @param componenteAgregar componente a agregar (no puede ser null)
+     * @throws IllegalArgumentException si el componente a agregar es null
      */
     public void agregar(ComponentePC componenteAgregar){
         if (componenteAgregar == null) {
@@ -52,8 +57,9 @@ public class ComponenteCompuesto implements ComponentePC {
 
     /**
      * Remueve un componente hijo del componente compuesto.
-     * 
+     *
      * @param componenteRemover componente a remover
+     * @throws IllegalStateException si la lista de componentes es null o el componente a remover es null
      */
     public void remover(ComponentePC componenteRemover){
         if(componentes == null || componenteRemover == null){
@@ -64,9 +70,11 @@ public class ComponenteCompuesto implements ComponentePC {
 
     /**
      * Obtiene un hijo específico por índice.
-     * 
+     *
      * @param numHijo índice del hijo (0 basado)
      * @return el componente hijo en la posición indicada
+     * @throws IllegalArgumentException si el índice es inválido
+     * @throws IllegalStateException si la lista de componentes es null
      */
     public ComponentePC obtenerHijo(int numHijo){
         if(numHijo < 0 || numHijo > componentes.size()){
@@ -76,15 +84,26 @@ public class ComponenteCompuesto implements ComponentePC {
         return componentes.get(numHijo);
     }
 
+    /**
+     * Obtiene el nombre del componente compuesto.
+     *
+     * @return el nombre del componente compuesto
+     */
     @Override
     public String obtenerNombre() {
         return nombre;
     }
 
+    /**
+     * Calcula y obtiene el precio total del componente compuesto.
+     *
+     * <p>El precio total es la suma de los precios de todos los componentes hijos.
+     * Si no hay componentes, retorna 0.
+     *
+     * @return el precio total del componente compuesto
+     */
     @Override
     public double obtenerPrecio() {
-        //AQUI NO SE SI ES TODOS LOS COMPONENTESPC SEGUN YO SI, PORQUE AQUI NO HAY 
-        // NINGUN ATRIBUTO PRECIO.
         if (componentes == null) {
             return 0;
         }
@@ -95,18 +114,38 @@ public class ComponenteCompuesto implements ComponentePC {
         return total;
     }
 
+    /**
+     * Obtiene la marca del componente compuesto.
+     *
+     * <p>Retorna la marca del primer componente hijo. Si no hay componentes,
+     * retorna "Sin marca".
+     *
+     * @return la marca del primer componente o "Sin marca" si está vacío
+     */
     @Override
     public String obtenerMarca() {
         if (componentes == null || componentes.isEmpty()) return "Sin marca";
-        // Retorna la marca del primer componente...
         return componentes.get(0).obtenerMarca();
     }
 
+    /**
+     * Obtiene el tipo del componente compuesto.
+     *
+     * @return el tipo del componente compuesto
+     */
     @Override
     public String obtenerTipo() {
         return tipo;
     }
 
+    /**
+     * Genera una representación en texto de los detalles del componente compuesto.
+     *
+     * <p>Incluye el nombre, tipo y los detalles de todos los componentes hijos
+     * de forma jerárquica.
+     *
+     * @return una cadena con los detalles completos del componente compuesto y sus hijos
+     */
     @Override
     public String mostrarDetalles() {
         StringBuilder sb = new StringBuilder();
@@ -119,14 +158,54 @@ public class ComponenteCompuesto implements ComponentePC {
         return sb.toString();
     }
 
-    //NO ME ACUERDO COMO ES.
     /**
      * Obtiene un iterador sobre los componentes hijos.
-     * 
-     * @return un Iterator de ComponentePC
+     *
+     * @return un IteratorComponentePC para recorrer los componentes
      */
-    public Iterator<ComponentePC> getIterator(){
-        //aqui va su codigo
-        return null;
+    public IteratorComponentePC getIterator(){
+        return new IteradorComponentes();
+    }
+
+    /**
+     * Implementacion concreta del patron Iterator para recorrer los componentes.
+     *
+     * <p>Esta clase interna privada proporciona un mecanismo seguro para iterar
+     * sobre la lista de componentes sin exponer la estructura interna del compuesto.
+     */
+    private class IteradorComponentes implements IteratorComponentePC {
+        /** Posicion actual en la iteracion */
+        private int posicion;
+
+        /**
+         * Construye un nuevo iterador inicializado en la primera posicion.
+         */
+        public IteradorComponentes() {
+            this.posicion = 0;
+        }
+
+        /**
+         * Verifica si existen mas elementos en la coleccion de componentes.
+         *
+         * @return {@code true} si hay mas elementos por recorrer, {@code false} en caso contrario
+         */
+        @Override
+        public boolean hasNext() {
+            return componentes != null && posicion < componentes.size();
+        }
+
+        /**
+         * Obtiene el siguiente componente de la iteracion.
+         *
+         * @return el siguiente ComponentePC en la coleccion
+         * @throws java.util.NoSuchElementException si no hay mas elementos disponibles
+         */
+        @Override
+        public ComponentePC next() {
+            if (!hasNext()) {
+                throw new java.util.NoSuchElementException("No hay mas elementos en la iteracion");
+            }
+            return componentes.get(posicion++);
+        }
     }
 }
