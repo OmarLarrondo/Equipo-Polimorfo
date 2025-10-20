@@ -48,13 +48,13 @@ public class AMDFactory implements ComponenteFactory {
     private CPU crearCPUAMD(String modelo) {
         return switch (modelo) {
             case "Ryzen 5 5600G" ->
-                new CPU("AMD Ryzen 5 5600G", 7999.00, "AMD", 6, "AMD");
+                new CPU("AMD Ryzen 5 5600G", 7999.00, "AMD", "CPU", 6, "x86-64 (AMD64)");
             case "Ryzen 5 7600X" ->
-                new CPU("AMD Ryzen 5 7600X", 12999.00, "AMD", 6, "AMD");
+                new CPU("AMD Ryzen 5 7600X", 12999.00, "AMD", "CPU", 6, "x86-64 (AMD64)");
             case "Ryzen 7 7700X" ->
-                new CPU("AMD Ryzen 7 7700X", 17999.00, "AMD", 8, "AMD");
+                new CPU("AMD Ryzen 7 7700X", 17999.00, "AMD", "CPU", 8, "x86-64 (AMD64)");
             case "Ryzen 9 7950X3D" ->
-                new CPU("AMD Ryzen 9 7950X3D", 32999.00, "AMD", 16, "AMD");
+                new CPU("AMD Ryzen 9 7950X3D", 32999.00, "AMD", "CPU", 16, "x86-64 (AMD64)");
             default ->
                 throw new IllegalArgumentException("Modelo de CPU AMD no reconocido: " + modelo);
         };
@@ -74,13 +74,13 @@ public class AMDFactory implements ComponenteFactory {
     private MotherBoard crearMotherBoardAMD(String modelo) {
         return switch (modelo) {
             case "ROG Maximus AMD X670" ->
-                new MotherBoard("ASUS ROG Crosshair X670E Hero", 18999.00, "ASUS", "X670E", "AM5", "AMD");
+                new MotherBoard("ASUS ROG Crosshair X670E Hero", 18999.00, "ASUS", "MotherBoard", "X670E", "AM5", "x86-64");
             case "TUF Gaming B650-Plus WIFI" ->
-                new MotherBoard("ASUS TUF Gaming B650-Plus WIFI", 8499.00, "ASUS", "B650", "AM5", "AMD");
+                new MotherBoard("ASUS TUF Gaming B650-Plus WIFI", 8499.00, "ASUS", "MotherBoard", "B650", "AM5", "x86-64");
             case "MEG X670E Godlike" ->
-                new MotherBoard("MSI MEG X670E Godlike", 28999.00, "MSI", "X670E", "AM5", "AMD");
+                new MotherBoard("MSI MEG X670E Godlike", 28999.00, "MSI", "MotherBoard", "X670E", "AM5", "x86-64");
             case "MAG B650 Tomahawk WIFI" ->
-                new MotherBoard("MSI MAG B650 Tomahawk WIFI", 7499.00, "MSI", "B650", "AM5", "AMD");
+                new MotherBoard("MSI MAG B650 Tomahawk WIFI", 7499.00, "MSI", "MotherBoard", "B650", "AM5", "x86-64");
             default ->
                 throw new IllegalArgumentException("Modelo de MotherBoard AMD no reconocido: " + modelo);
         };

@@ -48,13 +48,13 @@ public class IntelFactory implements ComponenteFactory {
     private CPU crearCPUIntel(String modelo) {
         return switch (modelo) {
             case "Core i3-13100" ->
-                new CPU("Intel Core i3-13100", 8999.00, "Intel", 4, "Intel");
+                new CPU("Intel Core i3-13100", 8999.00, "Intel", "CPU", 4, "x86-64");
             case "Core i5-13600K" ->
-                new CPU("Intel Core i5-13600K", 18999.00, "Intel", 14, "Intel");
+                new CPU("Intel Core i5-13600K", 18999.00, "Intel", "CPU", 14, "x86-64");
             case "Core i7-13700K" ->
-                new CPU("Intel Core i7-13700K", 24999.00, "Intel", 16, "Intel");
+                new CPU("Intel Core i7-13700K", 24999.00, "Intel", "CPU", 16, "x86-64");
             case "Core i9-13900K" ->
-                new CPU("Intel Core i9-13900K", 34999.00, "Intel", 24, "Intel");
+                new CPU("Intel Core i9-13900K", 34999.00, "Intel", "CPU", 24, "x86-64");
             default ->
                 throw new IllegalArgumentException("Modelo de CPU Intel no reconocido: " + modelo);
         };
@@ -74,13 +74,13 @@ public class IntelFactory implements ComponenteFactory {
     private MotherBoard crearMotherBoardIntel(String modelo) {
         return switch (modelo) {
             case "ROG Maximus Z790 Hero" ->
-                new MotherBoard("ASUS ROG Maximus Z790 Hero", 19999.00, "ASUS", "Z790", "LGA1700", "Intel");
+                new MotherBoard("ASUS ROG Maximus Z790 Hero", 19999.00, "ASUS", "MotherBoard", "Z790", "LGA1700", "x86-64");
             case "TUF Gaming B760-Plus WIFI D4" ->
-                new MotherBoard("ASUS TUF Gaming B760-Plus WIFI D4", 8999.00, "ASUS", "B760", "LGA1700", "Intel");
+                new MotherBoard("ASUS TUF Gaming B760-Plus WIFI D4", 8999.00, "ASUS", "MotherBoard", "B760", "LGA1700", "x86-64");
             case "MEG Godlike" ->
-                new MotherBoard("MSI MEG Z790 Godlike", 29999.00, "MSI", "Z790", "LGA1700", "Intel");
+                new MotherBoard("MSI MEG Z790 Godlike", 29999.00, "MSI", "MotherBoard", "Z790", "LGA1700", "x86-64");
             case "MAG B760 Tomahawk WIFI DDR4" ->
-                new MotherBoard("MSI MAG B760 Tomahawk WIFI DDR4", 7999.00, "MSI", "B760", "LGA1700", "Intel");
+                new MotherBoard("MSI MAG B760 Tomahawk WIFI DDR4", 7999.00, "MSI", "MotherBoard", "B760", "LGA1700", "x86-64");
             default ->
                 throw new IllegalArgumentException("Modelo de MotherBoard Intel no reconocido: " + modelo);
         };
