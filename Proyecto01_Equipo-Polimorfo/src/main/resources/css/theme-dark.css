@@ -1,0 +1,265 @@
+/**
+ * Tema oscuro para la aplicacion MonosChinos MX
+ * Adaptado de esquema de colores moderno con paleta oscura
+ *
+ * Variables de color basadas en el tema proporcionado
+ */
+
+.root {
+    /* Colores de fondo */
+    --background-primary: #100e17;
+    --background-primary-alt: #0d0b12;
+    --background-secondary: #191621;
+    --background-secondary-alt: #0d0b12;
+
+    /* Colores de texto */
+    --text-normal: #bebebe;
+    --text-accent: #0fb6d6;
+    --text-sub-accent: #f4569d;
+    --text-dim: #45aaff;
+    --text-faint: #7aa2f7;
+    --text-title: #cbdbe5;
+
+    /* Colores interactivos */
+    --interactive-accent: rgba(14, 210, 247, 0.5);
+    --interactive-accent-hover: rgba(14, 210, 247, 0.8);
+    --interactive-before: #5e6565;
+
+    /* Bordes y separadores */
+    --border-color: rgba(14, 210, 247, 0.05);
+    --table-border: rgba(14, 210, 247, 0.15);
+
+    /* Colores de acento con opacidad */
+    --accent-55: rgba(14, 210, 247, 0.55);
+    --accent-25: rgba(14, 210, 247, 0.25);
+    --sub-accent-55: rgba(244, 86, 157, 0.55);
+
+    /* Colores de botones */
+    --button-primary: #0fb6d6;
+    --button-primary-hover: #0ea3bf;
+    --button-danger: #f4569d;
+    --button-danger-hover: #d94883;
+    --button-secondary: #5e6565;
+    --button-secondary-hover: #4a5050;
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.root {
+    -fx-background-color: var(--background-primary);
+}
+
+/* ===== ENCABEZADO ===== */
+.titulo-principal {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: var(--text-accent);
+}
+
+.encabezado-panel {
+    -fx-background-color: var(--background-secondary);
+    -fx-border-color: var(--border-color);
+    -fx-border-width: 0 0 2 0;
+}
+
+/* ===== LABELS Y ETIQUETAS ===== */
+.label {
+    -fx-text-fill: var(--text-normal);
+}
+
+.label-titulo {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: var(--text-title);
+}
+
+/* ===== TABLA DE TICKETS ===== */
+.table-view {
+    -fx-background-color: var(--background-secondary);
+    -fx-border-color: var(--table-border);
+    -fx-border-width: 1;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: var(--background-secondary-alt);
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: var(--table-border);
+    -fx-border-width: 0 1 1 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: var(--text-accent);
+    -fx-font-weight: bold;
+}
+
+.table-view .table-cell {
+    -fx-background-color: var(--background-secondary);
+    -fx-text-fill: var(--text-normal);
+    -fx-border-color: var(--table-border);
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: var(--background-secondary);
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: var(--background-primary-alt);
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: var(--accent-25);
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: var(--accent-25);
+    -fx-cursor: hand;
+}
+
+.table-view:focused .table-row-cell:selected {
+    -fx-background-color: var(--accent-55);
+}
+
+/* ===== AREA DE TEXTO (DETALLES) ===== */
+.text-area {
+    -fx-background-color: var(--background-secondary);
+    -fx-text-fill: var(--text-normal);
+    -fx-border-color: var(--table-border);
+    -fx-border-width: 1;
+}
+
+.text-area .content {
+    -fx-background-color: var(--background-secondary);
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: var(--background-secondary);
+}
+
+.text-area .scroll-pane .viewport {
+    -fx-background-color: var(--background-secondary);
+}
+
+.text-area-detalles {
+    -fx-font-family: 'Courier New', 'Monaco', monospace;
+    -fx-font-size: 12px;
+}
+
+/* ===== BOTONES ===== */
+.button {
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
+
+.button-primary {
+    -fx-background-color: var(--button-primary);
+    -fx-text-fill: var(--background-primary);
+    -fx-font-weight: bold;
+}
+
+.button-primary:hover {
+    -fx-background-color: var(--button-primary-hover);
+}
+
+.button-danger {
+    -fx-background-color: var(--button-danger);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.button-danger:hover {
+    -fx-background-color: var(--button-danger-hover);
+}
+
+.button-secondary {
+    -fx-background-color: var(--button-secondary);
+    -fx-text-fill: var(--text-normal);
+    -fx-font-weight: bold;
+}
+
+.button-secondary:hover {
+    -fx-background-color: var(--button-secondary-hover);
+}
+
+/* ===== SPLIT PANE ===== */
+.split-pane {
+    -fx-background-color: var(--background-primary);
+}
+
+.split-pane .split-pane-divider {
+    -fx-background-color: var(--border-color);
+    -fx-padding: 0 1 0 1;
+}
+
+/* ===== CONTENEDORES ===== */
+.contenedor-botones {
+    -fx-background-color: var(--background-secondary);
+    -fx-border-color: var(--border-color);
+    -fx-border-width: 2 0 0 0;
+}
+
+.contenedor-tabla,
+.contenedor-detalles {
+    -fx-background-color: var(--background-primary);
+}
+
+/* ===== SCROLL BARS ===== */
+.scroll-bar {
+    -fx-background-color: var(--background-secondary);
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: var(--interactive-accent);
+    -fx-background-radius: 4;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: var(--interactive-accent-hover);
+}
+
+.scroll-bar .track {
+    -fx-background-color: var(--background-primary-alt);
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: var(--background-secondary-alt);
+}
+
+/* ===== NOTIFICACIONES (ControlsFX) ===== */
+.notification-pane {
+    -fx-background-color: var(--background-secondary);
+    -fx-border-color: var(--text-accent);
+    -fx-border-width: 2;
+}
+
+.notification-pane .label {
+    -fx-text-fill: var(--text-normal);
+}
+
+/* ===== DIALOGOS ===== */
+.dialog-pane {
+    -fx-background-color: var(--background-secondary);
+}
+
+.dialog-pane .label {
+    -fx-text-fill: var(--text-normal);
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: var(--background-primary);
+}
+
+.dialog-pane .content {
+    -fx-background-color: var(--background-secondary);
+}
+
+.dialog-pane .button-bar .button {
+    -fx-background-color: var(--button-primary);
+    -fx-text-fill: var(--background-primary);
+}

@@ -115,6 +115,24 @@ public class Ticket {
     }
 
     /**
+     * Obtiene la fecha de generacion del ticket.
+     *
+     * @return la fecha del ticket
+     */
+    public Date obtenerFecha() {
+        return fecha;
+    }
+
+    /**
+     * Obtiene el nombre del cliente asociado al ticket.
+     *
+     * @return el nombre del cliente
+     */
+    public String obtenerCliente() {
+        return cliente;
+    }
+
+    /**
      * Genera el encabezado del ticket con logo, numero, fecha y cliente.
      * Construye las lineas del encabezado con la informacion basica del ticket.
      *
