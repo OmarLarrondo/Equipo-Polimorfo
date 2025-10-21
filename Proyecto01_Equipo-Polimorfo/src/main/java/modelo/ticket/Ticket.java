@@ -58,7 +58,7 @@ public class Ticket {
      * @throws IllegalArgumentException si la computadora, cliente o compatibilidad son nulos
      */
     public Ticket(int numero, ComputadoraBase computadora, String cliente,
-                  ResultadoCompatibilidad compatibilidad) {
+                ResultadoCompatibilidad compatibilidad) {
         if (computadora == null) {
             throw new IllegalArgumentException("La computadora no puede ser nula");
         }
