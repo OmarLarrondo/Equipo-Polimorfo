@@ -109,11 +109,13 @@ public class PanelSeleccionTipo {
             PanelPCPrearmada panel = new PanelPCPrearmada(vista);
             vista.cambiarEscena(panel.crear());
         });
-
+        
         btnVolver.setOnAction(e -> {
-            System.out.println("Volver a la pantalla anterior");
-            vista.cambiarEscena(null);
+            System.out.println("Volver a la pantalla anterior.");
+            PanelSeleccionTipo panelAnterior = new PanelSeleccionTipo(vista);
+            vista.cambiarEscena(panelAnterior.crear());
         });
+
     }
 
     /**
