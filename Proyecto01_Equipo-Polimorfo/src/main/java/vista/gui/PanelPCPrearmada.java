@@ -45,7 +45,7 @@ public class PanelPCPrearmada {
         aplicarEstilos();
 
         Scene scene = new Scene(root, 900, 700);
-        scene.getStylesheets().add(getClass().getResource("/css/estilos.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/css/theme-dark.css").toExternalForm());
         return scene; 
     }   
     private void  inicializarComponentes(){
