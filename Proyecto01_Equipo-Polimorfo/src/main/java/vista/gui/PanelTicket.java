@@ -79,6 +79,9 @@ public class PanelTicket {
     /**Ticket de compra a mostrar.*/
     private Ticket ticket;
 
+    /**Servicio de persistencia para guardar tickets.*/
+    private persistencia.ServicioPersistencia persistencia;
+
     /**
      * Construye un nuevo panel de visualizacion de ticket.
      * Inicializa todos los componentes visuales y configura el ticket a mostrar.
@@ -94,6 +97,11 @@ public class PanelTicket {
         this.ticket = ticket;
         this.root = new BorderPane();
         this.panelCentral = new VBox(15);
+
+        String rutaDB = Optional.ofNullable(System.getProperty("user.home"))
+            .map(home -> home + "/.monoschinos/ventas.db")
+            .orElse("ventas.db");
+        this.persistencia = new persistencia.PersistenciaSQLite(rutaDB);
 
         inicializarComponentes();
     }
@@ -208,11 +216,20 @@ public class PanelTicket {
      */
     private void guardarTicket() {
         Try.run(() -> {
-            mostrarDialogoConfirmacion(
-                "Ticket Guardado",
-                "El ticket ha sido guardado exitosamente en el sistema.",
-                Alert.AlertType.INFORMATION
-            );
+            boolean guardado = persistencia.guardarTicket(ticket);
+            if (guardado) {
+                mostrarDialogoConfirmacion(
+                    "Ticket Guardado",
+                    "El ticket ha sido guardado exitosamente en el sistema.",
+                    Alert.AlertType.INFORMATION
+                );
+            } else {
+                mostrarDialogoConfirmacion(
+                    "Error al Guardar",
+                    "No se pudo guardar el ticket en la base de datos.",
+                    Alert.AlertType.ERROR
+                );
+            }
         }).onFailure(error -> {
             mostrarDialogoConfirmacion(
                 "Error al Guardar",
@@ -224,13 +241,16 @@ public class PanelTicket {
 
     /**
      * Maneja la accion de crear una nueva compra.
-     * Confirma con el usuario y navega a la pantalla inicial.
+     * Confirma con el usuario y navega a la ventana principal.
      */
     private void manejarNuevaCompra() {
         ejecutarSiUsuarioConfirma(
             "Nueva Compra",
             "¿Desea realizar una nueva compra? Se volvera al inicio.",
-            () -> vista.cambiarEscena(null)
+            () -> {
+                VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(vista);
+                vista.cambiarEscena(ventanaPrincipal.crear());
+            }
         );
     }
 

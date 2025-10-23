@@ -111,8 +111,8 @@ public class PanelSeleccionTipo {
         
         btnVolver.setOnAction(e -> {
             System.out.println("Volver a la pantalla anterior.");
-            PanelSeleccionTipo panelAnterior = new PanelSeleccionTipo(vista);
-            vista.cambiarEscena(panelAnterior.crear());
+            VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(vista);
+            vista.cambiarEscena(ventanaPrincipal.crear());
         });
 
     }

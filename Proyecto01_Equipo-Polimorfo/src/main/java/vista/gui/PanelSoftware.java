@@ -430,20 +430,62 @@ public class PanelSoftware {
 
     /**
      * Maneja la accion del boton continuar.
-     * Valida las selecciones y navega al siguiente paso.
+     * Aplica el software seleccionado, genera el ticket y navega al panel de ticket.
      */
     private void manejarContinuar() {
         Try.run(() -> {
-            vista.cambiarEscena(null);
-        });
+            ComputadoraBase computadoraConSoftware = obtenerComputadoraConSoftware();
+
+            fachada.SistemaEnsamblajeFacade facade = new fachada.SistemaEnsamblajeFacade();
+            modelo.estrategia.ResultadoCompatibilidad compatibilidad =
+                facade.verificarCompatibilidad(computadoraConSoftware);
+
+            int numeroTicket = (int) System.currentTimeMillis() % 100000;
+            modelo.ticket.Ticket ticket = new modelo.ticket.Ticket(
+                numeroTicket,
+                computadoraConSoftware,
+                "Cliente GUI",
+                compatibilidad
+            );
+
+            PanelTicket panelTicket = new PanelTicket(vista, ticket);
+            vista.cambiarEscena(panelTicket.crear());
+        }).onFailure(error ->
+            mostrarDialogoError("Error", "No se pudo continuar: " + error.getMessage())
+        );
     }
 
     /**
      * Maneja la accion del boton volver.
-     * Regresa a la pantalla anterior sin aplicar cambios.
+     * Regresa a la pantalla de seleccion de componentes.
      */
     private void manejarVolver() {
-        Try.run(() -> vista.cambiarEscena(null));
+        Try.run(() -> {
+            PanelComponentes panelAnterior = new PanelComponentes(vista);
+            vista.cambiarEscena(panelAnterior.crear());
+        }).onFailure(error ->
+            mostrarDialogoError("Error", "No se pudo volver a la pantalla anterior")
+        );
+    }
+
+    /**
+     * Muestra un dialogo de error con titulo y mensaje especificados.
+     * Maneja de forma segura cualquier error que pueda ocurrir durante
+     * la creacion y visualizacion del dialogo.
+     *
+     * @param titulo el titulo del dialogo de error
+     * @param mensaje el mensaje de error a mostrar
+     */
+    private void mostrarDialogoError(String titulo, String mensaje) {
+        Try.run(() -> {
+            javafx.scene.control.Alert dialogo = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+            dialogo.setTitle(titulo);
+            dialogo.setHeaderText(null);
+            dialogo.setContentText(mensaje);
+            dialogo.showAndWait();
+        }).onFailure(error ->
+            System.err.println("Error al mostrar dialogo: " + error.getMessage())
+        );
     }
 
     /**
