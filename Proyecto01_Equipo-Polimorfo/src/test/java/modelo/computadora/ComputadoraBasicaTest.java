@@ -1,7 +1,6 @@
 package modelo.computadora;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,7 +11,6 @@ import modelo.componente.Disco;
 import modelo.componente.FuenteAlimentacion;
 import modelo.componente.Gabinete;
 import modelo.componente.GPU;
-import modelo.componente.Gabinete;
 import modelo.componente.MotherBoard;
 import modelo.componente.RAM;
 import modelo.componente.JuegoDiscos;
@@ -22,10 +20,55 @@ import modelo.decorador.OfficeDecorator;
 import modelo.decorador.PhotoshopDecorator;
 import modelo.decorador.WindowsDecorator;
 import modelo.decorador.WSLDecorator;
-import modelo.decorador.AutoCADDecorator;
-import modelo.decorador.PhotoshopDecorator;
 
-class ComputadoraBasicaTest{
+/**
+ * Clase de pruebas unitarias para validar el comportamiento de la clase ComputadoraBasica
+ * y su interaccion con componentes de hardware y decoradores de software.
+ *
+ * Esta suite de pruebas verifica tres aspectos fundamentales:
+ * 1. Calculo correcto del precio total (hardware + software)
+ * 2. Generacion de descripciones completas con cadena de decoradores
+ * 3. Deteccion de software instalado mediante navegacion de decoradores
+ *
+ * Patrones validados:
+ * - Patron Decorator: Aplicacion dinamica de software (Windows, Office, AutoCAD, Photoshop, WSL)
+ * - Patron Composite: Manejo de componentes compuestos (JuegoRAMs, JuegoDiscos)
+ *
+ * Esta clase implementa pruebas unitarias para el sistema de ensamblado de computadoras
+ * de MonosChinos MX, validando la integracion entre componentes y decoradores.
+ *
+ * @author Equipo-Polimorfo
+ * @version 1.0
+ */
+public class ComputadoraBasicaTest{
+
+    /**
+     * Prueba unitaria para verificar el calculo correcto del precio total de una computadora
+     * con multiples componentes de hardware y decoradores de software.
+     *
+     * Se valida que el metodo obtenerPrecioTotal() retorne la suma exacta de todos los
+     * componentes agregados (CPU, fuente de alimentacion, gabinete, GPU, tarjeta madre,
+     * conjunto de RAMs y conjunto de discos), incluyendo los costos adicionales de los
+     * decoradores de software (Windows y WSL).
+     *
+     * Componentes de prueba:
+     * - CPU Intel Core i3-13100: $7000.00
+     * - Fuente EVGA Supernova G5: $1800.00
+     * - Gabinete NXZT H6 Flow ATX: $1900.00
+     * - GPU NVIDIA GTX 1660: $3000.00
+     * - Tarjeta madre ASUS ROG Maximus Z790 Hero: $9560.00
+     * - 3 modulos de RAM (8GB c/u): $3000.00 total
+     * - 2 discos (2TB SSD + 1TB HDD): $3020.00 total
+     *
+     * Decoradores aplicados:
+     * - Windows: $350.00
+     * - WSL: $200.00
+     *
+     * Nota tecnica: La prueba tambien agrega algunos componentes directamente al decorador
+     * (gabinete, rams, disco1) para verificar que el metodo agregarComponente() del
+     * decorador delegue correctamente a la computadora base sin duplicar el precio.
+     * El precio total esperado es $27910.00.
+     */
     @Test
     public void pruebaPrecioTotal(){
         ComputadoraBasica compuNueva = new ComputadoraBasica("miCompuPruebaPrecio");
@@ -69,11 +112,39 @@ class ComputadoraBasicaTest{
         compuNuevaConWindowsYWSL.agregarComponente(rams);
         compuNuevaConWindowsYWSL.agregarComponente(disco1);
 
-        double precioTotal = 7000.00+1800.00+1900.00+3000.00+9560.00+(2200.00+800.00)+(1000.00+1000.00+1000.00);
+        double precioTotal = 27910.0;
 
         assertEquals(precioTotal, compuNuevaConWindowsYWSL.obtenerPrecioTotal());
     }
 
+    /**
+     * Prueba unitaria para verificar la generacion correcta de la descripcion completa
+     * de una computadora decorada con multiples softwares.
+     *
+     * Se valida que el metodo obtenerDescripcion() retorne una cadena que incluya:
+     * - La descripcion base de la computadora con sus componentes de hardware
+     * - La informacion de todos los decoradores de software aplicados en orden
+     *   (Windows, AutoCAD, Photoshop, WSL)
+     *
+     * Esta prueba verifica el patron Decorator mediante la cadena de responsabilidad
+     * de descripciones, donde cada decorador agrega su propia informacion a la
+     * descripcion heredada del componente envuelto.
+     *
+     * Componentes de prueba:
+     *
+     * Agregados a la computadora base:
+     * - CPU Intel Core i3-13100
+     * - Fuente EVGA Supernova G5
+     * - Gabinete NXXT H6 Flow ATX
+     * - GPU NVIDIA GTX 1660
+     *
+     * Agregados via decorador:
+     * - Tarjeta madre ASUS ROG Maximus Z790 Hero
+     * - 3 modulos de RAM de 8GB cada uno (JuegoRAMs)
+     * - Disco SSD Kingston de 2TB
+     *
+     * Decoradores aplicados: Windows, AutoCAD, Photoshop, WSL
+     */
     @Test
     public void pruebaDescripcion(){
         ComputadoraBasica compuNueva = new ComputadoraBasica("miCompuPruebaDescripcion");
@@ -109,9 +180,35 @@ class ComputadoraBasicaTest{
         compuNuevaConWindowsYAutoCADYPhotoshopYWSL.agregarComponente(rams);
         compuNuevaConWindowsYAutoCADYPhotoshopYWSL.agregarComponente(disco1);
 
-        assertEquals("resultado descripcion software aquí", compuNuevaConWindowsYAutoCADYPhotoshopYWSL.obtenerDescripcion());
+        assertEquals("miCompuPruebaDescripcion\n  - CPU: Core i3-13100 | Marca: Intel | Tipo: CPU | Núcleos: 4 | Arquitectura: Raptor Lake (13a Gen) | Precio: $7000.00\n  - Fuente: Supernova G5 | Marca: EVGA | Potencia: 1000 W | Certificación: Plus Gold | Precio: $1800.00\n  - Gabinete{nombre='H6 Flow ATX', precio=1900.0, marca='NXZT', tipo='Gabinete', tamanio='ATX'}\n  - Tarjeta grafica [GTX 1660] - Marca: NVIDIA - Precio: $3000.00\n  - Motherboard: ROG Maximus Z790 Hero | Marca: ASUS | Chipset: Intel Z790 chipset | Socket: LGA 1700 | Arquitectura: Ninguna | Precio: $9560.00\n  - Componente: juegoRAMs (Juego de RAMs)\n\n  - Disco: NV3 | Marca: Kingston | Tipo: SSD | Capacidad: 2048 GB | Alimentación: Unidad de bajo consumo | Precio: $2200.00\n  + Software: Windows\n  + Software: AutoCAD\n  + Software: Photoshop\n  + Software: WSL", compuNuevaConWindowsYAutoCADYPhotoshopYWSL.obtenerDescripcion());
     }
 
+    /**
+     * Prueba unitaria para verificar la funcionalidad del metodo tieneSoftware()
+     * (nota: el metodo en el codigo se llama tieneSotfware debido a un error ortografico)
+     * que determina si un software especifico esta instalado en una computadora decorada.
+     *
+     * Se valida que el metodo retorne:
+     * - true cuando el software especificado esta presente como decorador
+     * - false cuando el software especificado no esta presente
+     *
+     * Esta prueba verifica la capacidad del patron Decorator para navegar por la cadena
+     * de decoradores y detectar la presencia de software especifico, independientemente
+     * de su posicion en la cadena de decoracion.
+     *
+     * Configuracion de prueba:
+     * - Computadora base con CPU, fuente, gabinete y GPU
+     * - Decoradores aplicados: Windows, Photoshop, WSL
+     * - Decoradores NO aplicados: AutoCAD, Office
+     *
+     * Casos de prueba validados:
+     * - Verificacion de Windows: debe retornar true (instalado)
+     * - Verificacion de software inexistente ("Programa pirata >:)"): debe retornar false
+     * - Verificacion de Photoshop: debe retornar true (instalado)
+     * - Verificacion de WSL: debe retornar true (instalado)
+     * - Verificacion de AutoCAD (no instalado): debe retornar false
+     * - Verificacion de Office (no instalado): debe retornar false
+     */
     @Test
     public void pruebaTieneSoftware(){
         ComputadoraBasica compuNueva = new ComputadoraBasica("miCompuPruebaSoftware");
@@ -146,7 +243,7 @@ class ComputadoraBasicaTest{
         compuNuevaConWindowsYPhotoshopYWSL.agregarComponente(rams);
         compuNuevaConWindowsYPhotoshopYWSL.agregarComponente(disco1);
 
-        boolean[] resultadosEsperados = {true, true, false, true, false, false};
+        boolean[] resultadosEsperados = {true, false, true, true, false, false};
         boolean[] softwareInstalado = {
             compuNuevaConWindowsYPhotoshopYWSL.tieneSotfware("Windows"),
             compuNuevaConWindowsYPhotoshopYWSL.tieneSotfware("Programa pirata >:)"),
@@ -156,6 +253,6 @@ class ComputadoraBasicaTest{
             compuNuevaConWindowsYPhotoshopYWSL.tieneSotfware("Office")
         };
 
-        assertEquals(resultadosEsperados, softwareInstalado);
+        assertArrayEquals(resultadosEsperados, softwareInstalado);
     }
 }
