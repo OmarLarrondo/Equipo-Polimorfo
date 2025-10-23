@@ -28,7 +28,7 @@ import modelo.decorador.PhotoshopDecorator;
 class ComputadoraBasicaTest{
     @Test
     public void pruebaPrecioTotal(){
-        ComputadoraBasica compuNueva = new ComputadoraBasica("miCompuPrueba1");
+        ComputadoraBasica compuNueva = new ComputadoraBasica("miCompuPruebaPrecio");
         CPU procesador = new CPU("Core i3-13100", 7000.00, "Intel", "CPU", 4, "Raptor Lake (13a Gen)");
         FuenteAlimentacion fuente = new FuenteAlimentacion("Supernova G5", 1800.00, "EVGA", "Fuente de alimentacion", 1000, "Plus Gold");
         Gabinete gabinete = new Gabinete("H6 Flow ATX", 1900.00, "NXZT", "Gabinete", "ATX");
@@ -76,7 +76,7 @@ class ComputadoraBasicaTest{
 
     @Test
     public void pruebaDescripcion(){
-        ComputadoraBasica compuNueva = new ComputadoraBasica("miCompuPrueba1");
+        ComputadoraBasica compuNueva = new ComputadoraBasica("miCompuPruebaDescripcion");
         CPU procesador = new CPU("Core i3-13100", 7000.00, "Intel", "CPU", 4, "Raptor Lake (13a Gen)");
         FuenteAlimentacion fuente = new FuenteAlimentacion("Supernova G5", 1800.00, "EVGA", "Fuente de alimentacion", 1000, "Plus Gold");
         Gabinete gabinete = new Gabinete("H6 Flow ATX", 1900.00, "NXZT", "Gabinete", "ATX");
@@ -114,7 +114,7 @@ class ComputadoraBasicaTest{
 
     @Test
     public void pruebaTieneSoftware(){
-        ComputadoraBasica compuNueva = new ComputadoraBasica("miCompuPrueba1");
+        ComputadoraBasica compuNueva = new ComputadoraBasica("miCompuPruebaSoftware");
         CPU procesador = new CPU("Core i3-13100", 7000.00, "Intel", "CPU", 4, "Raptor Lake (13a Gen)");
         FuenteAlimentacion fuente = new FuenteAlimentacion("Supernova G5", 1800.00, "EVGA", "Fuente de alimentacion", 1000, "Plus Gold");
         Gabinete gabinete = new Gabinete("H6 Flow ATX", 1900.00, "NXZT", "Gabinete", "ATX");
