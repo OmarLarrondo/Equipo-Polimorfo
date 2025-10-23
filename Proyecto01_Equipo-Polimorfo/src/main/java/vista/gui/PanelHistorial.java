@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import io.vavr.control.Try;
+
 import org.controlsfx.control.Notifications;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
@@ -333,7 +335,14 @@ public class PanelHistorial {
 
         btnVolver.setGraphic(new FontIcon(FontAwesomeSolid.ARROW_LEFT));
         btnVolver.getStyleClass().add("button-secondary");
-        btnVolver.setOnAction(e -> vista.cambiarEscena(null));
+        btnVolver.setOnAction(e ->
+            Try.run(() -> {
+                VentanaPrincipal panelAnterior = new VentanaPrincipal(vista);
+                vista.cambiarEscena(panelAnterior.crear());
+            }).onFailure(error ->
+                mostrarDialogoError("Error", "No se pudo volver a la pantalla anterior")
+            )
+        );
     }
 
     /**
@@ -474,6 +483,26 @@ public class PanelHistorial {
             .title("Advertencia")
             .text(mensaje)
             .showWarning();
+    }
+
+    /**
+     * Muestra un dialogo de error con titulo y mensaje especificados.
+     * Maneja de forma segura cualquier error que pueda ocurrir durante
+     * la creacion y visualizacion del dialogo usando Alert de JavaFX.
+     *
+     * @param titulo el titulo del dialogo de error
+     * @param mensaje el mensaje de error a mostrar
+     */
+    private void mostrarDialogoError(String titulo, String mensaje) {
+        Try.run(() -> {
+            Alert dialogo = new Alert(Alert.AlertType.ERROR);
+            dialogo.setTitle(titulo);
+            dialogo.setHeaderText(null);
+            dialogo.setContentText(mensaje);
+            dialogo.showAndWait();
+        }).onFailure(error ->
+            System.err.println("Error al mostrar dialogo: " + error.getMessage())
+        );
     }
 
     /**

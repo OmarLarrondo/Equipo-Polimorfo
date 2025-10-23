@@ -227,7 +227,7 @@ public class PanelPCPrearmada {
 
         btnVolver.setOnAction(e ->
             Try.run(() -> {
-                PanelSeleccionTipo panelAnterior = new PanelSeleccionTipo(vista);
+                VentanaPrincipal panelAnterior = new VentanaPrincipal(vista);
                 vista.cambiarEscena(panelAnterior.crear());
             }).onFailure(error ->
                 mostrarDialogoError("Error", "No se pudo volver a la pantalla anterior")

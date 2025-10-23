@@ -658,11 +658,11 @@ public class PanelComponentes {
 
     /**
      * Maneja la accion del boton volver.
-     * Regresa al panel de seleccion de tipo de PC.
+     * Regresa a la ventana principal del sistema.
      */
     private void manejarVolver() {
         Try.run(() -> {
-            PanelSeleccionTipo panelAnterior = new PanelSeleccionTipo(vista);
+            VentanaPrincipal panelAnterior = new VentanaPrincipal(vista);
             vista.cambiarEscena(panelAnterior.crear());
         }).onFailure(error ->
             mostrarDialogoError("Error", "No se pudo volver a la pantalla anterior")

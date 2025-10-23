@@ -119,14 +119,14 @@ public class VentanaPrincipal {
     private void inicializarBotones() {
         btnPCPersonalizada = crearBotonMenu(
             "PC Personalizada",
-            e -> navegarAPanelSeleccion(),
+            e -> navegarAPanelComponentes(),
             FontAwesomeSolid.DESKTOP,
             "button-primary"
         );
 
         btnPCPrearmada = crearBotonMenu(
             "PC Prearmada",
-            e -> navegarAPanelSeleccion(),
+            e -> navegarAPanelPCPrearmada(),
             FontAwesomeSolid.LAPTOP,
             "button-primary"
         );
@@ -292,12 +292,23 @@ public class VentanaPrincipal {
     }
 
     /**
-     * Navega al panel de seleccion de tipo de PC.
-     * Crea una nueva instancia de PanelSeleccionTipo y cambia la escena.
+     * Navega al panel de configuracion de componentes para PC personalizada.
+     * Crea una nueva instancia de PanelComponentes y cambia la escena.
      */
-    private void navegarAPanelSeleccion() {
+    private void navegarAPanelComponentes() {
         Try.run(() -> {
-            PanelSeleccionTipo panel = new PanelSeleccionTipo(vista);
+            PanelComponentes panel = new PanelComponentes(vista);
+            vista.cambiarEscena(panel.crear());
+        }).onFailure(this::manejarErrorNavegacion);
+    }
+
+    /**
+     * Navega al panel de seleccion de PC prearmadas.
+     * Crea una nueva instancia de PanelPCPrearmada y cambia la escena.
+     */
+    private void navegarAPanelPCPrearmada() {
+        Try.run(() -> {
+            PanelPCPrearmada panel = new PanelPCPrearmada(vista);
             vista.cambiarEscena(panel.crear());
         }).onFailure(this::manejarErrorNavegacion);
     }
