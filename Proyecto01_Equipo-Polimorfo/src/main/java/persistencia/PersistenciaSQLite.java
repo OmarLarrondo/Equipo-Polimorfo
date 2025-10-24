@@ -1,5 +1,8 @@
 package persistencia;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -44,8 +47,7 @@ import modelo.ticket.Ticket;
  * permitiendo almacenar tickets, configuraciones de computadoras y catalogos de componentes
  * de manera persistente.
  *
- * <p>Esta clase implementa el patron de diseno Repository, encapsulando toda la logica
- * de acceso a datos y proporcionando una interfaz limpia para las operaciones CRUD
+ * <p>Esta clase encapsula toda la logica de acceso a datos y proporcionando una interfaz limpia para las operaciones CRUD
  * (Create, Read, Update, Delete) sobre los datos del sistema.
  *
  * <p>Caracteristicas principales:
@@ -76,6 +78,7 @@ public class PersistenciaSQLite implements ServicioPersistencia {
     /**
      * Construye una nueva instancia de persistencia SQLite con la ruta especificada.
      * Inicializa la conexion a la base de datos y crea el esquema si no existe.
+     * Crea automaticamente el directorio padre de la base de datos si no existe.
      *
      * @param rutaDB la ruta al archivo de base de datos SQLite
      * @throws IllegalArgumentException si la ruta es nula o vacia
@@ -88,7 +91,24 @@ public class PersistenciaSQLite implements ServicioPersistencia {
         this.gson = new GsonBuilder()
             .setDateFormat("dd/MM/yyyy HH:mm:ss")
             .create();
+        crearDirectorioDBSiNoExiste();
         conectar();
+    }
+
+    /**
+     * Crea el directorio padre de la base de datos si no existe.
+     * Utiliza la API NIO para crear directorios de forma segura.
+     */
+    private void crearDirectorioDBSiNoExiste() {
+        Optional.of(Paths.get(rutaDB))
+            .map(Path::getParent)
+            .ifPresent(directorioParent -> {
+                try {
+                    Files.createDirectories(directorioParent);
+                } catch (Exception e) {
+                    System.err.println("Error al crear directorio de base de datos: " + e.getMessage());
+                }
+            });
     }
 
     /**
@@ -129,7 +149,8 @@ public class PersistenciaSQLite implements ServicioPersistencia {
     /**
      * Guarda un ticket de compra en la base de datos de manera persistente.
      * Serializa la computadora y el resultado de compatibilidad a formato JSON
-     * antes de almacenarlos.
+     * antes de almacenarlos. Utiliza el metodo obtenerComputadora del ticket
+     * para acceder a la computadora configurada.
      *
      * @param ticket el ticket a guardar, no debe ser nulo
      * @return true si el ticket se guardo exitosamente, false en caso de error
@@ -145,13 +166,15 @@ public class PersistenciaSQLite implements ServicioPersistencia {
 
         try (PreparedStatement pstmt = conexion.prepareStatement(sql)) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            String ticketStr = ticket.generarTicket();
+
+            String computadoraJson = serializarComputadora(ticket.obtenerComputadora());
+            String compatibilidadJson = serializarCompatibilidad(ticket.obtenerCompatibilidad());
 
             pstmt.setInt(1, ticket.obtenerNumeroTicket());
-            pstmt.setString(2, sdf.format(new Date()));
-            pstmt.setString(3, "Cliente");
-            pstmt.setString(4, ticketStr);
-            pstmt.setString(5, "{}");
+            pstmt.setString(2, sdf.format(ticket.obtenerFecha()));
+            pstmt.setString(3, ticket.obtenerCliente());
+            pstmt.setString(4, computadoraJson);
+            pstmt.setString(5, compatibilidadJson);
             pstmt.setDouble(6, ticket.obtenerPrecioTotal());
 
             return pstmt.executeUpdate() > 0;
@@ -164,6 +187,7 @@ public class PersistenciaSQLite implements ServicioPersistencia {
     /**
      * Carga todos los tickets guardados desde la base de datos.
      * Deserializa los datos JSON de cada ticket para reconstruir los objetos completos.
+     * Extrae el numero de ticket, fecha, cliente, computadora y precio total de cada registro.
      *
      * @return lista de tickets guardados, puede estar vacia si no hay tickets, nunca retorna null
      */
@@ -179,7 +203,40 @@ public class PersistenciaSQLite implements ServicioPersistencia {
         try (Statement stmt = conexion.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
-            return procesarFilas(rs, r -> null);
+            return procesarFilas(rs, r -> {
+                try {
+                    int numeroTicket = r.getInt("numero_ticket");
+                    String fecha = r.getString("fecha");
+                    String cliente = r.getString("cliente");
+                    String computadoraJson = r.getString("computadora_json");
+                    String compatibilidadJson = r.getString("compatibilidad_json");
+                    double precioTotal = r.getDouble("precio_total");
+
+                    ComputadoraBase computadora = Optional.ofNullable(computadoraJson)
+                        .filter(json -> !json.trim().isEmpty())
+                        .map(this::deserializarComputadoraDeTicket)
+                        .orElse(null);
+
+                    if (computadora == null) {
+                        return null;
+                    }
+
+                    ResultadoCompatibilidad compatibilidad = Optional.ofNullable(compatibilidadJson)
+                        .filter(json -> !json.trim().isEmpty() && !json.equals("{}"))
+                        .map(this::deserializarCompatibilidad)
+                        .orElse(crearCompatibilidadPorDefecto());
+
+                    return crearTicketDesdeBaseDatos(numeroTicket, fecha, cliente,
+                        computadora, compatibilidad, precioTotal);
+
+                } catch (Exception e) {
+                    System.err.println("Error al deserializar ticket: " + e.getMessage());
+                    return null;
+                }
+            })
+            .stream()
+            .filter(ticket -> ticket != null)
+            .collect(Collectors.toList());
         } catch (SQLException e) {
             System.err.println("Error al cargar tickets: " + e.getMessage());
             return new ArrayList<>();
@@ -386,6 +443,30 @@ public class PersistenciaSQLite implements ServicioPersistencia {
     }
 
     /**
+     * Serializa un resultado de compatibilidad a formato JSON.
+     * Extrae el estado de compatibilidad, advertencias y componentes adaptados
+     * para crear una representacion serializable.
+     *
+     * @param compatibilidad el resultado de compatibilidad a serializar
+     * @return cadena JSON con la compatibilidad serializada
+     */
+    private String serializarCompatibilidad(ResultadoCompatibilidad compatibilidad) {
+        if (compatibilidad == null) {
+            return "{}";
+        }
+
+        Map<String, Object> compatibilidadDTO = new HashMap<>();
+        compatibilidadDTO.put("compatible", compatibilidad.isCompatible());
+        compatibilidadDTO.put("advertencias", compatibilidad.getAdvertencias());
+        compatibilidadDTO.put("componentesAdaptados",
+            compatibilidad.getComponentesAdaptados().stream()
+                .map(this::crearComponenteDTO)
+                .collect(Collectors.toList()));
+
+        return gson.toJson(compatibilidadDTO);
+    }
+
+    /**
      * Deserializa una computadora desde formato JSON.
      * Reconstruye los componentes y aplica los decoradores de software en el orden correcto.
      *
@@ -419,6 +500,79 @@ public class PersistenciaSQLite implements ServicioPersistencia {
             System.err.println("Error al deserializar computadora: " + e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * Deserializa una computadora desde un ticket guardado en base de datos.
+     * Reutiliza el metodo deserializarComputadora existente para procesar el JSON
+     * de la computadora almacenada.
+     *
+     * @param computadoraJson el JSON de la computadora guardada
+     * @return la computadora deserializada, o null si hay error
+     */
+    private ComputadoraBase deserializarComputadoraDeTicket(String computadoraJson) {
+        return deserializarComputadora(computadoraJson);
+    }
+
+    /**
+     * Deserializa un objeto ResultadoCompatibilidad desde formato JSON.
+     * Reconstruye el resultado de compatibilidad con advertencias y componentes adaptados.
+     *
+     * @param json cadena JSON con el resultado de compatibilidad serializado
+     * @return el resultado de compatibilidad deserializado, o null si hay error
+     */
+    private ResultadoCompatibilidad deserializarCompatibilidad(String json) {
+        try {
+            Map<String, Object> data = gson.fromJson(json,
+                new TypeToken<Map<String, Object>>(){}.getType());
+
+            boolean compatible = Optional.ofNullable(data.get("compatible"))
+                .map(obj -> (Boolean) obj)
+                .orElse(true);
+
+            List<String> advertencias = Optional.ofNullable((List<String>) data.get("advertencias"))
+                .orElse(new ArrayList<>());
+
+            List<ComponentePC> componentesAdaptados = Optional.ofNullable(
+                    (List<Map<String, Object>>) data.get("componentesAdaptados"))
+                .orElse(new ArrayList<>())
+                .stream()
+                .map(this::deserializarComponente)
+                .filter(comp -> comp != null)
+                .collect(Collectors.toList());
+
+            return new ResultadoCompatibilidad(compatible, advertencias, componentesAdaptados);
+        } catch (Exception e) {
+            System.err.println("Error al deserializar compatibilidad: " + e.getMessage());
+            return crearCompatibilidadPorDefecto();
+        }
+    }
+
+    /**
+     * Crea un resultado de compatibilidad por defecto.
+     * Utilizado cuando no existe informacion de compatibilidad guardada.
+     *
+     * @return resultado de compatibilidad con valores por defecto
+     */
+    private ResultadoCompatibilidad crearCompatibilidadPorDefecto() {
+        return new ResultadoCompatibilidad(true, new ArrayList<>(), new ArrayList<>());
+    }
+
+    /**
+     * Crea un ticket desde los datos deserializados de la base de datos.
+     * Reconstruye el ticket con todos sus atributos incluyendo fecha y compatibilidad.
+     *
+     * @param numeroTicket el numero identificador del ticket
+     * @param fecha la fecha en formato texto
+     * @param cliente el nombre del cliente
+     * @param computadora la computadora configurada
+     * @param compatibilidad el resultado de compatibilidad
+     * @param precioTotal el precio total (no usado en construccion, ya esta en computadora)
+     * @return el ticket reconstruido
+     */
+    private Ticket crearTicketDesdeBaseDatos(int numeroTicket, String fecha, String cliente,
+            ComputadoraBase computadora, ResultadoCompatibilidad compatibilidad, double precioTotal) {
+        return new Ticket(numeroTicket, computadora, cliente, compatibilidad);
     }
 
     /**

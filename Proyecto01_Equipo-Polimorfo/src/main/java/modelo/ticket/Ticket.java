@@ -133,6 +133,28 @@ public class Ticket {
     }
 
     /**
+     * Obtiene la computadora configurada asociada al ticket.
+     * Proporciona acceso a la computadora completa con todos sus componentes
+     * y decoradores de software.
+     *
+     * @return la computadora configurada del ticket
+     */
+    public ComputadoraBase obtenerComputadora() {
+        return computadora;
+    }
+
+    /**
+     * Obtiene el resultado de compatibilidad de los componentes del ticket.
+     * Proporciona informacion sobre la compatibilidad, advertencias y
+     * componentes que requirieron adaptacion.
+     *
+     * @return el resultado de compatibilidad
+     */
+    public ResultadoCompatibilidad obtenerCompatibilidad() {
+        return compatibilidad;
+    }
+
+    /**
      * Genera el encabezado del ticket con logo, numero, fecha y cliente.
      * Construye las lineas del encabezado con la informacion basica del ticket.
      *

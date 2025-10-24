@@ -332,10 +332,7 @@ public class VentanaPrincipal {
      * @return instancia configurada de ServicioPersistencia
      */
     private ServicioPersistencia crearServicioPersistencia() {
-        String rutaDB = Optional.ofNullable(System.getProperty("user.home"))
-            .map(home -> home + "/.monoschinos/ventas.db")
-            .orElse("ventas.db");
-
+        String rutaDB = "data/ventas.db";
         return new PersistenciaSQLite(rutaDB);
     }
 

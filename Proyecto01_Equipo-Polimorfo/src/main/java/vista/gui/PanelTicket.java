@@ -98,9 +98,7 @@ public class PanelTicket {
         this.root = new BorderPane();
         this.panelCentral = new VBox(15);
 
-        String rutaDB = Optional.ofNullable(System.getProperty("user.home"))
-            .map(home -> home + "/.monoschinos/ventas.db")
-            .orElse("ventas.db");
+        String rutaDB = "data/ventas.db";
         this.persistencia = new persistencia.PersistenciaSQLite(rutaDB);
 
         inicializarComponentes();
