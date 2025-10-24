@@ -125,10 +125,13 @@ public class PanelSoftware {
      * @return la escena configurada con todos los componentes del panel
      */
     public Scene crear() {
-        return Try.of(() -> configurarLayout())
-            .map(this::aplicarEstilosARoot)
-            .map(pane -> new Scene(pane, 900, 700))
-            .get();
+        return Try.of(() -> {
+            BorderPane layout = configurarLayout();
+            aplicarEstilosARoot(layout);
+            Scene scene = new Scene(layout, 900, 700);
+            scene.getStylesheets().add(getClass().getResource("/css/theme-dark.css").toExternalForm());
+            return scene;
+        }).get();
     }
 
     /**
