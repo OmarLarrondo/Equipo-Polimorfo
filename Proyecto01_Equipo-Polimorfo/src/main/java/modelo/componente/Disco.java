@@ -1,20 +1,15 @@
 package modelo.componente;
 
-
-//OJOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-//NO EN EL CLASSROOM, DICE QUE SON EN GB O TB, PERO NO SE COMO DIFERENCIAMOS LOS TB CON LOS GIGAS
-//NO SE xd
-
 /**
  * Representa un disco de almacenamiento como un componente hoja de una computadora.
  * <p>Extiende {@link ComponenteHoja} e incluye atributos específicos de un disco,
  * como su capacidad de almacenamiento y el tipo de alimentación que requiere.
  * Permite crear instancias de discos con nombre, marca, precio, tipo, capacidad
  * y tipo de alimentación, y obtener esta información mediante sus métodos.
- * 
- * Ejemplos de capacidad: 500 (GB), 1000 (GB = 1TB).  
+ *
+ * Ejemplos de capacidad: 500 (GB), 1000 (GB = 1TB).
  * Ejemplos de tipo de alimentación: "SATA", "M.2", "NVMe".
- * 
+ *
  * @author Equipo-polimorfo
  * @version 1.0
  */

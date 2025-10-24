@@ -16,18 +16,18 @@ public class RAM extends ComponenteHoja {
     /**amaño de la memoria en GB*/
     private int capacidadGB;
 
-    /**Tipo de memoria RAM ("Adapta" o "Kingston").*/
+    /**Tipo de memoria RAM (por ejemplo: "DDR4", "DDR5", "DDR3").*/
     private String tipoMemoria;
 
     /**
      * Construye un nuevo módulo de RAM con los datos especificados.
-     * 
+     *
      * @param nombre Nombre del módulo de RAM.
      * @param precio Precio del módulo de RAM.
      * @param marca Marca del módulo de RAM.
      * @param tipo Tipo de componente (por ejemplo, "RAM").
      * @param capacidadGB Capacidad del módulo en GB.
-     * @param tipoMemoria Tipo de memoria 
+     * @param tipoMemoria Tipo de memoria
      */
     public RAM(String nombre, double precio, String marca, String tipo, int capacidadGB, String tipoMemoria) {
         super(nombre, precio, marca, tipo);
@@ -45,7 +45,7 @@ public class RAM extends ComponenteHoja {
 
     /**
      * Devuelve el tipo de memoria del módulo de RAM.
-     * @return tipo de memoria ("Adapta" o "Kingston")
+     * @return tipo de memoria (por ejemplo: "DDR4", "DDR5", "DDR3")
      */
     public String getTipoMemoria() {
         return tipoMemoria;

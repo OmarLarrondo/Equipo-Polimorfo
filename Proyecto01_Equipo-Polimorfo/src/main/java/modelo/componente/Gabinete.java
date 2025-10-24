@@ -41,19 +41,12 @@ public class Gabinete extends ComponenteHoja {
 
     /**
      * Devuelve una representación en cadena del gabinete, incluyendo todos sus atributos.
-     * <p>La salida incluye el nombre, precio, marca, tipo y tamaño del gabinete, lo que
-     * facilita la impresión de los detalles completos de un objeto {@code Gabinete}.
      * @return Una cadena con la información completa del gabinete.
      */
     @Override
     public String toString() {
-        return "Gabinete{" +
-                "nombre='" + obtenerNombre() + '\'' +
-                ", precio=" + obtenerPrecio() +
-                ", marca='" + obtenerMarca() + '\'' +
-                ", tipo='" + obtenerTipo() + '\'' +
-                ", tamanio='" + tamanio + '\'' +
-                '}';
+        return String.format("Gabinete: %s | Marca: %s | Tipo: %s | Tamanio: %s | Precio: $%.2f",
+            obtenerNombre(), obtenerMarca(), obtenerTipo(), tamanio, obtenerPrecio());
     }
 
 }

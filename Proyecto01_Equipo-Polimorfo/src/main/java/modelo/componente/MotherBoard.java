@@ -56,24 +56,20 @@ public class MotherBoard extends ComponenteHoja {
 
     /**
      * Obtiene la arquitectura soportada por la motherboard.
-     * 
+     *
      * @return la arquitectura (por ejemplo, "x86_64")
      */
     public String getArquitecturaSeparada() {
         return arquitecturaSeparada;
     }
-    
+
     /**
      * Devuelve una representación en texto con los detalles completos de la motherboard.
-     * <p>Este método sobrescribe {@link ComponenteHoja#mostrarDetalles()} para incluir
-     * información específica de una {@code MotherBoard}, como el chipset, el socket
-     * y la arquitectura soportada, además de los datos generales del componente.
-     * 
      * @return una cadena formateada con el nombre, marca, chipset, socket,
      *         arquitectura y precio de la motherboard.
      */
     @Override
-    public String mostrarDetalles() {
+    public String toString() {
         return String.format(
             "Motherboard: %s | Marca: %s | Chipset: %s | Socket: %s | Arquitectura: %s | Precio: $%.2f",
             obtenerNombre(), obtenerMarca(), chipset, socket, arquitecturaSeparada, obtenerPrecio()

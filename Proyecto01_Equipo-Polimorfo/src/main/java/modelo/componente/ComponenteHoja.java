@@ -80,10 +80,10 @@ public abstract class ComponenteHoja implements ComponentePC {
 
     /**
      * Muestra los detalles del componente.
-     * 
+     *
      * <p>Por defecto devuelve la representación en cadena de {@link #toString()},
      * pero puede ser sobreescrito por clases hijas para detalles más específicos.
-     * 
+     *
      * @return los detalles del componente como cadena
      */
     @Override
@@ -92,25 +92,7 @@ public abstract class ComponenteHoja implements ComponentePC {
     }
 
     /**
-     * Determina si este componente es compatible con otro componente de PC.
-     * 
-     * <p>Este método es abstracto porque la compatibilidad depende del tipo específico
-     * de componente (por ejemplo, un AMD no es compatible con ninguna de las motherbords 
-     * de monosChinosMX), y cada subclase debe definir su propia lógica.
-     * 
-     * @param componenete el componente a verificar compatibilidad.
-     * 
-     * @return {@code true} si es compatible, {@code false} en caso contrario
-     */
-    public boolean esCompatibleConComponentePC() {
-        if (obtenerMarca().equalsIgnoreCase("AMD")) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Devueleve una cadena de texto, que representa un componente.
+     * Devuelve una cadena de texto, que representa un componente.
      * @return La cadena que detalla el componente.
      */
     @Override

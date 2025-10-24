@@ -53,4 +53,14 @@ public class GPU extends ComponenteHoja {
     public int getVRAM() {
         return vRam;
     }
+
+    /**
+     * Devuelve una representación en texto con los detalles completos de la GPU.
+     * @return una cadena formateada con el nombre, marca, tipo, VRAM, tipo de memoria y precio.
+     */
+    @Override
+    public String toString() {
+        return String.format("GPU: %s | Marca: %s | Tipo: %s | VRAM: %d GB | Tipo Memoria: %s | Precio: $%.2f",
+            obtenerNombre(), obtenerMarca(), obtenerTipo(), vRam, tipoMemoriaGPU, obtenerPrecio());
+    }
 }

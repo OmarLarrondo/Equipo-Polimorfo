@@ -46,17 +46,20 @@ public class FuenteAlimentacion extends ComponenteHoja {
 
     /**
      * La certificacion dela fuente.
-     * @return la certificacion de la fuente 
+     * @return la certificacion de la fuente
      */
     public String getCertificacion() {
         return certificacion;
     }
 
-    //SEGUN YO NO HACE FALTA DOC ESTO PORQUE YA ESTA EN LA CLASE ABSTRACT
+    /**
+     * Devuelve una representación en texto con los detalles completos de la fuente de alimentación.
+     * @return una cadena formateada con el nombre, marca, potencia, certificación y precio.
+     */
     @Override
-    public String mostrarDetalles() {
+    public String toString() {
         return String.format(
-            "Fuente: %s | Marca: %s | Potencia: %d W | Certificación: %s | Precio: $%.2f",
+            "Fuente: %s | Marca: %s | Potencia: %d W | Certificacion: %s | Precio: $%.2f",
             obtenerNombre(), obtenerMarca(), potenciaMaxima, certificacion, obtenerPrecio()
         );
     }
