@@ -109,11 +109,11 @@ public class ComputadoraBasica implements ComputadoraBase {
      * por lo que siempre retorna {@code false}. El software se agrega mediante
      * decoradores (WindowsDecorator, OfficeDecorator, etc.).
      *
-     * @param sotfwareABuscar El nombre del software a buscar.
+     * @param softwareABuscar El nombre del software a buscar.
      * @return {@code false} siempre, ya que la computadora basica no tiene software.
      */
     @Override
-    public boolean tieneSotfware(String sotfwareABuscar) {
+    public boolean tieneSoftware(String softwareABuscar) {
         return false;
     }
 

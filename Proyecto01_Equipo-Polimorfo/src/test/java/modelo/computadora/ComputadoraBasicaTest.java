@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import modelo.computadora.*;
+import modelo.computadora.ComputadoraBasica;
 import modelo.componente.CPU;
 import modelo.componente.Disco;
 import modelo.componente.FuenteAlimentacion;
@@ -22,7 +22,7 @@ import modelo.decorador.WindowsDecorator;
 import modelo.decorador.WSLDecorator;
 
 /**
- * Clase de pruebas unitarias para validar el comportamiento de la clase Basica
+ * Clase de pruebas unitarias para validar el comportamiento de la clase ComputadoraBasica
  * y su interaccion con componentes de hardware y decoradores de software.
  *
  * Esta suite de pruebas verifica tres aspectos fundamentales:
@@ -185,7 +185,6 @@ public class ComputadoraBasicaTest{
 
     /**
      * Prueba unitaria para verificar la funcionalidad del metodo tieneSoftware()
-     * (nota: el metodo en el codigo se llama tieneSotfware debido a un error ortografico)
      * que determina si un software especifico esta instalado en una computadora decorada.
      *
      * Se valida que el metodo retorne:
@@ -245,14 +244,64 @@ public class ComputadoraBasicaTest{
 
         boolean[] resultadosEsperados = {true, false, true, true, false, false};
         boolean[] softwareInstalado = {
-            compuNuevaConWindowsYPhotoshopYWSL.tieneSotfware("Windows"),
-            compuNuevaConWindowsYPhotoshopYWSL.tieneSotfware("Programa pirata >:)"),
-            compuNuevaConWindowsYPhotoshopYWSL.tieneSotfware("Photoshop"),
-            compuNuevaConWindowsYPhotoshopYWSL.tieneSotfware("WSL"),
-            compuNuevaConWindowsYPhotoshopYWSL.tieneSotfware("AutoCAD"),
-            compuNuevaConWindowsYPhotoshopYWSL.tieneSotfware("Office")
+            compuNuevaConWindowsYPhotoshopYWSL.tieneSoftware("Windows"),
+            compuNuevaConWindowsYPhotoshopYWSL.tieneSoftware("Programa pirata >:)"),
+            compuNuevaConWindowsYPhotoshopYWSL.tieneSoftware("Photoshop"),
+            compuNuevaConWindowsYPhotoshopYWSL.tieneSoftware("WSL"),
+            compuNuevaConWindowsYPhotoshopYWSL.tieneSoftware("AutoCAD"),
+            compuNuevaConWindowsYPhotoshopYWSL.tieneSoftware("Office")
         };
 
         assertArrayEquals(resultadosEsperados, softwareInstalado);
+    }
+
+    /**
+     * Prueba la funcionalidad de busqueda case-insensitive del metodo tieneSoftware().
+     *
+     * <p>Verifica que el metodo pueda encontrar software instalado independientemente
+     * de como se escriba el nombre (mayusculas, minusculas o combinaciones).
+     * Esta funcionalidad mejora la experiencia del usuario al evitar errores por
+     * diferencias de capitalizacion.
+     *
+     * <p>Se prueban multiples variaciones de capitalizacion:
+     * <ul>
+     *   <li>Forma exacta como fue registrado</li>
+     *   <li>Todo en minusculas</li>
+     *   <li>Todo en mayusculas</li>
+     *   <li>Combinaciones mixtas</li>
+     * </ul>
+     *
+     * Configuracion de prueba:
+     * - Computadora base "PC Test"
+     * - Decoradores aplicados: Windows ($350.00), AutoCAD ($500.00)
+     *
+     * Validaciones realizadas:
+     * - 4 variaciones de capitalizacion para Windows (instalado)
+     * - 4 variaciones de capitalizacion para AutoCAD (instalado)
+     * - 2 variaciones de capitalizacion para Photoshop (no instalado)
+     *
+     * Esta prueba valida el fix implementado en SoftwareDecorator.tieneSoftware()
+     * que cambio de equals() a equalsIgnoreCase() para permitir busquedas
+     * insensibles a mayusculas/minusculas.
+     */
+    @Test
+    public void pruebaBusquedaSoftwareCaseInsensitive(){
+        ComputadoraBasica compu = new ComputadoraBasica("PC Test");
+
+        WindowsDecorator compuConWindows = new WindowsDecorator(compu, "Windows", 350.00);
+        AutoCADDecorator compuCompleta = new AutoCADDecorator(compuConWindows, "AutoCAD", 500.00);
+
+        assertTrue(compuCompleta.tieneSoftware("Windows"));
+        assertTrue(compuCompleta.tieneSoftware("windows"));
+        assertTrue(compuCompleta.tieneSoftware("WINDOWS"));
+        assertTrue(compuCompleta.tieneSoftware("WiNdOwS"));
+
+        assertTrue(compuCompleta.tieneSoftware("AutoCAD"));
+        assertTrue(compuCompleta.tieneSoftware("autocad"));
+        assertTrue(compuCompleta.tieneSoftware("AUTOCAD"));
+        assertTrue(compuCompleta.tieneSoftware("AuToCAd"));
+
+        assertFalse(compuCompleta.tieneSoftware("Photoshop"));
+        assertFalse(compuCompleta.tieneSoftware("PHOTOSHOP"));
     }
 }

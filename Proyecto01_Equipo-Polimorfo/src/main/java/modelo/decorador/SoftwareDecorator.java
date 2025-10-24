@@ -34,11 +34,11 @@ public abstract class SoftwareDecorator implements ComputadoraBase {
 
     /**
      *  Constructor que inicializa el decorador con el componente computadora base,
-     * asi como el nombre del sofware y el precio del software.
-     * 
+     * asi como el nombre del software y el precio del software.
+     *
      * @param computadora el componente computadora que sera decorado, no puede ser null.
      * @param nombreSoftware el nombre del software a inicializar.
-     * @param precioSoftware el precio del sotfware a inicializar.
+     * @param precioSoftware el precio del software a inicializar.
      * @throws IllegalArgumentException si algo sale mal.
      */
     public SoftwareDecorator(ComputadoraBase computadora, String nombreSoftware, double precioSoftware) {
@@ -89,16 +89,22 @@ public abstract class SoftwareDecorator implements ComputadoraBase {
     }
     /**
      * Verifica si la computadora tiene un software especifico instalado.
-     * Comprueba si el nombre del software actual coincide con el buscado,
-     * o delega la busqueda a la computadora decorada.
+     * La busqueda es case-insensitive para facilitar la experiencia del usuario.
      *
-     * @param sotfwareABuscar El nombre del software a buscar.
+     * <p>Este metodo implementa una busqueda recursiva en la cadena de decoradores,
+     * permitiendo detectar cualquier software instalado independientemente de su
+     * posicion en la cadena de decoracion.
+     *
+     * @param softwareABuscar El nombre del software a buscar. La busqueda no
+     *                        distingue entre mayusculas y minusculas
+     *                        (ej: "Windows", "windows", "WINDOWS" son equivalentes).
      * @return {@code true} si la computadora tiene el software instalado,
      *         {@code false} en otro caso.
      */
     @Override
-    public boolean tieneSotfware(String sotfwareABuscar){
-        return nombreSoftware.equals(sotfwareABuscar) || computadora.tieneSotfware(sotfwareABuscar);
+    public boolean tieneSoftware(String softwareABuscar){
+        return nombreSoftware.equalsIgnoreCase(softwareABuscar)
+            || computadora.tieneSoftware(softwareABuscar);
     }
     
     

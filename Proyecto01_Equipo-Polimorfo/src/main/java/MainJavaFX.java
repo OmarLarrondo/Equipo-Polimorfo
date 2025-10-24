@@ -7,7 +7,7 @@ import fachada.SistemaEnsamblajeFacade;
 
 /**
  * Clase principal para el lanzamiento de la aplicacion JavaFX del sistema
- * de ensamblaje de Basicas MonosChinos MX.
+ * de ensamblaje de computadoras MonosChinos MX.
  *
  * <p>Esta clase extiende {@link Application} de JavaFX y configura el ciclo de vida
  * completo de la aplicacion, incluyendo:

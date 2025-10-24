@@ -122,7 +122,7 @@ public class SistemaEnsamblajeFacade {
      *         el software ya estaba instalado
      */
     public ComputadoraBase agregarSoftware(ComputadoraBase computadora, String tipoSoftware) {
-        if (computadora.tieneSotfware(tipoSoftware)) {
+        if (computadora.tieneSoftware(tipoSoftware)) {
             return computadora;
         }
 

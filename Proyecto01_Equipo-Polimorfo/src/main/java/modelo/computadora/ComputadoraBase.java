@@ -76,11 +76,11 @@ public interface ComputadoraBase {
      * <p>Busca en la cadena de decoradores si existe un software con el nombre
      * especificado. Es util para evitar instalar el mismo software multiples veces.
      *
-     * @param sotfwareABuscar El nombre del software a buscar (ejemplo: "Windows 10/11",
+     * @param softwareABuscar El nombre del software a buscar (ejemplo: "Windows 10/11",
      *                        "Microsoft Office 365", "Adobe Photoshop").
      * @return {@code true} si la computadora tiene el software instalado,
      *         {@code false} en otro caso.
      */
-    public boolean tieneSotfware(String sotfwareABuscar);
+    public boolean tieneSoftware(String softwareABuscar);
     
 }

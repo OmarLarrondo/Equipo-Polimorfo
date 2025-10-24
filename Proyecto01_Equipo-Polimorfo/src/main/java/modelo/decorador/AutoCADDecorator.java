@@ -32,12 +32,4 @@ public class AutoCADDecorator extends SoftwareDecorator {
     public String obtenerDescripcion(){
         return computadora.obtenerDescripcion() + "\n  + Software: " + nombreSoftware;
     }
-
-    @Override
-    public boolean tieneSotfware(String sofwareABuscar){
-        if(nombreSoftware.equalsIgnoreCase(sofwareABuscar)){
-            return true;
-        }
-        return computadora.tieneSotfware(sofwareABuscar); //se busca a la computadora decorada
-    }
 }
