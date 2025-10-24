@@ -101,5 +101,6 @@ public abstract class SoftwareDecorator implements ComputadoraBase {
         return nombreSoftware.equals(sotfwareABuscar) || computadora.tieneSotfware(sotfwareABuscar);
     }
     
+    
 
 }

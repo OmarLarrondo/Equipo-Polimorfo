@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import modelo.computadora.ComputadoraBasica;
+import modelo.computadora.*;
 import modelo.componente.CPU;
 import modelo.componente.Disco;
 import modelo.componente.FuenteAlimentacion;
@@ -22,7 +22,7 @@ import modelo.decorador.WindowsDecorator;
 import modelo.decorador.WSLDecorator;
 
 /**
- * Clase de pruebas unitarias para validar el comportamiento de la clase ComputadoraBasica
+ * Clase de pruebas unitarias para validar el comportamiento de la clase Basica
  * y su interaccion con componentes de hardware y decoradores de software.
  *
  * Esta suite de pruebas verifica tres aspectos fundamentales:
