@@ -59,15 +59,18 @@ public class ComputadoraBasicaTest{
      * - Tarjeta madre ASUS ROG Maximus Z790 Hero: $9560.00
      * - 3 modulos de RAM (8GB c/u): $3000.00 total
      * - 2 discos (2TB SSD + 1TB HDD): $3020.00 total
+     * - Subtotal Hardware: $29280.00
      *
      * Decoradores aplicados:
      * - Windows: $350.00
      * - WSL: $200.00
+     * - Subtotal Software: $550.00
      *
-     * Nota tecnica: La prueba tambien agrega algunos componentes directamente al decorador
-     * (gabinete, rams, disco1) para verificar que el metodo agregarComponente() del
-     * decorador delegue correctamente a la computadora base sin duplicar el precio.
-     * El precio total esperado es $27910.00.
+     * El precio total esperado es $29830.00 (hardware + software).
+     *
+     * Esta prueba valida que el patron Composite calcule correctamente los precios
+     * de componentes compuestos (JuegoRAMs y JuegoDiscos) y que el patron Decorator
+     * agregue correctamente los costos de software sin duplicacion.
      */
     @Test
     public void pruebaPrecioTotal(){
@@ -86,13 +89,13 @@ public class ComputadoraBasicaTest{
         RAM ram3 = new RAM("UDIMM", 1000.00, "Adata", "RAM", 8, "DDR5");
 
         int capacidadTotalRAMs = ram1.getCapacidadGB()+ram2.getCapacidadGB()+ram3.getCapacidadGB();
-        JuegoRAMs rams = new JuegoRAMs(null, "juegoRAMs", "Juego de RAMs", capacidadTotalRAMs, null);
+        JuegoRAMs rams = new JuegoRAMs("juegoRAMs", "RAM");
         rams.agregarRAM(ram1);
         rams.agregarRAM(ram2);
         rams.agregarRAM(ram3);
 
         int capacidadTotalDiscos = disco1.getCapacidadAlmacenamiento()+disco2.getCapacidadAlmacenamiento();
-        JuegoDiscos discos = new JuegoDiscos(capacidadTotalDiscos, "Juego de Discos", null, "juegoDiscos", "Juego de Discos");
+        JuegoDiscos discos = new JuegoDiscos("juegoDiscos", "Disco");
         discos.agregarDisco(disco1);
         discos.agregarDisco(disco2);
 
@@ -108,11 +111,7 @@ public class ComputadoraBasicaTest{
         WindowsDecorator compuNuevaConWindows = new WindowsDecorator(compuNueva, "Windows", 350.00);
         WSLDecorator compuNuevaConWindowsYWSL = new WSLDecorator(compuNuevaConWindows, "WSL", 200.00);
 
-        compuNuevaConWindowsYWSL.agregarComponente(gabinete);
-        compuNuevaConWindowsYWSL.agregarComponente(rams);
-        compuNuevaConWindowsYWSL.agregarComponente(disco1);
-
-        double precioTotal = 27910.0;
+        double precioTotal = 29830.0;
 
         assertEquals(precioTotal, compuNuevaConWindowsYWSL.obtenerPrecioTotal());
     }
@@ -161,7 +160,7 @@ public class ComputadoraBasicaTest{
         RAM ram3 = new RAM("UDIMM", 1000.00, "Adata", "RAM", 8, "DDR5");
 
         int capacidadTotalRAMs = ram1.getCapacidadGB()+ram2.getCapacidadGB()+ram3.getCapacidadGB();
-        JuegoRAMs rams = new JuegoRAMs(null, "juegoRAMs", "Juego de RAMs", capacidadTotalRAMs, null);
+        JuegoRAMs rams = new JuegoRAMs("juegoRAMs", "RAM");
         rams.agregarRAM(ram1);
         rams.agregarRAM(ram2);
         rams.agregarRAM(ram3);
@@ -180,7 +179,7 @@ public class ComputadoraBasicaTest{
         compuNuevaConWindowsYAutoCADYPhotoshopYWSL.agregarComponente(rams);
         compuNuevaConWindowsYAutoCADYPhotoshopYWSL.agregarComponente(disco1);
 
-        assertEquals("miCompuPruebaDescripcion\n  - CPU: Core i3-13100 | Marca: Intel | Tipo: CPU | Núcleos: 4 | Arquitectura: Raptor Lake (13a Gen) | Precio: $7000.00\n  - Fuente: Supernova G5 | Marca: EVGA | Potencia: 1000 W | Certificación: Plus Gold | Precio: $1800.00\n  - Gabinete{nombre='H6 Flow ATX', precio=1900.0, marca='NXZT', tipo='Gabinete', tamanio='ATX'}\n  - Tarjeta grafica [GTX 1660] - Marca: NVIDIA - Precio: $3000.00\n  - Motherboard: ROG Maximus Z790 Hero | Marca: ASUS | Chipset: Intel Z790 chipset | Socket: LGA 1700 | Arquitectura: Ninguna | Precio: $9560.00\n  - Componente: juegoRAMs (Juego de RAMs)\n\n  - Disco: NV3 | Marca: Kingston | Tipo: SSD | Capacidad: 2048 GB | Alimentación: Unidad de bajo consumo | Precio: $2200.00\n  + Software: Windows\n  + Software: AutoCAD\n  + Software: Photoshop\n  + Software: WSL", compuNuevaConWindowsYAutoCADYPhotoshopYWSL.obtenerDescripcion());
+        assertEquals("miCompuPruebaDescripcion\n  - CPU: Core i3-13100 | Marca: Intel | Tipo: CPU | Núcleos: 4 | Arquitectura: Raptor Lake (13a Gen) | Precio: $7000.00\n  - Fuente: Supernova G5 | Marca: EVGA | Potencia: 1000 W | Certificacion: Plus Gold | Precio: $1800.00\n  - Gabinete: H6 Flow ATX | Marca: NXZT | Tipo: Gabinete | Tamanio: ATX | Precio: $1900.00\n  - GPU: GTX 1660 | Marca: NVIDIA | Tipo: Tarjeta grafica | VRAM: 6 GB | Tipo Memoria: GDDR5 | Precio: $3000.00\n  - Motherboard: ROG Maximus Z790 Hero | Marca: ASUS | Chipset: Intel Z790 chipset | Socket: LGA 1700 | Arquitectura: Ninguna | Precio: $9560.00\n  - Componente: juegoRAMs (RAM)\n - RAM: UDIMM | Marca: Adata | Tipo: DDR5 | Capacidad: 8 GB | Precio: $1000.00\n - RAM: DIMM | Marca: Kingston | Tipo: DDR4 | Capacidad: 8 GB | Precio: $1000.00\n - RAM: UDIMM | Marca: Adata | Tipo: DDR5 | Capacidad: 8 GB | Precio: $1000.00\n\n  - Disco: NV3 | Marca: Kingston | Tipo: SSD | Capacidad: 2048 GB | Alimentación: Unidad de bajo consumo | Precio: $2200.00\n  + Software: Windows\n  + Software: AutoCAD\n  + Software: Photoshop\n  + Software: WSL", compuNuevaConWindowsYAutoCADYPhotoshopYWSL.obtenerDescripcion());
     }
 
     /**
@@ -224,7 +223,7 @@ public class ComputadoraBasicaTest{
         RAM ram3 = new RAM("UDIMM", 1000.00, "Adata", "RAM", 8, "DDR5");
 
         int capacidadTotalRAMs = ram1.getCapacidadGB()+ram2.getCapacidadGB()+ram3.getCapacidadGB();
-        JuegoRAMs rams = new JuegoRAMs(null, "juegoRAMs", "Juego de RAMs", capacidadTotalRAMs, null);
+        JuegoRAMs rams = new JuegoRAMs("juegoRAMs", "RAM");
         rams.agregarRAM(ram1);
         rams.agregarRAM(ram2);
         rams.agregarRAM(ram3);

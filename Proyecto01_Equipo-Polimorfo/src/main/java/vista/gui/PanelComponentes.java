@@ -689,18 +689,8 @@ public class PanelComponentes {
             .forEach(ramsSeleccionadas::add);
 
         if (!ramsSeleccionadas.isEmpty()) {
-            int capacidadTotal = ramsSeleccionadas.stream()
-                .mapToInt(RAM::getCapacidadGB)
-                .sum();
-
-            JuegoRAMs juegoRAMs = new JuegoRAMs(
-                new ArrayList<>(ramsSeleccionadas),
-                "Conjunto de RAMs",
-                "RAM",
-                capacidadTotal,
-                ramsSeleccionadas
-            );
-
+            JuegoRAMs juegoRAMs = new JuegoRAMs("Conjunto de RAMs", "RAM");
+            ramsSeleccionadas.forEach(juegoRAMs::agregarRAM);
             componentes.add(juegoRAMs);
         }
     }
@@ -725,18 +715,8 @@ public class PanelComponentes {
             .forEach(discosSeleccionados::add);
 
         if (!discosSeleccionados.isEmpty()) {
-            int capacidadTotal = discosSeleccionados.stream()
-                .mapToInt(Disco::getCapacidadAlmacenamiento)
-                .sum();
-
-            JuegoDiscos juegoDiscos = new JuegoDiscos(
-                capacidadTotal,
-                "Mixto",
-                discosSeleccionados,
-                "Conjunto de Discos",
-                "Disco"
-            );
-
+            JuegoDiscos juegoDiscos = new JuegoDiscos("Conjunto de Discos", "Disco");
+            discosSeleccionados.forEach(juegoDiscos::agregarDisco);
             componentes.add(juegoDiscos);
         }
     }
