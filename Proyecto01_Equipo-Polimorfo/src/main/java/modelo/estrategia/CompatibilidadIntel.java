@@ -53,7 +53,7 @@ public class CompatibilidadIntel implements EstrategiaCompatibilidad {
             if (!verificarCPUMotherBoard(cpu, motherboard)) {
                 esCompatible = false;
                 advertencias.add("INCOMPATIBILIDAD: CPU Intel " + cpu.obtenerNombre() +
-                               " no es compatible con MotherBoard " + motherboard.obtenerNombre());
+                            " no es compatible con MotherBoard " + motherboard.obtenerNombre());
             }
         }
 
@@ -80,8 +80,8 @@ public class CompatibilidadIntel implements EstrategiaCompatibilidad {
      */
     private boolean verificarCPUMotherBoard(CPU cpu, MotherBoard motherboard) {
         return cpu.obtenerMarca().equalsIgnoreCase("Intel") &&
-               cpu.getArquitectura().contains("x86-64") &&
-               motherboard.getArquitecturaSeparada().contains("x86");
+            cpu.getArquitectura().contains("x86-64") &&
+            motherboard.getArquitecturaSeparada().contains("x86");
     }
 
     /**

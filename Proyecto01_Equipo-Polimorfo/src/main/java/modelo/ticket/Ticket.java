@@ -217,8 +217,8 @@ public class Ticket {
             ? ""
             : List.of("SOFTWARE ADICIONAL:", lineasSoftware.stream()
                 .collect(Collectors.joining("\n")))
-              .stream()
-              .collect(Collectors.joining("\n"));
+            .stream()
+            .collect(Collectors.joining("\n"));
     }
 
     /**
@@ -240,7 +240,7 @@ public class Ticket {
                 compatibilidad.getAdvertencias().stream()
                     .map(adv -> "    - " + adv)
                     .collect(Collectors.joining("\n"))
-              ).stream().collect(Collectors.joining("\n"));
+            ).stream().collect(Collectors.joining("\n"));
 
         String adaptados = compatibilidad.getComponentesAdaptados().isEmpty()
             ? "  Componentes Adaptados: Ninguno"
@@ -249,7 +249,7 @@ public class Ticket {
                 compatibilidad.getComponentesAdaptados().stream()
                     .map(comp -> String.format("    - %s", comp.mostrarDetalles()))
                     .collect(Collectors.joining("\n"))
-              ).stream().collect(Collectors.joining("\n"));
+            ).stream().collect(Collectors.joining("\n"));
 
         return List.of(encabezado, estado, advertencias, adaptados)
             .stream()

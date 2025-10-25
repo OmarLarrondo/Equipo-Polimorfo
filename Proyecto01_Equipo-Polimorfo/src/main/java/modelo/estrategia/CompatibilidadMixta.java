@@ -62,8 +62,8 @@ public class CompatibilidadMixta implements EstrategiaCompatibilidad {
         if (cpu != null && motherboard != null) {
             if (!verificarCPUMotherBoard(cpu, motherboard)) {
                 advertencias.add("ADVERTENCIA: Configuracion mixta entre CPU " + cpu.obtenerMarca() +
-                               " y MotherBoard " + motherboard.obtenerMarca() +
-                               " - Se recomienda verificar compatibilidad");
+                            " y MotherBoard " + motherboard.obtenerMarca() +
+                            " - Se recomienda verificar compatibilidad");
             }
         }
 

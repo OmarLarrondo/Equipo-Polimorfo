@@ -37,11 +37,18 @@ import modelo.ticket.Ticket;
  */
 public class SistemaEnsamblajeFacade {
 
+    /** Inventario de componentes disponibles para el ensamblaje. */
     private Inventario inventario;
-    private DirectorPC director;
-    private EstrategiaCompatibilidad estrategia;
-    private int contadorTickets;
 
+    /** Director encargado de construir las computadoras. */
+    private DirectorPC director;
+
+    /** Estrategia utilizada para verificar la compatibilidad entre componentes. */
+    private EstrategiaCompatibilidad estrategia;
+
+    /** Contador que lleva el registro del número de tickets generados. */
+    private int contadorTickets;
+    
     /**
      * Construye una nueva instancia de SistemaEnsamblajeFacade.
      * Inicializa el inventario singleton, configura la estrategia de compatibilidad mixta,

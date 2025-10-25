@@ -56,8 +56,8 @@ public class CompatibilidadAMD implements EstrategiaCompatibilidad {
         if (cpu != null && motherboard != null) {
             if (!verificarCPUMotherBoard(cpu, motherboard)) {
                 advertencias.add("ADVERTENCIA: CPU AMD " + cpu.obtenerNombre() +
-                               " podria tener problemas de compatibilidad con MotherBoard " +
-                               motherboard.obtenerNombre() + ". Se recomienda usar un adaptador");
+                            " podria tener problemas de compatibilidad con MotherBoard " +
+                            motherboard.obtenerNombre() + ". Se recomienda usar un adaptador");
             }
         }
 

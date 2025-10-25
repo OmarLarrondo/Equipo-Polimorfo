@@ -34,5 +34,5 @@ public interface EstrategiaCompatibilidad {
      * @return un objeto ResultadoCompatibilidad que indica si los componentes
      *         son compatibles, las advertencias generadas y los componentes adaptados
      */
-    ResultadoCompatibilidad verificarCompatibilidad(List<ComponentePC> componentes);
+    public ResultadoCompatibilidad verificarCompatibilidad(List<ComponentePC> componentes);
 }

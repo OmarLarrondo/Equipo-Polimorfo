@@ -71,8 +71,13 @@ import modelo.ticket.Ticket;
  */
 public class PersistenciaSQLite implements ServicioPersistencia {
 
+    /** Ruta del archivo de la base de datos SQLite. */
     private String rutaDB;
+
+    /** Conexión activa a la base de datos SQLite. */
     private Connection conexion;
+
+    /** Objeto Gson utilizado para la serialización y deserialización de datos JSON. */
     private Gson gson;
 
     /**

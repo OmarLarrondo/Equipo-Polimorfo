@@ -12,9 +12,13 @@ package modelo.componente;
  * @version 1.0
  */
 public class MotherBoard extends ComponenteHoja {
-
+    /** Chipset de la placa madre*/
     private String chipset;
+
+    /** Tipo de socket compatible */
     private String socket;
+
+    /** Tipo de arquitectura admitida por la placa madre*/
     private String arquitecturaSeparada;
 
     /**
