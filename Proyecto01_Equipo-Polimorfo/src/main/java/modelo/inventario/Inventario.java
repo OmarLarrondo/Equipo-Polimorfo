@@ -148,7 +148,8 @@ public class Inventario {
     }
 
     /**
-     * Crea la lista completa de placas madre disponibles (ASUS y MSI, Intel y AMD).
+     * Crea la lista completa de placas madre disponibles (ASUS y MSI, solo Intel).
+     * Segun los requerimientos, solo existen motherboards Intel en el inventario.
      *
      * @return lista de MotherBoards disponibles
      */
@@ -157,11 +158,7 @@ public class Inventario {
             new MotherBoard("ASUS ROG Maximus Z790 Hero", 19999.00, "ASUS", "MotherBoard", "Z790", "LGA1700", "x86-64"),
             new MotherBoard("ASUS TUF Gaming B760-Plus WIFI D4", 8999.00, "ASUS", "MotherBoard", "B760", "LGA1700", "x86-64"),
             new MotherBoard("MSI MEG Z790 Godlike", 29999.00, "MSI", "MotherBoard", "Z790", "LGA1700", "x86-64"),
-            new MotherBoard("MSI MAG B760 Tomahawk WIFI DDR4", 7999.00, "MSI", "MotherBoard", "B760", "LGA1700", "x86-64"),
-            new MotherBoard("ASUS ROG Crosshair X670E Hero", 18999.00, "ASUS", "MotherBoard", "X670E", "AM5", "x86-64"),
-            new MotherBoard("ASUS TUF Gaming B650-Plus WIFI", 8499.00, "ASUS", "MotherBoard", "B650", "AM5", "x86-64"),
-            new MotherBoard("MSI MEG X670E Godlike", 28999.00, "MSI", "MotherBoard", "X670E", "AM5", "x86-64"),
-            new MotherBoard("MSI MAG B650 Tomahawk WIFI", 7499.00, "MSI", "MotherBoard", "B650", "AM5", "x86-64")
+            new MotherBoard("MSI MAG B760 Tomahawk WIFI DDR4", 7999.00, "MSI", "MotherBoard", "B760", "LGA1700", "x86-64")
         ).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 
@@ -255,7 +252,7 @@ public class Inventario {
         return List.of(
             obtenerComponente("CPU", "AMD Ryzen 5 7600X"),
             obtenerComponente("RAM", "Adata 16GB DDR4"),
-            obtenerComponente("MotherBoard", "ASUS TUF Gaming B650-Plus WIFI"),
+            obtenerComponente("MotherBoard", "ASUS TUF Gaming B760-Plus WIFI D4"),
             obtenerComponente("Disco", "Kingston A400 1TB"),
             obtenerComponente("GPU", "NVIDIA RTX 3060"),
             obtenerComponente("FuenteAlimentacion", "EVGA 800W"),

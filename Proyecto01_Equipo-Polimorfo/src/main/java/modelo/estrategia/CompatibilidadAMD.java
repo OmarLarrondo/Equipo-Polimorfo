@@ -55,14 +55,17 @@ public class CompatibilidadAMD implements EstrategiaCompatibilidad {
 
         if (cpu != null && motherboard != null) {
             if (!verificarCPUMotherBoard(cpu, motherboard)) {
-                advertencias.add("ADVERTENCIA: CPU AMD " + cpu.obtenerNombre() +
-                            " podria tener problemas de compatibilidad con MotherBoard " +
-                            motherboard.obtenerNombre() + ". Se recomienda usar un adaptador");
+                advertencias.add("ADVERTENCIA CRITICA: CPU AMD " + cpu.obtenerNombre() +
+                            " (Socket AM5/AM4) NO ES FISICAMENTE COMPATIBLE con MotherBoard " +
+                            motherboard.obtenerNombre() + " (Socket LGA1700). " +
+                            "El sistema usa adaptadores especiales que pueden afectar el rendimiento. " +
+                            "El producto podria no ser funcional.");
             }
         }
 
         if (cpu != null && cpu.obtenerMarca().equalsIgnoreCase("AMD")) {
-            advertencias.add("ADVERTENCIA: CPUs AMD requieren adaptador para compatibilidad completa");
+            advertencias.add("INFO: Se aplicara el patron Adapter (CPUAMDAdapter) para intentar " +
+                        "compatibilidad entre CPU AMD y componentes Intel del stock actual.");
         }
 
         if (fuente != null) {

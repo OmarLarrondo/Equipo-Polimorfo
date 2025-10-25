@@ -61,28 +61,31 @@ public class AMDFactory implements ComponenteFactory {
     }
 
     /**
-     * Metodo privado que crea placas madre compatibles con procesadores AMD.
-     * Soporta los siguientes modelos adaptados para AMD:
-     * - ASUS ROG Maximus AMD X670: Chipset X670, Socket AM5
-     * - ASUS TUF Gaming B650-Plus WIFI: Chipset B650, Socket AM5
-     * - MSI MEG X670E Godlike: Chipset X670E, Socket AM5
-     * - MSI MAG B650 Tomahawk WIFI: Chipset B650, Socket AM5
+     * Metodo privado que crea placas madre compatibles del stock actual.
+     * Segun los requerimientos, las CPUs AMD deben trabajar con los componentes
+     * actuales en stock (motherboards Intel). Retorna motherboards Intel que
+     * seran adaptadas mediante el patron Adapter para trabajar con CPUs AMD.
+     * Soporta los siguientes modelos del stock:
+     * - ASUS ROG Maximus Z790 Hero: Chipset Z790, Socket LGA1700
+     * - ASUS TUF Gaming B760-Plus WIFI D4: Chipset B760, Socket LGA1700
+     * - MSI MEG Z790 Godlike: Chipset Z790, Socket LGA1700
+     * - MSI MAG B760 Tomahawk WIFI DDR4: Chipset B760, Socket LGA1700
      *
      * @param modelo El nombre del modelo de MotherBoard
-     * @return Una MotherBoard compatible con procesadores AMD
+     * @return Una MotherBoard del stock actual (Intel)
      */
     private MotherBoard crearMotherBoardAMD(String modelo) {
         return switch (modelo) {
-            case "ROG Maximus AMD X670" ->
-                new MotherBoard("ASUS ROG Crosshair X670E Hero", 18999.00, "ASUS", "MotherBoard", "X670E", "AM5", "x86-64");
-            case "TUF Gaming B650-Plus WIFI" ->
-                new MotherBoard("ASUS TUF Gaming B650-Plus WIFI", 8499.00, "ASUS", "MotherBoard", "B650", "AM5", "x86-64");
-            case "MEG X670E Godlike" ->
-                new MotherBoard("MSI MEG X670E Godlike", 28999.00, "MSI", "MotherBoard", "X670E", "AM5", "x86-64");
-            case "MAG B650 Tomahawk WIFI" ->
-                new MotherBoard("MSI MAG B650 Tomahawk WIFI", 7499.00, "MSI", "MotherBoard", "B650", "AM5", "x86-64");
+            case "ROG Maximus Z790 Hero" ->
+                new MotherBoard("ASUS ROG Maximus Z790 Hero", 19999.00, "ASUS", "MotherBoard", "Z790", "LGA1700", "x86-64");
+            case "TUF Gaming B760-Plus WIFI D4" ->
+                new MotherBoard("ASUS TUF Gaming B760-Plus WIFI D4", 8999.00, "ASUS", "MotherBoard", "B760", "LGA1700", "x86-64");
+            case "MEG Z790 Godlike" ->
+                new MotherBoard("MSI MEG Z790 Godlike", 29999.00, "MSI", "MotherBoard", "Z790", "LGA1700", "x86-64");
+            case "MAG B760 Tomahawk WIFI DDR4" ->
+                new MotherBoard("MSI MAG B760 Tomahawk WIFI DDR4", 7999.00, "MSI", "MotherBoard", "B760", "LGA1700", "x86-64");
             default ->
-                throw new IllegalArgumentException("Modelo de MotherBoard AMD no reconocido: " + modelo);
+                throw new IllegalArgumentException("Modelo de MotherBoard no reconocido: " + modelo);
         };
     }
 }

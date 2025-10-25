@@ -2,12 +2,13 @@ package modelo.componente;
 
 /**
  * Clase que representa una placa base (MotherBoard) como componente hoja de una PC.
- * 
+ *
  * <p>Extiende {@link ComponenteHoja} e incluye atributos específicos de una
  * motherboard, como chipset, socket y arquitectura soportada.
  *
- * <p>Las AMD no pueden ser compatibles con ninguna motherboards
- * 
+ * <p>Segun los requerimientos, solo existen motherboards Intel en el inventario.
+ * Las CPUs AMD deben trabajar con estos componentes mediante adaptadores.
+ *
  * @author Equipo-polimorfo
  * @version 1.0
  */

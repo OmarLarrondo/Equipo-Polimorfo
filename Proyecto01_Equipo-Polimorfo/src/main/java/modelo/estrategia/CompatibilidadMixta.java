@@ -34,9 +34,9 @@ public class CompatibilidadMixta implements EstrategiaCompatibilidad {
         boolean esCompatible = true;
 
         if (requiereAdaptador(componentes)) {
-            advertencias.add("ADVERTENCIA: Sistema mixto detectado - Se aplicaran adaptadores para CPUs AMD");
+            advertencias.add("ADVERTENCIA: Sistema mixto detectado - CPUs AMD con motherboards Intel (incompatibles fisicamente)");
             componentesAdaptados = aplicarAdaptadores(componentes);
-            advertencias.add("INFO: Se han aplicado adaptadores CPUAMDAdapter a los procesadores AMD");
+            advertencias.add("INFO: Se aplica CPUAMDAdapter para intentar compatibilidad. El sistema puede no funcionar correctamente.");
         } else {
             componentesAdaptados.addAll(componentes);
         }
@@ -61,9 +61,9 @@ public class CompatibilidadMixta implements EstrategiaCompatibilidad {
 
         if (cpu != null && motherboard != null) {
             if (!verificarCPUMotherBoard(cpu, motherboard)) {
-                advertencias.add("ADVERTENCIA: Configuracion mixta entre CPU " + cpu.obtenerMarca() +
-                            " y MotherBoard " + motherboard.obtenerMarca() +
-                            " - Se recomienda verificar compatibilidad");
+                advertencias.add("ADVERTENCIA: CPU " + cpu.obtenerMarca() + " " + cpu.obtenerNombre() +
+                            " con MotherBoard " + motherboard.obtenerMarca() + " " + motherboard.obtenerNombre() +
+                            " - Incompatibilidad de sockets detectada. Verifique que el cliente acepta esta configuracion.");
             }
         }
 
