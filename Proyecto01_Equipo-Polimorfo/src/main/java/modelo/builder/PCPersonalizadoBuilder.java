@@ -7,6 +7,7 @@ import modelo.inventario.Inventario;
 import modelo.componente.ComponentePC;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Builder concreto para construir computadoras personalizadas.
@@ -40,15 +41,17 @@ public class PCPersonalizadoBuilder implements PCBuilder {
     /**
      * Construye y agrega un procesador a la computadora.
      * Utiliza la factory para crear un CPU compatible con la familia seleccionada.
+     * Filtra los CPUs del inventario segun la marca de la factory (Intel o AMD).
      */
     @Override
     public void construirCPU() {
-        List<ComponentePC> cpus = Inventario.getInstance()
-            .obtenerComponentesPorTipo("CPU");
-
-        if (cpus != null && !cpus.isEmpty()) {
-            computadora.agregarComponente(cpus.get(0));
-        }
+        obtenerMarcaFactory()
+            .flatMap(marca -> Inventario.getInstance()
+                .obtenerComponentesPorTipo("CPU")
+                .stream()
+                .filter(cpu -> cpu.obtenerMarca().equals(marca))
+                .findFirst())
+            .ifPresent(computadora::agregarComponente);
     }
 
     /**
@@ -67,15 +70,19 @@ public class PCPersonalizadoBuilder implements PCBuilder {
     /**
      * Construye y agrega una placa madre a la computadora.
      * Utiliza la factory para crear un MotherBoard compatible con la familia seleccionada.
+     * Obtiene el primer modelo disponible del inventario y lo crea usando la factory
+     * para garantizar compatibilidad con la familia de procesador.
      */
     @Override
     public void construirMotherBoard() {
-        List<ComponentePC> motherboards = Inventario.getInstance()
-            .obtenerComponentesPorTipo("MotherBoard");
-
-        if (motherboards != null && !motherboards.isEmpty()) {
-            computadora.agregarComponente(motherboards.get(0));
-        }
+        Inventario.getInstance()
+            .obtenerComponentesPorTipo("MotherBoard")
+            .stream()
+            .findFirst()
+            .map(ComponentePC::obtenerNombre)
+            .map(this::extraerModeloMotherBoard)
+            .map(factory::crearMotherBoard)
+            .ifPresent(computadora::agregarComponente);
     }
 
     /**
@@ -138,5 +145,41 @@ public class PCPersonalizadoBuilder implements PCBuilder {
     @Override
     public ComputadoraBase obtenerResultado() {
         return this.computadora;
+    }
+
+    /**
+     * Obtiene la marca de procesador que la factory esta configurada para crear.
+     * Crea un CPU de prueba usando un modelo generico para determinar si la factory
+     * es de tipo Intel o AMD.
+     *
+     * @return Optional con la marca de la factory (Intel o AMD), vacio si no se puede determinar
+     */
+    private Optional<String> obtenerMarcaFactory() {
+        return Optional.of(factory)
+            .map(f -> {
+                try {
+                    return f.crearCPU("Core i3-13100");
+                } catch (IllegalArgumentException e) {
+                    try {
+                        return f.crearCPU("Ryzen 5 5600G");
+                    } catch (IllegalArgumentException ex) {
+                        return null;
+                    }
+                }
+            })
+            .map(cpu -> cpu.obtenerMarca());
+    }
+
+    /**
+     * Extrae el nombre del modelo de motherboard del nombre completo.
+     * Remueve el prefijo de la marca (ASUS o MSI) para obtener solo el modelo.
+     *
+     * @param nombreCompleto el nombre completo de la motherboard incluyendo marca
+     * @return el nombre del modelo sin la marca
+     */
+    private String extraerModeloMotherBoard(String nombreCompleto) {
+        return Optional.ofNullable(nombreCompleto)
+            .map(nombre -> nombre.replaceFirst("^(ASUS|MSI)\\s+", ""))
+            .orElse(nombreCompleto);
     }
 }
