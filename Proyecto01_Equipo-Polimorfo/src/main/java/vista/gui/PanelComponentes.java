@@ -8,6 +8,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -17,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import fachada.SistemaEnsamblajeFacade;
 import modelo.componente.ComponentePC;
 import modelo.componente.Disco;
 import modelo.componente.JuegoDiscos;
@@ -24,6 +27,7 @@ import modelo.componente.JuegoRAMs;
 import modelo.componente.RAM;
 import modelo.computadora.ComputadoraBase;
 import modelo.computadora.ComputadoraBasica;
+import modelo.estrategia.ResultadoCompatibilidad;
 import modelo.inventario.Inventario;
 
 import java.util.ArrayList;
@@ -608,7 +612,8 @@ public class PanelComponentes {
     /**
      * Maneja la accion del boton continuar.
      * Valida que todos los componentes obligatorios esten seleccionados,
-     * crea la computadora con los componentes y navega a PanelSoftware.
+     * verifica la compatibilidad de los componentes y muestra advertencias si las hay.
+     * Si el usuario acepta las advertencias o no hay problemas, navega a PanelSoftware.
      */
     private void manejarContinuar() {
         Try.run(() -> {
@@ -619,11 +624,46 @@ public class PanelComponentes {
                 return;
             }
 
+            verificarCompatibilidadComponentes()
+                .onSuccess(resultado -> procesarResultadoCompatibilidad(resultado))
+                .onFailure(error ->
+                    mostrarDialogoError("Error", "Error al verificar compatibilidad: " + error.getMessage())
+                );
+        }).onFailure(error ->
+            mostrarDialogoError("Error", "No se pudo continuar: " + error.getMessage())
+        );
+    }
+
+    /**
+     * Procesa el resultado de compatibilidad y decide si continuar o no.
+     * Si hay advertencias, muestra un dialogo de confirmacion.
+     * Si el usuario acepta o no hay advertencias, navega al panel de software.
+     *
+     * @param resultado el resultado de la verificacion de compatibilidad
+     */
+    private void procesarResultadoCompatibilidad(ResultadoCompatibilidad resultado) {
+        List<String> advertencias = resultado.getAdvertencias();
+
+        boolean debeNavegar = advertencias.isEmpty() ||
+                             mostrarDialogoAdvertenciasCompatibilidad(advertencias)
+                                 .orElse(false);
+
+        if (debeNavegar) {
+            navegarAPanelSoftware();
+        }
+    }
+
+    /**
+     * Navega al panel de software con la computadora creada.
+     * Crea la computadora con los componentes seleccionados y cambia la escena actual.
+     */
+    private void navegarAPanelSoftware() {
+        Try.run(() -> {
             ComputadoraBase computadora = crearComputadora();
             PanelSoftware panelSoftware = new PanelSoftware(vista, computadora);
             vista.cambiarEscena(panelSoftware.crear());
         }).onFailure(error ->
-            mostrarDialogoError("Error", "No se pudo continuar: " + error.getMessage())
+            mostrarDialogoError("Error", "No se pudo navegar al panel de software: " + error.getMessage())
         );
     }
 
@@ -910,5 +950,77 @@ public class PanelComponentes {
         }).onFailure(error ->
             System.err.println("Error al mostrar dialogo: " + error.getMessage())
         );
+    }
+
+    /**
+     * Verifica la compatibilidad de los componentes seleccionados actualmente.
+     * Crea una computadora temporal con los componentes seleccionados y utiliza
+     * la fachada del sistema para verificar si son compatibles entre si.
+     *
+     * @return Try conteniendo el resultado de compatibilidad, o un error si falla la verificacion
+     */
+    private Try<ResultadoCompatibilidad> verificarCompatibilidadComponentes() {
+        return Try.of(() -> {
+            SistemaEnsamblajeFacade facade = new SistemaEnsamblajeFacade();
+            ComputadoraBase computadoraTemporal = crearComputadora();
+            return facade.verificarCompatibilidad(computadoraTemporal);
+        });
+    }
+
+    /**
+     * Crea el contenido visual de las advertencias de compatibilidad.
+     * Transforma una lista de advertencias en un contenedor VBox con labels formateados.
+     *
+     * @param advertencias lista de mensajes de advertencia a mostrar
+     * @return VBox conteniendo las advertencias formateadas con viñetas
+     */
+    private VBox crearContenidoAdvertencias(List<String> advertencias) {
+        VBox contenedor = new VBox(10);
+        contenedor.setPadding(new Insets(15));
+
+        Label lblEncabezado = crearLabel("Se detectaron las siguientes advertencias:", "label-primary");
+        contenedor.getChildren().add(lblEncabezado);
+
+        advertencias.stream()
+            .map(advertencia -> crearLabel("• " + advertencia, "label-secondary"))
+            .forEach(label -> {
+                label.setWrapText(true);
+                label.setMaxWidth(500);
+                contenedor.getChildren().add(label);
+            });
+
+        return contenedor;
+    }
+
+    /**
+     * Muestra un dialogo con advertencias de compatibilidad y solicita confirmacion del usuario.
+     * Presenta las advertencias en un formato legible y permite al usuario decidir si
+     * continuar de todos modos o cancelar para modificar la configuracion.
+     *
+     * @param advertencias lista de advertencias a mostrar al usuario
+     * @return Optional conteniendo true si el usuario decide continuar, false si cancela
+     */
+    private Optional<Boolean> mostrarDialogoAdvertenciasCompatibilidad(List<String> advertencias) {
+        return Try.of(() -> {
+            Alert dialogo = new Alert(Alert.AlertType.WARNING);
+            dialogo.setTitle("Advertencias de Compatibilidad");
+            dialogo.setHeaderText("Se detectaron problemas de compatibilidad en la configuracion seleccionada.");
+
+            VBox contenido = crearContenidoAdvertencias(advertencias);
+            ScrollPane scroll = new ScrollPane(contenido);
+            scroll.setFitToWidth(true);
+            scroll.setPrefHeight(300);
+
+            dialogo.getDialogPane().setContent(scroll);
+            dialogo.getDialogPane().setPrefWidth(600);
+
+            ButtonType btnContinuar = new ButtonType("Continuar de todos modos", ButtonBar.ButtonData.OK_DONE);
+            ButtonType btnCancelar = new ButtonType("Cancelar y modificar", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            dialogo.getButtonTypes().setAll(btnCancelar, btnContinuar);
+
+            return dialogo.showAndWait()
+                .map(respuesta -> respuesta == btnContinuar);
+        }).getOrElse(Optional.empty());
     }
 }
