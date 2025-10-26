@@ -8,11 +8,11 @@ import modelo.ticket.Ticket;
 /**
  * Interfaz que define el contrato para las vistas del sistema de ensamblaje de computadoras.
  * Proporciona metodos para la interaccion con el usuario, permitiendo mostrar informacion,
- * capturar entradas y gestionar la presentacion de datos en diferentes modos (consola, GUI).
+ * capturar entradas y gestionar la presentacion de datos mediante interfaz grafica.
  *
  * <p>Esta interfaz forma parte del patron MVC (Model-View-Controller), definiendo las operaciones
- * que cualquier vista debe soportar para interactuar con el controlador. Las implementaciones
- * concretas incluyen {@link VistaConsola} para modo terminal y VistaJavaFX para modo grafico.
+ * que cualquier vista debe soportar para interactuar con el controlador. La implementacion
+ * concreta VistaJavaFX proporciona una interfaz grafica moderna usando JavaFX.
  *
  * <p>Operaciones principales:
  * <ul>

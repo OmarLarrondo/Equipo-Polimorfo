@@ -36,8 +36,5 @@ RUN mkdir -p /.monoschinos
 ENV _JAVA_OPTIONS="-Djava.awt.headless=false"
 ENV DISPLAY=:0
 
-# Punto de entrada por defecto: modo consola
-CMD ["java", "-cp", "target/sistema-ensamblaje-pc-1.0.0.jar:target/lib/*", "Main"]
-
-# Para ejecutar en modo GUI, usar:
-# CMD ["java", "-cp", "target/sistema-ensamblaje-pc-1.0.0.jar:target/lib/*", "MainJavaFX"]
+# Punto de entrada: aplicacion JavaFX
+CMD ["java", "-cp", "target/sistema-ensamblaje-pc-1.0.0.jar:target/lib/*", "MainJavaFX"]
