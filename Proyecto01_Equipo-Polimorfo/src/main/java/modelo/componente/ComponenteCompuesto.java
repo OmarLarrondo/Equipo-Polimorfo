@@ -77,10 +77,10 @@ public class ComponenteCompuesto implements ComponentePC {
      * @throws IllegalStateException si la lista de componentes es null
      */
     public ComponentePC obtenerHijo(int numHijo){
-        if(numHijo < 0 || numHijo > componentes.size()){
+        if(componentes == null) throw new IllegalStateException("No hay componentes");
+        if(numHijo < 0 || numHijo >= componentes.size()){
             throw new IllegalArgumentException("Indice invalido!!");
         }
-        if(componentes == null) throw new IllegalStateException("No hay componentes");
         return componentes.get(numHijo);
     }
 
