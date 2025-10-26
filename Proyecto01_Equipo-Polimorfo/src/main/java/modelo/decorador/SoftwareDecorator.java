@@ -43,7 +43,7 @@ public abstract class SoftwareDecorator implements ComputadoraBase {
      */
     public SoftwareDecorator(ComputadoraBase computadora, String nombreSoftware, double precioSoftware) {
         if(computadora == null){
-            throw new IllegalArgumentException("La computadora base no puede ser nulla");
+            throw new IllegalArgumentException("La computadora base no puede ser nula");
         }
         this.computadora = computadora;
         this.nombreSoftware = nombreSoftware;
