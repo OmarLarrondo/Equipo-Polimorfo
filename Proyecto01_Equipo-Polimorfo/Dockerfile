@@ -37,4 +37,4 @@ ENV _JAVA_OPTIONS="-Djava.awt.headless=false"
 ENV DISPLAY=:0
 
 # Punto de entrada: aplicacion JavaFX
-CMD ["java", "-cp", "target/sistema-ensamblaje-pc-1.0.0.jar:target/lib/*", "MainJavaFX"]
+CMD ["mvn", "exec:java", "-Dexec.mainClass=MainJavaFX"]
