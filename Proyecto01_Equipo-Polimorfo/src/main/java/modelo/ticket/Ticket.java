@@ -117,10 +117,10 @@ public class Ticket {
     /**
      * Obtiene la fecha de generacion del ticket.
      *
-     * @return la fecha del ticket
+     * @return una copia de la fecha del ticket para mantener encapsulamiento
      */
     public Date obtenerFecha() {
-        return fecha;
+        return new Date(fecha.getTime());
     }
 
     /**
