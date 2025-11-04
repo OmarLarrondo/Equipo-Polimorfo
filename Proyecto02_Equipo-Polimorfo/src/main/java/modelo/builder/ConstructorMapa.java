@@ -11,10 +11,10 @@ public class ConstructorMapa {
     public ConstructorMapa reiniciar(){
         //aqui va su codigo 
     }
-    public ConstructorMapa establecerNombre()(
-        //aqui va su codigo 
+    public ConstructorMapa establecerNombre(){
+        //aqui va su codigo
         return null;
-    )
+    }
     public ConstructorMapa establecerDificultad(){
         //aqui va su codig 
         return null;

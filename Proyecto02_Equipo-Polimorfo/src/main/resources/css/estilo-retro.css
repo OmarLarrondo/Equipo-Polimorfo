@@ -1,0 +1,135 @@
+/**
+ * Estilo Retro - Pong Evolved
+ * Paleta: Blanco y Negro saturado con estética arcade
+ */
+
+@font-face {
+    font-family: 'Press Start 2P';
+    src: url('../fuentes/PressStart2P.ttf');
+}
+
+.root {
+    -fx-background-color: #000000;
+    -fx-font-family: 'Press Start 2P', monospace;
+}
+
+.contenedor-principal {
+    -fx-background-color: #000000;
+    -fx-padding: 40px;
+}
+
+.titulo-principal {
+    -fx-font-family: 'Press Start 2P', monospace;
+    -fx-font-size: 32px;
+    -fx-text-fill: #FFFFFF;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0.5, 0, 0);
+}
+
+.contenedor-menu {
+    -fx-background-color: #000000;
+    -fx-spacing: 20px;
+    -fx-padding: 30px;
+}
+
+.boton-menu {
+    -fx-background-color: #000000;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: 'Press Start 2P', monospace;
+    -fx-font-size: 14px;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 3px;
+    -fx-border-style: solid;
+    -fx-padding: 15px 30px;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-min-width: 250px;
+    -fx-alignment: center;
+}
+
+.boton-menu:hover {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-border-color: #FFFFFF;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.boton-menu:pressed {
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: #000000;
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+.contenedor-video {
+    -fx-background-color: #000000;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 3px;
+    -fx-border-style: solid;
+    -fx-padding: 10px;
+}
+
+.media-view {
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.3), 15, 0.3, 0, 0);
+}
+
+.panel-info {
+    -fx-background-color: #000000;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+    -fx-padding: 20px;
+}
+
+.texto-info {
+    -fx-font-family: 'Press Start 2P', monospace;
+    -fx-font-size: 10px;
+    -fx-text-fill: #FFFFFF;
+    -fx-line-spacing: 5px;
+}
+
+.boton-secundario {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: 'Press Start 2P', monospace;
+    -fx-font-size: 10px;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+}
+
+.separador {
+    -fx-background-color: #FFFFFF;
+    -fx-min-height: 2px;
+    -fx-max-height: 2px;
+}
+
+.contenedor-botones {
+    -fx-spacing: 15px;
+    -fx-alignment: center;
+}
+
+.fade-in {
+    -fx-opacity: 0;
+}
+
+@keyframes parpadeo {
+    0%, 100% {
+        -fx-opacity: 1;
+    }
+    50% {
+        -fx-opacity: 0.3;
+    }
+}
+
+.texto-parpadeo {
+    -fx-animation: parpadeo 2s infinite;
+}
