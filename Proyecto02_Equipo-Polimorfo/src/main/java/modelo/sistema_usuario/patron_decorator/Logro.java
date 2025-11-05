@@ -8,13 +8,43 @@ public class Logro {
     private String descripcion;
     private String icono;
     private LocalDateTime desbloqueadoEn;
-    
 
-    public void desbloquear(){
-        //aqui va us codigo
+    public Logro(String id, String nombre, String descripcion, String icono) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.icono = icono;
+        this.desbloqueadoEn = null; // aún no desbloqueado
     }
-    public boolean estaDesbloqueado(){
-        //aqui va su codig 
-        return false;
+
+    public void desbloquear() {
+        if (desbloqueadoEn == null) {
+            this.desbloqueadoEn = LocalDateTime.now();
+            System.out.println("🏆 Logro desbloqueado: " + nombre);
+        }
+    }
+
+    public boolean estaDesbloqueado() {
+        return desbloqueadoEn != null;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public String getIcono() {
+        return icono;
+    }
+
+    public LocalDateTime getDesbloqueadoEn() {
+        return desbloqueadoEn;
     }
 }
