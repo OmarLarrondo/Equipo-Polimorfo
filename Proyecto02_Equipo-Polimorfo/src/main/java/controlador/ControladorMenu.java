@@ -3,6 +3,8 @@ package controlador;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -27,10 +29,15 @@ import java.util.stream.Collectors;
 public class ControladorMenu {
 
     private static final String DIRECTORIO_VIDEOS = "videos/";
+    private static final String DIRECTORIO_IMAGENES = "imagenes/";
     private static final String VIDEO_IDLE = "preview-idle.mp4";
     private static final String VIDEO_UN_JUGADOR = "preview-1jugador.mp4";
     private static final String VIDEO_DOS_JUGADORES = "preview-2jugadores.mp4";
     private static final String VIDEO_CONSTRUCTOR = "preview-constructor.mp4";
+    private static final String IMAGEN_IDLE = "preview-idle.png";
+    private static final String IMAGEN_UN_JUGADOR = "preview-1jugador.png";
+    private static final String IMAGEN_DOS_JUGADORES = "preview-2jugadores.png";
+    private static final String IMAGEN_CONSTRUCTOR = "preview-constructor.png";
 
     @FXML
     private Button botonUnJugador;
@@ -44,16 +51,24 @@ public class ControladorMenu {
     @FXML
     private MediaView mediaView;
 
+    @FXML
+    private ImageView imageView;
+
     private FachadaJuego fachadaJuego;
     private GestorEscenas gestorEscenas;
     private Map<String, MediaPlayer> reproductores;
+    private Map<String, Image> imagenes;
     private MediaPlayer reproductorActual;
+    private String imagenActual;
+    private boolean usarVideos;
 
     /**
      * Constructor por defecto requerido por FXML.
      */
     public ControladorMenu() {
         this.reproductores = new HashMap<>();
+        this.imagenes = new HashMap<>();
+        this.usarVideos = true;
     }
 
     /**
@@ -76,12 +91,13 @@ public class ControladorMenu {
 
     /**
      * Inicializa el controlador después de cargar el FXML.
-     * Carga todos los videos y comienza la reproducción del video idle.
+     * Intenta cargar videos, si fallan usa imágenes de fallback.
      */
     @FXML
     public void initialize() {
         cargarTodosLosVideos();
-        iniciarVideoIdle();
+        determinarModoVisualizacion();
+        iniciarVisualizacionInicial();
     }
 
     /**
@@ -130,7 +146,6 @@ public class ControladorMenu {
      * @return MediaPlayer vacío
      */
     private MediaPlayer crearReproductorVacio() {
-        System.err.println("Advertencia: No se pudo cargar un video. Usando reproductor vacío.");
         return null;
     }
 
@@ -142,6 +157,78 @@ public class ControladorMenu {
                 .ifPresent(reproductor -> {
                     reproductorActual = reproductor;
                     GestorVideos.reproducirVideo(reproductor, mediaView);
+                });
+    }
+
+    /**
+     * Determina si se usarán videos o imágenes de fallback.
+     * Si no hay reproductores disponibles, carga las imágenes.
+     */
+    private void determinarModoVisualizacion() {
+        usarVideos = !reproductores.isEmpty();
+
+        if (!usarVideos) {
+            System.out.println("Videos no disponibles. Usando imágenes de fallback.");
+            cargarTodasLasImagenes();
+        }
+
+        configurarVistas();
+    }
+
+    /**
+     * Carga todas las imágenes de fallback necesarias para el menú.
+     */
+    private void cargarTodasLasImagenes() {
+        imagenes = new HashMap<>();
+        obtenerNombresImagenes().forEach((clave, rutaImagen) ->
+            CargadorRecursos.cargarImagen(DIRECTORIO_IMAGENES + rutaImagen)
+                    .ifPresent(imagen -> imagenes.put(clave, imagen))
+        );
+    }
+
+    /**
+     * Obtiene el mapeo de claves a nombres de archivos de imágenes.
+     *
+     * @return Map con claves de video mapeadas a nombres de imágenes
+     */
+    private Map<String, String> obtenerNombresImagenes() {
+        return Map.of(
+                VIDEO_IDLE, IMAGEN_IDLE,
+                VIDEO_UN_JUGADOR, IMAGEN_UN_JUGADOR,
+                VIDEO_DOS_JUGADORES, IMAGEN_DOS_JUGADORES,
+                VIDEO_CONSTRUCTOR, IMAGEN_CONSTRUCTOR
+        );
+    }
+
+    /**
+     * Configura la visibilidad de las vistas según el modo activo.
+     */
+    private void configurarVistas() {
+        mediaView.setVisible(usarVideos);
+        imageView.setVisible(!usarVideos);
+    }
+
+    /**
+     * Inicia la visualización inicial (video o imagen idle).
+     */
+    private void iniciarVisualizacionInicial() {
+        if (usarVideos) {
+            iniciarVideoIdle();
+        } else {
+            mostrarImagen(VIDEO_IDLE);
+        }
+    }
+
+    /**
+     * Muestra una imagen en el ImageView.
+     *
+     * @param claveImagen Clave de la imagen a mostrar
+     */
+    private void mostrarImagen(String claveImagen) {
+        Optional.ofNullable(imagenes.get(claveImagen))
+                .ifPresent(imagen -> {
+                    imageView.setImage(imagen);
+                    imagenActual = claveImagen;
                 });
     }
 
@@ -224,11 +311,24 @@ public class ControladorMenu {
     }
 
     /**
+     * Cambia el video o imagen actual según el modo activo.
+     *
+     * @param nombreRecurso Nombre del recurso (video o imagen) a mostrar
+     */
+    private void cambiarVideo(String nombreRecurso) {
+        if (usarVideos) {
+            cambiarVideoInterno(nombreRecurso);
+        } else {
+            cambiarImagenInterno(nombreRecurso);
+        }
+    }
+
+    /**
      * Cambia el video actual por otro con transición fade.
      *
      * @param nombreVideo Nombre del video a reproducir
      */
-    private void cambiarVideo(String nombreVideo) {
+    private void cambiarVideoInterno(String nombreVideo) {
         Optional.ofNullable(reproductores.get(nombreVideo))
                 .filter(nuevoReproductor -> nuevoReproductor != reproductorActual)
                 .ifPresent(nuevoReproductor -> {
@@ -242,12 +342,27 @@ public class ControladorMenu {
     }
 
     /**
-     * Reinicia todos los videos al estado inicial.
+     * Cambia la imagen actual por otra.
+     *
+     * @param claveImagen Clave de la imagen a mostrar
+     */
+    private void cambiarImagenInterno(String claveImagen) {
+        if (!claveImagen.equals(imagenActual)) {
+            mostrarImagen(claveImagen);
+        }
+    }
+
+    /**
+     * Reinicia la visualización al estado inicial (video o imagen idle).
      */
     public void reiniciarVideos() {
-        Optional.ofNullable(reproductorActual)
-                .ifPresent(GestorVideos::detenerVideo);
-        iniciarVideoIdle();
+        if (usarVideos) {
+            Optional.ofNullable(reproductorActual)
+                    .ifPresent(GestorVideos::detenerVideo);
+            iniciarVideoIdle();
+        } else {
+            mostrarImagen(VIDEO_IDLE);
+        }
     }
 
     /**

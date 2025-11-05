@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
+<?import javafx.scene.image.ImageView?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -64,7 +65,14 @@
                            fitWidth="380.0"
                            fitHeight="280.0"
                            preserveRatio="true"
-                           styleClass="media-view"/>
+                           styleClass="media-view"
+                           visible="true"/>
+                <ImageView fx:id="imageView"
+                           fitWidth="380.0"
+                           fitHeight="280.0"
+                           preserveRatio="true"
+                           styleClass="image-view"
+                           visible="false"/>
             </StackPane>
         </HBox>
     </center>

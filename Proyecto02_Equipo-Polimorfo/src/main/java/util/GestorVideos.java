@@ -38,8 +38,6 @@ public final class GestorVideos {
             reproductor.setMute(true);
             return reproductor;
         } catch (Exception e) {
-            System.err.println("Advertencia: No se pudo crear MediaPlayer. Los videos no estarán disponibles.");
-            System.err.println("Esto puede deberse a falta de codecs o bibliotecas de media en el sistema.");
             return null;
         }
     }

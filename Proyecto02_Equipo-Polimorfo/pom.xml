@@ -79,6 +79,10 @@
                 <version>${javafx.maven.plugin.version}</version>
                 <configuration>
                     <mainClass>app.AplicacionPong</mainClass>
+                    <options>
+                        <option>--add-modules</option>
+                        <option>javafx.controls,javafx.fxml,javafx.media,javafx.graphics</option>
+                    </options>
                 </configuration>
             </plugin>
 

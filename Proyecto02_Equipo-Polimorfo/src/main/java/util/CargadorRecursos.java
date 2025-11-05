@@ -2,6 +2,7 @@ package util;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.text.Font;
 
@@ -98,16 +99,34 @@ public final class CargadorRecursos {
      */
     public static Optional<Media> cargarVideo(String rutaRelativa) {
         return obtenerURL(rutaRelativa)
-                .map(url -> url.toExternalForm())
+                .map(URL::toExternalForm)
                 .flatMap(urlExterna -> {
                     try {
                         return Optional.of(new Media(urlExterna));
                     } catch (Exception e) {
-                        System.err.println("Error al cargar video: " + rutaRelativa);
-                        e.printStackTrace();
                         return Optional.empty();
                     }
                 });
+    }
+
+    /**
+     * Carga una imagen desde el directorio de recursos.
+     *
+     * @param rutaRelativa Ruta relativa al directorio de recursos (ej: "imagenes/preview-idle.png")
+     * @return Optional con el objeto Image, o Optional.empty() si falla
+     */
+    public static Optional<Image> cargarImagen(String rutaRelativa) {
+        return obtenerURL(rutaRelativa)
+                .map(url -> {
+                    try {
+                        return new Image(url.toExternalForm());
+                    } catch (Exception e) {
+                        System.err.println("Error al cargar imagen: " + rutaRelativa);
+                        e.printStackTrace();
+                        return null;
+                    }
+                })
+                .filter(imagen -> imagen != null);
     }
 
     /**
