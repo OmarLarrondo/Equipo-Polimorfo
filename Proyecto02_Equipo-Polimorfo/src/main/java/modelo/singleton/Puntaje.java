@@ -1,6 +1,7 @@
-package main.java.modelo.singleton;
+package modelo.singleton;
 
 import java.time.LocalDateTime;
+import modelo.ModoJuego;
 
 public class Puntaje {
     private String nombreJugador;

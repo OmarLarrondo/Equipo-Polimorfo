@@ -1,4 +1,6 @@
-package main.java.modelo.observer;
+package modelo.observer;
+
+import modelo.Item;
 
 public class ObservadorAudio implements ObservadorJuego{
 

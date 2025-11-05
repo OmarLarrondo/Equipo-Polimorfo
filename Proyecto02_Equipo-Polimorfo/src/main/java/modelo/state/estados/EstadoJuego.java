@@ -1,7 +1,7 @@
-package main.java.modelo.state.estados;
+package modelo.state.estados;
 
-//clase base (superclase) para representar cualquier tipo de evento de entrada del usuario(teclado, el ratón, o cualquier otro dispositivo de entrada.)
 import java.awt.event.InputEvent;
+import modelo.state.contexto.ContextoJuego;
 
 /**
  * La interfaz {@code EstadoJuego} define el comportamiento general de los estados

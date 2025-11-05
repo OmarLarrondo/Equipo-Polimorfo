@@ -1,6 +1,7 @@
-package main.java.modelo.state.estados;
+package modelo.state.estados;
 
 import java.awt.event.InputEvent;
+import modelo.state.contexto.ContextoJuego;
 
 public class EstadoPausado implements EstadoJuego{
 

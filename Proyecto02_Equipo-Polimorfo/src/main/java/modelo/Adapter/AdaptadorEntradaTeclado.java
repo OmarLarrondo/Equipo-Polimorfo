@@ -1,4 +1,4 @@
-package main.java.modelo.Adapter;
+package modelo.Adapter;
 
 public class AdaptadorEntradaTeclado implements AdaptadorEntrada{
 

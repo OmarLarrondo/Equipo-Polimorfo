@@ -1,4 +1,4 @@
-package main.java.modelo.builder;
+package modelo.builder;
 
 public enum TipoBloque {
     DESTRUCTIBLE,

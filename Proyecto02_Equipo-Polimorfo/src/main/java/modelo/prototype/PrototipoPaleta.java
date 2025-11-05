@@ -1,5 +1,7 @@
-package main.java.modelo.prototype;
+package modelo.prototype;
+
 import java.util.Map;
+import modelo.Paleta;
 
 public class PrototipoPaleta {
     private Map<String, Paleta> prototipos;

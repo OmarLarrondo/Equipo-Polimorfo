@@ -1,8 +1,9 @@
-package main.java.modelo.strategy.estrategiaColision.gestorColisiones;
+package modelo.strategy.estrategiaColision.gestorColisiones;
 
 import java.util.Map;
-
-import main.java.modelo.strategy.estrategiaColision.estrategias.EstrategiaColision;
+import modelo.strategy.estrategiaColision.estrategias.EstrategiaColision;
+import modelo.ModeloJuego;
+import modelo.ObjetoJuego;
 
 public class GestorColisiones {
     private Map<String, EstrategiaColision> estrategias;

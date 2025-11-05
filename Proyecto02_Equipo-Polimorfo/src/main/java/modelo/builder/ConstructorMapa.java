@@ -1,15 +1,16 @@
-package main.java.modelo.builder;
+package modelo.builder;
 
 import java.util.List;
-
-import main.java.modelo.factory.Nivel;
+import modelo.factory.Nivel;
+import modelo.Bloque;
 
 public class ConstructorMapa {
     private Nivel nivel;
     private List<Bloque> bloques;
     
     public ConstructorMapa reiniciar(){
-        //aqui va su codigo 
+        //aqui va su codigo
+        return null;
     }
     public ConstructorMapa establecerNombre(){
         //aqui va su codigo

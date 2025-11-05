@@ -1,7 +1,10 @@
+package app;
+
 import controlador.ControladorMenu;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import modelo.FachadaJuego;
+import vista.GestorEscenas;
 import vista.VistaMenu;
 
 /**

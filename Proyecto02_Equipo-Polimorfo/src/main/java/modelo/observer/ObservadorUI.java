@@ -1,4 +1,7 @@
-package main.java.modelo.observer;
+package modelo.observer;
+
+import vista.VistaJuego;
+import modelo.Item;
 
 public class ObservadorUI implements ObservadorJuego {
     

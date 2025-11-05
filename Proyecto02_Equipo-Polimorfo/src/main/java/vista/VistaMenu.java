@@ -49,12 +49,12 @@ public class VistaMenu {
     }
 
     /**
-     * Carga el contenido FXML del menú.
+     * Carga el contenido FXML del menú con el controlador especificado.
      *
      * @return Optional con el Parent raíz del FXML, o Optional.empty() si falla
      */
     private Optional<Parent> cargarContenido() {
-        return CargadorRecursos.cargarFXML(RUTA_FXML);
+        return CargadorRecursos.cargarFXMLConControlador(RUTA_FXML, controlador);
     }
 
     /**

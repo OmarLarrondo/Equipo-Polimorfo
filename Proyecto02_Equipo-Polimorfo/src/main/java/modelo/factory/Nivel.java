@@ -1,6 +1,8 @@
-package main.java.modelo.factory;
+package modelo.factory;
 
 import java.util.List;
+import modelo.Bloques;
+import modelo.Bloque;
 
 public class Nivel {
     private String id;
@@ -22,6 +24,7 @@ public class Nivel {
     }
     public boolean estaCompletado(){
         //aqui va us codigo
+        return false;
     }
     public void reiniciar(){
         // aqui ba su codigo

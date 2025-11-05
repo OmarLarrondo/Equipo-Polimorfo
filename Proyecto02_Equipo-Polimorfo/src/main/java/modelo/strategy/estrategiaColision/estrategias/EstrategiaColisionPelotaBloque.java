@@ -1,4 +1,7 @@
-package main.java.modelo.strategy.estrategiaColision.estrategias;
+package modelo.strategy.estrategiaColision.estrategias;
+
+import modelo.ObjetoJuego;
+import modelo.Bloque;
 
 public class EstrategiaColisionPelotaBloque implements EstrategiaColision{
 
@@ -9,7 +12,8 @@ public class EstrategiaColisionPelotaBloque implements EstrategiaColision{
 
     @Override
     public boolean verificarColision(ObjetoJuego obj1, ObjetoJuego obj2) {
-        // aqui va su codigo  
+        // aqui va su codigo
+        return false;
     }
     private void generarItem(Bloque bloque){
         //aqui va su codigo 

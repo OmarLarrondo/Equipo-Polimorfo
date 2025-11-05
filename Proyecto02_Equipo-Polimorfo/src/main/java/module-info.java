@@ -3,12 +3,14 @@ module pong.evolved {
     requires javafx.fxml;
     requires javafx.media;
     requires javafx.graphics;
+    requires java.desktop;
 
-    exports main.java.controlador;
-    exports main.java.vista;
-    exports main.java.modelo;
-    exports main.java.util;
+    exports app;
+    exports controlador;
+    exports vista;
+    exports modelo;
+    exports util;
 
-    opens main.java.controlador to javafx.fxml;
-    opens main.java.vista to javafx.fxml;
+    opens controlador to javafx.fxml;
+    opens vista to javafx.fxml;
 }

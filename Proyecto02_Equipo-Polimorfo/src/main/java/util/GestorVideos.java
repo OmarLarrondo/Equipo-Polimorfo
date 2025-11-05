@@ -28,14 +28,20 @@ public final class GestorVideos {
      * Crea un reproductor de video configurado para reproducción en loop.
      *
      * @param media Objeto Media con el video a reproducir
-     * @return MediaPlayer configurado para reproducción continua
+     * @return MediaPlayer configurado para reproducción continua, o null si falla
      */
     public static MediaPlayer crearReproductor(Media media) {
-        MediaPlayer reproductor = new MediaPlayer(media);
-        reproductor.setCycleCount(MediaPlayer.INDEFINITE);
-        reproductor.setAutoPlay(false);
-        reproductor.setMute(true);
-        return reproductor;
+        try {
+            MediaPlayer reproductor = new MediaPlayer(media);
+            reproductor.setCycleCount(MediaPlayer.INDEFINITE);
+            reproductor.setAutoPlay(false);
+            reproductor.setMute(true);
+            return reproductor;
+        } catch (Exception e) {
+            System.err.println("Advertencia: No se pudo crear MediaPlayer. Los videos no estarán disponibles.");
+            System.err.println("Esto puede deberse a falta de codecs o bibliotecas de media en el sistema.");
+            return null;
+        }
     }
 
     /**

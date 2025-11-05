@@ -1,4 +1,4 @@
-package main.java.modelo.singleton;
+package modelo.singleton;
 
 public class ConfiguracionJuego {
     private ConfiguracionJuego instancia;

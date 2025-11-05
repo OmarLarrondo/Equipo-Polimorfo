@@ -1,4 +1,7 @@
-package main.java.modelo.factory;
+package modelo.factory;
+
+import java.util.List;
+import modelo.singleton.GestorPrototiposPaleta;
 
 public class FabricaNiveles {
     private GestorPrototiposPaleta gestorPrototipos;

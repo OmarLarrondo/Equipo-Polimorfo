@@ -9,6 +9,7 @@ import javafx.scene.media.MediaView;
 import modelo.FachadaJuego;
 import util.CargadorRecursos;
 import util.GestorVideos;
+import vista.GestorEscenas;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -85,13 +86,16 @@ public class ControladorMenu {
 
     /**
      * Carga todos los videos necesarios para el menú.
+     * Videos que fallen al cargar serán omitidos del mapa.
      */
     private void cargarTodosLosVideos() {
-        reproductores = obtenerNombresVideos().stream()
-                .collect(Collectors.toMap(
-                        Function.identity(),
-                        this::crearReproductorParaVideo
-                ));
+        reproductores = new HashMap<>();
+        obtenerNombresVideos().forEach(nombreVideo -> {
+            MediaPlayer player = crearReproductorParaVideo(nombreVideo);
+            if (player != null) {
+                reproductores.put(nombreVideo, player);
+            }
+        });
     }
 
     /**

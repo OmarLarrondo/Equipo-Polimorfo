@@ -1,6 +1,8 @@
-package main.java.modelo.state.estados;
+package modelo.state.estados;
 
 import java.awt.event.InputEvent;
+import modelo.ControladorJuego;
+import modelo.state.contexto.ContextoJuego;
 
 public class EstadoJugando implements EstadoJuego {
 

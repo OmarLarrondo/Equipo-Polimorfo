@@ -1,9 +1,8 @@
-package main.java.modelo.sistema_usuario.servicios_de_autenticacion;
+package modelo.sistema_usuario.servicios_de_autenticacion;
 
 import java.util.Map;
-
-import main.java.modelo.sistema_usuario.patron_decorator.ComponenteUsuario;
-import main.java.modelo.sistema_usuario.patron_decorator.Usuario;
+import modelo.sistema_usuario.patron_decorator.ComponenteUsuario;
+import modelo.sistema_usuario.patron_decorator.Usuario;
 
 public class ServicioAutenticacion {
     private Map<String, Usuario> usuarios;

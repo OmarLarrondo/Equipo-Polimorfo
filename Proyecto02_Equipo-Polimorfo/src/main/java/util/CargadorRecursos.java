@@ -134,6 +134,9 @@ public final class CargadorRecursos {
      */
     private static Optional<URL> obtenerURL(String rutaRelativa) {
         URL url = CargadorRecursos.class.getClassLoader().getResource(rutaRelativa);
+        if (url == null) {
+            url = CargadorRecursos.class.getResource("/" + rutaRelativa);
+        }
         return Optional.ofNullable(url);
     }
 

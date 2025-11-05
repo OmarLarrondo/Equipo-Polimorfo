@@ -1,4 +1,6 @@
-package main.java.modelo.observer;
+package modelo.observer;
+
+import modelo.Item;
 
 /**
  * La interfaz {@code Observer} define los métodos que deben implementar

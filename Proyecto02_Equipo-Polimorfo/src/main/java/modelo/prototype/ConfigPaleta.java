@@ -1,4 +1,7 @@
-package main.java.modelo.prototype;
+package modelo.prototype;
+
+import javafx.scene.paint.Color;
+import modelo.Paleta;
 
 public class ConfigPaleta {
     private double ancho; 

@@ -1,6 +1,9 @@
-package main.java.modelo.strategy.estrategiasMovimientos;
+package modelo.strategy.estrategiasMovimientos;
 
-import main.java.modelo.Adapter.AdaptadorEntrada;
+import modelo.Adapter.AdaptadorEntrada;
+import modelo.Direccion;
+import modelo.Paleta;
+import modelo.Pelota;
 
 public class EstrategiaMovimientoJugador implements EstrategiaMovimiento {
 

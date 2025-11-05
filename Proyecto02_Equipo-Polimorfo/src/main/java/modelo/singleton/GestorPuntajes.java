@@ -1,4 +1,4 @@
-package main.java.modelo.singleton;
+package modelo.singleton;
 
 import java.util.List;
 
@@ -22,6 +22,7 @@ public class GestorPuntajes {
     }
     public List<Puntaje> obtenerPuntajesAltos(int limite){
         //aqui va su codigo
+        return null;
     }
     public void guardarPuntajes(){
         //aqui va su codigo

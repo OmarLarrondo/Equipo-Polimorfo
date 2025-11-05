@@ -1,6 +1,6 @@
-package main.java.modelo.factory.ia;
+package modelo.factory.ia;
 
-import main.java.modelo.strategy.estrategiasMovimientos.EstrategiaMovimiento;
+import modelo.strategy.estrategiasMovimientos.EstrategiaMovimiento;
 
 public class FabricaIA {
 

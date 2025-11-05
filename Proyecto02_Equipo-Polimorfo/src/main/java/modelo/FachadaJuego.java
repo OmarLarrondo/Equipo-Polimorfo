@@ -1,7 +1,15 @@
-package main.java.modelo.Facade;
+package modelo;
 
 import java.util.List;
-import main.java.modelo.state.estados.EstadoJuego;
+import modelo.state.estados.EstadoJuego;
+import modelo.singleton.GestorPuntajes;
+import modelo.singleton.Puntaje;
+import modelo.factory.Nivel;
+import modelo.factory.ConfigNivel;
+import modelo.factory.FabricaNiveles;
+import modelo.factory.ia.ServiciioIA;
+import modelo.sistema_usuario.patron_decorator.Usuario;
+import modelo.sistema_usuario.servicios_de_autenticacion.ServicioAutenticacion;
 
 /**
  * La clase {@code FachadaJuego} implementa el patrón de diseño Facade,
@@ -20,7 +28,7 @@ public class FachadaJuego {
     private ControladorJuego controladorJuego;
     private GestorPuntajes gestorPuntajes;
     private ServicioAutenticacion servicioAutenticacion;
-    private ServicioIA servicioIA;
+    private ServiciioIA servicioIA;
     private FabricaNiveles fabricaNiveles;
 
     /**

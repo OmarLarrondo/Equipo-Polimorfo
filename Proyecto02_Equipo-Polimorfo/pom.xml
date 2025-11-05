@@ -78,7 +78,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>${javafx.maven.plugin.version}</version>
                 <configuration>
-                    <mainClass>AplicacionPong</mainClass>
+                    <mainClass>app.AplicacionPong</mainClass>
                 </configuration>
             </plugin>
 
@@ -90,7 +90,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>AplicacionPong</mainClass>
+                            <mainClass>app.AplicacionPong</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

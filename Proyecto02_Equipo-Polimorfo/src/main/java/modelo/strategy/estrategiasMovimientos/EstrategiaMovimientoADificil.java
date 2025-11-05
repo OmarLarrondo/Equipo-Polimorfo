@@ -1,4 +1,8 @@
-package main.java.modelo.strategy.estrategiasMovimientos;
+package modelo.strategy.estrategiasMovimientos;
+
+import modelo.Direccion;
+import modelo.Paleta;
+import modelo.Pelota;
 
 public class EstrategiaMovimientoADificil implements EstrategiaMovimiento {
 

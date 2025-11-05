@@ -1,4 +1,4 @@
-package main.java.modelo.Adapter;
+package modelo.Adapter;
 
 /**
  * Interfaz {@code AdaptadorEntrada} que define un contrato para adaptar

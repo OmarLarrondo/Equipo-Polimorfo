@@ -1,6 +1,8 @@
-package main.java.modelo.state.estados;
+package modelo.state.estados;
 
 import java.awt.event.InputEvent;
+import controlador.ControladorMenu;
+import modelo.state.contexto.ContextoJuego;
 
 public class EstadoMenu implements EstadoJuego {
 

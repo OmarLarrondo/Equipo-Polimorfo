@@ -1,4 +1,6 @@
-package main.java.modelo.strategy.estrategiaColision.estrategias;
+package modelo.strategy.estrategiaColision.estrategias;
+
+import modelo.ObjetoJuego;
 
 /**
  * La interfaz {@code EstrategiaColision} define el contrato para las estrategias

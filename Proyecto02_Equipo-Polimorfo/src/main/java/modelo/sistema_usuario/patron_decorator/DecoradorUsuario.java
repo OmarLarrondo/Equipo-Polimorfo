@@ -1,4 +1,4 @@
-package main.java.modelo.sistema_usuario.patron_decorator;
+package modelo.sistema_usuario.patron_decorator;
 
 public abstract class DecoradorUsuario implements ComponenteUsuario{
     protected ComponenteUsuario usuarioDecorado;

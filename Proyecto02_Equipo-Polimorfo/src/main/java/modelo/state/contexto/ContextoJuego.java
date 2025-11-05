@@ -1,8 +1,8 @@
-package main.java.modelo.state.contexto;
+package modelo.state.contexto;
 
 import java.awt.event.InputEvent;
-
-import main.java.modelo.state.estados.EstadoJuego;
+import modelo.state.estados.EstadoJuego;
+import modelo.ModeloJuego;
 
 public class ContextoJuego {
     private EstadoJuego estadoActual;

@@ -1,4 +1,4 @@
-package main.java.modelo.sistema_usuario.patron_decorator;
+package modelo.sistema_usuario.patron_decorator;
 
 import java.util.List;
 

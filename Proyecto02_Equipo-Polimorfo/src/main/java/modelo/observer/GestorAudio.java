@@ -1,8 +1,9 @@
-package main.java.modelo.observer;
+package modelo.observer;
 
 import java.util.Map;
-
-import main.java.modelo.singleton.ConfiguracionJuego;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
+import modelo.singleton.ConfiguracionJuego;
 public class GestorAudio {
     Map<String, AudioClip> efectosSonido;
     MediaPlayer musicaFondo;

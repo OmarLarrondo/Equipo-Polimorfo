@@ -1,8 +1,8 @@
-package main.java.modelo.singleton;
+package modelo.singleton;
 
 import java.util.List;
-
-import main.java.modelo.prototype.PrototipoPaleta;
+import modelo.Paleta;
+import modelo.prototype.PrototipoPaleta;
 
 public class GestorPrototiposPaleta {
     private static GestorPrototiposPaleta instancia;
