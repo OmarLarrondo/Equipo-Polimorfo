@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
@@ -13,8 +14,8 @@
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             styleClass="contenedor-principal"
-            prefWidth="800.0"
-            prefHeight="600.0">
+            minWidth="800.0"
+            minHeight="600.0">
 
     <!-- Título Superior -->
     <top>
@@ -28,16 +29,20 @@
 
     <!-- Contenido Central: Menú + Video Preview -->
     <center>
-        <HBox spacing="50" alignment="CENTER">
+        <HBox spacing="50" alignment="CENTER" fillHeight="true">
             <padding>
-                <Insets left="40" right="40"/>
+                <Insets left="40" right="40" top="20" bottom="20"/>
             </padding>
 
             <!-- Panel Izquierdo: Botones del Menú -->
-            <VBox spacing="20" alignment="CENTER" styleClass="contenedor-botones">
+            <VBox spacing="20" alignment="CENTER" styleClass="contenedor-botones" fillWidth="true">
+                <HBox.hgrow>
+                    <Priority fx:constant="SOMETIMES"/>
+                </HBox.hgrow>
                 <Button fx:id="botonUnJugador"
                         text="1 jugador"
                         styleClass="boton-menu"
+                        maxWidth="Infinity"
                         onAction="#accionUnJugador"
                         onMouseEntered="#hoverUnJugador"
                         onMouseExited="#salirHover"/>
@@ -45,6 +50,7 @@
                 <Button fx:id="botonDosJugadores"
                         text="2 jugadores"
                         styleClass="boton-menu"
+                        maxWidth="Infinity"
                         onAction="#accionDosJugadores"
                         onMouseEntered="#hoverDosJugadores"
                         onMouseExited="#salirHover"/>
@@ -52,6 +58,7 @@
                 <Button fx:id="botonModoConstructor"
                         text="Modo constructor"
                         styleClass="boton-menu"
+                        maxWidth="Infinity"
                         onAction="#accionModoConstructor"
                         onMouseEntered="#hoverModoConstructor"
                         onMouseExited="#salirHover"/>
@@ -59,17 +66,16 @@
 
             <!-- Panel Derecho: Video Preview -->
             <StackPane styleClass="contenedor-video"
-                       prefWidth="400.0"
-                       prefHeight="300.0">
+                       minWidth="300.0"
+                       minHeight="225.0">
+                <HBox.hgrow>
+                    <Priority fx:constant="ALWAYS"/>
+                </HBox.hgrow>
                 <MediaView fx:id="mediaView"
-                           fitWidth="380.0"
-                           fitHeight="280.0"
                            preserveRatio="true"
                            styleClass="media-view"
                            visible="true"/>
                 <ImageView fx:id="imageView"
-                           fitWidth="380.0"
-                           fitHeight="280.0"
                            preserveRatio="true"
                            styleClass="image-view"
                            visible="false"/>
@@ -77,12 +83,16 @@
         </HBox>
     </center>
 
-    <!-- Footer: Botón Acerca de -->
+    <!-- Footer: Botones Pantalla Completa y Acerca de -->
     <bottom>
-        <HBox alignment="CENTER_RIGHT">
+        <HBox spacing="20" alignment="CENTER">
             <padding>
-                <Insets bottom="30" right="30"/>
+                <Insets bottom="30" left="30" right="30"/>
             </padding>
+            <Button fx:id="botonPantallaCompleta"
+                    text="Pantalla Completa [F11]"
+                    styleClass="boton-secundario"
+                    onAction="#accionPantallaCompleta"/>
             <Button text="Acerca de"
                     styleClass="boton-secundario"
                     onAction="#accionAcercaDe"/>

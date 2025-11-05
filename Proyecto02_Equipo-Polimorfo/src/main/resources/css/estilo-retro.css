@@ -15,7 +15,7 @@
 
 .contenedor-principal {
     -fx-background-color: #000000;
-    -fx-padding: 40px;
+    -fx-padding: 20px;
 }
 
 .titulo-principal {
@@ -44,6 +44,8 @@
     -fx-background-radius: 0;
     -fx-border-radius: 0;
     -fx-min-width: 250px;
+    -fx-max-width: 400px;
+    -fx-pref-width: 250px;
     -fx-alignment: center;
 }
 

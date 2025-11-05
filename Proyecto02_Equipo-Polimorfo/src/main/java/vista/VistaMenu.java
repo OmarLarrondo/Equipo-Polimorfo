@@ -59,12 +59,13 @@ public class VistaMenu {
 
     /**
      * Construye la escena a partir del contenido raíz y aplica los estilos.
+     * La escena se crea sin dimensiones fijas para permitir responsividad.
      *
      * @param raiz Contenedor raíz del FXML
      * @return Scene configurada
      */
     private Scene construirEscena(Parent raiz) {
-        Scene escena = new Scene(raiz, ANCHO_VENTANA, ALTO_VENTANA);
+        Scene escena = new Scene(raiz);
         aplicarEstilos(escena);
         aplicarAnimacionInicial(raiz);
         return escena;

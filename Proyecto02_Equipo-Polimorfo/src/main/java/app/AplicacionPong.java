@@ -20,6 +20,7 @@ public class AplicacionPong extends Application {
 
     private GestorEscenas gestorEscenas;
     private FachadaJuego fachadaJuego;
+    private Stage escenarioPrincipal;
 
     /**
      * Método de inicialización ejecutado antes de start().
@@ -39,6 +40,7 @@ public class AplicacionPong extends Application {
      */
     @Override
     public void start(Stage escenarioPrincipal) {
+        this.escenarioPrincipal = escenarioPrincipal;
         configurarEscenario(escenarioPrincipal);
         inicializarGestorEscenas(escenarioPrincipal);
         inicializarVistaMenu();
@@ -69,7 +71,7 @@ public class AplicacionPong extends Application {
         escenario.setTitle(TITULO_APLICACION);
         escenario.setMinWidth(ANCHO_MINIMO);
         escenario.setMinHeight(ALTO_MINIMO);
-        escenario.setResizable(false);
+        escenario.setResizable(true);
 
         escenario.setOnCloseRequest(evento -> {
             System.out.println("Cerrando aplicación...");
@@ -118,6 +120,33 @@ public class AplicacionPong extends Application {
         if (gestorEscenas != null) {
             gestorEscenas.limpiarCache();
         }
+    }
+
+    /**
+     * Alterna el modo de pantalla completa del escenario principal.
+     * Implementa programación funcional aplicando la transformación de estado.
+     */
+    public void alternarPantallaCompleta() {
+        aplicarCambioEstadoPantallaCompleta(escenarioPrincipal);
+    }
+
+    /**
+     * Aplica el cambio de estado de pantalla completa al Stage.
+     * Función pura que transforma el estado actual al opuesto.
+     *
+     * @param stage Stage al que aplicar el cambio
+     */
+    private void aplicarCambioEstadoPantallaCompleta(Stage stage) {
+        stage.setFullScreen(!stage.isFullScreen());
+    }
+
+    /**
+     * Obtiene el Stage principal de la aplicación.
+     *
+     * @return Stage principal
+     */
+    public Stage obtenerEscenarioPrincipal() {
+        return escenarioPrincipal;
     }
 
     /**

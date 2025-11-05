@@ -5,9 +5,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
 import modelo.FachadaJuego;
 import util.CargadorRecursos;
 import util.GestorVideos;
@@ -47,6 +50,9 @@ public class ControladorMenu {
 
     @FXML
     private Button botonModoConstructor;
+
+    @FXML
+    private Button botonPantallaCompleta;
 
     @FXML
     private MediaView mediaView;
@@ -98,6 +104,106 @@ public class ControladorMenu {
         cargarTodosLosVideos();
         determinarModoVisualizacion();
         iniciarVisualizacionInicial();
+        configurarAtajosTeclado();
+        configurarBindingsResponsivos();
+    }
+
+    /**
+     * Configura los atajos de teclado para la pantalla completa.
+     * F11 para alternar, ESC para salir de pantalla completa.
+     */
+    private void configurarAtajosTeclado() {
+        mediaView.sceneProperty().addListener((observable, oldScene, newScene) ->
+            Optional.ofNullable(newScene)
+                    .ifPresent(escena ->
+                        escena.setOnKeyPressed(this::manejarAtajoTeclado)
+                    )
+        );
+    }
+
+    /**
+     * Configura bindings responsivos para MediaView e ImageView.
+     * Escala los elementos proporcionalmente con el tamaño de la ventana.
+     */
+    private void configurarBindingsResponsivos() {
+        mediaView.sceneProperty().addListener((observable, oldScene, newScene) ->
+            Optional.ofNullable(newScene)
+                    .ifPresent(this::aplicarBindingsEscalado)
+        );
+    }
+
+    /**
+     * Aplica los bindings de escalado a las vistas de media e imagen.
+     *
+     * @param escena Scene de referencia para los bindings
+     */
+    private void aplicarBindingsEscalado(javafx.scene.Scene escena) {
+        vincularDimensionesMediaView(escena);
+        vincularDimensionesImageView(escena);
+    }
+
+    /**
+     * Vincula las dimensiones del MediaView con la escena.
+     * Usa un factor de escala del 40% del ancho y 45% del alto de la escena.
+     *
+     * @param escena Scene de referencia
+     */
+    private void vincularDimensionesMediaView(javafx.scene.Scene escena) {
+        mediaView.fitWidthProperty().bind(
+            escena.widthProperty().multiply(0.40)
+        );
+        mediaView.fitHeightProperty().bind(
+            escena.heightProperty().multiply(0.45)
+        );
+    }
+
+    /**
+     * Vincula las dimensiones del ImageView con la escena.
+     * Usa un factor de escala del 40% del ancho y 45% del alto de la escena.
+     *
+     * @param escena Scene de referencia
+     */
+    private void vincularDimensionesImageView(javafx.scene.Scene escena) {
+        imageView.fitWidthProperty().bind(
+            escena.widthProperty().multiply(0.40)
+        );
+        imageView.fitHeightProperty().bind(
+            escena.heightProperty().multiply(0.45)
+        );
+    }
+
+    /**
+     * Maneja los eventos de teclado para atajos de pantalla completa.
+     *
+     * @param evento Evento de teclado
+     */
+    private void manejarAtajoTeclado(KeyEvent evento) {
+        procesarTecla(evento.getCode());
+    }
+
+    /**
+     * Procesa la tecla presionada y ejecuta la acción correspondiente.
+     *
+     * @param tecla Código de la tecla presionada
+     */
+    private void procesarTecla(KeyCode tecla) {
+        if (tecla == KeyCode.F11) {
+            aplicarAlternanciaFullScreen(gestorEscenas);
+        } else if (tecla == KeyCode.ESCAPE) {
+            aplicarSalidaFullScreen(gestorEscenas);
+        }
+    }
+
+    /**
+     * Sale del modo pantalla completa si está activo.
+     *
+     * @param gestor Gestor de escenas con acceso al Stage
+     */
+    private void aplicarSalidaFullScreen(GestorEscenas gestor) {
+        Optional.ofNullable(gestor)
+                .map(GestorEscenas::obtenerEscenarioPrincipal)
+                .filter(Stage::isFullScreen)
+                .ifPresent(stage -> stage.setFullScreen(false));
     }
 
     /**
@@ -276,6 +382,38 @@ public class ControladorMenu {
     @FXML
     private void accionAcercaDe(ActionEvent evento) {
         System.out.println("Mostrando información del juego...");
+    }
+
+    /**
+     * Maneja el evento de clic en el botón "Pantalla Completa".
+     * Alterna entre modo ventana y pantalla completa.
+     *
+     * @param evento Evento de acción
+     */
+    @FXML
+    private void accionPantallaCompleta(ActionEvent evento) {
+        aplicarAlternanciaFullScreen(gestorEscenas);
+    }
+
+    /**
+     * Aplica la alternancia de pantalla completa al Stage.
+     * Función que transforma el estado de fullscreen.
+     *
+     * @param gestor Gestor de escenas con acceso al Stage
+     */
+    private void aplicarAlternanciaFullScreen(GestorEscenas gestor) {
+        Optional.ofNullable(gestor)
+                .map(GestorEscenas::obtenerEscenarioPrincipal)
+                .ifPresent(this::alternarEstadoFullScreen);
+    }
+
+    /**
+     * Alterna el estado de pantalla completa del Stage.
+     *
+     * @param stage Stage a modificar
+     */
+    private void alternarEstadoFullScreen(Stage stage) {
+        stage.setFullScreen(!stage.isFullScreen());
     }
 
     /**
