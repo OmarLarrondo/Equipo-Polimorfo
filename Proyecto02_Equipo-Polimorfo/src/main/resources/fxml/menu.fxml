@@ -90,7 +90,7 @@
                 <Insets bottom="30" left="30" right="30"/>
             </padding>
             <Button fx:id="botonPantallaCompleta"
-                    text="Pantalla Completa [F11]"
+                    text="Pantalla Completa [P]"
                     styleClass="boton-secundario"
                     onAction="#accionPantallaCompleta"/>
             <Button text="Acerca de"

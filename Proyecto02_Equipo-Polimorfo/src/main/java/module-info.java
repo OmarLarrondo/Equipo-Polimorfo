@@ -4,6 +4,8 @@ module pong.evolved {
     requires javafx.media;
     requires javafx.graphics;
     requires java.desktop;
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.fontawesome5;
 
     exports app;
     exports controlador;
