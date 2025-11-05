@@ -1,5 +1,12 @@
 package modelo.state.estados;
 
+/*
+ * COMENTADO TEMPORALMENTE PARA PERMITIR COMPILACIÓN DEL FRONTEND
+ * Depende de otros estados que también están comentados
+ * Descomentar cuando el backend esté completo
+ */
+
+/*
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import modelo.state.contexto.ContextoJuego;
@@ -7,7 +14,7 @@ import modelo.state.contexto.ContextoJuego;
 /**
  * Representa el estado final del juego (pantalla de resultados).
  * Muestra quién ganó y permite volver al menú principal o reiniciar.
- */
+ *‎/
 public class EstadoFinJuego implements EstadoJuego {
 
     private int ganador;
@@ -24,7 +31,7 @@ public class EstadoFinJuego implements EstadoJuego {
         System.out.println("Ganador: Jugador " + ganador);
         System.out.println("Puntaje final: " + puntajeFinal);
         System.out.println("Presiona ENTER para volver al menú o ESC para salir.");
-        
+
         // contexto.getModeloJuego().detenerMusica();
     }
 
@@ -62,3 +69,4 @@ public class EstadoFinJuego implements EstadoJuego {
         }
     }
 }
+*/

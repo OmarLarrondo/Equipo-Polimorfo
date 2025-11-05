@@ -1,5 +1,12 @@
 package modelo.state.estados;
 
+/*
+ * COMENTADO TEMPORALMENTE PARA PERMITIR COMPILACIÓN DEL FRONTEND
+ * Depende de EstadoJugando que también está comentado
+ * Descomentar cuando el backend esté completo
+ */
+
+/*
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import modelo.state.contexto.ContextoJuego;
@@ -8,7 +15,7 @@ import modelo.state.contexto.ContextoJuego;
  * Representa el estado en que el juego está pausado.
  * No actualiza la lógica del juego, pero espera una entrada
  * del usuario para reanudarlo o salir al menú principal.
- */
+ *‎/
 
 public class EstadoPausado implements EstadoJuego {
 
@@ -42,10 +49,10 @@ public class EstadoPausado implements EstadoJuego {
             int codigoTecla = eventoTeclado.getKeyCode();
 
             // Si se presiona ENTER, P o ESC, reanudar el juego
-            if (codigoTecla == KeyEvent.VK_ENTER 
-                    || codigoTecla == KeyEvent.VK_P 
+            if (codigoTecla == KeyEvent.VK_ENTER
+                    || codigoTecla == KeyEvent.VK_P
                     || codigoTecla == KeyEvent.VK_ESCAPE) {
-                    
+
                 // Recuperaf el contexto a través de la fuente del evento
                 Object source = eventoTeclado.getSource();
                 if (source instanceof ContextoJuego contexto) {
@@ -57,3 +64,4 @@ public class EstadoPausado implements EstadoJuego {
         }
     }
 }
+*/

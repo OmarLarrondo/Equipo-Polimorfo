@@ -1,5 +1,12 @@
 package modelo.state.estados;
 
+/*
+ * COMENTADO TEMPORALMENTE PARA PERMITIR COMPILACIÓN DEL FRONTEND
+ * El backend tiene métodos faltantes en modelo.ControladorJuego
+ * Descomentar cuando el backend esté completo
+ */
+
+/*
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import modelo.ControladorJuego;
@@ -8,7 +15,7 @@ import modelo.state.contexto.ContextoJuego;
 /**
  * Representa el estado en el que el juego está activo (los jugadores están jugando).
  * Se encarga de actualizar la lógica del juego y procesar las entradas del jugador.
- */
+ *‎/
 public class EstadoJugando implements EstadoJuego {
 
     private ControladorJuego controladorJuego;
@@ -58,3 +65,4 @@ public class EstadoJugando implements EstadoJuego {
         }
     }
 }
+*/
