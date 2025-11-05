@@ -1,5 +1,6 @@
 package modelo.sistema_usuario.patron_decorator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DecoradorLogros extends DecoradorUsuario{
@@ -7,19 +8,24 @@ public class DecoradorLogros extends DecoradorUsuario{
 
     public DecoradorLogros(ComponenteUsuario usuarioDecorado) {
         super(usuarioDecorado);
-        //TODO Auto-generated constructor stub
+        this.logros = new ArrayList<>();
     }
 
     public void agregarLogro(Logro logro){
-        //aqui va su codigo
+        if(logro != null){
+            logros.add(logro);
+        }
         
     }
     public String obtenerDescripcion(){
-        //aqui va su codigo
-        return null;
+        String descripcionBase = usuarioDecorado.obtenerDescripcion();
+        if (logros.isEmpty()) {
+            return descripcionBase + " | Sin logros aún";
+        } else {
+            return descripcionBase + " | Logros obtenidos: " + logros.size();
+        }
     }
     public List<Logro> obtenerLogros(){
-        //aqui va su codigo 
-        return null;
+        return new ArrayList<>(logros);
     }
 }

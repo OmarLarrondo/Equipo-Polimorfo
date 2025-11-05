@@ -7,16 +7,13 @@ public abstract class DecoradorUsuario implements ComponenteUsuario{
         this.usuarioDecorado = usuarioDecorado;
     }
     public String obtenerDescripcion(){
-        return null;
-        //aqui va su codigo 
+        return usuarioDecorado.obtenerDescripcion();
     } 
     public int obtenerNivel(){
-        //aqui va su codigo
-        return 0;
+        return usuarioDecorado.obtenerNivel();
     }
     public int obtenerExperiencia(){
-        //aqui va su codigo
-        return 0;
+        return usuarioDecorado.obtenerExperiencia();
     } 
     
 }

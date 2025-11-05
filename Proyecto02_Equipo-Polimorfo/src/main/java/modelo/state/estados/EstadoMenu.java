@@ -4,6 +4,10 @@ import java.awt.event.InputEvent;
 import controlador.ControladorMenu;
 import modelo.state.contexto.ContextoJuego;
 
+/**
+ * Representa el estado del juego en el que se muestra el menú principal.
+ * Este estado maneja la lógica y las entradas relacionadas con el menú.
+ */
 public class EstadoMenu implements EstadoJuego {
 
     private ControladorMenu controladorMenu;
@@ -14,25 +18,26 @@ public class EstadoMenu implements EstadoJuego {
 
     @Override
     public void entrar(ContextoJuego contexto) {
-        // aqui va su codigo
+        // Se ejecuta al entrar en el estado de menú.
+        System.out.println("Entrando al estado de Menú...");
+        controladorMenu.mostrarMenu();       // Muestra el menú principal
+        controladorMenu.reiniciarOpciones(); // Reinicia la selección del menú
     }
 
     @Override
     public void actualizar(double tiempoDelta) {
-        // aqui va su codigo 
-        
+        controladorMenu.actualizar(tiempoDelta);
     }
 
     @Override
     public void salir(ContextoJuego contexto) {
-        // aqui va su codigo 
-        
+        System.out.println("Saliendo del estado de Menú...");
+        controladorMenu.ocultarMenu(); // Oculta los elementos del menú
     }
 
     @Override
     public void manejarEntrada(InputEvent entrada) {
-        // aqui va su codigo 
-        
+        // Delegamos la entrada al controlador del menú
+        controladorMenu.procesarEntrada(entrada);
     }
-    
 }
