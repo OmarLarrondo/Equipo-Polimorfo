@@ -4,6 +4,9 @@ import java.nio.channels.Pipe;
 import java.util.List;
 
 import modelo.factory.*;
+import modelo.nucleo_juego.patron_composite.Bloque;
+import modelo.nucleo_juego.patron_composite.Paleta;
+import modelo.nucleo_juego.patron_composite.Pelota;
 import modelo.singleton.GestorPrototiposPaleta;
 
 

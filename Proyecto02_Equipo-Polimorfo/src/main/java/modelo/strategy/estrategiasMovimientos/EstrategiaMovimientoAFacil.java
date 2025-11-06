@@ -1,8 +1,8 @@
 package modelo.strategy.estrategiasMovimientos;
 
 import modelo.Direccion;
-import modelo.Paleta;
-import modelo.Pelota;
+import modelo.nucleo_juego.patron_composite.Paleta;
+import modelo.nucleo_juego.patron_composite.Pelota;
 
 public class EstrategiaMovimientoAFacil implements EstrategiaMovimiento {
 

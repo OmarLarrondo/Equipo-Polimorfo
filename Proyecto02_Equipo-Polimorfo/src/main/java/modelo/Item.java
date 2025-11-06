@@ -1,4 +1,4 @@
-package modelo.nucleo_juego.items;
+package modelo;
 
 import modelo.nucleo_juego.patron_composite.ObjetoJuego;
 

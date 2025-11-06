@@ -1,5 +1,5 @@
 package modelo.nucleo_juego.controlador;
 
-public class ControladorPerfil {
+public class si {
     
 }

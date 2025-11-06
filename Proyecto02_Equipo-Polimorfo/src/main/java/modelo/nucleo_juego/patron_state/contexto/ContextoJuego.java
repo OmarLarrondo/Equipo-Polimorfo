@@ -1,8 +1,9 @@
-package modelo.state.contexto;
+package modelo.nucleo_juego.patron_state.contexto;
 
 import java.awt.event.InputEvent;
-import modelo.state.estados.EstadoJuego;
+
 import modelo.ModeloJuego;
+import modelo.nucleo_juego.patron_state.estados.EstadoJuego;
 
 /**
  * El contexto del patrón State. Administra el estado actual del juego

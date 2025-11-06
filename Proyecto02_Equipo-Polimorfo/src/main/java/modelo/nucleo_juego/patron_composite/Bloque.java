@@ -1,4 +1,6 @@
-package modelo;
+package modelo.nucleo_juego.patron_composite;
+
+import modelo.Bloques;
 
 /**
  * Alias de Bloques para compatibilidad con código existente.

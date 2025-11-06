@@ -1,9 +1,9 @@
 package modelo.strategy.estrategiasMovimientos;
 
 import modelo.Adapter.AdaptadorEntrada;
+import modelo.nucleo_juego.patron_composite.Paleta;
+import modelo.nucleo_juego.patron_composite.Pelota;
 import modelo.Direccion;
-import modelo.Paleta;
-import modelo.Pelota;
 
 public class EstrategiaMovimientoJugador implements EstrategiaMovimiento {
 

@@ -1,7 +1,8 @@
-package modelo.state.estados;
+package modelo.nucleo_juego.patron_state.estados;
 
 import java.awt.event.InputEvent;
-import modelo.state.contexto.ContextoJuego;
+
+import modelo.nucleo_juego.patron_state.contexto.ContextoJuego;
 
 /**
  * La interfaz {@code EstadoJuego} define el comportamiento general de los estados

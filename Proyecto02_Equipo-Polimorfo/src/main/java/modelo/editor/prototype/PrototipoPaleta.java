@@ -1,7 +1,8 @@
 package modelo.editor.prototype;
 
 import java.util.Map;
-import modelo.Paleta;
+
+import modelo.nucleo_juego.patron_composite.Paleta;
 
 public class PrototipoPaleta {
     private Map<String, Paleta> prototipos;

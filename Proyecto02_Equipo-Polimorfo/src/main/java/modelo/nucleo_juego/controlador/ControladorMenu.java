@@ -1,4 +1,4 @@
-package controlador;
+package modelo.nucleo_juego.controlador;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,11 +17,9 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import modelo.nucleo_juego.patron_facade.FachadaJuego;
 
 import org.kordamp.ikonli.javafx.FontIcon;
-
-import fachada.FachadaJuego;
-
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import util.CargadorRecursos;
 import util.GestorVideos;

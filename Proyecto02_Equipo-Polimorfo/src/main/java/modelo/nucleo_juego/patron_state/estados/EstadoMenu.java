@@ -1,4 +1,4 @@
-package modelo.state.estados;
+package modelo.nucleo_juego.patron_state.estados;
 
 /*
  * COMENTADO TEMPORALMENTE PARA PERMITIR COMPILACIÓN DEL FRONTEND

@@ -1,4 +1,10 @@
-package modelo;
+package modelo.nucleo_juego.patron_composite;
+
+import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import modelo.editor.prototype.ConfigPaleta;
+import modelo.strategy.estrategiasMovimientos.EstrategiaMovimiento;
 
 /**
  * Representa una paleta controlada por el jugador o la IA.
@@ -9,6 +15,10 @@ package modelo;
 public class Paleta extends ObjetoJuego {
 
     private double velocidad;
+    private Color color;
+    private boolean tieneEspinas;
+    private EstrategiaMovimiento estrategiaMovimiento;
+    private ConfigPaleta estadoOriginal;
 
     public Paleta(double x, double y, double ancho, double alto) {
         super(x, y, ancho, alto);
@@ -33,5 +43,37 @@ public class Paleta extends ObjetoJuego {
 
     public void establecerVelocidad(double velocidad) {
         this.velocidad = velocidad;
+    }
+
+    public void agregarEspina(){
+        //aqui va su codigo
+    }
+    public void eliminarEspinas(){
+        //aqui va su codig     
+    }
+    public void redimensionar(double nuevoAncho){
+        //aqui va su codigo
+    }
+
+
+    @Override
+    public Rectangle2D obtenerLimites() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerLimites'");
+    }
+
+    @Override
+    public void dibujar(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dibujar'");
+    }
+    public Paleta clonar(){
+
+    }
+    public void guardarEstado(){
+
+    }
+    public void restaurarEstado(){
+        
     }
 }

@@ -1,6 +1,6 @@
-package modelo.strategy.estrategiaColision.estrategias;
+package modelo.nucleo_juego.patron_strategy_colision.estrategias;
 
-import modelo.ObjetoJuego;
+import modelo.nucleo_juego.patron_composite.ObjetoJuego;
 
 /**
  * La interfaz {@code EstrategiaColision} define el contrato para las estrategias

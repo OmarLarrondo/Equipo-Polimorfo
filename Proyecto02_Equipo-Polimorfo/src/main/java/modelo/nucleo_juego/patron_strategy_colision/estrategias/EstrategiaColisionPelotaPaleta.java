@@ -1,8 +1,8 @@
-package modelo.strategy.estrategiaColision.estrategias;
+package modelo.nucleo_juego.patron_strategy_colision.estrategias;
 
-import modelo.ObjetoJuego;
-import modelo.Pelota;
-import modelo.Paleta;
+import modelo.nucleo_juego.patron_composite.ObjetoJuego;
+import modelo.nucleo_juego.patron_composite.Paleta;
+import modelo.nucleo_juego.patron_composite.Pelota;
 
 public class EstrategiaColisionPelotaPaleta implements EstrategiaColision{
 

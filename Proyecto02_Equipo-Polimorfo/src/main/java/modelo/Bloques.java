@@ -1,5 +1,7 @@
 package modelo;
 
+import modelo.nucleo_juego.patron_composite.ObjetoJuego;
+
 /**
  * Representa un bloque en el campo de juego que puede ser destruido
  * por la pelota.

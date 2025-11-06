@@ -1,10 +1,10 @@
 package vista;
 
-import controlador.ControladorMenu;
 import javafx.animation.FadeTransition;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.util.Duration;
+import modelo.nucleo_juego.controlador.ControladorMenu;
 import util.CargadorRecursos;
 
 import java.util.Optional;

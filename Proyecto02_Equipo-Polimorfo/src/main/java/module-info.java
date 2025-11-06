@@ -8,11 +8,11 @@ module pong.evolved {
     requires org.kordamp.ikonli.fontawesome5;
 
     exports app;
-    exports controlador;
+    exports modelo.nucleo_juego.controlador;
     exports vista;
     exports modelo;
     exports util;
 
-    opens controlador to javafx.fxml;
+    opens modelo.nucleo_juego.controlador to javafx.fxml;
     opens vista to javafx.fxml;
 }

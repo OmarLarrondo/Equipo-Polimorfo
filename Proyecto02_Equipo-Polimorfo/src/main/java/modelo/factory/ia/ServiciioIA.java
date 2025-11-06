@@ -2,8 +2,8 @@ package modelo.factory.ia;
 
 import modelo.strategy.estrategiasMovimientos.EstrategiaMovimiento;
 import modelo.Direccion;
-import modelo.Paleta;
-import modelo.Pelota;
+import modelo.nucleo_juego.patron_composite.Paleta;
+import modelo.nucleo_juego.patron_composite.Pelota;
 
 public class ServiciioIA {
     private FabricaIA fabricaIA;

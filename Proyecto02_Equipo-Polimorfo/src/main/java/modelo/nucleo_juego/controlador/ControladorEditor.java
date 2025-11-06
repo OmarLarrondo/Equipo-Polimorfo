@@ -1,4 +1,4 @@
-package controlador;
+package modelo.nucleo_juego.controlador;
 
 public class ControladorEditor {
     

@@ -1,7 +1,7 @@
-package fachada;
+package modelo.nucleo_juego.patron_facade;
 
 import java.util.List;
-import modelo.state.estados.EstadoJuego;
+
 import modelo.singleton.GestorPuntajes;
 import modelo.singleton.Puntaje;
 import modelo.ControladorJuego;
@@ -10,6 +10,7 @@ import modelo.editor.niveles.FabricaNiveles;
 import modelo.editor.niveles.Nivel;
 import modelo.factory.ConfigNivel;
 import modelo.factory.ia.ServiciioIA;
+import modelo.nucleo_juego.patron_state.estados.EstadoJuego;
 import modelo.sistema_usuario.patron_decorator.Usuario;
 import modelo.sistema_usuario.servicios_de_autenticacion.ServicioAutenticacion;
 

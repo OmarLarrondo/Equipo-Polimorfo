@@ -1,7 +1,7 @@
 package modelo.editor.prototype;
 
 import javafx.scene.paint.Color;
-import modelo.Paleta;
+import modelo.nucleo_juego.patron_composite.Paleta;
 
 public class ConfigPaleta {
     private double ancho; 

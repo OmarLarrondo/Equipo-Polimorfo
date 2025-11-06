@@ -1,4 +1,7 @@
-package modelo;
+package modelo.nucleo_juego.patron_composite;
+
+import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
 
 /**
  * Clase base abstracta para todos los objetos del juego
@@ -31,21 +34,27 @@ public abstract class ObjetoJuego {
         return y;
     }
 
+    //AGREGAR AL DIAGRAMA
     public double obtenerAncho() {
         return ancho;
     }
 
+    //AGREGAR AL DIAGRAMA
     public double obtenerAlto() {
         return alto;
     }
 
+    //AGREGAR AL DIAGRAMA
     public boolean estaActivo() {
         return activo;
     }
 
+    //AGREGAR AL DIAGRAMA
     public void establecerActivo(boolean activo) {
         this.activo = activo;
     }
 
     public abstract void actualizar(double deltaTime);
+    public abstract Rectangle2D obtenerLimites();
+    public abstract void dibujar(GraphicsContext gc);
 }

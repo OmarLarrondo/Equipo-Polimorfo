@@ -3,7 +3,7 @@ package modelo.editor.niveles;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Bloques;
-import modelo.Bloque;
+import modelo.nucleo_juego.patron_composite.Bloque;
 
 public class Nivel {
     private String id;

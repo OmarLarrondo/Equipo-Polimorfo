@@ -1,10 +1,10 @@
 package vista;
 
-import controlador.ControladorSeleccionDificultad;
 import javafx.animation.FadeTransition;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.util.Duration;
+import modelo.nucleo_juego.controlador.ControladorSeleccionDificultad;
 import util.CargadorRecursos;
 
 import java.util.Optional;

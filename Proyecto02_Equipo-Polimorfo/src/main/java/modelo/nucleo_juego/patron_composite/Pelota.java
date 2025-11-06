@@ -1,4 +1,7 @@
-package modelo;
+package modelo.nucleo_juego.patron_composite;
+
+import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
 
 /**
  * Representa la pelota del juego Pong.
@@ -25,27 +28,46 @@ public class Pelota extends ObjetoJuego {
         y += velocidadY * deltaTime;
     }
 
+    //AGREGAR AL DIAGRAMA
     public double obtenerVelocidadX() {
         return velocidadX;
     }
 
+    //AGREGAR AL DIAGRAMA
     public double obtenerVelocidadY() {
         return velocidadY;
     }
 
+    //AGREGAR AL DIAGRAMA
     public void establecerVelocidadX(double velocidadX) {
         this.velocidadX = velocidadX;
     }
-
+    //AGREGAR AL DIAGRAMA
     public void establecerVelocidadY(double velocidadY) {
         this.velocidadY = velocidadY;
     }
-
+    //AGREGAR AL DIAGRAMA
     public void invertirX() {
         velocidadX = -velocidadX;
     }
-
+    //AGREGAR AL DIAGRAMA
     public void invertirY() {
         velocidadY = -velocidadY;
+    }
+    public void reiniciar(){
+        //aqui vasu codigo
+    }
+    
+
+    @Override
+    public Rectangle2D obtenerLimites() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerLimites'");
+    }
+
+    @Override
+    public void dibujar(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dibujar'");
     }
 }
