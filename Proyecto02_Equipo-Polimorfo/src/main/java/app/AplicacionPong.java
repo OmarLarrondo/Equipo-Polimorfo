@@ -23,6 +23,7 @@ public class AplicacionPong extends Application {
     private GestorEscenas gestorEscenas;
     private FachadaJuego fachadaJuego;
     private Stage escenarioPrincipal;
+    private ControladorSeleccionDificultad controladorDificultad;
 
     /**
      * Método de inicialización ejecutado antes de start().
@@ -110,15 +111,17 @@ public class AplicacionPong extends Application {
      * Inicializa la vista de seleccion de dificultad y la registra en el gestor.
      */
     private void inicializarVistaSeleccionDificultad() {
-        ControladorSeleccionDificultad controlador = new ControladorSeleccionDificultad();
-        controlador.establecerGestorEscenas(gestorEscenas);
+        controladorDificultad = new ControladorSeleccionDificultad();
+        controladorDificultad.establecerGestorEscenas(gestorEscenas);
 
         if (fachadaJuego != null) {
-            controlador.establecerFachadaJuego(fachadaJuego);
+            controladorDificultad.establecerFachadaJuego(fachadaJuego);
         }
 
-        VistaSeleccionDificultad vista = new VistaSeleccionDificultad(controlador);
+        VistaSeleccionDificultad vista = new VistaSeleccionDificultad(controladorDificultad);
         gestorEscenas.registrarEscena("seleccion-dificultad", vista.obtenerEscena());
+        gestorEscenas.registrarCallbackPreMostrar("seleccion-dificultad",
+                () -> controladorDificultad.reiniciarEstado());
     }
 
     /**
