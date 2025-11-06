@@ -353,9 +353,9 @@ public class ControladorMenu {
      */
     @FXML
     private void accionUnJugador(ActionEvent evento) {
-        System.out.println("Iniciando modo 1 jugador...");
+        System.out.println("Navegando a seleccion de dificultad...");
         Optional.ofNullable(gestorEscenas)
-                .ifPresent(gestor -> gestor.mostrarJuego());
+                .ifPresent(gestor -> gestor.mostrarSeleccionDificultad());
     }
 
     /**

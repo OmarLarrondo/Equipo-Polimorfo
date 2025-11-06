@@ -1,11 +1,13 @@
 package app;
 
 import controlador.ControladorMenu;
+import controlador.ControladorSeleccionDificultad;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import modelo.FachadaJuego;
 import vista.GestorEscenas;
 import vista.VistaMenu;
+import vista.VistaSeleccionDificultad;
 
 /**
  * Clase principal de la aplicación Pong Evolved.
@@ -44,6 +46,7 @@ public class AplicacionPong extends Application {
         configurarEscenario(escenarioPrincipal);
         inicializarGestorEscenas(escenarioPrincipal);
         inicializarVistaMenu();
+        inicializarVistaSeleccionDificultad();
 
         gestorEscenas.mostrarMenu();
 
@@ -101,6 +104,21 @@ public class AplicacionPong extends Application {
 
         VistaMenu vistaMenu = new VistaMenu(controladorMenu);
         gestorEscenas.registrarEscena("menu", vistaMenu.obtenerEscena());
+    }
+
+    /**
+     * Inicializa la vista de seleccion de dificultad y la registra en el gestor.
+     */
+    private void inicializarVistaSeleccionDificultad() {
+        ControladorSeleccionDificultad controlador = new ControladorSeleccionDificultad();
+        controlador.establecerGestorEscenas(gestorEscenas);
+
+        if (fachadaJuego != null) {
+            controlador.establecerFachadaJuego(fachadaJuego);
+        }
+
+        VistaSeleccionDificultad vista = new VistaSeleccionDificultad(controlador);
+        gestorEscenas.registrarEscena("seleccion-dificultad", vista.obtenerEscena());
     }
 
     /**
