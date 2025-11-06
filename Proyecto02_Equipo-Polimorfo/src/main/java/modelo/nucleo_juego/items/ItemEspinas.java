@@ -1,5 +1,7 @@
 package modelo.nucleo_juego.items;
 
+import java.io.ObjectOutput;
+
 import modelo.nucleo_juego.patron_composite.ObjetoJuego;
 import modelo.nucleo_juego.patron_composite.Paleta;
 
@@ -24,7 +26,7 @@ public class ItemEspinas implements Item{
         return false;
     }
     @Override
-    public void desactivar() {
+    public void desactivar(ObjetoJuego objeto) {
         //Aqui va su codigo
         
     }

@@ -57,6 +57,13 @@ public class Pelota extends ObjetoJuego {
     public void reiniciar(){
         //aqui vasu codigo
     }
+    public double obtenerVelocidad(){
+        return velocidadBase;
+    }
+    public void establecerVelocidadGeneral(double velocidad){
+        establecerVelocidadX(velocidad);
+        establecerVelocidadY(velocidad);
+    }
     
 
     @Override

@@ -25,8 +25,12 @@ public class Paleta extends ObjetoJuego {
         this.velocidad = 400;
     }
 
+    //
     @Override
+    //checar como funciona la duracion del tiempo
     public void actualizar(double deltaTime) {
+        //tiempoRestante - deltaTime;
+        //if(tiempoRestante<=0) restaurarEstado();
     }
 
     public void moverArriba(double deltaTime) {
@@ -68,6 +72,7 @@ public class Paleta extends ObjetoJuego {
         throw new UnsupportedOperationException("Unimplemented method 'dibujar'");
     }
     public Paleta clonar(){
+        //aqui va su codigo
         return null;
 
     }
@@ -75,6 +80,8 @@ public class Paleta extends ObjetoJuego {
 
     }
     public void restaurarEstado(){
-        
+        //aqui va su codig o
+        //falta hacer todo original
+        activo = false;
     }
 }

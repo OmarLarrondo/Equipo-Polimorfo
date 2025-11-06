@@ -23,7 +23,7 @@ public class ItemNeblina implements Item{
         return false;
     }
     @Override
-    public void desactivar() {
+    public void desactivar(ObjetoJuego objeto) {
         //aqui va su codigo
     
     }
