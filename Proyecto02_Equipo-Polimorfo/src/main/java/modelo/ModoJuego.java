@@ -10,11 +10,7 @@ package modelo;
 public enum ModoJuego {
 
     CLASICO,
-
-    BREAKOUT,
-
-    UN_JUGADOR,
-
+    
     DOS_JUGADORES,
 
     CONTRA_IA,

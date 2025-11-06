@@ -2,7 +2,7 @@ package modelo.factory;
 
 import java.util.Map;
 
-import modelo.factory.niveles.TipoNivel;
+import modelo.editor.niveles.TipoNivel;
 
 public class ConfigNivel {
     private TipoNivel tipoNivel;

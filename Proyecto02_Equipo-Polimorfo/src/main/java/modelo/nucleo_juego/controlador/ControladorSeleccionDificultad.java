@@ -1,4 +1,6 @@
-package controlador;
+package modelo.nucleo_juego.controlador;
+
+//AGREGARALDIAGRAMA. CREO
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -10,7 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import modelo.FachadaJuego;
+import modelo.nucleo_juego.patron_facade.FachadaJuego;
 import vista.GestorEscenas;
 
 import java.util.Arrays;

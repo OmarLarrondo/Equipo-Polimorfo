@@ -4,7 +4,7 @@ import java.util.Map;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
-import modelo.prototype.ConfigPaleta;
+import modelo.editor.prototype.ConfigPaleta;
 import modelo.sistema_usuario.patron_decorator.ComponenteUsuario;
 import modelo.sistema_usuario.patron_decorator.Usuario;
 import modelo.sistema_usuario.patron_decorator.DecoradorLogros;

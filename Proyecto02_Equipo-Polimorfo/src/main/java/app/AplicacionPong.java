@@ -2,9 +2,9 @@ package app;
 
 import controlador.ControladorMenu;
 import controlador.ControladorSeleccionDificultad;
+import fachada.FachadaJuego;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import modelo.FachadaJuego;
 import vista.GestorEscenas;
 import vista.VistaMenu;
 import vista.VistaSeleccionDificultad;

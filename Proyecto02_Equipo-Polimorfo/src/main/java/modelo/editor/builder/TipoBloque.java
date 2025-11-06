@@ -1,4 +1,4 @@
-package modelo.builder;
+package modelo.editor.builder;
 
 /**
  * La enumeración {@code TipoBloque} define los distintos tipos de bloques

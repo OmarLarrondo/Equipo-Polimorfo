@@ -1,4 +1,4 @@
-package modelo.prototype;
+package modelo.editor.prototype;
 
 import java.util.Map;
 import modelo.Paleta;

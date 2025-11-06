@@ -1,4 +1,4 @@
-package main.java.controlador;
+package controlador;
 
 public class ControladorPerfil {
     

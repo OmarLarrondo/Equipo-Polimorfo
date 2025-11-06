@@ -1,10 +1,10 @@
-package modelo.builder;
+package modelo.editor.builder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import modelo.Bloques;
-import modelo.factory.niveles.Nivel;
+import modelo.editor.niveles.Nivel;
 
 /**
  * Clase que aplica el patrón Builder para construir niveles
@@ -24,7 +24,7 @@ public class ConstructorMapa implements BuilderNivel {
      */
     public ConstructorMapa reiniciar() {
         this.nivel = new Nivel();
-        this.nivel.setNombres("Nivel sin nombre");
+        this.nivel.setNombre("Nivel sin nombre");
         this.nivel.setDificultad(1);
         this.bloques = new ArrayList<>();
         return this;
@@ -38,7 +38,7 @@ public class ConstructorMapa implements BuilderNivel {
      * @return el mismo constructor (para encadenamiento)
      */
     public ConstructorMapa establecerNombre(String nombre) {
-        this.nivel.setNombres(nombre);
+        this.nivel.setNombre(nombre);
         return this;
     }
 

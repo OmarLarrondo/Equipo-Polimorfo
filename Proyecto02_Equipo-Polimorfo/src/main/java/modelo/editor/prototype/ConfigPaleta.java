@@ -1,4 +1,4 @@
-package modelo.prototype;
+package modelo.editor.prototype;
 
 import javafx.scene.paint.Color;
 import modelo.Paleta;

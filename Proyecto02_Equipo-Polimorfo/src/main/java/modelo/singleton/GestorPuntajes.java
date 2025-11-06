@@ -2,6 +2,8 @@ package modelo.singleton;
 
 import java.util.List;
 
+import persistencia.ServicioPersistencia;
+
 public class GestorPuntajes {
     private GestorPuntajes instancia;
     private List<Puntaje> puntajesAltos;

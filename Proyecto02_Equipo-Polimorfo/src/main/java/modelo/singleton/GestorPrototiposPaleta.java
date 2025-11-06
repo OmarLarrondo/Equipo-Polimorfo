@@ -2,7 +2,7 @@ package modelo.singleton;
 
 import java.util.List;
 import modelo.Paleta;
-import modelo.prototype.PrototipoPaleta;
+import modelo.editor.prototype.PrototipoPaleta;
 
 public class GestorPrototiposPaleta {
     private GestorPrototiposPaleta instancia;

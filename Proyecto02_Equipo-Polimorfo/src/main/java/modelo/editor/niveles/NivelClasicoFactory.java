@@ -1,4 +1,4 @@
-package modelo.factory.niveles;
+package modelo.editor.niveles;
 
 import modelo.Bloques;
 import modelo.factory.ConfigNivel;

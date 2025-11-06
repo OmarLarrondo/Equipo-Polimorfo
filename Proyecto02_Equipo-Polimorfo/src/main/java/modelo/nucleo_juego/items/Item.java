@@ -1,4 +1,6 @@
-package modelo;
+package modelo.nucleo_juego.items;
+
+import modelo.nucleo_juego.patron_composite.ObjetoJuego;
 
 /**
  * Representa un item o power-up que puede aparecer durante el juego.

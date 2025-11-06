@@ -1,4 +1,4 @@
-package modelo.factory.niveles;
+package modelo.editor.niveles;
 
 /**
  * Enumeración que representa los diferentes tipos de niveles disponibles.

@@ -1,6 +1,6 @@
-package modelo.builder;
+package modelo.editor.builder;
 
-import modelo.factory.niveles.Nivel;
+import modelo.editor.niveles.Nivel;
 
 public interface BuilderNivel {
     BuilderNivel reiniciar();

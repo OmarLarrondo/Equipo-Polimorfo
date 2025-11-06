@@ -1,7 +1,8 @@
 package modelo.sistema_usuario.patron_decorator;
 
 import java.time.LocalDateTime;
-import modelo.prototype.ConfigPaleta;
+
+import modelo.editor.prototype.ConfigPaleta;
 
 public class Usuario implements ComponenteUsuario{
     private String id;

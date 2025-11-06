@@ -1,4 +1,4 @@
-package modelo.factory.niveles;
+package modelo.editor.niveles;
 
 import java.util.ArrayList;
 import java.util.List;
