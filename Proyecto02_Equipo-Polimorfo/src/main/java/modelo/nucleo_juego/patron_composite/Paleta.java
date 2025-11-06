@@ -68,6 +68,7 @@ public class Paleta extends ObjetoJuego {
         throw new UnsupportedOperationException("Unimplemented method 'dibujar'");
     }
     public Paleta clonar(){
+        return null;
 
     }
     public void guardarEstado(){

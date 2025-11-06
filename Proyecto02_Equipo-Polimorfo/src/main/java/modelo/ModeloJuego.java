@@ -3,6 +3,7 @@ package modelo;
 import java.nio.channels.Pipe;
 import java.util.List;
 
+import modelo.editor.niveles.Nivel;
 import modelo.factory.*;
 import modelo.nucleo_juego.patron_composite.Bloque;
 import modelo.nucleo_juego.patron_composite.Paleta;
@@ -63,9 +64,12 @@ public class ModeloJuego {
     public void incrementarPuntaje(int jugador, int puntos){
         //aqui va us codigo
     }
+    /** 
     public DatosEstadoJuego obtenerEstado(){
+        return null;
         //Aqui va su codigo
     }
+        */
     public void inicializarPaletasDesdePrototipos(String nombreProto, String nombreProto2){
         //aqui va us codigo 
     }

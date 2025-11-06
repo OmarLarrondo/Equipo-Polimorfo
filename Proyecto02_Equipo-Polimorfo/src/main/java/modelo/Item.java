@@ -1,5 +1,7 @@
 package modelo;
 
+import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
 import modelo.nucleo_juego.patron_composite.ObjetoJuego;
 
 /**
@@ -33,5 +35,17 @@ public class Item extends ObjetoJuego {
         PALETA_REDUCIDA,
         MULTI_BOLA,
         VIDA_EXTRA
+    }
+
+    @Override
+    public Rectangle2D obtenerLimites() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerLimites'");
+    }
+
+    @Override
+    public void dibujar(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dibujar'");
     }
 }

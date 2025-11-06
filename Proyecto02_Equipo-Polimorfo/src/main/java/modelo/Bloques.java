@@ -1,5 +1,7 @@
 package modelo;
 
+import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
 import modelo.nucleo_juego.patron_composite.ObjetoJuego;
 
 /**
@@ -37,5 +39,17 @@ public class Bloques extends ObjetoJuego {
 
     public int obtenerPuntos() {
         return puntos;
+    }
+
+    @Override
+    public Rectangle2D obtenerLimites() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerLimites'");
+    }
+
+    @Override
+    public void dibujar(GraphicsContext gc) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dibujar'");
     }
 }
