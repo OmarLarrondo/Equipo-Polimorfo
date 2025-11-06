@@ -4,10 +4,10 @@ import java.util.List;
 import modelo.state.estados.EstadoJuego;
 import modelo.singleton.GestorPuntajes;
 import modelo.singleton.Puntaje;
-import modelo.factory.Nivel;
 import modelo.factory.ConfigNivel;
-import modelo.factory.FabricaNiveles;
 import modelo.factory.ia.ServiciioIA;
+import modelo.factory.niveles.FabricaNiveles;
+import modelo.factory.niveles.Nivel;
 import modelo.sistema_usuario.patron_decorator.Usuario;
 import modelo.sistema_usuario.servicios_de_autenticacion.ServicioAutenticacion;
 

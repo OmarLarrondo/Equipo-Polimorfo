@@ -5,7 +5,7 @@ import modelo.Paleta;
 import modelo.prototype.PrototipoPaleta;
 
 public class GestorPrototiposPaleta {
-    private static GestorPrototiposPaleta instancia;
+    private GestorPrototiposPaleta instancia;
     private PrototipoPaleta prototipos;
 
     private GestorPrototiposPaleta(PrototipoPaleta prototipos) {

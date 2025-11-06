@@ -2,6 +2,8 @@ package modelo.factory;
 
 import java.util.Map;
 
+import modelo.factory.niveles.TipoNivel;
+
 public class ConfigNivel {
     private TipoNivel tipoNivel;
     private int dificultad;
@@ -10,27 +12,56 @@ public class ConfigNivel {
     private Map<String, String> prototiposPaletas;
 
     public TipoNivel obtenerTipoNivel(){
-        //aqui va su codigo
-        return null;
+        return tipoNivel;
     }
     public int obtenerDificultad(){
-        //aqui va su codigo
-        return 0;
+        return dificultad;
     }
     public String obtenerPatron(){
-        //aqui va su codigo
-        return null;
+        return patron;
     }
     public DatosMapa obtenerDatosMaoa(){
-        //aqui va su codigo
-        return null;
+        return datosMapa;
     }
+
+
+    //FALTA
     public void establecerPrototipoPaleta(String jugador, String nombrePrototipo){
         //aqui va su codigo
     }
     public String obtenerPrototipoPaleta(String jugador){
-        //aqui va su codigo
-        return null;
+        return prototiposPaletas.get(jugador);
     }
+    public TipoNivel getTipoNivel() {
+        return tipoNivel;
+    }
+    public void setTipoNivel(TipoNivel tipoNivel) {
+        this.tipoNivel = tipoNivel;
+    }
+    public int getDificultad() {
+        return dificultad;
+    }
+    public void setDificultad(int dificultad) {
+        this.dificultad = dificultad;
+    }
+    public String getPatron() {
+        return patron;
+    }
+    public void setPatron(String patron) {
+        this.patron = patron;
+    }
+    public DatosMapa getDatosMapa() {
+        return datosMapa;
+    }
+    public void setDatosMapa(DatosMapa datosMapa) {
+        this.datosMapa = datosMapa;
+    }
+    public Map<String, String> getPrototiposPaletas() {
+        return prototiposPaletas;
+    }
+    public void setPrototiposPaletas(Map<String, String> prototiposPaletas) {
+        this.prototiposPaletas = prototiposPaletas;
+    }
+    
     
 }

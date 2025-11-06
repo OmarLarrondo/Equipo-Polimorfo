@@ -2,8 +2,9 @@ package modelo.builder;
 
 import java.util.ArrayList;
 import java.util.List;
-import modelo.factory.Nivel;
+
 import modelo.Bloques;
+import modelo.factory.niveles.Nivel;
 
 /**
  * Clase que aplica el patrón Builder para construir niveles
@@ -11,7 +12,7 @@ import modelo.Bloques;
  * @author Equipo-polimorfo
  * @version 1.0
  */
-public class ConstructorMapa {
+public class ConstructorMapa implements BuilderNivel {
     private Nivel nivel;
     private List<Bloques> bloques;
     
@@ -23,9 +24,12 @@ public class ConstructorMapa {
      */
     public ConstructorMapa reiniciar() {
         this.nivel = new Nivel();
+        this.nivel.setNombres("Nivel sin nombre");
+        this.nivel.setDificultad(1);
         this.bloques = new ArrayList<>();
         return this;
     }
+
 
     /**
      * Asigna el nombre del nivel.
@@ -93,6 +97,16 @@ public class ConstructorMapa {
     public ConstructorMapa agregarBloqueIndestructible(double x, double y) {
         return agregarBloque(x, y, TipoBloque.INDESTRUCTIBLE);
     }
+    /**
+     * Agregar un bloque bonus y las x,y son
+     * @param x
+     * @param y
+     * @return
+     */
+    public ConstructorMapa agregarBloqueBonus(double x, double y) {
+        return agregarBloque(x, y, TipoBloque.BONUS);
+    }
+
 
     /**
      * Agrega un patrón de bloques predefinido

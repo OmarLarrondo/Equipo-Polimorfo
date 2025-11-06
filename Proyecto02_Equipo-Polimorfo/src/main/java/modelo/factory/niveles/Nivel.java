@@ -1,34 +1,58 @@
-package modelo.factory;
+package modelo.factory.niveles;
 
+import java.util.ArrayList;
 import java.util.List;
 import modelo.Bloques;
 import modelo.Bloque;
 
 public class Nivel {
     private String id;
-    private String nombres;
+    private String nombre;
     private List<Bloques> bloques;
     private int dificultad;
     private boolean mapaPersonalizado;
     private String creador;
     
 
-    public void  agregarBloque(Bloque bloque){
-        //aqu va su codigo
+    public void  agregarBloque(Bloques bloque){
+        if(bloque == null){
+            throw new IllegalArgumentException("Error, el bloque no puuede ser null.");
+        }
+        bloques.add(bloque);
     }
     public void  eliminarBloque(Bloque bloque){
-        //aqui va us codfigo 
+        if(bloque == null){
+            throw new IllegalArgumentException("Estas eliminando un bloque null.");
+        }
+        bloques.remove(bloque); 
     }
-    public List<Bloque> obtenerBloques(){
-        //aqui va su codigo 
-        return null;
+    public List<Bloques> obtenerBloques(){
+        if(bloques.isEmpty()){
+            return new ArrayList<>();
+        }
+        return bloques;
     }
+
+    //MMMMM, UN PONG COMPLETADO XD? O QUE 
     public boolean estaCompletado(){
         //aqui va us codigo
+        //creo que no hace falta , porque ya quitamos el breakout
         return false;
     }
+
     public void reiniciar(){
-        // aqui ba su codigo
+        //Se reincia desde 0.
+        id = null;
+        nombre = null;
+        dificultad = 0;
+        mapaPersonalizado = false;
+        creador = null;
+
+        if(bloques.isEmpty()){
+            bloques = new ArrayList<>();
+        }else{
+            bloques.clear();;
+        }        
     }
     public String getId() {
         return id;
@@ -36,11 +60,11 @@ public class Nivel {
     public void setId(String id) {
         this.id = id;
     }
-    public String getNombres() {
-        return nombres;
+    public String getNombre() {
+        return nombre;
     }
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
     public List<Bloques> getBloques() {
         return bloques;

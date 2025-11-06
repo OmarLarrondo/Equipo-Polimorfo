@@ -1,6 +1,6 @@
 package modelo.builder;
 
-import modelo.factory.Nivel;
+import modelo.factory.niveles.Nivel;
 
 public class DirectorNiveles {
     private ConstructorMapa constructor;
@@ -14,6 +14,15 @@ public class DirectorNiveles {
                         .establecerNombre("Nivel Fácil")
                         .establecerDificultad(1)
                         .agregarPatronBloques(50, 50)
+                        .construir();
+    }
+
+    public Nivel construirNivelMedio() {
+        return constructor.reiniciar()
+                        .establecerNombre("Nivel Medio")
+                        .establecerDificultad(2)
+                        .agregarBloqueIndestructible(50, 25)
+                        .agregarPatronBloques(50, 100)
                         .construir();
     }
 

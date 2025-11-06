@@ -1,4 +1,4 @@
-package modelo.factory;
+package modelo.factory.niveles;
 
 /**
  * Enumeración que representa los diferentes tipos de niveles disponibles.
@@ -9,8 +9,6 @@ package modelo.factory;
 public enum TipoNivel {
 
     CLASICO,
-
-    BREAKOUT,
 
     PERSONALIZADO,
 
