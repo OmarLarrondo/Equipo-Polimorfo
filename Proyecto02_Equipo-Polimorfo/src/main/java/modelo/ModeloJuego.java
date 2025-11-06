@@ -4,11 +4,11 @@ import java.nio.channels.Pipe;
 import java.util.List;
 
 import modelo.editor.niveles.Nivel;
-import modelo.factory.*;
+import modelo.gestion_ia.patron_factory.*;
 import modelo.nucleo_juego.patron_composite.Bloque;
 import modelo.nucleo_juego.patron_composite.Paleta;
 import modelo.nucleo_juego.patron_composite.Pelota;
-import modelo.singleton.GestorPrototiposPaleta;
+import modelo.ui_uix.singleton.GestorPrototiposPaleta;
 
 
 /**

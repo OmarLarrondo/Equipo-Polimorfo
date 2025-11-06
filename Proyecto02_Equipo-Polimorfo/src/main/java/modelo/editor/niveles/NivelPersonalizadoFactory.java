@@ -1,6 +1,6 @@
 package modelo.editor.niveles;
 
-import modelo.factory.ConfigNivel;
+import modelo.gestion_ia.patron_factory.ConfigNivel;
 
 public class NivelPersonalizadoFactory implements NivelFactory{
 

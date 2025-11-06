@@ -3,9 +3,9 @@ package modelo.editor.niveles;
 import java.util.List;
 
 import modelo.Bloques;
-import modelo.factory.ConfigNivel;
-import modelo.factory.DatosMapa;
-import modelo.singleton.GestorPrototiposPaleta;
+import modelo.gestion_ia.patron_factory.ConfigNivel;
+import modelo.gestion_ia.patron_factory.DatosMapa;
+import modelo.ui_uix.singleton.GestorPrototiposPaleta;
 
 public class FabricaNiveles {
     private GestorPrototiposPaleta gestorPrototipos;

@@ -4,8 +4,8 @@ import java.util.List;
 
 import modelo.editor.niveles.Nivel;
 import modelo.nucleo_juego.patron_state.estados.EstadoJuego;
-import modelo.singleton.Puntaje;
 import modelo.sistema_usuario.patron_decorator.Usuario;
+import modelo.ui_uix.singleton.Puntaje;
 
 /**
  * Servicio para persistir y cargar datos del juego.

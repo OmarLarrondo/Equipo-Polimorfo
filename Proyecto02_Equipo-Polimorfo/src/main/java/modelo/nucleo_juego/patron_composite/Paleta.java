@@ -4,7 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import modelo.editor.prototype.ConfigPaleta;
-import modelo.strategy.estrategiasMovimientos.EstrategiaMovimiento;
+import modelo.gestion_ia.patron_strategy.estrategiasMovimientos.EstrategiaMovimiento;
 
 /**
  * Representa una paleta controlada por el jugador o la IA.

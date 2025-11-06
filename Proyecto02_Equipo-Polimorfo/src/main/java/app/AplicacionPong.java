@@ -5,9 +5,9 @@ import javafx.stage.Stage;
 import modelo.nucleo_juego.controlador.ControladorMenu;
 import modelo.nucleo_juego.controlador.ControladorSeleccionDificultad;
 import modelo.nucleo_juego.patron_facade.FachadaJuego;
+import modelo.ui_uix.vistas_mvc_javafx.VistaMenu;
+import modelo.ui_uix.vistas_mvc_javafx.VistaSeleccionDificultad;
 import vista.GestorEscenas;
-import vista.VistaMenu;
-import vista.VistaSeleccionDificultad;
 
 /**
  * Clase principal de la aplicación Pong Evolved.

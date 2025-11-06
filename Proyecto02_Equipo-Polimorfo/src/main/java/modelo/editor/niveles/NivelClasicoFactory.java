@@ -1,7 +1,7 @@
 package modelo.editor.niveles;
 
 import modelo.Bloques;
-import modelo.factory.ConfigNivel;
+import modelo.gestion_ia.patron_factory.ConfigNivel;
 
 public class NivelClasicoFactory implements NivelFactory {
 

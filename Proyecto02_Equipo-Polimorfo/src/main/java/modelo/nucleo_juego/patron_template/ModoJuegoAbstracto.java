@@ -2,7 +2,7 @@ package modelo.nucleo_juego.patron_template;
 
 import modelo.ControladorJuego;
 import modelo.ModeloJuego;
-import modelo.singleton.GestorPuntajes;
+import modelo.ui_uix.singleton.GestorPuntajes;
 
 public abstract class ModoJuegoAbstracto {
     protected ModeloJuego modeloJuego;
