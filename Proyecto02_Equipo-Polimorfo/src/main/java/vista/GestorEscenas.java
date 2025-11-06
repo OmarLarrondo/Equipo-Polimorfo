@@ -19,6 +19,7 @@ public class GestorEscenas {
     private static final String ESCENA_EDITOR = "editor";
     private static final String ESCENA_PERFIL = "perfil";
     private static final String ESCENA_LOGIN = "login";
+    private static final String ESCENA_SELECCION_DIFICULTAD = "seleccion-dificultad";
 
     private final Stage escenarioPrincipal;
     private final Map<String, Scene> escenas;
@@ -128,6 +129,14 @@ public class GestorEscenas {
     public void mostrarLogin() {
         cambiarEscena(ESCENA_LOGIN);
         escenaActual = ESCENA_LOGIN;
+    }
+
+    /**
+     * Muestra el panel de seleccion de dificultad de IA.
+     */
+    public void mostrarSeleccionDificultad() {
+        cambiarEscena(ESCENA_SELECCION_DIFICULTAD);
+        escenaActual = ESCENA_SELECCION_DIFICULTAD;
     }
 
     /**

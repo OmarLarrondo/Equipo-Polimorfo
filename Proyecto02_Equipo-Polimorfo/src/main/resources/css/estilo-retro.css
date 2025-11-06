@@ -217,3 +217,95 @@
 .boton-cerrar-dialogo:hover .icono-return {
     -fx-icon-color: #000000;
 }
+
+/* Estilos para el panel de seleccion de dificultad */
+.panel-radial {
+    -fx-background-color: #000000;
+}
+
+.boton-central {
+    -fx-background-color: #000000;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: 'Press Start 2P', monospace;
+    -fx-font-size: 16px;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 4px;
+    -fx-border-style: solid;
+    -fx-padding: 25px 35px;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.4), 12, 0.5, 0, 0);
+}
+
+.boton-central:hover {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-border-color: #FFFFFF;
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.8), 15, 0.6, 0, 0);
+}
+
+.boton-central:pressed {
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: #000000;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+.boton-nivel {
+    -fx-background-color: #000000;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: 'Press Start 2P', monospace;
+    -fx-font-size: 14px;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 3px;
+    -fx-border-style: solid;
+    -fx-padding: 15px 20px;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+    -fx-max-width: 60px;
+    -fx-max-height: 60px;
+    -fx-alignment: center;
+}
+
+.boton-nivel:hover {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-border-color: #FFFFFF;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.6), 10, 0.5, 0, 0);
+}
+
+.boton-nivel:pressed {
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: #000000;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+.boton-nivel-seleccionado {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.8), 15, 0.7, 0, 0);
+}
+
+.boton-nivel-seleccionado:hover {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-border-color: #FFFFFF;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.boton-continuar {
+    -fx-min-width: 200px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.4), 10, 0.5, 0, 0);
+}
