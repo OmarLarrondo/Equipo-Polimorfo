@@ -1,5 +1,7 @@
 package modelo;
 
+import java.awt.event.InputEvent;
+
 /**
  * Controlador principal del juego que gestiona el bucle de juego
  * y coordina los diferentes componentes del modelo.
@@ -29,5 +31,8 @@ public class ControladorJuego {
     }
 
     public void actualizar(double deltaTime) {
+    }
+    public void procesarEntrada(InputEvent entrada){
+        
     }
 }

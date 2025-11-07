@@ -1,24 +1,19 @@
 package modelo.nucleo_juego.patron_state.estados;
 
-/*
- * COMENTADO TEMPORALMENTE PARA PERMITIR COMPILACIÓN DEL FRONTEND
- * El backend tiene métodos faltantes en modelo.ControladorJuego
- * Descomentar cuando el backend esté completo
- */
-
-/*
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import modelo.ControladorJuego;
-import modelo.state.contexto.ContextoJuego;
+import modelo.nucleo_juego.patron_state.contexto.ContextoJuego;
 
 /**
  * Representa el estado en el que el juego está activo (los jugadores están jugando).
  * Se encarga de actualizar la lógica del juego y procesar las entradas del jugador.
- *‎/
+ */
 public class EstadoJugando implements EstadoJuego {
 
     private ControladorJuego controladorJuego;
+
+    private ContextoJuego contexto;
 
     public EstadoJugando(ControladorJuego controladorJuego) {
         this.controladorJuego = controladorJuego;
@@ -27,7 +22,7 @@ public class EstadoJugando implements EstadoJuego {
     @Override
     public void entrar(ContextoJuego contexto) {
         System.out.println("Entrando al estado Jugando...");
-        controladorJuego.iniciarJuego();
+        controladorJuego.iniciar();
     }
 
     @Override
@@ -38,7 +33,8 @@ public class EstadoJugando implements EstadoJuego {
     @Override
     public void salir(ContextoJuego contexto) {
         System.out.println("Saliendo del estado Jugando...");
-        controladorJuego.detenerJuego();
+        this.contexto = contexto;
+        controladorJuego.detener();
     }
 
     @Override
@@ -50,7 +46,6 @@ public class EstadoJugando implements EstadoJuego {
                 case KeyEvent.VK_P:
                 case KeyEvent.VK_ESCAPE:
                     System.out.println("Juego en pausa");
-
                     contexto.establecerEstado(new EstadoPausado(this));
                     break;
 
@@ -65,4 +60,3 @@ public class EstadoJugando implements EstadoJuego {
         }
     }
 }
-*/

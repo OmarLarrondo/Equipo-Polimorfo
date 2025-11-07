@@ -1,20 +1,13 @@
 package modelo.nucleo_juego.patron_state.estados;
 
-/*
- * COMENTADO TEMPORALMENTE PARA PERMITIR COMPILACIÓN DEL FRONTEND
- * Depende de otros estados que también están comentados
- * Descomentar cuando el backend esté completo
- */
-
-/*
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import modelo.state.contexto.ContextoJuego;
+import modelo.nucleo_juego.patron_state.contexto.ContextoJuego;
 
 /**
  * Representa el estado final del juego (pantalla de resultados).
  * Muestra quién ganó y permite volver al menú principal o reiniciar.
- *‎/
+ */
 public class EstadoFinJuego implements EstadoJuego {
 
     private int ganador;
@@ -37,14 +30,14 @@ public class EstadoFinJuego implements EstadoJuego {
 
     @Override
     public void actualizar(double tiempoDelta) {
-        throw new IllegalStateException("No se puede actulizar, mientras esta en estado pausado");
+        throw new IllegalStateException("No se puede actualizar mientras está en estado final");
     }
 
     @Override
     public void salir(ContextoJuego contexto) {
         // Limpia recursos o prepara el cambio de estado
         System.out.println("Saliendo del estado de fin de juego...");
-        //se deberia limpiar los recursos
+        // se debería limpiar los recursos
     }
 
     @Override
@@ -62,6 +55,7 @@ public class EstadoFinJuego implements EstadoJuego {
                     System.out.println("Saliendo del juego...");
                     System.exit(0);
                     break;
+
                 default:
                     // Ignora otras teclas
                     break;
@@ -69,4 +63,3 @@ public class EstadoFinJuego implements EstadoJuego {
         }
     }
 }
-*/

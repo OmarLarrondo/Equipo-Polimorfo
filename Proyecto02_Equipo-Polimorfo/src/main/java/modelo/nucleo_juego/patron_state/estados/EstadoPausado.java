@@ -1,25 +1,17 @@
 package modelo.nucleo_juego.patron_state.estados;
 
-/*
- * COMENTADO TEMPORALMENTE PARA PERMITIR COMPILACIÓN DEL FRONTEND
- * Depende de EstadoJugando que también está comentado
- * Descomentar cuando el backend esté completo
- */
-
-/*
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import modelo.state.contexto.ContextoJuego;
+import modelo.nucleo_juego.patron_state.contexto.ContextoJuego;
 
 /**
  * Representa el estado en que el juego está pausado.
  * No actualiza la lógica del juego, pero espera una entrada
  * del usuario para reanudarlo o salir al menú principal.
- *‎/
-
+ */
 public class EstadoPausado implements EstadoJuego {
 
-    private  EstadoJuego estadoPrevio;
+    private EstadoJuego estadoPrevio;
 
     public EstadoPausado(EstadoJuego estadoPrevio) {
         this.estadoPrevio = estadoPrevio;
@@ -28,18 +20,17 @@ public class EstadoPausado implements EstadoJuego {
     @Override
     public void entrar(ContextoJuego contexto) {
         System.out.println("Juego en pausa");
-        //se deberia llamar a contecto y a sus metoodos para detener el tiempo etc
-        //contexto.getModeloJuego()
+        // Aquí se podrían detener temporizadores, animaciones o sonidos
     }
 
     @Override
     public void actualizar(double tiempoDelta) {
-        throw new IllegalStateException("No se puede actulizar, mientras esta en estado pausado");
+        throw new IllegalStateException("No se puede actualizar mientras está en estado pausado");
     }
 
     @Override
     public void salir(ContextoJuego contexto) {
-        //Aquí  se deberia reanudar sonidos, reiniciar el temporizador, etc.
+        // Reanudar sonidos, temporizadores, animaciones, etc.
         System.out.println("Reanudando el juego...");
     }
 
@@ -53,7 +44,7 @@ public class EstadoPausado implements EstadoJuego {
                     || codigoTecla == KeyEvent.VK_P
                     || codigoTecla == KeyEvent.VK_ESCAPE) {
 
-                // Recuperaf el contexto a través de la fuente del evento
+                // Recuperar el contexto desde la fuente del evento
                 Object source = eventoTeclado.getSource();
                 if (source instanceof ContextoJuego contexto) {
                     contexto.establecerEstado(estadoPrevio);
@@ -64,4 +55,3 @@ public class EstadoPausado implements EstadoJuego {
         }
     }
 }
-*/
