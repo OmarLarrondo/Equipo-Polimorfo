@@ -60,6 +60,7 @@ public class Pelota extends ObjetoJuego {
     public double obtenerVelocidad(){
         return velocidadBase;
     }
+    
     public void establecerVelocidadGeneral(double velocidad){
         establecerVelocidadX(velocidad);
         establecerVelocidadY(velocidad);
@@ -77,4 +78,19 @@ public class Pelota extends ObjetoJuego {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'dibujar'");
     }
+    //AGREGAR AL DIAGRAAM
+    public void restaurarEstado(){
+        //aqui va su codig o
+        //falta hacer todo original
+        activo = false;
+    }
+
+    public Pelota clonar() {
+    Pelota copia = new Pelota(obtenerX(), obtenerY(), obtenerAncho() / 2);
+    copia.velocidadX = this.velocidadX;
+    copia.velocidadY = this.velocidadY;
+    copia.velocidadBase = this.velocidadBase;
+    return copia;
+}
+
 }

@@ -8,33 +8,46 @@ public class ItemRedimensionarPaleta implements Item {
     private double duracion;
     private boolean activo;
 
+    private double anchoOriginal;
+    private double altoOriginal;
+    
+    public ItemRedimensionarPaleta(double multiplicadorTamanio, double duracion) {
+        this.mutiplicadorTamanio = multiplicadorTamanio;
+        this.duracion = duracion;
+        this.activo = false;
+    }
+
+
     @Override
     public void aplicar(ObjetoJuego objeto) {
-        //aqui va su codigo
+        if(activo == true) return;
+
+        if(!(objeto instanceof Paleta p)) throw new IllegalArgumentException("Solo se puede aplicar a paletas.!!!!!!!!!");
+
+        anchoOriginal = p.obtenerAncho();
+        altoOriginal = p.obtenerAlto();
+        double nuevoAncho = anchoOriginal * mutiplicadorTamanio;
+        double nuevoAlto = altoOriginal*mutiplicadorTamanio;
+        p.setAlto(nuevoAlto);
+        p.setAncho(nuevoAncho);
+        activo = true;
 
     }
+
     @Override
     public double obtenerDuracion() {
-        //aqui va su codigo
-        return 0;
+        return duracion;
 
     }
     @Override
     public boolean estaActivo() {
-        //aqui va su codigo
-        return false;
+        return activo;
     }
     @Override
     public void desactivar(ObjetoJuego objeto) {
-        //aqui va su codigo
-    }
-    
-    private void guardarEstadoOriginal(Paleta paleta){
-
-        //aqui va su codigo
-    }
-    
-    private void restaurarEstadoOriginal(Paleta paleta){
-    //aqui va su codigo
-    }
+        if(!(objeto instanceof Paleta p)) throw new IllegalArgumentException("Solo se puede aplicar a paletas.!!!!!!!!!");
+        p.setAlto(altoOriginal);
+        p.setAncho(anchoOriginal);
+        activo = false;
+    }    
 }

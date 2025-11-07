@@ -12,35 +12,44 @@ public class ItemAumentoVelocidad  implements Item{
     private double multiplicadorVelocidad;
     private double duracion;
     private boolean activo;
-    double tiempoRestante = duracion;
+    //AGREGAR AL DIAG
+    private double tiempoRestante;
+
     
+    //AGREAGAR AL DIAMA
+    public ItemAumentoVelocidad(double multiplicadorVelocidad, double duracion, boolean activo, double tiempoRestante) {
+        this.multiplicadorVelocidad = multiplicadorVelocidad;
+        this.duracion = duracion;
+        this.activo = activo;
+        this.tiempoRestante = tiempoRestante;
+    }
+
     @Override
     public void aplicar(ObjetoJuego objeto) {
-        objeto.establecerActivo(activo);
-        if(objeto instanceof Paleta){
-            double velocidadOriginal = ((Paleta)objeto).obtenerVelocidad();
-            ((Paleta)objeto).establecerVelocidad(velocidadOriginal*multiplicadorVelocidad);
+        if(activo) return; //pa no volver aplicar si esta activo el efec, 
+
+        if(objeto instanceof Paleta paleta){
+            double velocidadOriginal = paleta.obtenerVelocidad();
+            paleta.establecerVelocidad(velocidadOriginal*multiplicadorVelocidad);
+            paleta.establecerActivo(true);
             activo = true;
-            objeto.actualizar(tiempoRestante);
 
             //CHECAR LA DURACION, AUN NO ESAT ESO
             //si la duracion es 0, se manda a desactivar
             desactivar(objeto);
 
         }
-        else if(objeto instanceof Pelota){
-            double velocidadOriginal = ((Pelota)objeto).obtenerVelocidad();
-            ((Pelota)objeto).establecerVelocidadGeneral(velocidadOriginal*multiplicadorVelocidad);
+        else if(objeto instanceof Pelota pelota){
+            double velocidadOriginal = pelota.obtenerVelocidad();
+            pelota.establecerVelocidadGeneral(velocidadOriginal*multiplicadorVelocidad);
+            pelota.establecerActivo(true);
             activo = true;
-            objeto.actualizar(tiempoRestante);
 
-            //CHECAR LA DURACION, AUN NO ESAT ESO
-
-            //si la duracion es 0, se manda a desactivar
-            desactivar(objeto);
+            //CHECAR LA DURACION, Se llamaria cada frame dle juego.
         }else{
             throw new IllegalArgumentException("el objeto dbee ser una paleta o una pelota");
         }
+        tiempoRestante = duracion;
 
         
     }
@@ -53,12 +62,34 @@ public class ItemAumentoVelocidad  implements Item{
         return activo;
     }
     
+
+    public void actualizar(double deltaTiempo, ObjetoJuego objeto){
+        if(!activo) return;
+
+        tiempoRestante -= deltaTiempo;
+        if(tiempoRestante<= 0){
+            desactivar(objeto);
+        }
+    }
+
     //revierte la velocidad
     @Override
     public void desactivar(ObjetoJuego objeto) {
         //objeto
+        if(objeto instanceof Paleta){
+            ((Paleta)objeto).restaurarEstado();
+            ((Paleta)objeto).establecerActivo(false);
+            activo = false;
+        }
+        else if(objeto instanceof Pelota){
+            ((Pelota)objeto).restaurarEstado();
+            ((Pelota)objeto).establecerActivo(false);
+            activo = false;
+        }else{
+            throw new IllegalArgumentException("el objeto debe ser una paleta o una pelota");
+        }
         activo = false;
-
+        tiempoRestante = duracion;
 
     }
 }
