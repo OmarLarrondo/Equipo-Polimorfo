@@ -32,6 +32,7 @@ public class ControladorSeleccionDificultad {
     private static final double DURACION_ANIMACION_MS = 600.0;
     private static final double DELAY_CASCADA_MS = 40.0;
     private static final double ANGULO_INICIAL_GRADOS = -90.0;
+    private static final double MARGEN_SEGURIDAD = 80.0;
 
     @FXML
     private Pane panelRadial;
@@ -154,12 +155,14 @@ public class ControladorSeleccionDificultad {
 
     /**
      * Calcula el radio responsivo basado en el tamano minimo del panel.
+     * Aplica un margen de seguridad para evitar que los botones se corten.
      */
     private void calcularRadioResponsivo() {
         double anchoPanel = panelRadial.getWidth();
         double altoPanel = panelRadial.getHeight();
         double dimensionMinima = Math.min(anchoPanel, altoPanel);
-        radioActual = dimensionMinima > 0 ? dimensionMinima * 0.25 : RADIO_BASE;
+        double dimensionDisponible = Math.max(dimensionMinima - MARGEN_SEGURIDAD, 0);
+        radioActual = dimensionDisponible > 0 ? dimensionDisponible * 0.30 : RADIO_BASE * 0.85;
     }
 
     /**

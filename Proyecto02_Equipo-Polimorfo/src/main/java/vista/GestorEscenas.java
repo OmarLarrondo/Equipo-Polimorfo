@@ -23,6 +23,7 @@ public class GestorEscenas {
 
     private final Stage escenarioPrincipal;
     private final Map<String, Scene> escenas;
+    private final Map<String, Runnable> callbacksPreMostrar;
     private String escenaActual;
 
     /**
@@ -33,15 +34,18 @@ public class GestorEscenas {
     public GestorEscenas(Stage escenarioPrincipal) {
         this.escenarioPrincipal = escenarioPrincipal;
         this.escenas = new HashMap<>();
+        this.callbacksPreMostrar = new HashMap<>();
         this.escenaActual = null;
     }
 
     /**
      * Cambia a una escena específica por su nombre.
+     * Ejecuta el callback pre-mostrar si existe.
      *
      * @param nombreEscena Nombre de la escena a mostrar
      */
     public void cambiarEscena(String nombreEscena) {
+        ejecutarCallbackPreMostrar(nombreEscena);
         obtenerEscena(nombreEscena)
                 .ifPresentOrElse(
                         this::establecerEscena,
@@ -58,6 +62,27 @@ public class GestorEscenas {
     public void registrarEscena(String nombre, Scene escena) {
         Optional.ofNullable(escena)
                 .ifPresent(e -> escenas.put(nombre, e));
+    }
+
+    /**
+     * Registra un callback que se ejecutara antes de mostrar una escena.
+     *
+     * @param nombreEscena Nombre de la escena
+     * @param callback Runnable a ejecutar antes de mostrar la escena
+     */
+    public void registrarCallbackPreMostrar(String nombreEscena, Runnable callback) {
+        Optional.ofNullable(callback)
+                .ifPresent(c -> callbacksPreMostrar.put(nombreEscena, c));
+    }
+
+    /**
+     * Ejecuta el callback pre-mostrar de una escena si existe.
+     *
+     * @param nombreEscena Nombre de la escena
+     */
+    private void ejecutarCallbackPreMostrar(String nombreEscena) {
+        Optional.ofNullable(callbacksPreMostrar.get(nombreEscena))
+                .ifPresent(Runnable::run);
     }
 
     /**
