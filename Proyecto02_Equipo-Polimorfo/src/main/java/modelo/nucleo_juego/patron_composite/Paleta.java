@@ -129,4 +129,7 @@ public class Paleta extends ObjetoJuego {
     public void setAlto(double alto){
         this.alto = alto;
     }
+    public void setVelocidad(double velocidad){
+        this.velocidad = velocidad;
+    }
 }

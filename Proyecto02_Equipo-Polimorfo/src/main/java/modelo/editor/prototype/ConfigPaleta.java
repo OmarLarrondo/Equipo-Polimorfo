@@ -13,7 +13,11 @@ public class ConfigPaleta {
 
 
     public void aplicarA(Paleta paleta){
-        //Aqui va su codigo
+        paleta.setAncho(ancho);
+        paleta.setAlto(alto);
+        paleta.setVelocidad(rapidez);
+        paleta.setColor(colorPrimario);
+        paleta.setCantidadEspinas(cantidadEspinas);
     }
 
 
@@ -73,8 +77,7 @@ public class ConfigPaleta {
     public Color getColor(){
         return colorPrimario;
     }
-
-
+    
     public void setCantidadEspinas(int cantidadDeEspinas) {
         this.cantidadEspinas = cantidadDeEspinas;
     }
