@@ -6,8 +6,14 @@ public class NivelPersonalizadoFactory implements NivelFactory{
 
     @Override
     public Nivel crearNivel(ConfigNivel conf) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'crearNivel'");
+        Nivel nivelPersonalizado = new Nivel();
+        nivelPersonalizado.setNombre("Nivel Personalizado. Nombre: "+ conf.obtenerNombre());
+        nivelPersonalizado.setDificultad(conf.getDificultad());
+        //OBVIO NO?
+        nivelPersonalizado.setMapaPersonalizado(false);
+        nivelPersonalizado.setCreador("Sistema- Equipo-polimorfo");
+
+        return nivelPersonalizado;
     }
     
 }

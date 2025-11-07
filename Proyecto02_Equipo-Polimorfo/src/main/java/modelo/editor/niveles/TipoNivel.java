@@ -10,7 +10,7 @@ public enum TipoNivel {
 
     CLASICO,
 
-    PERSONALIZADO,
+    INTELIGENTE,
 
-    DESAFIO
+    PERSONALIZADO,
 }

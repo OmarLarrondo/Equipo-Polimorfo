@@ -6,13 +6,18 @@ import modelo.Bloques;
 import modelo.nucleo_juego.patron_composite.Bloque;
 
 public class Nivel {
+
+    //HACE FALTA AGREGAR LA PELOTA Y
+
     private String id;
     private String nombre;
     private List<Bloques> bloques;
     private int dificultad;
     private boolean mapaPersonalizado;
     private String creador;
+
     
+
 
     public void  agregarBloque(Bloques bloque){
         if(bloque == null){

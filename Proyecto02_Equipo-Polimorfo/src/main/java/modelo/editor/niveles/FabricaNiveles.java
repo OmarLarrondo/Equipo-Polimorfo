@@ -28,7 +28,7 @@ public class FabricaNiveles {
                 return persoFactory.crearNivel(config);
             }
 
-            //NO SE SI SEGUIRA EL DESAFIO, SI ES QUE SI, AGREGAR CLASE NivelDesafioFactory.
+            //falta INTELIGENTE
 
             default:
                 throw new IllegalArgumentException("Tipo de nivel no soportado: " + tipo);

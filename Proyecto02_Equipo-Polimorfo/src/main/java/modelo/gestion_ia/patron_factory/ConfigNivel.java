@@ -5,11 +5,15 @@ import java.util.Map;
 import modelo.editor.niveles.TipoNivel;
 
 public class ConfigNivel {
+    private String nombre;
     private TipoNivel tipoNivel;
     private int dificultad;
     private String patron;
     private DatosMapa datosMapa;
     private Map<String, String> prototiposPaletas;
+
+    
+    
 
     public TipoNivel obtenerTipoNivel(){
         return tipoNivel;
@@ -22,6 +26,12 @@ public class ConfigNivel {
     }
     public DatosMapa obtenerDatosMaoa(){
         return datosMapa;
+    }
+    public String obtenerNombre(){
+        return nombre;
+    }
+    public void setNombre(String nombre){
+        this.nombre = nombre;
     }
 
 
