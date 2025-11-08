@@ -1,7 +1,8 @@
+package modelo.ui_uix.Adapter;
+
 import javafx.scene.input.KeyCode;
 import java.util.HashSet;
 import java.util.Set;
-import modelo.ui_uix.Adapter.*;
 
 public class AdaptadorEntradaTeclado implements AdaptadorEntrada {
     private Set<KeyCode> teclasPresionadas = new HashSet<>();
