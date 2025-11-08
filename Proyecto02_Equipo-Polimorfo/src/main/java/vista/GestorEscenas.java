@@ -2,6 +2,7 @@ package vista;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import modelo.configuracion.ConfiguracionGlobal;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Optional;
  * Gestor de escenas de la aplicación.
  * Administra la navegación entre las diferentes vistas del juego.
  * Implementa un sistema de caché de escenas para mejorar el rendimiento.
+ * Mantiene sincronizado el estado de pantalla completa usando ConfiguracionGlobal.
  */
 public class GestorEscenas {
 
@@ -24,6 +26,7 @@ public class GestorEscenas {
     private final Stage escenarioPrincipal;
     private final Map<String, Scene> escenas;
     private final Map<String, Runnable> callbacksPreMostrar;
+    private final ConfiguracionGlobal configuracionGlobal;
     private String escenaActual;
 
     /**
@@ -35,6 +38,7 @@ public class GestorEscenas {
         this.escenarioPrincipal = escenarioPrincipal;
         this.escenas = new HashMap<>();
         this.callbacksPreMostrar = new HashMap<>();
+        this.configuracionGlobal = ConfiguracionGlobal.obtenerInstancia();
         this.escenaActual = null;
     }
 
@@ -97,12 +101,41 @@ public class GestorEscenas {
 
     /**
      * Establece una escena como la actual en el escenario principal.
+     * Preserva el estado de pantalla completa después del cambio.
      *
      * @param escena Scene a establecer
      */
     private void establecerEscena(Scene escena) {
         escenarioPrincipal.setScene(escena);
         escenarioPrincipal.show();
+        preservarEstadoPantallaCompleta();
+    }
+
+    /**
+     * Preserva el estado de pantalla completa aplicando la configuración global
+     * al escenario principal después de cambiar de escena.
+     */
+    private void preservarEstadoPantallaCompleta() {
+        boolean estadoDeseado = obtenerEstadoPantallaCompletaGlobal();
+        aplicarPantallaCompletaAlEscenario(estadoDeseado);
+    }
+
+    /**
+     * Obtiene el estado de pantalla completa desde la configuración global.
+     *
+     * @return true si la pantalla completa está activa, false en caso contrario
+     */
+    private boolean obtenerEstadoPantallaCompletaGlobal() {
+        return configuracionGlobal.isPantallaCompleta();
+    }
+
+    /**
+     * Aplica el estado de pantalla completa al escenario principal.
+     *
+     * @param activar true para activar pantalla completa, false para desactivarla
+     */
+    private void aplicarPantallaCompletaAlEscenario(boolean activar) {
+        escenarioPrincipal.setFullScreen(activar);
     }
 
     /**
@@ -200,5 +233,66 @@ public class GestorEscenas {
      */
     public String obtenerNombreEscenaActual() {
         return escenaActual;
+    }
+
+    /**
+     * Alterna el estado de pantalla completa.
+     * Actualiza la configuración global y aplica el cambio al escenario.
+     */
+    public void alternarPantallaCompleta() {
+        ejecutarAlternancia();
+    }
+
+    /**
+     * Ejecuta la alternancia del estado de pantalla completa.
+     */
+    private void ejecutarAlternancia() {
+        actualizarConfiguracionPantallaCompleta();
+        sincronizarPantallaCompletaConEscenario();
+    }
+
+    /**
+     * Actualiza el estado de pantalla completa en la configuración global.
+     */
+    private void actualizarConfiguracionPantallaCompleta() {
+        configuracionGlobal.alternarPantallaCompleta();
+    }
+
+    /**
+     * Sincroniza el estado de pantalla completa del escenario con la configuración global.
+     */
+    private void sincronizarPantallaCompletaConEscenario() {
+        boolean estadoActual = obtenerEstadoPantallaCompletaGlobal();
+        aplicarPantallaCompletaAlEscenario(estadoActual);
+    }
+
+    /**
+     * Sale del modo de pantalla completa.
+     * Desactiva la pantalla completa tanto en la configuración como en el escenario.
+     */
+    public void salirPantallaCompleta() {
+        ejecutarSalidaPantallaCompleta();
+    }
+
+    /**
+     * Ejecuta la salida del modo de pantalla completa.
+     */
+    private void ejecutarSalidaPantallaCompleta() {
+        desactivarPantallaCompletaEnConfiguracion();
+        desactivarPantallaCompletaEnEscenario();
+    }
+
+    /**
+     * Desactiva la pantalla completa en la configuración global.
+     */
+    private void desactivarPantallaCompletaEnConfiguracion() {
+        configuracionGlobal.setPantallaCompleta(false);
+    }
+
+    /**
+     * Desactiva la pantalla completa en el escenario principal.
+     */
+    private void desactivarPantallaCompletaEnEscenario() {
+        aplicarPantallaCompletaAlEscenario(false);
     }
 }

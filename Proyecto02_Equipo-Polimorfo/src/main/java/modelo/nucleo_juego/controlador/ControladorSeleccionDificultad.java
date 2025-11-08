@@ -24,8 +24,9 @@ import java.util.stream.IntStream;
  * Controlador del panel de seleccion de dificultad de IA.
  * Gestiona el menu radial interactivo con animaciones y seleccion de nivel.
  * Implementa el componente Controlador del patron MVC.
+ * Extiende de ControladorBase para heredar funcionalidad común de atajos de teclado.
  */
-public class ControladorSeleccionDificultad {
+public class ControladorSeleccionDificultad extends ControladorBase {
 
     private static final int CANTIDAD_NIVELES = 10;
     private static final double RADIO_BASE = 180.0;
@@ -76,8 +77,6 @@ public class ControladorSeleccionDificultad {
     @FXML
     private Button botonContinuar;
 
-    private FachadaJuego fachadaJuego;
-    private GestorEscenas gestorEscenas;
     private boolean menuDesplegado;
     private Integer nivelSeleccionado;
     private List<Button> botonesNivel;
@@ -93,29 +92,13 @@ public class ControladorSeleccionDificultad {
     }
 
     /**
-     * Establece la fachada del juego.
-     *
-     * @param fachadaJuego Fachada del modelo del juego
-     */
-    public void establecerFachadaJuego(FachadaJuego fachadaJuego) {
-        this.fachadaJuego = fachadaJuego;
-    }
-
-    /**
-     * Establece el gestor de escenas.
-     *
-     * @param gestorEscenas Gestor para cambiar entre escenas
-     */
-    public void establecerGestorEscenas(GestorEscenas gestorEscenas) {
-        this.gestorEscenas = gestorEscenas;
-    }
-
-    /**
      * Inicializa el controlador despues de cargar el FXML.
      */
     @FXML
+    @Override
     public void initialize() {
         inicializarListaBotones();
+        configurarAtajosTecladoPantallaCompleta(panelRadial);
         configurarBindingsResponsivos();
         posicionarBotonCentral();
     }

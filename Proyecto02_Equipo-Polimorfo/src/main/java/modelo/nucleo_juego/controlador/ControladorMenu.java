@@ -37,8 +37,9 @@ import java.util.stream.Collectors;
  * Controlador del menú principal del juego.
  * Gestiona los eventos de los botones y la reproducción de videos preview.
  * Implementa el componente Controlador del patrón MVC.
+ * Extiende de ControladorBase para heredar funcionalidad común de atajos de teclado.
  */
-public class ControladorMenu {
+public class ControladorMenu extends ControladorBase {
 
     private static final String DIRECTORIO_VIDEOS = "videos/";
     private static final String DIRECTORIO_IMAGENES = "imagenes/";
@@ -69,8 +70,6 @@ public class ControladorMenu {
     @FXML
     private ImageView imageView;
 
-    private FachadaJuego fachadaJuego;
-    private GestorEscenas gestorEscenas;
     private Map<String, MediaPlayer> reproductores;
     private Map<String, Image> imagenes;
     private MediaPlayer reproductorActual;
@@ -87,47 +86,17 @@ public class ControladorMenu {
     }
 
     /**
-     * Establece la fachada del juego.
-     *
-     * @param fachadaJuego Fachada del modelo del juego
-     */
-    public void establecerFachadaJuego(FachadaJuego fachadaJuego) {
-        this.fachadaJuego = fachadaJuego;
-    }
-
-    /**
-     * Establece el gestor de escenas.
-     *
-     * @param gestorEscenas Gestor para cambiar entre escenas
-     */
-    public void establecerGestorEscenas(GestorEscenas gestorEscenas) {
-        this.gestorEscenas = gestorEscenas;
-    }
-
-    /**
      * Inicializa el controlador después de cargar el FXML.
      * Intenta cargar videos, si fallan usa imágenes de fallback.
      */
     @FXML
+    @Override
     public void initialize() {
         cargarTodosLosVideos();
         determinarModoVisualizacion();
         iniciarVisualizacionInicial();
-        configurarAtajosTeclado();
+        configurarAtajosTecladoPantallaCompleta(mediaView);
         configurarBindingsResponsivos();
-    }
-
-    /**
-     * Configura los atajos de teclado para la pantalla completa.
-     * P para alternar, ESC para salir de pantalla completa.
-     */
-    private void configurarAtajosTeclado() {
-        mediaView.sceneProperty().addListener((observable, oldScene, newScene) ->
-            Optional.ofNullable(newScene)
-                    .ifPresent(escena ->
-                        escena.setOnKeyPressed(this::manejarAtajoTeclado)
-                    )
-        );
     }
 
     /**
@@ -179,40 +148,6 @@ public class ControladorMenu {
         imageView.fitHeightProperty().bind(
             escena.heightProperty().multiply(0.45)
         );
-    }
-
-    /**
-     * Maneja los eventos de teclado para atajos de pantalla completa.
-     *
-     * @param evento Evento de teclado
-     */
-    private void manejarAtajoTeclado(KeyEvent evento) {
-        procesarTecla(evento.getCode());
-    }
-
-    /**
-     * Procesa la tecla presionada y ejecuta la acción correspondiente.
-     *
-     * @param tecla Código de la tecla presionada
-     */
-    private void procesarTecla(KeyCode tecla) {
-        if (tecla == KeyCode.P) {
-            aplicarAlternanciaFullScreen(gestorEscenas);
-        } else if (tecla == KeyCode.ESCAPE) {
-            aplicarSalidaFullScreen(gestorEscenas);
-        }
-    }
-
-    /**
-     * Sale del modo pantalla completa si está activo.
-     *
-     * @param gestor Gestor de escenas con acceso al Stage
-     */
-    private void aplicarSalidaFullScreen(GestorEscenas gestor) {
-        Optional.ofNullable(gestor)
-                .map(GestorEscenas::obtenerEscenarioPrincipal)
-                .filter(Stage::isFullScreen)
-                .ifPresent(stage -> stage.setFullScreen(false));
     }
 
     /**
@@ -674,28 +609,8 @@ public class ControladorMenu {
      */
     @FXML
     private void accionPantallaCompleta(ActionEvent evento) {
-        aplicarAlternanciaFullScreen(gestorEscenas);
-    }
-
-    /**
-     * Aplica la alternancia de pantalla completa al Stage.
-     * Función que transforma el estado de fullscreen.
-     *
-     * @param gestor Gestor de escenas con acceso al Stage
-     */
-    private void aplicarAlternanciaFullScreen(GestorEscenas gestor) {
-        Optional.ofNullable(gestor)
-                .map(GestorEscenas::obtenerEscenarioPrincipal)
-                .ifPresent(this::alternarEstadoFullScreen);
-    }
-
-    /**
-     * Alterna el estado de pantalla completa del Stage.
-     *
-     * @param stage Stage a modificar
-     */
-    private void alternarEstadoFullScreen(Stage stage) {
-        stage.setFullScreen(!stage.isFullScreen());
+        Optional.ofNullable(gestorEscenas)
+                .ifPresent(GestorEscenas::alternarPantallaCompleta);
     }
 
     /**
