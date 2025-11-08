@@ -7,6 +7,7 @@ import modelo.configuracion.ConfiguracionGlobal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Gestor de escenas de la aplicación.
@@ -232,6 +233,7 @@ public class GestorEscenas {
         String escenaActualTemp = escenaActual;
         escenas.keySet().stream()
                 .filter(nombre -> !nombre.equals(escenaActualTemp))
+                .collect(Collectors.toList())
                 .forEach(escenas::remove);
     }
 
