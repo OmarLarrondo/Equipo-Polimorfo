@@ -8,7 +8,6 @@ import modelo.editor.niveles.FabricaNiveles;
 import modelo.editor.niveles.Nivel;
 import modelo.gestion_ia.patron_factory.ConfigNivel;
 import modelo.gestion_ia.patron_factory.ia.ServiciioIA;
-import modelo.nucleo_juego.patron_state.estados.EstadoJuego;
 import modelo.sistema_usuario.patron_decorator.Usuario;
 import modelo.sistema_usuario.servicios_de_autenticacion.ServicioAutenticacion;
 import modelo.ui_uix.singleton.GestorPuntajes;
@@ -73,16 +72,6 @@ public class FachadaJuego {
      */
     public void guardarJuego() {
         //aqui va su codigo
-    }
-
-    /**
-     * Carga un estado de juego previamente guardado.
-     *
-     * @return el {@link EstadoJuego} restaurado desde donde se guarda
-     */
-    public EstadoJuego cargarJuego() {
-        //aqui va su codigo
-        return null;
     }
 
     /**

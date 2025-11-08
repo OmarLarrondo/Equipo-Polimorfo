@@ -3,7 +3,6 @@ package persistencia;
 import java.util.List;
 
 import modelo.editor.niveles.Nivel;
-import modelo.nucleo_juego.patron_state.estados.EstadoJuego;
 import modelo.sistema_usuario.patron_decorator.Usuario;
 import modelo.ui_uix.singleton.Puntaje;
 
@@ -28,14 +27,6 @@ public class ServicioPersistencia {
         return null;
     }
 
-    public void guardarJuego(EstadoJuego estadoJuego, String nombreArchivo){
-        //aqui va su codigo
-
-    }
-    public EstadoJuego cargarJuego(String nombreArchivo){
-        return null;
-    //aqui va su codigo
-    }
     public void guardarUsuario(Usuario usuario){
         //aqui va su codigo
     }
