@@ -497,11 +497,11 @@ public class ControladorSeleccionDificultad extends ControladorBase {
     }
 
     /**
-     * Navega a la pantalla del juego.
+     * Navega a la pantalla de seleccion de niveles.
      */
     private void navegarAlJuego() {
         Optional.ofNullable(gestorEscenas)
-                .ifPresent(GestorEscenas::mostrarJuego);
+                .ifPresent(GestorEscenas::mostrarSeleccionNiveles);
     }
 
     /**

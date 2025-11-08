@@ -22,6 +22,7 @@ public class GestorEscenas {
     private static final String ESCENA_PERFIL = "perfil";
     private static final String ESCENA_LOGIN = "login";
     private static final String ESCENA_SELECCION_DIFICULTAD = "seleccion-dificultad";
+    private static final String ESCENA_SELECCION_NIVELES = "seleccion-niveles";
 
     private final Stage escenarioPrincipal;
     private final Map<String, Scene> escenas;
@@ -195,6 +196,14 @@ public class GestorEscenas {
     public void mostrarSeleccionDificultad() {
         cambiarEscena(ESCENA_SELECCION_DIFICULTAD);
         escenaActual = ESCENA_SELECCION_DIFICULTAD;
+    }
+
+    /**
+     * Muestra el panel de seleccion de niveles.
+     */
+    public void mostrarSeleccionNiveles() {
+        cambiarEscena(ESCENA_SELECCION_NIVELES);
+        escenaActual = ESCENA_SELECCION_NIVELES;
     }
 
     /**

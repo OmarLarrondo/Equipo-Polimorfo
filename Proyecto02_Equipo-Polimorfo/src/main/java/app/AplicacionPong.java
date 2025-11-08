@@ -4,9 +4,11 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import modelo.nucleo_juego.controlador.ControladorMenu;
 import modelo.nucleo_juego.controlador.ControladorSeleccionDificultad;
+import modelo.nucleo_juego.controlador.ControladorSeleccionNiveles;
 import modelo.nucleo_juego.patron_facade.FachadaJuego;
 import modelo.ui_uix.vistas_mvc_javafx.VistaMenu;
 import modelo.ui_uix.vistas_mvc_javafx.VistaSeleccionDificultad;
+import modelo.ui_uix.vistas_mvc_javafx.VistaSeleccionNiveles;
 import vista.GestorEscenas;
 
 /**
@@ -24,6 +26,7 @@ public class AplicacionPong extends Application {
     private FachadaJuego fachadaJuego;
     private Stage escenarioPrincipal;
     private ControladorSeleccionDificultad controladorDificultad;
+    private ControladorSeleccionNiveles controladorNiveles;
 
     /**
      * Método de inicialización ejecutado antes de start().
@@ -48,6 +51,7 @@ public class AplicacionPong extends Application {
         inicializarGestorEscenas(escenarioPrincipal);
         inicializarVistaMenu();
         inicializarVistaSeleccionDificultad();
+        inicializarVistaSeleccionNiveles();
 
         gestorEscenas.mostrarMenu();
 
@@ -122,6 +126,23 @@ public class AplicacionPong extends Application {
         gestorEscenas.registrarEscena("seleccion-dificultad", vista.obtenerEscena());
         gestorEscenas.registrarCallbackPreMostrar("seleccion-dificultad",
                 () -> controladorDificultad.reiniciarEstado());
+    }
+
+    /**
+     * Inicializa la vista de seleccion de niveles y la registra en el gestor.
+     */
+    private void inicializarVistaSeleccionNiveles() {
+        controladorNiveles = new ControladorSeleccionNiveles();
+        controladorNiveles.establecerGestorEscenas(gestorEscenas);
+
+        if (fachadaJuego != null) {
+            controladorNiveles.establecerFachadaJuego(fachadaJuego);
+        }
+
+        VistaSeleccionNiveles vista = new VistaSeleccionNiveles(controladorNiveles);
+        gestorEscenas.registrarEscena("seleccion-niveles", vista.obtenerEscena());
+        gestorEscenas.registrarCallbackPreMostrar("seleccion-niveles",
+                () -> controladorNiveles.reiniciarEstado());
     }
 
     /**

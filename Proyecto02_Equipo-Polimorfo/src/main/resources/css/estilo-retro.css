@@ -325,3 +325,61 @@
     -fx-min-width: 200px;
     -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.4), 10, 0.5, 0, 0);
 }
+
+/* Estilos para el panel de seleccion de niveles */
+.scroll-niveles {
+    -fx-background-color: #000000;
+    -fx-background: #000000;
+}
+
+.scroll-niveles .viewport {
+    -fx-background-color: #000000;
+}
+
+.scroll-niveles .scroll-bar {
+    -fx-background-color: #000000;
+}
+
+.grid-niveles {
+    -fx-background-color: #000000;
+}
+
+.tarjeta-nivel {
+    -fx-background-color: #000000;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 3px;
+    -fx-border-style: solid;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.tarjeta-nivel:hover {
+    -fx-background-color: #1A1A1A;
+    -fx-border-width: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.6), 12, 0.5, 0, 0);
+}
+
+.tarjeta-nivel-bloqueada {
+    -fx-background-color: #000000;
+    -fx-border-color: #666666;
+    -fx-border-width: 2px;
+    -fx-opacity: 0.5;
+    -fx-cursor: not-allowed;
+}
+
+.tarjeta-nivel-bloqueada:hover {
+    -fx-background-color: #000000;
+    -fx-border-color: #666666;
+    -fx-border-width: 2px;
+    -fx-effect: none;
+}
+
+.boton-jugar {
+    -fx-min-width: 200px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.4), 10, 0.5, 0, 0);
+}
+
+.boton-jugar:hover {
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.8), 15, 0.6, 0, 0);
+}

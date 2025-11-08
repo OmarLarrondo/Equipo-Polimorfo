@@ -301,9 +301,9 @@ public class ControladorMenu extends ControladorBase {
      */
     @FXML
     private void accionDosJugadores(ActionEvent evento) {
-        System.out.println("Iniciando modo 2 jugadores...");
+        System.out.println("Navegando a seleccion de niveles (2 jugadores)...");
         Optional.ofNullable(gestorEscenas)
-                .ifPresent(gestor -> gestor.mostrarJuego());
+                .ifPresent(gestor -> gestor.mostrarSeleccionNiveles());
     }
 
     /**
