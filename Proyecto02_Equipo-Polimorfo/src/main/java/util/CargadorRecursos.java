@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
  * Clase utilitaria funcional para cargar recursos de la aplicación.
  * Proporciona métodos puros para cargar fuentes, archivos FXML, CSS y videos.
  * Todos los métodos retornan Optional para manejo funcional de errores.
+ *
+ * @author Equipo-Polimorfo
  */
 public final class CargadorRecursos {
 

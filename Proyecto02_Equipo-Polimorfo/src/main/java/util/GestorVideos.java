@@ -13,6 +13,8 @@ import java.util.function.Consumer;
  * Clase utilitaria funcional para gestionar reproducción y transiciones de videos.
  * Proporciona métodos puros para crear reproductores, gestionar transiciones
  * y controlar la reproducción de videos en el menú.
+ *
+ * @author Equipo-Polimorfo
  */
 public final class GestorVideos {
 
