@@ -29,7 +29,7 @@ import java.util.stream.IntStream;
 public class ControladorSeleccionDificultad extends ControladorBase {
 
     private static final int CANTIDAD_NIVELES = 10;
-    private static final double RADIO_BASE = 180.0;
+    private static final double RADIO_BASE = 220.0;
     private static final double DURACION_ANIMACION_MS = 600.0;
     private static final double DELAY_CASCADA_MS = 40.0;
     private static final double ANGULO_INICIAL_GRADOS = -90.0;
@@ -145,7 +145,7 @@ public class ControladorSeleccionDificultad extends ControladorBase {
         double altoPanel = panelRadial.getHeight();
         double dimensionMinima = Math.min(anchoPanel, altoPanel);
         double dimensionDisponible = Math.max(dimensionMinima - MARGEN_SEGURIDAD, 0);
-        radioActual = dimensionDisponible > 0 ? dimensionDisponible * 0.30 : RADIO_BASE * 0.85;
+        radioActual = dimensionDisponible > 0 ? dimensionDisponible * 0.38 : RADIO_BASE * 0.85;
     }
 
     /**
