@@ -2,10 +2,12 @@ package app;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import modelo.nucleo_juego.controlador.ControladorEditor;
 import modelo.nucleo_juego.controlador.ControladorMenu;
 import modelo.nucleo_juego.controlador.ControladorSeleccionDificultad;
 import modelo.nucleo_juego.controlador.ControladorSeleccionNiveles;
 import modelo.nucleo_juego.patron_facade.FachadaJuego;
+import modelo.ui_uix.vistas_mvc_javafx.VistaEditor;
 import modelo.ui_uix.vistas_mvc_javafx.VistaMenu;
 import modelo.ui_uix.vistas_mvc_javafx.VistaSeleccionDificultad;
 import modelo.ui_uix.vistas_mvc_javafx.VistaSeleccionNiveles;
@@ -27,6 +29,7 @@ public class AplicacionPong extends Application {
     private Stage escenarioPrincipal;
     private ControladorSeleccionDificultad controladorDificultad;
     private ControladorSeleccionNiveles controladorNiveles;
+    private ControladorEditor controladorEditor;
 
     /**
      * Método de inicialización ejecutado antes de start().
@@ -52,6 +55,7 @@ public class AplicacionPong extends Application {
         inicializarVistaMenu();
         inicializarVistaSeleccionDificultad();
         inicializarVistaSeleccionNiveles();
+        inicializarVistaEditor();
 
         gestorEscenas.mostrarMenu();
 
@@ -143,6 +147,23 @@ public class AplicacionPong extends Application {
         gestorEscenas.registrarEscena("seleccion-niveles", vista.obtenerEscena());
         gestorEscenas.registrarCallbackPreMostrar("seleccion-niveles",
                 () -> controladorNiveles.reiniciarEstado());
+    }
+
+    /**
+     * Inicializa la vista del editor de mapas y la registra en el gestor.
+     */
+    private void inicializarVistaEditor() {
+        controladorEditor = new ControladorEditor();
+        controladorEditor.establecerGestorEscenas(gestorEscenas);
+
+        if (fachadaJuego != null) {
+            controladorEditor.establecerFachadaJuego(fachadaJuego);
+        }
+
+        VistaEditor vista = new VistaEditor(controladorEditor);
+        gestorEscenas.registrarEscena("editor", vista.obtenerEscena());
+        gestorEscenas.registrarCallbackPreMostrar("editor",
+                () -> controladorEditor.reiniciarEstado());
     }
 
     /**
