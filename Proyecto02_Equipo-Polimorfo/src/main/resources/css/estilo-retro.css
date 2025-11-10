@@ -26,6 +26,7 @@
     -fx-translate-z: 1;
     -fx-alignment: center;
     -fx-max-width: Infinity;
+    -fx-padding: 40px 0 0 0;
 }
 
 .contenedor-menu {

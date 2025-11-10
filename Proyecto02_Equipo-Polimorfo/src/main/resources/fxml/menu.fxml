@@ -21,7 +21,7 @@
     <top>
         <VBox alignment="CENTER" spacing="20">
             <padding>
-                <Insets top="60" bottom="20"/>
+                <Insets top="40" bottom="20"/>
             </padding>
             <Label text="PONG EVOLVED" styleClass="titulo-principal"/>
         </VBox>
