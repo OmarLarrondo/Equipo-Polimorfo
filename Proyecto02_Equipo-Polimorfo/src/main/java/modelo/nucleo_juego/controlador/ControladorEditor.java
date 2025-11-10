@@ -157,13 +157,45 @@ public class ControladorEditor extends ControladorBase {
     }
 
     /**
-     * Aplica los bindings de dimensiones para responsividad del canvas.
+     * Aplica las dimensiones responsivas del canvas usando listeners controlados.
+     * No usa bindings para evitar el feedback loop de crecimiento infinito.
      */
     private void aplicarBindingsDimensiones() {
-        canvasMapa.widthProperty().bind(contenedorCanvas.widthProperty());
-        canvasMapa.heightProperty().bind(contenedorCanvas.heightProperty());
-        canvasGrid.widthProperty().bind(contenedorCanvas.widthProperty());
-        canvasGrid.heightProperty().bind(contenedorCanvas.heightProperty());
+        configurarDimensionesIniciales();
+        configurarListenersRedimensionamiento();
+    }
+
+    /**
+     * Configura las dimensiones iniciales de los canvas.
+     */
+    private void configurarDimensionesIniciales() {
+        canvasMapa.setWidth(ANCHO_CANVAS_BASE);
+        canvasMapa.setHeight(ALTO_CANVAS_BASE);
+        canvasGrid.setWidth(ANCHO_CANVAS_BASE);
+        canvasGrid.setHeight(ALTO_CANVAS_BASE);
+    }
+
+    /**
+     * Configura listeners manuales para el redimensionamiento del canvas.
+     * Incluye limites maximos y validacion de diferencia minima para evitar
+     * redibujados innecesarios y prevenir el loop infinito de crecimiento.
+     */
+    private void configurarListenersRedimensionamiento() {
+        contenedorCanvas.widthProperty().addListener((obs, oldVal, newVal) -> {
+            double nuevoAncho = Math.min(newVal.doubleValue() - 40, ANCHO_CANVAS_BASE * 1.5);
+            if (Math.abs(canvasMapa.getWidth() - nuevoAncho) > 1) {
+                canvasMapa.setWidth(nuevoAncho);
+                canvasGrid.setWidth(nuevoAncho);
+            }
+        });
+
+        contenedorCanvas.heightProperty().addListener((obs, oldVal, newVal) -> {
+            double nuevoAlto = Math.min(newVal.doubleValue() - 20, ALTO_CANVAS_BASE * 1.5);
+            if (Math.abs(canvasMapa.getHeight() - nuevoAlto) > 1) {
+                canvasMapa.setHeight(nuevoAlto);
+                canvasGrid.setHeight(nuevoAlto);
+            }
+        });
     }
 
     /**
