@@ -2,9 +2,9 @@ package modelo.editor.niveles;
 
 import java.util.List;
 
-import modelo.Bloques;
 import modelo.gestion_ia.patron_factory.ConfigNivel;
 import modelo.gestion_ia.patron_factory.DatosMapa;
+import modelo.nucleo_juego.patron_composite.bloque.Bloques;
 import modelo.ui_uix.singleton.GestorPrototiposPaleta;
 
 public class FabricaNiveles {

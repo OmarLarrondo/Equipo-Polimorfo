@@ -3,8 +3,8 @@ package modelo.editor.builder;
 import java.util.ArrayList;
 import java.util.List;
 
-import modelo.Bloques;
 import modelo.editor.niveles.Nivel;
+import modelo.nucleo_juego.patron_composite.bloque.Bloques;
 
 /**
  * Clase que aplica el patrón Builder para construir niveles

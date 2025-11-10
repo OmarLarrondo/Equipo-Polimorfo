@@ -1,5 +1,9 @@
 package modelo.nucleo_juego.controlador;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,16 +18,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import modelo.Bloques;
 import modelo.editor.builder.ConstructorMapa;
 import modelo.editor.builder.TipoBloque;
 import modelo.editor.niveles.Nivel;
-import modelo.nucleo_juego.patron_composite.Paleta;
 import vista.GestorEscenas;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Controlador del panel de modo constructor/editor de mapas.

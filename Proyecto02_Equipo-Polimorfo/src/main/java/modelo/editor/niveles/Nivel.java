@@ -2,8 +2,9 @@ package modelo.editor.niveles;
 
 import java.util.ArrayList;
 import java.util.List;
-import modelo.Bloques;
-import modelo.nucleo_juego.patron_composite.Bloque;
+
+import modelo.nucleo_juego.patron_composite.bloque.Bloques;
+import modelo.nucleo_juego.patron_composite.bloque.TemplateBloque;
 
 public class Nivel {
 
@@ -25,7 +26,7 @@ public class Nivel {
         }
         bloques.add(bloque);
     }
-    public void  eliminarBloque(Bloque bloque){
+    public void  eliminarBloque(TemplateBloque bloque){
         if(bloque == null){
             throw new IllegalArgumentException("Estas eliminando un bloque null.");
         }

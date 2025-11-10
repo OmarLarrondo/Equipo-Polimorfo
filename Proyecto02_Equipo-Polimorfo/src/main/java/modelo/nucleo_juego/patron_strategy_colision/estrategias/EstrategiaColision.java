@@ -27,7 +27,7 @@ public interface EstrategiaColision {
      * @param obj1 el primer objeto involucrado en la colisión
      * @param obj2 el segundo objeto involucrado en la colisión
      */
-    public void manejarColision(ObjetoJuego obj1, ObjetoJuego obj2);
+    //public void manejarColision(ObjetoJuego obj1, ObjetoJuego obj2);
 
     /**
      * Verifica si dos objetos del juego han colisionado de acuerdo con la
@@ -37,5 +37,5 @@ public interface EstrategiaColision {
      * @param obj2 el segundo objeto a evaluar
      * @return {@code true} si los objetos colisionan; {@code false} en caso contrario
      */
-    public boolean verificarColision(ObjetoJuego obj1, ObjetoJuego obj2);
+    //public boolean verificarColision(ObjetoJuego obj1, ObjetoJuego obj2);
 }

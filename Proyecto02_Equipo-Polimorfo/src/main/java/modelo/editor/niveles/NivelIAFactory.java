@@ -1,8 +1,8 @@
 package modelo.editor.niveles;
 
-import modelo.Bloques;
 import modelo.gestion_ia.patron_factory.ConfigNivel;
 import modelo.nucleo_juego.patron_composite.Paleta;
+import modelo.nucleo_juego.patron_composite.bloque.Bloques;
 
 public class NivelIAFactory implements NivelFactory{
 
