@@ -24,6 +24,7 @@ import vista.GestorEscenas;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Controlador del panel de modo constructor/editor de mapas.
@@ -381,7 +382,7 @@ public class ControladorEditor extends ControladorBase {
     private List<ObjetoMapa> filtrarObjetosNoEnPosicion(double x, double y) {
         return objetosEnMapa.stream()
                 .filter(obj -> !estaEnPosicion(obj, x, y))
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
