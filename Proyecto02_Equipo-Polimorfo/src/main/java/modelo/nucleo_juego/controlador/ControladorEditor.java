@@ -774,10 +774,8 @@ public class ControladorEditor extends ControladorBase {
      * @param contenido Contenido del mensaje
      */
     private void mostrarMensajeProximamente(String titulo, String contenido) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(contenido);
+        Alert alerta = crearAlerta(Alert.AlertType.INFORMATION, titulo, contenido);
+        configurarPropietarioAlerta(alerta);
         alerta.showAndWait();
     }
 
@@ -816,11 +814,36 @@ public class ControladorEditor extends ControladorBase {
      * @param contenido Contenido del error
      */
     private void mostrarErrorValidacion(String titulo, String contenido) {
-        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        Alert alerta = crearAlerta(Alert.AlertType.WARNING, titulo, contenido);
+        configurarPropietarioAlerta(alerta);
+        alerta.showAndWait();
+    }
+
+    /**
+     * Crea una alerta con los parametros especificados.
+     *
+     * @param tipo Tipo de alerta
+     * @param titulo Titulo
+     * @param contenido Contenido
+     * @return Alerta configurada
+     */
+    private Alert crearAlerta(Alert.AlertType tipo, String titulo, String contenido) {
+        Alert alerta = new Alert(tipo);
         alerta.setTitle(titulo);
         alerta.setHeaderText(null);
         alerta.setContentText(contenido);
-        alerta.showAndWait();
+        return alerta;
+    }
+
+    /**
+     * Configura el propietario de la alerta para mantener el contexto.
+     *
+     * @param alerta Alerta a configurar
+     */
+    private void configurarPropietarioAlerta(Alert alerta) {
+        Optional.ofNullable(contenedorCanvas.getScene())
+                .map(javafx.scene.Scene::getWindow)
+                .ifPresent(alerta::initOwner);
     }
 
     /**

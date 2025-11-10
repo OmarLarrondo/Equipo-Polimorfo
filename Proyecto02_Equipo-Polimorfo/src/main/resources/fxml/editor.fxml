@@ -19,16 +19,6 @@
             minWidth="800.0"
             minHeight="600.0">
 
-    <!-- Título Superior -->
-    <top>
-        <VBox alignment="CENTER" spacing="10">
-            <padding>
-                <Insets top="30" bottom="15"/>
-            </padding>
-            <Label text="MODO CONSTRUCTOR" styleClass="titulo-principal"/>
-        </VBox>
-    </top>
-
     <!-- Contenido Central: Canvas de Edición -->
     <center>
         <StackPane fx:id="contenedorCanvas" alignment="CENTER">
