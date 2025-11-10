@@ -46,7 +46,7 @@
                 <Insets top="20" bottom="20" left="15" right="15"/>
             </padding>
 
-            <Label text="PROPIEDADES" styleClass="texto-info"
+            <Label text="PROPIEDADES" styleClass="texto-info titulo-seccion"
                    style="-fx-font-size: 12px; -fx-underline: true;"/>
 
             <!-- Nombre del Nivel -->
@@ -99,7 +99,7 @@
                 <padding>
                     <Insets top="10" bottom="10" left="10" right="10"/>
                 </padding>
-                <Label text="ESTADÍSTICAS" styleClass="texto-info"
+                <Label text="ESTADÍSTICAS" styleClass="texto-info titulo-seccion"
                        style="-fx-font-size: 10px;"/>
                 <Label fx:id="etiquetaBloques"
                        text="Bloques: 0"
@@ -126,7 +126,7 @@
 
                 <!-- Sección: Bloques -->
                 <VBox spacing="5" alignment="CENTER">
-                    <Label text="BLOQUES" styleClass="texto-info"
+                    <Label text="BLOQUES" styleClass="texto-info titulo-seccion"
                            style="-fx-font-size: 8px;"/>
                     <HBox spacing="10" alignment="CENTER">
                         <Button fx:id="botonBloqueDestructible"
@@ -180,7 +180,7 @@
 
                 <!-- Sección: Paletas -->
                 <VBox spacing="5" alignment="CENTER">
-                    <Label text="PALETAS" styleClass="texto-info"
+                    <Label text="PALETAS" styleClass="texto-info titulo-seccion"
                            style="-fx-font-size: 8px;"/>
                     <HBox spacing="10" alignment="CENTER">
                         <Button fx:id="botonPaletaIzq"
@@ -212,7 +212,7 @@
 
                 <!-- Sección: Herramientas -->
                 <VBox spacing="5" alignment="CENTER">
-                    <Label text="HERRAMIENTAS" styleClass="texto-info"
+                    <Label text="HERRAMIENTAS" styleClass="texto-info titulo-seccion"
                            style="-fx-font-size: 8px;"/>
                     <HBox spacing="10" alignment="CENTER">
                         <Button fx:id="botonBorrador"
