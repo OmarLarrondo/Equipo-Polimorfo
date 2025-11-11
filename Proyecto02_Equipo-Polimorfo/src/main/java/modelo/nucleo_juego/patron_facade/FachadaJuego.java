@@ -8,15 +8,13 @@ import modelo.editor.niveles.FabricaNiveles;
 import modelo.editor.niveles.Nivel;
 import modelo.gestion_ia.patron_factory.ConfigNivel;
 import modelo.gestion_ia.patron_factory.ia.ServiciioIA;
-import modelo.sistema_usuario.patron_decorator.Usuario;
-//import modelo.sistema_usuario.servicios_de_autenticacion.ServicioAutenticacion;
 import modelo.ui_uix.singleton.GestorPuntajes;
 import modelo.ui_uix.singleton.Puntaje;
 
 /**
  * La clase {@code FachadaJuego} implementa el patrón de diseño Facade,
  * proporcionando una interfaz simplificada para la gestión de los distintos
- * subsistemas del videojuego (controlador, puntajes, autenticación, IA, niveles, etc.).
+ * subsistemas del videojuego (controlador, puntajes, IA, niveles, etc.).
  * <p>
  * Esta clase actúa como punto de acceso central para operaciones comunes del juego,
  * delegando las tareas específicas a las clases especializadas correspondientes.
@@ -29,8 +27,6 @@ public class FachadaJuego {
 
     private ControladorJuego controladorJuego;
     private GestorPuntajes gestorPuntajes;
-    //POSIBLEMNETE YA NO SE USUARA
-    //private ServicioAutenticacion servicioAutenticacion;
     private ServiciioIA servicioIA;
     private FabricaNiveles fabricaNiveles;
 
@@ -92,19 +88,6 @@ public class FachadaJuego {
      * @return el nuevo objeto {@code Nivel} generado
      */
     public Nivel crearNivel(ConfigNivel config) {
-        //aqui va su codigo
-        return null;
-    }
-
-    /**
-     * Autentica a un usuario en el sistema mediante sus datos del registro
-     *
-     * @param usuario el nombre de usuario
-     * @param clave la contraseña del usuario
-     * @return el objeto {@code Usuario} autenticado si los datoss son válidos,
-     *         o {@code null} en caso contrario
-     */
-    public Usuario autenticarUsuario(String usuario, String clave) {
         //aqui va su codigo
         return null;
     }

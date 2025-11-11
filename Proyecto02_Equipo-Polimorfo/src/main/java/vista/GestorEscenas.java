@@ -20,8 +20,6 @@ public class GestorEscenas {
     private static final String ESCENA_MENU = "menu";
     private static final String ESCENA_JUEGO = "juego";
     private static final String ESCENA_EDITOR = "editor";
-    private static final String ESCENA_PERFIL = "perfil";
-    private static final String ESCENA_LOGIN = "login";
     private static final String ESCENA_SELECCION_DIFICULTAD = "seleccion-dificultad";
     private static final String ESCENA_SELECCION_NIVELES = "seleccion-niveles";
 
@@ -173,22 +171,6 @@ public class GestorEscenas {
     public void mostrarEditor() {
         cambiarEscena(ESCENA_EDITOR);
         escenaActual = ESCENA_EDITOR;
-    }
-
-    /**
-     * Muestra el perfil del usuario.
-     */
-    public void mostrarPerfil() {
-        cambiarEscena(ESCENA_PERFIL);
-        escenaActual = ESCENA_PERFIL;
-    }
-
-    /**
-     * Muestra la pantalla de login.
-     */
-    public void mostrarLogin() {
-        cambiarEscena(ESCENA_LOGIN);
-        escenaActual = ESCENA_LOGIN;
     }
 
     /**

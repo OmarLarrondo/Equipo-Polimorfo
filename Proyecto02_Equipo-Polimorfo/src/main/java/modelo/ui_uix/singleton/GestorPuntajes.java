@@ -3,13 +3,10 @@ package modelo.ui_uix.singleton;
 import java.util.ArrayList;
 import java.util.List;
 
-import persistencia.ServicioPersistencia;
-
 public class GestorPuntajes {
     private static GestorPuntajes instancia; //singleton, instancia global
     private List<Puntaje> puntajesAltos; //mejores puntajes
     private PuntajeSesion partidaActual; //partida actual
-    private ServicioPersistencia servicioPersistencia; //Cargar/guardar puntajes
 
     private GestorPuntajes() {
         puntajesAltos = new ArrayList<>();

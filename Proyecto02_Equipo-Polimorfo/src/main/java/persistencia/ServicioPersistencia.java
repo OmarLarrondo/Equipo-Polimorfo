@@ -3,7 +3,6 @@ package persistencia;
 import java.util.List;
 
 import modelo.editor.niveles.Nivel;
-import modelo.sistema_usuario.patron_decorator.Usuario;
 import modelo.ui_uix.singleton.Puntaje;
 
 /**
@@ -27,13 +26,6 @@ public class ServicioPersistencia {
         return null;
     }
 
-    public void guardarUsuario(Usuario usuario){
-        //aqui va su codigo
-    }
-    public Usuario cargarUsuario(String nombreUsuario){
-        return null;
-        //aqui va su codigo
-    }
     public void guardarNivel(Nivel nivel, String nombreArchivo){
         //aqui va su codigo
     }
