@@ -12,7 +12,7 @@ public class DecoradorLogros extends DecoradorUsuario{
     }
 
     public void agregarLogro(Logro logro){
-        if(logro != null){
+        if(logro != null && !(logros.contains(logro))){
             logros.add(logro);
         }
         
@@ -28,4 +28,9 @@ public class DecoradorLogros extends DecoradorUsuario{
     public List<Logro> obtenerLogros(){
         return new ArrayList<>(logros);
     }
+    
+    public boolean tieneLogro(String id) {
+        return logros.stream().anyMatch(l -> l.getId().equals(id));
+    }
+
 }

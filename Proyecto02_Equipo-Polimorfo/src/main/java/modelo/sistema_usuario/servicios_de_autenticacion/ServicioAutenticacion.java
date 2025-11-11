@@ -9,6 +9,12 @@ import modelo.sistema_usuario.patron_decorator.ComponenteUsuario;
 import modelo.sistema_usuario.patron_decorator.Usuario;
 import modelo.sistema_usuario.patron_decorator.DecoradorLogros;
 
+
+
+//DOCMUENTADA, POR QUE NO SE SI SIRVIRA AUN, PUES NO TENDREMOS LOGINS
+
+/**
+
 public class ServicioAutenticacion {
     private Map<String, Usuario> usuarios; // clave = nombreUsuario
     private ComponenteUsuario usuarioActual;
@@ -93,3 +99,8 @@ public class ServicioAutenticacion {
         return decorado;
     }
 }
+
+
+
+
+ */

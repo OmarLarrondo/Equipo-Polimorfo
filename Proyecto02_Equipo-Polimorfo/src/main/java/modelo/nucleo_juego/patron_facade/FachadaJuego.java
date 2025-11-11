@@ -9,7 +9,7 @@ import modelo.editor.niveles.Nivel;
 import modelo.gestion_ia.patron_factory.ConfigNivel;
 import modelo.gestion_ia.patron_factory.ia.ServiciioIA;
 import modelo.sistema_usuario.patron_decorator.Usuario;
-import modelo.sistema_usuario.servicios_de_autenticacion.ServicioAutenticacion;
+//import modelo.sistema_usuario.servicios_de_autenticacion.ServicioAutenticacion;
 import modelo.ui_uix.singleton.GestorPuntajes;
 import modelo.ui_uix.singleton.Puntaje;
 
@@ -29,7 +29,8 @@ public class FachadaJuego {
 
     private ControladorJuego controladorJuego;
     private GestorPuntajes gestorPuntajes;
-    private ServicioAutenticacion servicioAutenticacion;
+    //POSIBLEMNETE YA NO SE USUARA
+    //private ServicioAutenticacion servicioAutenticacion;
     private ServiciioIA servicioIA;
     private FabricaNiveles fabricaNiveles;
 

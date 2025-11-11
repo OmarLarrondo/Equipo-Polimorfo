@@ -12,28 +12,16 @@ import modelo.editor.prototype.ConfigPaleta;
  * @version 1.0
  */
 public class Usuario implements ComponenteUsuario {
-
     /** Identificador único del usuario */
     private String id;
-
     /** Nombre de usuario */
     private String nombreUsuario;
-
-    /** Clave de acceso */
-    private String clave;
-
-    /** Correo electrónico */
-    private String correo;
-
     /** Nivel actual del usuario */
     private int nivel;
-
     /** Experiencia acumulada del usuario */
     private int experiencia;
-
     /** Fecha de creación del usuario */
     private LocalDateTime fechaCreacion;
-
     /** Configuración de paleta preferida del usuario */
     private ConfigPaleta configPaletaPreferida;
 
@@ -46,10 +34,11 @@ public class Usuario implements ComponenteUsuario {
      * @param correo Correo electrónico
      */
     public Usuario(String id, String nombreUsuario, String clave, String correo) {
+        //POSIBLE ELIMINAR ID 
         this.id = id;
         this.nombreUsuario = nombreUsuario;
-        this.clave = clave;
-        this.correo = correo;
+        //SE ELIMIO CLAVE
+        //  SE ELIMINO CORREO
         this.nivel = 1;
         this.experiencia = 0;
         this.fechaCreacion = LocalDateTime.now();
@@ -124,12 +113,6 @@ public class Usuario implements ComponenteUsuario {
 
     public String getNombreUsuario() { return nombreUsuario; }
     public void setNombreUsuario(String nombreUsuario) { this.nombreUsuario = nombreUsuario; }
-
-    public String getClave() { return clave; }
-    public void setClave(String clave) { this.clave = clave; }
-
-    public String getCorreo() { return correo; }
-    public void setCorreo(String correo) { this.correo = correo; }
 
     public int getNivel() { return nivel; }
     public void setNivel(int nivel) { this.nivel = nivel; }

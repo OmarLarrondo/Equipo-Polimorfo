@@ -3,11 +3,11 @@ package modelo.sistema_usuario.patron_decorator;
 import java.time.LocalDateTime;
 
 public class Logro {
-    private String id;
-    private String nombre;
-    private String descripcion;
-    private String icono;
-    private LocalDateTime desbloqueadoEn;
+    private String id; //ejemplos: "Logro, 10 mimutos luchando"
+    private String nombre; //lo que sera visible en el juego
+    private String descripcion; //breve explicacion
+    private String icono; //ruta o nombre del icono
+    private LocalDateTime desbloqueadoEn; //fecha y hora en que se desbloqueo
 
     public Logro(String id, String nombre, String descripcion, String icono) {
         this.id = id;
@@ -47,4 +47,12 @@ public class Logro {
     public LocalDateTime getDesbloqueadoEn() {
         return desbloqueadoEn;
     }
+
+    @Override
+    public String toString() {
+        return nombre + (estaDesbloqueado() ? " (desbloqueado)" : " (bloqueado)");
+    }
+
+
+    
 }
