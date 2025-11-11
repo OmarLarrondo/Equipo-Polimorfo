@@ -13,9 +13,12 @@ public class GestorPrototiposPaleta {
         this.prototipos = prototipos;
     }
     public GestorPrototiposPaleta obtenerInstancia(){
-        //aqui va su codigo 
-        return null;
+        if(instancia == null){
+            return new GestorPrototiposPaleta(prototipos);
+        }
+        return instancia;
     }
+    
     public void registrarPrototiposDefecto(){
         //aqui va su codigo 
     }

@@ -19,8 +19,10 @@ public class ConfiguracionJuego {
     }
 
     public ConfiguracionJuego obtenerInstancia(){
-        //aqui va su codigo
-        return null;
+        if(instancia == null){
+            return new ConfiguracionJuego(instancia, anchoPantalla, altoPantalla, rapidezPelota, rapidesPaleta, volumen);
+        }
+        return instancia;
     }
     public void cargarConfiguracion(){
         //Aqui va su codigo
@@ -29,7 +31,7 @@ public class ConfiguracionJuego {
         //aqui va su codigo
     }
     public void establecerVolumen(double volumen){
-        //aqui va su codigo
+        this.volumen = volumen;
     }
     public int obtenerAnchoPantalla(){
         return anchoPantalla;

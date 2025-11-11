@@ -16,3 +16,5 @@ public class CodificadorClave {
         return claveTextoPlano.equals(claveCodificada);
     }
 }
+
+
