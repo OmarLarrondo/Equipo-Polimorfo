@@ -2,16 +2,16 @@ package app;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import modelo.nucleo_juego.controlador.ControladorEditor;
-import modelo.nucleo_juego.controlador.ControladorMenu;
-import modelo.nucleo_juego.controlador.ControladorSeleccionDificultad;
-import modelo.nucleo_juego.controlador.ControladorSeleccionNiveles;
-import modelo.nucleo_juego.patron_facade.FachadaJuego;
-import modelo.ui_uix.vistas_mvc_javafx.VistaEditor;
-import modelo.ui_uix.vistas_mvc_javafx.VistaMenu;
-import modelo.ui_uix.vistas_mvc_javafx.VistaSeleccionDificultad;
-import modelo.ui_uix.vistas_mvc_javafx.VistaSeleccionNiveles;
-import vista.GestorEscenas;
+import mvc.controlador.ControladorEditor;
+import mvc.controlador.ControladorMenu;
+import mvc.controlador.ControladorSeleccionDificultad;
+import mvc.controlador.ControladorSeleccionNiveles;
+import patrones.facade.FachadaJuego;
+import mvc.vista.VistaEditor;
+import mvc.vista.VistaMenu;
+import mvc.vista.VistaSeleccionDificultad;
+import mvc.vista.VistaSeleccionNiveles;
+import mvc.vista.GestorEscenas;
 
 /**
  * Clase principal de la aplicación Pong Evolved.

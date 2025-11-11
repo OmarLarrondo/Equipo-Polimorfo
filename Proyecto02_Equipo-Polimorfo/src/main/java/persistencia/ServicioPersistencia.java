@@ -2,8 +2,8 @@ package persistencia;
 
 import java.util.List;
 
-import modelo.editor.niveles.Nivel;
-import modelo.ui_uix.singleton.Puntaje;
+import patrones.factory.niveles.Nivel;
+import patrones.singleton.Puntaje;
 
 /**
  * Servicio para persistir y cargar datos del juego.
