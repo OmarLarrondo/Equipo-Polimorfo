@@ -90,7 +90,7 @@ public class ItemAumentoVelocidad  implements Item{
             activo = true;
 
         }else{
-            throw new IllegalArgumentException("el objeto dbee ser una paleta o una pelota");
+            throw new IllegalArgumentException("el objeto debe ser una paleta o una pelota");
         }
         tiempoRestante = duracion;
 
