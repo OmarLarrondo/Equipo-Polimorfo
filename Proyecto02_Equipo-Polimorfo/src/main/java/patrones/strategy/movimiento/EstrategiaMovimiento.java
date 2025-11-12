@@ -4,6 +4,10 @@ import mvc.modelo.enums.Direccion;
 import mvc.modelo.entidades.Paleta;
 import mvc.modelo.entidades.Pelota;
 
+
+
+//define el comportamiento de movimiento
+
 public interface EstrategiaMovimiento {
     public Direccion calcularMovimiento(Paleta paleta, Pelota pelota, double tiempoDelta);
 }

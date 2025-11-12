@@ -4,6 +4,10 @@ import mvc.modelo.enums.Direccion;
 import mvc.modelo.entidades.Paleta;
 import mvc.modelo.entidades.Pelota;
 
+
+//La IA, debera predecrir esto, pero lento y comete errores
+
+
 public class EstrategiaMovimientoAFacil implements EstrategiaMovimiento {
 
     private double retrasoReaccion;
