@@ -5,6 +5,11 @@ import mvc.modelo.entidades.Pelota;
 import patrones.adapter.AdaptadorEntrada;
 import mvc.modelo.enums.Direccion;
 
+
+//controlar la paleta mediante la entrada dle usuario.
+//no predecir nada, soloo traduce la entrada.
+//player humano
+
 public class EstrategiaMovimientoJugador implements EstrategiaMovimiento {
 
     private AdaptadorEntrada adaptadorEntrada;

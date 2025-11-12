@@ -12,9 +12,5 @@ public enum Direccion {
 
     ABAJO,
 
-    IZQUIERDA,
-
-    DERECHA,
-
     NINGUNA
 }
