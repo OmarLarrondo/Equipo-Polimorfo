@@ -38,7 +38,24 @@ public class AplicacionPong extends Application {
     @Override
     public void init() {
         System.out.println("Inicializando Pong Evolved...");
+        inicializarBaseDatos();
         inicializarModelo();
+    }
+
+    /**
+     * Inicializa la base de datos SQLite creando las tablas necesarias.
+     * Se ejecuta al inicio de la aplicación de forma síncrona.
+     */
+    private void inicializarBaseDatos() {
+        System.out.println("Inicializando base de datos...");
+        persistencia.conexion.ConexionSQLite conexion = persistencia.conexion.ConexionSQLite.obtenerInstancia();
+
+        conexion.inicializarBaseDatos()
+            .onSuccess(unused -> System.out.println("Base de datos inicializada correctamente."))
+            .onFailure(error -> {
+                System.err.println("Error al inicializar la base de datos: " + error.getMessage());
+                error.printStackTrace();
+            });
     }
 
     /**
@@ -183,6 +200,22 @@ public class AplicacionPong extends Application {
         if (gestorEscenas != null) {
             gestorEscenas.limpiarCache();
         }
+
+        cerrarBaseDatos();
+    }
+
+    /**
+     * Cierra el pool de conexiones de la base de datos.
+     */
+    private void cerrarBaseDatos() {
+        System.out.println("Cerrando conexión a la base de datos...");
+        persistencia.conexion.ConexionSQLite conexion = persistencia.conexion.ConexionSQLite.obtenerInstancia();
+
+        conexion.cerrarPool()
+            .onSuccess(unused -> System.out.println("Base de datos cerrada correctamente."))
+            .onFailure(error -> {
+                System.err.println("Error al cerrar la base de datos: " + error.getMessage());
+            });
     }
 
     /**

@@ -1,5 +1,7 @@
 package mvc.modelo.entidades;
 
+import patrones.builder.TipoBloque;
+
 /**
  * Representa un bloque destructible en el juego.
  * Forma parte del patrón Composite como componente hoja.
@@ -10,6 +12,7 @@ package mvc.modelo.entidades;
 public class Bloque extends ObjetoJuego {
 
     private int resistencia;
+    private TipoBloque tipo;
 
     /**
      * Constructor de Bloque.
@@ -19,10 +22,12 @@ public class Bloque extends ObjetoJuego {
      * @param ancho Ancho del bloque
      * @param alto Alto del bloque
      * @param resistencia Resistencia del bloque (número de golpes para destruirlo)
+     * @param tipo Tipo del bloque
      */
-    public Bloque(double x, double y, double ancho, double alto, int resistencia) {
+    public Bloque(double x, double y, double ancho, double alto, int resistencia, TipoBloque tipo) {
         super(x, y, ancho, alto);
         this.resistencia = resistencia;
+        this.tipo = tipo;
     }
 
     /**
@@ -32,6 +37,15 @@ public class Bloque extends ObjetoJuego {
      */
     public int obtenerResistencia() {
         return resistencia;
+    }
+
+    /**
+     * Obtiene el tipo del bloque.
+     *
+     * @return tipo del bloque
+     */
+    public TipoBloque obtenerTipo() {
+        return tipo;
     }
 
     /**

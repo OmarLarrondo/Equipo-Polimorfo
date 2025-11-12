@@ -51,6 +51,7 @@ public class ControladorSeleccionNiveles extends ControladorBase {
     private Button botonSeleccionado;
     private Integer dificultadIA;
     private boolean esContraIA;
+    private persistencia.ServicioPersistencia servicioPersistencia;
 
     /**
      * Constructor por defecto requerido por FXML.
@@ -61,6 +62,7 @@ public class ControladorSeleccionNiveles extends ControladorBase {
         this.botonSeleccionado = null;
         this.dificultadIA = null;
         this.esContraIA = false;
+        this.servicioPersistencia = new persistencia.ServicioPersistencia();
     }
 
     /**
@@ -71,6 +73,7 @@ public class ControladorSeleccionNiveles extends ControladorBase {
     public void initialize() {
         configurarAtajosTecladoPantallaCompleta(gridNiveles);
         cargarNivelesPrearmados();
+        cargarNivelesPersonalizados();
         generarTarjetasNiveles();
     }
 
@@ -101,6 +104,19 @@ public class ControladorSeleccionNiveles extends ControladorBase {
         nivelesDisponibles.add(director.construirNivelFacil());
         nivelesDisponibles.add(director.construirNivelMedio());
         nivelesDisponibles.add(director.construirNivelDificil());
+    }
+
+    /**
+     * Carga los niveles personalizados desde la base de datos.
+     * Los niveles cargados se agregan a la lista de niveles disponibles.
+     */
+    private void cargarNivelesPersonalizados() {
+        servicioPersistencia.cargarNivelesPersonalizados()
+            .onSuccess(niveles -> nivelesDisponibles.addAll(niveles))
+            .onFailure(error -> {
+                System.err.println("Error al cargar niveles personalizados: " + error.getMessage());
+                error.printStackTrace();
+            });
     }
 
     /**
@@ -145,6 +161,10 @@ public class ControladorSeleccionNiveles extends ControladorBase {
         VBox tarjeta = new VBox(15);
         configurarEstiloTarjeta(tarjeta);
 
+        if (nivel.isMapaPersonalizado()) {
+            agregarIndicadorPersonalizado(tarjeta, nivel);
+        }
+
         Label nombreLabel = crearLabelNombre(nivel);
         Label dificultadLabel = crearLabelDificultad(nivel);
         Button botonSeleccionar = crearBotonSeleccionar(nivel);
@@ -153,6 +173,23 @@ public class ControladorSeleccionNiveles extends ControladorBase {
         animarTarjeta(tarjeta, indice);
 
         return tarjeta;
+    }
+
+    /**
+     * Agrega un indicador visual a tarjetas de niveles personalizados.
+     *
+     * @param tarjeta tarjeta a la que agregar el indicador
+     * @param nivel nivel personalizado
+     */
+    private void agregarIndicadorPersonalizado(VBox tarjeta, Nivel nivel) {
+        FontIcon iconoPersonalizado = new FontIcon("fas-user");
+        iconoPersonalizado.setIconSize(20);
+        iconoPersonalizado.setStyle("-fx-icon-color: #4CAF50;");
+
+        Label labelCreador = new Label("Por: " + (nivel.getCreador() != null ? nivel.getCreador() : "Desconocido"));
+        labelCreador.setStyle("-fx-font-size: 9px; -fx-text-fill: #4CAF50;");
+
+        tarjeta.getChildren().addAll(iconoPersonalizado, labelCreador);
     }
 
     /**

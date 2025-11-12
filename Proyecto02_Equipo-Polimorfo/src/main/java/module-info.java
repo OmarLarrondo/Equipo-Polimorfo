@@ -4,8 +4,12 @@ module pong.evolved {
     requires javafx.media;
     requires javafx.graphics;
     requires java.desktop;
+    requires java.sql;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.fontawesome5;
+    requires io.vavr;
+    requires com.zaxxer.hikari;
+    requires org.slf4j;
 
     exports app;
     exports mvc.modelo;
@@ -25,6 +29,9 @@ module pong.evolved {
     exports patrones.facade;
     exports patrones.adapter;
     exports persistencia;
+    exports persistencia.conexion;
+    exports persistencia.dto;
+    exports persistencia.repositorio;
     exports util;
 
     opens mvc.controlador to javafx.fxml;

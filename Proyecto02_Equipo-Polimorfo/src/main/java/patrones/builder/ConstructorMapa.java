@@ -67,16 +67,19 @@ public class ConstructorMapa implements BuilderNivel {
         //NO SE SI SEA ASI :C
         switch (tipo) {
             case DESTRUCTIBLE:
-                bloque = new Bloque(x, y, 50, 20, 1);
+                bloque = new Bloque(x, y, 50, 20, 1, tipo);
                 break;
             case INDESTRUCTIBLE:
-                bloque = new Bloque(x, y, 50, 20, 999);
+                bloque = new Bloque(x, y, 50, 20, 999, tipo);
                 break;
             case BONUS:
-                bloque = new Bloque(x, y, 50, 20, 1);
+                bloque = new Bloque(x, y, 50, 20, 1, tipo);
+                break;
+            case MULTI_GOLPE:
+                bloque = new Bloque(x, y, 50, 20, 3, tipo);
                 break;
             default:
-                bloque = new Bloque(x, y, 50, 20, 1);
+                bloque = new Bloque(x, y, 50, 20, 1, TipoBloque.DESTRUCTIBLE);
                 break;
         }
 

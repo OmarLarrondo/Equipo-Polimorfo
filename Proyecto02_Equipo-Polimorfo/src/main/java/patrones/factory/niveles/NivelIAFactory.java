@@ -1,6 +1,7 @@
 package patrones.factory.niveles;
 
 import mvc.modelo.entidades.Bloque;
+import patrones.builder.TipoBloque;
 import patrones.factory.ia.ConfigNivel;
 import mvc.modelo.entidades.Paleta;
 
@@ -29,7 +30,7 @@ public class NivelIAFactory implements NivelFactory{
             //DEFAULT
             for (int i = 0; i < 5; i++) {
                 // Suponia agregar 5 bloques, no se coo seira
-                Bloque bloque = new Bloque(50 + i * 55, 50, 50, 20, 1);
+                Bloque bloque = new Bloque(50 + i * 55, 50, 50, 20, 1, TipoBloque.DESTRUCTIBLE);
                 nivelInteligente.agregarBloque(bloque);
             }
         }

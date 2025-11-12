@@ -113,6 +113,7 @@ public class ControladorEditor extends ControladorBase {
     private boolean gridVisible;
     private PauseTransition debounceRedibujarMapa;
     private PauseTransition debounceRedibujarGrid;
+    private persistencia.ServicioPersistencia servicioPersistencia;
 
     /**
      * Constructor por defecto requerido por FXML.
@@ -122,6 +123,7 @@ public class ControladorEditor extends ControladorBase {
         this.objetosEnMapa = new ArrayList<>();
         this.botonHerramientaSeleccionado = null;
         this.gridVisible = true;
+        this.servicioPersistencia = new persistencia.ServicioPersistencia();
         inicializarDebouncers();
     }
 
@@ -757,14 +759,82 @@ public class ControladorEditor extends ControladorBase {
     }
 
     /**
-     * Maneja la accion de guardar el mapa.
-     * Actualmente muestra un mensaje de funcionalidad pendiente.
+     * Maneja la accion de guardar el mapa en la base de datos.
+     * Valida los datos del formulario, construye el nivel y lo persiste.
      *
      * @param evento Evento de accion
      */
     @FXML
     private void accionGuardarMapa(ActionEvent evento) {
-        mostrarMensajeProximamente("Guardar Mapa", "La funcionalidad de guardar mapas estará disponible próximamente.");
+        if (!validarDatosGuardado()) {
+            return;
+        }
+
+        Nivel nivel = construirNivel();
+        configurarNivelComoPersonalizado(nivel);
+
+        servicioPersistencia.guardarNivel(nivel)
+            .onSuccess(id -> mostrarExitoGuardado(nivel.getNombre()))
+            .onFailure(error -> mostrarErrorGuardado(error.getMessage()));
+    }
+
+    /**
+     * Valida que los datos del formulario sean correctos para guardar.
+     *
+     * @return true si los datos son validos, false en caso contrario
+     */
+    private boolean validarDatosGuardado() {
+        if (!validarNivel()) {
+            return false;
+        }
+
+        String nombre = campoNombre.getText().trim();
+        if (nombre.isEmpty()) {
+            mostrarErrorValidacion("Datos Incompletos", "Debe especificar un nombre para el nivel.");
+            return false;
+        }
+
+        String creador = campoCreador.getText().trim();
+        if (creador.isEmpty()) {
+            mostrarErrorValidacion("Datos Incompletos", "Debe especificar el nombre del creador.");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Configura el nivel como personalizado y establece el creador.
+     *
+     * @param nivel nivel a configurar
+     */
+    private void configurarNivelComoPersonalizado(Nivel nivel) {
+        nivel.setMapaPersonalizado(true);
+        nivel.setCreador(campoCreador.getText().trim());
+    }
+
+    /**
+     * Muestra un mensaje de exito al guardar el nivel.
+     *
+     * @param nombreNivel nombre del nivel guardado
+     */
+    private void mostrarExitoGuardado(String nombreNivel) {
+        String mensaje = String.format("El nivel '%s' se ha guardado correctamente en la base de datos.", nombreNivel);
+        Alert alerta = crearAlerta(Alert.AlertType.INFORMATION, "Nivel Guardado", mensaje);
+        configurarPropietarioAlerta(alerta);
+        alerta.showAndWait();
+    }
+
+    /**
+     * Muestra un mensaje de error al intentar guardar el nivel.
+     *
+     * @param mensajeError mensaje de error detallado
+     */
+    private void mostrarErrorGuardado(String mensajeError) {
+        String mensaje = String.format("Error al guardar el nivel:\n%s", mensajeError);
+        Alert alerta = crearAlerta(Alert.AlertType.ERROR, "Error de Guardado", mensaje);
+        configurarPropietarioAlerta(alerta);
+        alerta.showAndWait();
     }
 
     /**

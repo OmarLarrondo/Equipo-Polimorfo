@@ -3,6 +3,7 @@ package patrones.factory.niveles;
 import java.util.List;
 
 import mvc.modelo.entidades.Bloque;
+import patrones.builder.TipoBloque;
 import patrones.factory.ia.ConfigNivel;
 import patrones.factory.ia.DatosMapa;
 import patrones.singleton.GestorPrototiposPaleta;
@@ -59,7 +60,7 @@ public class FabricaNiveles {
             for (int col = 0; col < datosMapa.obtenerColumnas(); col++) {
                 int x = 50 + col * (anchoBloque + separacion);
                 int y = 50 + fila * (altoBloque + separacion);
-                Bloque bloque = new Bloque(x, y, anchoBloque, altoBloque, 1);
+                Bloque bloque = new Bloque(x, y, anchoBloque, altoBloque, 1, TipoBloque.DESTRUCTIBLE);
                 nivel.agregarBloque(bloque);
             }
         }
