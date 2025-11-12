@@ -37,3 +37,7 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# MCP configuration
+.mcp.json
+.serena/
