@@ -17,16 +17,16 @@ public class ObjetoJuegoCompuesto extends ObjetoJuego{
     }
 
     public void agregar(ObjetoJuego objeto){
-        if(!(objeto == null)){
-            hijos.add(objeto);
+        if(objeto == null){
+            throw new IllegalArgumentException("No es posible agregar eso");
         }
-        throw new IllegalArgumentException("No es posible agregar eso");
+        hijos.add(objeto);
     }
     public void  eliminar(ObjetoJuego objeto){
-        if(!(objeto == null)){
-            hijos.remove(objeto);
+        if(objeto == null){
+            throw new IllegalArgumentException("Objeto invalido a eliminar");
         }
-        throw new IllegalArgumentException("Objeto invalido a eliminar");
+        hijos.remove(objeto);
     }
     public List<ObjetoJuego> obtenerHijos(){
         if(hijos == null){

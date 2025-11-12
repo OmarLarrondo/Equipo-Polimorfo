@@ -53,11 +53,13 @@ public class Paleta extends ObjetoJuego {
     //Puede que se agregue aleatoriamente en ella, random,
     //No se como hacer esto
     public void agregarEspina(){
-        //aqui va su codigo
+        cantidadEspinas = cantidadEspinas + 1;
+        tieneEspinas = true;
     }
 
     public void eliminarEspinas(){
-        //aqui va su codig     
+        cantidadEspinas = 0;
+        tieneEspinas = false;
     }
 
     //CUANDO PIERDA, SE DEBE CENTRAR AL ORIGEN
@@ -84,11 +86,12 @@ public class Paleta extends ObjetoJuego {
     }
 
     public void guardarEstado(){
-        //aqui va us codig 
+        estadoOriginal = getEstadoOriginal();
     }
     public void restaurarEstado(){
-        //aqui va su codig o
-        //falta hacer todo original
+        if(estadoOriginal != null){
+            setEstadoOriginal(estadoOriginal);
+        }
         activo = false;
     }
     public void setCantidadEspinas(int espinas){
