@@ -13,6 +13,9 @@ package patrones.adapter;
  * interfaz traduce las señales de entrada en métodos booleanos simples que
  * indican el estado de las teclas o del mouse.</p>
  * 
+ *  <p>Esta interfaz es utilizada por las clases del controlador para consultar el estado
+ *  de las entradas del jugador de manera uniforme, sin importar el dispositivo concreto.</p>
+ * 
  * <p>Métodos principales:</p>
  * <ul>
  *   <li>{@link #arribaPresionado()} — Detecta si se ha presionado la tecla o mouse para mover hacia arriba.</li>

@@ -19,7 +19,7 @@ public enum TipoBloque {
     DESTRUCTIBLE,
 
     /**
-     * No puede ser destruido, es una barrera basicamente 
+     * No puede ser destruido, es una barrera básicamente 
      */
     INDESTRUCTIBLE,
 
