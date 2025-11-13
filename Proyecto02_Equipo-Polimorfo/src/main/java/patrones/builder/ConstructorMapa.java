@@ -7,21 +7,27 @@ import mvc.modelo.entidades.Bloque;
 import patrones.factory.niveles.Nivel;
 
 /**
- * Clase que aplica el patrón Builder para construir niveles
+ * Implementación concreta de {@link BuilderNivel} que permite construir niveles del juego Pong.
  * 
- * @author Equipo-polimorfo
+ * <p>Define cómo se crea un mapa (nivel), incluyendo su nombre, dificultad y los bloques
+ * que lo componen. Utiliza el patrón <b>Builder</b> para proporcionar una forma flexible
+ * de construir un {@link Nivel} paso a paso.</p>
+ * 
+ * <p>Cada bloque puede tener diferentes propiedades dependiendo de su {@link TipoBloque},
+ * como su resistencia o comportamiento ante las colisiones.</p>
+ * 
+ * @author Equipo-Polimorfo
  * @version 1.0
  */
 public class ConstructorMapa implements BuilderNivel {
+    /** Nivel que se está construyendo. */
     private Nivel nivel;
+
+    /** Lista de bloques que conforman el nivel. */
     private List<Bloque> bloques;
-    
-    /**
-     * Reinicia el estado del constructor, creando un nuevo nivel y 
-     * vaciando la lista de bloques.
-     * 
-     * @return el mismo constructor (para encadenamiento)
-     */
+
+    /** {@inheritDoc} */
+    @Override
     public ConstructorMapa reiniciar() {
         this.nivel = new Nivel();
         this.nivel.setNombre("Nivel sin nombre");
@@ -30,41 +36,31 @@ public class ConstructorMapa implements BuilderNivel {
         return this;
     }
 
-
-    /**
-     * Asigna el nombre del nivel.
-     * 
-     * @param nombre nombre del nivel
-     * @return el mismo constructor (para encadenamiento)
-     */
+    /** {@inheritDoc} */
+    @Override
     public ConstructorMapa establecerNombre(String nombre) {
         this.nivel.setNombre(nombre);
         return this;
     }
 
-    /**
-     * Establece la dificultad del nivel.
-     * 
-     * @param dificultad valor de dificultad (ej. 1 = fácil, 2 = medio, 3 = difícil) o sino como sea
-     * @return el mismo constructor (para encadenamiento)
-     */
+    /** {@inheritDoc} */
+    @Override
     public ConstructorMapa establecerDificultad(int dificultad) {
         this.nivel.setDificultad(dificultad);
         return this;
     }
 
+
+    //CHECARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
     /**
-     * Agrega un bloque al nivel en construcción, dependiendo del tipo.
-     * 
-     * @param x posición X
-     * @param y posición Y
-     * @param tipo tipo de bloque (destructible, indestructible, bonus)
-     * @return el mismo constructor (para encadenamiento)
+     * {@inheritDoc}
+     * <p>Dependiendo del tipo de bloque indicado, se asignan sus valores de resistencia
+     * y propiedades predeterminadas.</p>
      */
+    @Override
     public ConstructorMapa agregarBloque(double x, double y, TipoBloque tipo) {
         Bloque bloque;
 
-        //NO SE SI SEA ASI :C
         switch (tipo) {
             case DESTRUCTIBLE:
                 bloque = new Bloque(x, y, 50, 20, 1, tipo);
@@ -87,32 +83,56 @@ public class ConstructorMapa implements BuilderNivel {
         return this;
     }
 
+    
+
+
+    //CHECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
     /**
-     * Agrega un bloque destructible (atajo de agregarBloque con tipo DESTRUCTIBLE).
+     * Agrega un bloque destructible que puede eliminarse con un solo impacto.
+     * 
+     * @param x posición en el eje X donde se agregará el bloque.
+     * @param y posición en el eje Y donde se agregará el bloque.
+     * @return la misma instancia de {@link ConstructorMapa} con el bloque agregado.
      */
     public ConstructorMapa agregarBloqueDestructible(double x, double y) {
         return agregarBloque(x, y, TipoBloque.DESTRUCTIBLE);
     }
 
     /**
-     * Agrega un bloque indestructible (atajo de agregarBloque con tipo INDESTRUCTIBLE).
+     * Agrega un bloque indestructible, es decir, que no puede romperse.
+     * 
+     * @param x posición en el eje X donde se agregará el bloque.
+     * @param y posición en el eje Y donde se agregará el bloque.
+     * @return la misma instancia de {@link ConstructorMapa} con el bloque agregado.
      */
     public ConstructorMapa agregarBloqueIndestructible(double x, double y) {
         return agregarBloque(x, y, TipoBloque.INDESTRUCTIBLE);
     }
+
     /**
-     * Agregar un bloque bonus y las x,y son
-     * @param x
-     * @param y
-     * @return
+     * Agrega un bloque de tipo bonus, el cual otorgará una recompensa o item
+     * especial al ser destruido.
+     * 
+     * @param x posición en el eje X donde se agregará el bloque.
+     * @param y posición en el eje Y donde se agregará el bloque.
+     * @return la misma instancia de {@link ConstructorMapa} con el bloque agregado.
      */
     public ConstructorMapa agregarBloqueBonus(double x, double y) {
         return agregarBloque(x, y, TipoBloque.BONUS);
     }
 
 
+    //CJHECAAAAAAAAAAAAAAAAR
+
     /**
-     * Agrega un patrón de bloques predefinido
+     * Agrega un patrón de bloques predefinido.
+     * 
+     * <p>Este método añade una fila de bloques destructibles a partir de la posición indicada.
+     * Se puede usar para generar estructuras o formaciones básicas rápidamente.</p>
+     * 
+     * @param x posición inicial en el eje X.
+     * @param y posición inicial en el eje Y.
+     * @return la misma instancia de {@link ConstructorMapa} con el patrón agregado.
      */
     public ConstructorMapa agregarPatronBloques(double x, double y) {
         for (int i = 0; i < 5; i++) {
@@ -122,10 +142,10 @@ public class ConstructorMapa implements BuilderNivel {
     }
 
     /**
-     * Construye el nivel y devuelve
-     * 
-     * @return el nivel completo con sus bloques configurados
+     * Construye el objeto {@link Nivel} con los bloques y propiedades configuradas.
+     * @return una nueva instancia de {@link Nivel} completamente construida.
      */
+    @Override
     public Nivel construir() {
         this.nivel.setBloques(bloques);
         return this.nivel;

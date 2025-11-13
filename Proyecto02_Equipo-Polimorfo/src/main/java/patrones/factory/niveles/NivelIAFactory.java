@@ -5,8 +5,26 @@ import patrones.builder.TipoBloque;
 import patrones.factory.ia.ConfigNivel;
 import mvc.modelo.entidades.Paleta;
 
+/**
+ * Implementación concreta de {@link NivelFactory} que crea un nivel
+ * en el modo "Jugador vs IA" (inteligencia artificial).
+ * 
+ * <p>
+ * Este nivel genera una configuración en la que un jugador humano
+ * se enfrenta a una paleta controlada por la IA. La dificultad,
+ * el patrón de bloques y otros parámetros se definen mediante
+ * una instancia de {@link ConfigNivel}.
+ * </p>
+ * 
+ * <p><b>Nota:</b> Falta implementar la interpretación del patrón de bloques,
+ * así como la integración del controlador de IA para la paleta.</p>
+ * 
+ * @author  Equipo-polimorfo
+ * @version 1.0
+ */
 public class NivelIAFactory implements NivelFactory{
 
+    /**{@inheritDoc} */
     @Override
     public Nivel crearNivel(ConfigNivel conf) {
         Nivel nivelInteligente = new Nivel();
@@ -38,6 +56,13 @@ public class NivelIAFactory implements NivelFactory{
         return nivelInteligente;
     }
 
+    /**
+     * Método auxiliar para interpretar el patrón de bloques definido en la configuración
+     * y agregar los bloques correspondientes al nivel.
+     * 
+     * @param patron cadena que representa el patrón del mapa (por ejemplo, una matriz de caracteres).
+     * @param nivel el nivel al que se agregarán los bloques interpretados.
+     */
     //FALTA IMPLEMNTAR
     private void agregarBloquesDesdePatron(String patron, Nivel nivel) {
         // Interpretar patron y agregar bloques al nivel
