@@ -7,8 +7,7 @@ public class TemporizadorReaccion {
     /** Cuánto tiempo debe pasar antes de que la IA pueda reaccionar otra vez.*/
     private double intervaloReaccion;
 
-    public TemporizadorReaccion(double tiempoAcumulado, double intervaloReaccion) {
-        this.tiempoAcumulado = tiempoAcumulado;
+    public TemporizadorReaccion(double intervaloReaccion) {
         this.intervaloReaccion = intervaloReaccion;
     }
 
@@ -28,7 +27,7 @@ public class TemporizadorReaccion {
      *      {@code false} en otro caso.
      */
     public boolean puedeReaccionar(){
-        if(tiempoAcumulado > intervaloReaccion){
+        if(tiempoAcumulado >= intervaloReaccion){
             tiempoAcumulado = 0;
             return true;
         }else {

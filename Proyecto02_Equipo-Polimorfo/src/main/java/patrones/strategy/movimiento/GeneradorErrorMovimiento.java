@@ -7,7 +7,7 @@ public class GeneradorErrorMovimiento {
     private double amplitudError;
     //gen num ale
     
-
+    private final Random random = new Random();
 
     public GeneradorErrorMovimiento(double amplitudError) {
         if(amplitudError > 40 || amplitudError<0){
@@ -23,11 +23,8 @@ public class GeneradorErrorMovimiento {
      * (positivo o negativo) dentro del rango [-amplitudError, +amplitudError].
      * @return
      */
-    public double generarError(){
-
-        double aleatorio = (Math.random()*2 -1) *amplitudError;
-        //aleatorio ∈ [-amplitud,+aplitud]
-        return aleatorio;
-
+    public double generarError() {
+        return (random.nextDouble() * 2 - 1) * amplitudError;
     }
+
 }

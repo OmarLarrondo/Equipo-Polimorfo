@@ -5,10 +5,10 @@ import mvc.modelo.entidades.Paleta;
 import mvc.modelo.entidades.Pelota;
 
 // La IA deberá predecir esto, pero lento y comete errores
-public class EstrategiaMovimientoAFacil implements EstrategiaMovimiento {
+public class EstrategiaMovimientoADicifil implements EstrategiaMovimiento {
 
     private double retrasoReaccion;
-
+    
     private TemporizadorReaccion temporizador;
     private CalcularTrayectoria calculador;
     private GeneradorErrorMovimiento generadorError;
@@ -19,7 +19,7 @@ public class EstrategiaMovimientoAFacil implements EstrategiaMovimiento {
      * @param retrasoReaccion Tiempo en segundos que tarda la IA en reaccionar.
      * @param amplitudError    Máxima desviación vertical que la IA puede cometer al predecir el impacto.
      */
-    public EstrategiaMovimientoAFacil(double retrasoReaccion, double amplitudError) {
+    public EstrategiaMovimientoADicifil(double retrasoReaccion, double amplitudError) {
         this.temporizador = new TemporizadorReaccion(retrasoReaccion);
         this.calculador = new CalcularTrayectoria();
         this.generadorError = new GeneradorErrorMovimiento(amplitudError);

@@ -8,12 +8,6 @@ public class CalcularTrayectoria {
     private double limiteInferior;
     private double anchoCampo;
 
-    public CalcularTrayectoria(double limiteSuperior, double limiteInferior, double anchoCampo) {
-        this.limiteSuperior = limiteSuperior;
-        this.limiteInferior = limiteInferior;
-        this.anchoCampo = anchoCampo;
-    }
-
     /**
      * Predice la coordenada Y donde la pelota impactará con la línea vertical xObjetivo,
      * considerando los rebotes entre los límites superior e inferior del campo.
