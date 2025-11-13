@@ -111,6 +111,6 @@ public class FabricaNiveles {
      */
     public List<String> obtenerPrototiposPaletaParaNivel(TipoNivel tipoNivel) {
         String tipo = tipoNivel.name();
-        return gestorPrototipos.listaPrototiposDisponibles();
+        return gestorPrototipos.listaPrototiposDisponiblesJava();
     }
 }
