@@ -64,6 +64,10 @@ public class ControladorMenu extends ControladorBase {
     @FXML
     private Button botonPantallaCompleta;
 
+    /** Boton para alternar el mute del audio. */
+    @FXML
+    private Button botonMute;
+
     @FXML
     private MediaView mediaView;
 
@@ -611,6 +615,30 @@ public class ControladorMenu extends ControladorBase {
     private void accionPantallaCompleta(ActionEvent evento) {
         Optional.ofNullable(gestorEscenas)
                 .ifPresent(GestorEscenas::alternarPantallaCompleta);
+    }
+
+    /**
+     * Maneja el evento de clic en el boton "Mute".
+     * Alterna entre silenciar y activar el audio del juego.
+     * Actualiza el texto del boton segun el estado actual.
+     *
+     * @param evento Evento de accion
+     */
+    @FXML
+    private void accionAlternarMute(ActionEvent evento) {
+        patrones.observer.GestorAudio gestorAudio = patrones.observer.GestorAudio.obtenerInstancia();
+        gestorAudio.alternarMute();
+        actualizarTextoBotonMute(gestorAudio.estaSilenciado());
+    }
+
+    /**
+     * Actualiza el texto del boton de mute segun el estado de silenciado.
+     *
+     * @param silenciado true si el audio esta silenciado, false en caso contrario
+     */
+    private void actualizarTextoBotonMute(boolean silenciado) {
+        Optional.ofNullable(botonMute)
+                .ifPresent(boton -> boton.setText(silenciado ? "Unmute [M]" : "Mute [M]"));
     }
 
     /**

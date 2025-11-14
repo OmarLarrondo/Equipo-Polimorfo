@@ -83,7 +83,7 @@
         </HBox>
     </center>
 
-    <!-- Footer: Botones Pantalla Completa y Acerca de -->
+    <!-- Footer: Botones Pantalla Completa, Acerca de y Mute -->
     <bottom>
         <HBox spacing="20" alignment="CENTER">
             <padding>
@@ -96,6 +96,10 @@
             <Button text="Acerca de"
                     styleClass="boton-secundario"
                     onAction="#accionAcercaDe"/>
+            <Button fx:id="botonMute"
+                    text="Mute [M]"
+                    styleClass="boton-secundario"
+                    onAction="#accionAlternarMute"/>
         </HBox>
     </bottom>
 

@@ -112,6 +112,28 @@ public final class CargadorRecursos {
     }
 
     /**
+     * Carga un archivo de audio desde el directorio de recursos.
+     * Utiliza la misma infraestructura que los videos, ya que JavaFX Media
+     * soporta tanto audio como video.
+     *
+     * @param rutaRelativa Ruta relativa al directorio de recursos (ej: "audio/musica/fondo.mp3")
+     * @return Optional con el objeto Media, o Optional.empty() si falla
+     */
+    public static Optional<Media> cargarAudio(String rutaRelativa) {
+        return obtenerURL(rutaRelativa)
+                .map(URL::toExternalForm)
+                .flatMap(urlExterna -> {
+                    try {
+                        return Optional.of(new Media(urlExterna));
+                    } catch (Exception e) {
+                        System.err.println("Error al cargar audio: " + rutaRelativa);
+                        e.printStackTrace();
+                        return Optional.empty();
+                    }
+                });
+    }
+
+    /**
      * Carga una imagen desde el directorio de recursos.
      *
      * @param rutaRelativa Ruta relativa al directorio de recursos (ej: "imagenes/preview-idle.png")
