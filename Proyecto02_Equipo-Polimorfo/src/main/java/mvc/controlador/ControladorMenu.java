@@ -620,7 +620,7 @@ public class ControladorMenu extends ControladorBase {
     /**
      * Maneja el evento de clic en el boton "Mute".
      * Alterna entre silenciar y activar el audio del juego.
-     * Actualiza el texto del boton segun el estado actual.
+     * Actualiza el icono del boton segun el estado actual.
      *
      * @param evento Evento de accion
      */
@@ -628,17 +628,30 @@ public class ControladorMenu extends ControladorBase {
     private void accionAlternarMute(ActionEvent evento) {
         patrones.observer.GestorAudio gestorAudio = patrones.observer.GestorAudio.obtenerInstancia();
         gestorAudio.alternarMute();
-        actualizarTextoBotonMute(gestorAudio.estaSilenciado());
+        actualizarIconoBotonMute(gestorAudio.estaSilenciado());
     }
 
     /**
-     * Actualiza el texto del boton de mute segun el estado de silenciado.
+     * Actualiza el icono del boton de mute segun el estado de silenciado.
      *
      * @param silenciado true si el audio esta silenciado, false en caso contrario
      */
-    private void actualizarTextoBotonMute(boolean silenciado) {
+    private void actualizarIconoBotonMute(boolean silenciado) {
         Optional.ofNullable(botonMute)
-                .ifPresent(boton -> boton.setText(silenciado ? "Unmute [M]" : "Mute [M]"));
+                .ifPresent(boton -> boton.setGraphic(crearIconoMute(silenciado)));
+    }
+
+    /**
+     * Crea un icono de bocina para el boton de mute.
+     * Retorna un icono de bocina normal o con linea de silenciado segun el estado.
+     *
+     * @param silenciado true si el audio esta silenciado, false en caso contrario
+     * @return FontIcon con el icono apropiado
+     */
+    private FontIcon crearIconoMute(boolean silenciado) {
+        FontIcon icono = new FontIcon(silenciado ? FontAwesomeSolid.VOLUME_MUTE : FontAwesomeSolid.VOLUME_UP);
+        icono.setIconSize(24);
+        return icono;
     }
 
     /**

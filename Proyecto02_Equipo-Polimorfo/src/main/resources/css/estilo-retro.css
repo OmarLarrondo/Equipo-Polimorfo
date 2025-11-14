@@ -132,6 +132,40 @@
     -fx-icon-color: #000000;
 }
 
+/* Estilo para el boton de mute en la esquina superior derecha */
+.boton-icono-mute {
+    -fx-background-color: transparent;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+    -fx-padding: 10px;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-alignment: center;
+}
+
+.boton-icono-mute:hover {
+    -fx-background-color: #FFFFFF;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.6), 10, 0.5, 0, 0);
+}
+
+.boton-icono-mute:pressed {
+    -fx-background-color: #CCCCCC;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+.boton-icono-mute .ikonli-font-icon {
+    -fx-icon-color: #FFFFFF;
+}
+
+.boton-icono-mute:hover .ikonli-font-icon {
+    -fx-icon-color: #000000;
+}
+
 .separador {
     -fx-background-color: #FFFFFF;
     -fx-min-height: 2px;
