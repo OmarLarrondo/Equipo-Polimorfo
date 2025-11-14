@@ -1,6 +1,5 @@
 package patrones.factory.niveles;
 
-import patrones.factory.ia.ConfigNivel;
 
 /**
  * Interfaz {@code NivelFactory} que define el contrato para las fábricas 
