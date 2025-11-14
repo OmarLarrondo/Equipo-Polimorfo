@@ -43,10 +43,10 @@ import io.vavr.control.Option;
  * <p><b>Ejemplo de uso:</b></p>
  * <pre>
  * // Obtener configuración de nivel 5
- * Option&lt;ConfiguracionDificultad&gt; config =
+ * Option<ConfiguracionDificultad> config =
  *     RepositorioConfiguracionesIA.obtenerConfiguracion(DificultadIA.NIVEL_5);
  *
- * config.forEach(c -&gt; System.out.println(
+ * config.forEach(c -> System.out.println(
  *     "Retraso: " + c.obtenerRetrasoReaccion() + "s, " +
  *     "Error: " + c.obtenerAmplitudError() + "px"));
  * </pre>
@@ -128,12 +128,12 @@ public final class RepositorioConfiguracionesIA {
      *
      * <p><b>Ejemplo de uso:</b></p>
      * <pre>
-     * Option&lt;ConfiguracionDificultad&gt; config =
+     * Option<ConfiguracionDificultad> config =
      *     RepositorioConfiguracionesIA.obtenerConfiguracion(DificultadIA.NIVEL_7);
      *
      * config
-     *     .peek(c -&gt; System.out.println("Configuración encontrada: " + c))
-     *     .onEmpty(() -&gt; System.err.println("Configuración no encontrada"));
+     *     .peek(c -> System.out.println("Configuración encontrada: " + c))
+     *     .onEmpty(() -> System.err.println("Configuración no encontrada"));
      * </pre>
      *
      * @param dificultad el nivel de dificultad cuya configuración se desea obtener.
@@ -174,7 +174,7 @@ public final class RepositorioConfiguracionesIA {
      * <pre>
      * // Obtener configuración del nivel seleccionado por el usuario
      * int nivelSeleccionado = 7;
-     * Option&lt;ConfiguracionDificultad&gt; config =
+     * Option<ConfiguracionDificultad> config =
      *     RepositorioConfiguracionesIA.obtenerConfiguracionPorNumero(nivelSeleccionado);
      * </pre>
      *

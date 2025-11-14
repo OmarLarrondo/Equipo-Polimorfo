@@ -34,12 +34,12 @@ import patrones.strategy.movimiento.EstrategiaMovimientoIA;
  * FabricaIA fabrica = FabricaIA.obtenerInstancia();
  *
  * // Crear IA de nivel 7
- * Option&lt;EstrategiaMovimiento&gt; estrategia = fabrica.crearIA(DificultadIA.NIVEL_7);
- * estrategia.forEach(e -&gt; paleta.establecerEstrategia(e));
+ * Option<EstrategiaMovimiento> estrategia = fabrica.crearIA(DificultadIA.NIVEL_7);
+ * estrategia.forEach(e -> paleta.establecerEstrategia(e));
  *
  * // Crear IA por número de nivel (del selector de UI)
  * int nivelSeleccionado = 5;
- * Option&lt;EstrategiaMovimiento&gt; estrategiaPorNumero = fabrica.crearIAPorNumero(nivelSeleccionado);
+ * Option<EstrategiaMovimiento> estrategiaPorNumero = fabrica.crearIAPorNumero(nivelSeleccionado);
  * </pre>
  *
  * @author Equipo Polimorfo
@@ -94,11 +94,11 @@ public final class FabricaIA {
      * <pre>
      * FabricaIA fabrica = FabricaIA.obtenerInstancia();
      *
-     * Option&lt;EstrategiaMovimiento&gt; estrategia = fabrica.crearIA(DificultadIA.NIVEL_8);
+     * Option<EstrategiaMovimiento> estrategia = fabrica.crearIA(DificultadIA.NIVEL_8);
      *
      * estrategia
-     *     .peek(e -&gt; System.out.println("IA creada: " + e))
-     *     .onEmpty(() -&gt; System.err.println("No se pudo crear la IA"));
+     *     .peek(e -> System.out.println("IA creada: " + e))
+     *     .onEmpty(() -> System.err.println("No se pudo crear la IA"));
      * </pre>
      *
      * @param dificultad el nivel de dificultad de la IA a crear. No debe ser {@code null}.
@@ -128,7 +128,7 @@ public final class FabricaIA {
      *
      * FabricaIA.obtenerInstancia()
      *     .crearIAPorNumero(nivelSeleccionado)
-     *     .forEach(estrategia -&gt; paleta.establecerEstrategia(estrategia));
+     *     .forEach(estrategia -> paleta.establecerEstrategia(estrategia));
      * </pre>
      *
      * @param numeroNivel el número de nivel (1-10)
@@ -149,11 +149,11 @@ public final class FabricaIA {
      *
      * <p><b>Ejemplo de uso:</b></p>
      * <pre>
-     * Try&lt;EstrategiaMovimiento&gt; resultado = fabrica.crearIaSeguro(DificultadIA.NIVEL_10);
+     * Try<EstrategiaMovimiento> resultado = fabrica.crearIaSeguro(DificultadIA.NIVEL_10);
      *
      * resultado
-     *     .onSuccess(estrategia -&gt; System.out.println("IA creada: " + estrategia))
-     *     .onFailure(error -&gt; System.err.println("Error: " + error.getMessage()));
+     *     .onSuccess(estrategia -> System.out.println("IA creada: " + estrategia))
+     *     .onFailure(error -> System.err.println("Error: " + error.getMessage()));
      * </pre>
      *
      * @param dificultad el nivel de dificultad de la IA a crear
@@ -230,11 +230,11 @@ public final class FabricaIA {
      * <p><b>Ejemplo de uso:</b></p>
      * <pre>
      * // Crear IA super difícil personalizada
-     * Try&lt;EstrategiaMovimiento&gt; iaPersonalizada =
+     * Try<EstrategiaMovimiento> iaPersonalizada =
      *     fabrica.crearIAPersonalizada(0.015, 0.5);
      * </pre>
      *
-     * @param retrasoReaccion tiempo de reacción en segundos. Debe ser &gt; 0.
+     * @param retrasoReaccion tiempo de reacción en segundos. Debe ser > 0.
      * @param amplitudError   amplitud del error en píxeles. Debe estar en [0.0, 40.0].
      * @return un {@code Try} que contiene la estrategia si los parámetros son válidos,
      *         o una excepción si son inválidos

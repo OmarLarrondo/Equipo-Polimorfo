@@ -32,8 +32,8 @@ import java.util.Objects;
  * ConfiguracionDificultad config = ConfiguracionDificultad.crear(0.25, 15.0);
  *
  * // Creación funcional con manejo de errores
- * Try&lt;ConfiguracionDificultad&gt; tryConfig = ConfiguracionDificultad.crearSeguro(0.25, 15.0);
- * tryConfig.forEach(config -&gt; System.out.println(config));
+ * Try<ConfiguracionDificultad> tryConfig = ConfiguracionDificultad.crearSeguro(0.25, 15.0);
+ * tryConfig.forEach(config -> System.out.println(config));
  * </pre>
  *
  * @author Equipo Polimorfo
@@ -107,11 +107,11 @@ public final class ConfiguracionDificultad {
      *
      * <p><b>Ejemplo de uso:</b></p>
      * <pre>
-     * Try&lt;ConfiguracionDificultad&gt; resultado = ConfiguracionDificultad.crearSeguro(0.5, 20.0);
+     * Try<ConfiguracionDificultad> resultado = ConfiguracionDificultad.crearSeguro(0.5, 20.0);
      *
      * resultado
-     *     .onSuccess(config -&gt; System.out.println("Configuración creada: " + config))
-     *     .onFailure(error -&gt; System.err.println("Error: " + error.getMessage()));
+     *     .onSuccess(config -> System.out.println("Configuración creada: " + config))
+     *     .onFailure(error -> System.err.println("Error: " + error.getMessage()));
      * </pre>
      *
      * @param retrasoReaccion tiempo de reacción en segundos

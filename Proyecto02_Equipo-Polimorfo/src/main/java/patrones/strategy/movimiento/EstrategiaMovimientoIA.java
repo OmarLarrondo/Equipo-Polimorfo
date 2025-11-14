@@ -35,8 +35,8 @@ import mvc.modelo.entidades.Pelota;
  *   <li>Si el intervalo de reacción no ha transcurrido, retorna NINGUNA (no se mueve)</li>
  * </ol>
  *
- * <p>Esta implementación utiliza <b>programación funcional pura</b> con la biblioteca Vavr
- * para garantizar inmutabilidad, manejo seguro de errores y composición funcional.</p>
+ * <p>Esta implementación utiliza la biblioteca Vavr para garantizar inmutabilidad,
+ * manejo seguro de errores y composición funcional.</p>
  *
  * @author Equipo Polimorfo
  * @version 2.0
@@ -85,7 +85,7 @@ public final class EstrategiaMovimientoIA implements EstrategiaMovimiento {
      * de Vavr, que maneja automáticamente cualquier excepción que pueda ocurrir durante
      * la validación de parámetros.</p>
      *
-     * @param retrasoReaccion tiempo en segundos que tarda la IA en reaccionar. Debe ser &gt; 0.
+     * @param retrasoReaccion tiempo en segundos que tarda la IA en reaccionar. Debe ser > 0.
      * @param amplitudError   desviación máxima en píxeles. Debe estar en [0.0, 40.0].
      * @return un {@code Try} que contiene la estrategia creada si la validación fue exitosa,
      *         o una excepción si los parámetros son inválidos
@@ -103,7 +103,7 @@ public final class EstrategiaMovimientoIA implements EstrategiaMovimiento {
      * <p>Útil cuando se desea manejar las excepciones de forma imperativa en lugar
      * de usar el estilo funcional con {@code Try}.</p>
      *
-     * @param retrasoReaccion tiempo en segundos que tarda la IA en reaccionar. Debe ser &gt; 0.
+     * @param retrasoReaccion tiempo en segundos que tarda la IA en reaccionar. Debe ser > 0.
      * @param amplitudError   desviación máxima en píxeles. Debe estar en [0.0, 40.0].
      * @return una nueva instancia de {@code EstrategiaMovimientoIA}
      * @throws IllegalArgumentException si los parámetros no son válidos
@@ -155,7 +155,7 @@ public final class EstrategiaMovimientoIA implements EstrategiaMovimiento {
      *
      * @param paleta      la paleta controlada por la IA. No debe ser {@code null}.
      * @param pelota      la pelota del juego. No debe ser {@code null}.
-     * @param tiempoDelta tiempo transcurrido desde el último frame en segundos. Debe ser &gt;= 0.
+     * @param tiempoDelta tiempo transcurrido desde el último frame en segundos. Debe ser >= 0.
      * @return la dirección de movimiento calculada: {@code ARRIBA}, {@code ABAJO}, o {@code NINGUNA}
      * @throws NullPointerException si {@code paleta} o {@code pelota} son {@code null}
      */

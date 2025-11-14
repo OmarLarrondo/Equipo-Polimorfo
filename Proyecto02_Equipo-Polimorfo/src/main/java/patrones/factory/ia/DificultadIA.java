@@ -125,8 +125,8 @@ public enum DificultadIA {
      *
      * <p><b>Ejemplo de uso:</b></p>
      * <pre>
-     * Option&lt;DificultadIA&gt; dificultad = DificultadIA.desdeNumeroNivel(5);
-     * dificultad.forEach(d -&gt; System.out.println(d.obtenerDescripcion())); // "Intermedio"
+     * Option<DificultadIA> dificultad = DificultadIA.desdeNumeroNivel(5);
+     * dificultad.forEach(d -> System.out.println(d.obtenerDescripcion())); // "Intermedio"
      * </pre>
      *
      * @param numeroNivel el número de nivel a convertir (1-10)

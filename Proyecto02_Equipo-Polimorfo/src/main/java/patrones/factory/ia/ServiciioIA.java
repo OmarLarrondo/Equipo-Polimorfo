@@ -100,12 +100,12 @@ public class ServiciioIA {
      * <pre>
      * ServiciioIA servicio = new ServiciioIA();
      *
-     * Option&lt;EstrategiaMovimiento&gt; estrategia =
+     * Option<EstrategiaMovimiento> estrategia =
      *     servicio.establecerDificultad(DificultadIA.NIVEL_5);
      *
      * estrategia
-     *     .peek(e -&gt; System.out.println("Estrategia establecida: " + e))
-     *     .onEmpty(() -&gt; System.err.println("No se pudo crear la estrategia"));
+     *     .peek(e -> System.out.println("Estrategia establecida: " + e))
+     *     .onEmpty(() -> System.err.println("No se pudo crear la estrategia"));
      * </pre>
      *
      * @param dificultad el nivel de dificultad a establecer. No debe ser {@code null}.
@@ -136,7 +136,7 @@ public class ServiciioIA {
      * int nivelSeleccionado = controladorDificultad.obtenerNivelSeleccionado().get();
      *
      * ServiciioIA servicio = new ServiciioIA();
-     * Option&lt;EstrategiaMovimiento&gt; estrategia =
+     * Option<EstrategiaMovimiento> estrategia =
      *     servicio.establecerDificultadPorNumero(nivelSeleccionado);
      * </pre>
      *
@@ -202,7 +202,7 @@ public class ServiciioIA {
      *
      * @param paleta      la paleta controlada por la IA. No debe ser {@code null}.
      * @param pelota      la pelota del juego. No debe ser {@code null}.
-     * @param tiempoDelta tiempo transcurrido desde el último frame en segundos. Debe ser &gt;= 0.
+     * @param tiempoDelta tiempo transcurrido desde el último frame en segundos. Debe ser >= 0.
      * @return la dirección en la que la paleta debe moverse: {@code ARRIBA}, {@code ABAJO}, o {@code NINGUNA}
      * @throws NullPointerException si {@code paleta} o {@code pelota} son {@code null}
      */
@@ -231,8 +231,8 @@ public class ServiciioIA {
      * // Incrementar dificultad después de que el jugador gane un nivel
      * servicio.obtenerDificultadActual()
      *     .map(DificultadIA::obtenerNumeroNivel)
-     *     .filter(nivel -&gt; nivel &lt; 10)
-     *     .map(nivel -&gt; nivel + 1)
+     *     .filter(nivel -> nivel < 10)
+     *     .map(nivel -> nivel + 1)
      *     .flatMap(DificultadIA::desdeNumeroNivel)
      *     .forEach(servicio::cambiarDificultad);
      * </pre>
