@@ -90,6 +90,23 @@ public class Puntaje implements Comparable<Puntaje> {
     }
 
     /**
+     * Compara numéricamente el valor del puntaje de este objeto
+     * con el de otro.
+     *
+     * @param otro puntaje a comparar
+     * @return un valor negativo si este puntaje es menor que {@code otro},
+     *         cero si ambos puntajes son iguales,
+     *         y un valor positivo si este puntaje es mayor
+     * @throws IllegalArgumentException si {@code otro} es nulo
+     */
+    public int compararConNumero(Puntaje otro) {
+        if (otro == null) {
+            throw new IllegalArgumentException("Puntaje nulo.");
+        }
+        return Integer.compare(this.puntaje, otro.puntaje);
+    }
+
+    /**
      * Devuelve una representación en cadena del puntaje, incluyendo
      * el nombre del jugador, su puntaje, la fecha de registro y el modo de juego.
      *

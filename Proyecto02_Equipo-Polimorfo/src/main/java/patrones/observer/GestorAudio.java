@@ -3,7 +3,6 @@ package patrones.observer;
 import java.util.Map;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaPlayer;
-import patrones.singleton.ConfiguracionJuego;
 
 /**
  * Clase {@code GestorAudio} encargada de administrar todos los aspectos
@@ -13,10 +12,6 @@ import patrones.singleton.ConfiguracionJuego;
  * <p>Esta clase centraliza la reproducción y el control del audio para que
  * otros componentes del sistema no tengan que interactuar directamente con
  * las APIs de {@link AudioClip} o {@link MediaPlayer}.</p>
- *
- * <p>El gestor utiliza una instancia de {@link ConfiguracionJuego} para
- * sincronizar preferencias globales del usuario, como el volumen o si el
- * sonido está activado.</p>
  *
  * @author Equipo-polimorfo
  * @version 1.0
@@ -46,12 +41,6 @@ public class GestorAudio {
      * Bandera que indica si todo el sonido del juego está silenciado.
      */
     boolean silenciado;
-
-    /**
-     * Configuración global del juego, utilizada para obtener preferencias
-     * como volumen inicial o si el sonido debe estar activado.
-     */
-    ConfiguracionJuego configuracion;
 
     /**
      * Reproduce un efecto de sonido previamente cargado en el mapa
