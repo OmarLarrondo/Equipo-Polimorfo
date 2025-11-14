@@ -2,10 +2,6 @@ package patrones.factory.niveles;
 
 import java.util.List;
 
-import mvc.modelo.entidades.Bloque;
-import patrones.builder.TipoBloque;
-import patrones.factory.ia.ConfigNivel;
-import patrones.factory.ia.DatosMapa;
 import patrones.singleton.GestorPrototiposPaleta;
 
 /**
@@ -72,35 +68,6 @@ public class FabricaNiveles {
         config.setTipoNivel(TipoNivel.CLASICO);
         NivelClasicoFactory clasicoFactory = new NivelClasicoFactory();
         return clasicoFactory.crearNivel(config);
-    }
-
-    /**
-     * Crea un nivel personalizado a partir de los datos de mapa del usuario.
-     * 
-     * @param datosMapa Datos del mapa que indican la disposición de los bloques.
-     * @return Nivel personalizado construido.
-     */
-    public Nivel crearNivelPersonalizado(DatosMapa datosMapa) {
-        Nivel nivel = new Nivel();
-        nivel.setNombre(datosMapa.obtenerNombre());
-        nivel.setDificultad(1);
-        nivel.setMapaPersonalizado(true);
-        nivel.setCreador("Usuario");
-
-        int anchoBloque = 50;
-        int altoBloque = 20;
-        int separacion = 5;
-
-        for (int fila = 0; fila < datosMapa.obtenerFilas(); fila++) {
-            for (int col = 0; col < datosMapa.obtenerColumnas(); col++) {
-                int x = 50 + col * (anchoBloque + separacion);
-                int y = 50 + fila * (altoBloque + separacion);
-                Bloque bloque = new Bloque(x, y, anchoBloque, altoBloque, 1, TipoBloque.DESTRUCTIBLE);
-                nivel.agregarBloque(bloque);
-            }
-        }
-
-        return nivel;
     }
 
     /**

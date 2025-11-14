@@ -2,7 +2,6 @@ package patrones.factory.niveles;
 
 import mvc.modelo.entidades.Bloque;
 import patrones.builder.TipoBloque;
-import patrones.factory.ia.ConfigNivel;
 import mvc.modelo.entidades.Paleta;
 
 /**
