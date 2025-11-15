@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.image.ImageView?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -17,14 +18,25 @@
             minWidth="800.0"
             minHeight="600.0">
 
-    <!-- Título Superior -->
+    <!-- Título Superior con Botón Mute -->
     <top>
-        <VBox alignment="CENTER" spacing="20">
+        <BorderPane>
             <padding>
-                <Insets top="40" bottom="20"/>
+                <Insets top="40" bottom="20" left="30" right="30"/>
             </padding>
-            <Label text="PONG EVOLVED" styleClass="titulo-principal"/>
-        </VBox>
+            <center>
+                <Label text="PONG EVOLVED" styleClass="titulo-principal"/>
+            </center>
+            <right>
+                <Button fx:id="botonMute"
+                        styleClass="boton-icono-mute"
+                        onAction="#accionAlternarMute">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-volume-up" iconSize="24"/>
+                    </graphic>
+                </Button>
+            </right>
+        </BorderPane>
     </top>
 
     <!-- Contenido Central: Menú + Video Preview -->

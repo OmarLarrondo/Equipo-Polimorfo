@@ -21,9 +21,9 @@ import mvc.modelo.entidades.Bloque;
  * @version 1.0
  */
 public class Nivel {
-    /**  El identificador unico del nivel. */
+    /** El identificador unico del nivel. */
     private String id;
-    /** E l nombre del nivel. */
+    /** El nombre del nivel. */
     private String nombre;
     /** La lista de bloques */
     private List<Bloque> bloques;

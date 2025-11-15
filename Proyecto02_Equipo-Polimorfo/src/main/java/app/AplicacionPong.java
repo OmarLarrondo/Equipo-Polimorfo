@@ -59,10 +59,10 @@ public class AplicacionPong extends Application {
     }
 
     /**
-     * Método principal de inicio de la aplicación JavaFX.
-     * Configura el Stage principal y muestra el menú inicial.
+     * Metodo principal de inicio de la aplicacion JavaFX.
+     * Configura el Stage principal y muestra el menu inicial.
      *
-     * @param escenarioPrincipal Stage principal de la aplicación
+     * @param escenarioPrincipal Stage principal de la aplicacion
      */
     @Override
     public void start(Stage escenarioPrincipal) {
@@ -75,6 +75,7 @@ public class AplicacionPong extends Application {
         inicializarVistaEditor();
 
         gestorEscenas.mostrarMenu();
+        inicializarMusicaFondo();
 
         System.out.println("Pong Evolved iniciado correctamente.");
     }
@@ -184,6 +185,26 @@ public class AplicacionPong extends Application {
     }
 
     /**
+     * Inicializa el sistema de musica de fondo del juego.
+     * Carga el archivo de audio y comienza la reproduccion automatica en bucle.
+     * Si falla la carga, la aplicacion continua sin musica.
+     */
+    private void inicializarMusicaFondo() {
+        try {
+            patrones.observer.GestorAudio gestorAudio = patrones.observer.GestorAudio.obtenerInstancia();
+            gestorAudio.inicializarMusicaFondo()
+                    .peek(reproductor -> {
+                        System.out.println("Musica de fondo cargada correctamente.");
+                        gestorAudio.reproducir();
+                    })
+                    .onEmpty(() -> System.err.println("No se pudo cargar la musica de fondo. Continuando sin audio."));
+        } catch (Exception e) {
+            System.err.println("Error al inicializar la musica de fondo: " + e.getMessage());
+            System.err.println("La aplicacion continuara sin musica de fondo.");
+        }
+    }
+
+    /**
      * Método ejecutado al cerrar la aplicación.
      * Libera recursos y realiza limpieza necesaria.
      */
@@ -194,13 +215,14 @@ public class AplicacionPong extends Application {
     }
 
     /**
-     * Limpia los recursos de la aplicación.
+     * Limpia los recursos de la aplicacion incluyendo audio y base de datos.
      */
     private void limpiarRecursos() {
         if (gestorEscenas != null) {
             gestorEscenas.limpiarCache();
         }
 
+        patrones.observer.GestorAudio.obtenerInstancia().liberarRecursos();
         cerrarBaseDatos();
     }
 

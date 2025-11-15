@@ -1,6 +1,5 @@
 package patrones.factory.niveles;
 
-import patrones.factory.ia.ConfigNivel;
 
 /**
  * Implementación concreta de {@link NivelFactory} que crea instancias

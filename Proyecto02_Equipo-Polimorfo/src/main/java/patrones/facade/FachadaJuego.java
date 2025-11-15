@@ -6,7 +6,7 @@ import mvc.controlador.ControladorJuego;
 import mvc.modelo.enums.ModoJuego;
 import patrones.factory.niveles.FabricaNiveles;
 import patrones.factory.niveles.Nivel;
-import patrones.factory.ia.ConfigNivel;
+import patrones.factory.niveles.ConfigNivel;
 import patrones.factory.ia.ServiciioIA;
 import patrones.singleton.GestorPuntajes;
 import patrones.singleton.Puntaje;

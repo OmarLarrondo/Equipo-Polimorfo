@@ -1,21 +1,29 @@
 package mvc.modelo;
 
-import java.nio.channels.Pipe;
-import java.util.List;
+import io.vavr.collection.List;
+import io.vavr.control.Option;
+import io.vavr.control.Try;
 
 import patrones.factory.niveles.Nivel;
-import patrones.factory.ia.*;
 import mvc.modelo.entidades.Bloque;
 import mvc.modelo.entidades.Paleta;
 import mvc.modelo.entidades.Pelota;
 import mvc.modelo.items.Item;
 import mvc.modelo.enums.ModoJuego;
 import patrones.singleton.GestorPrototiposPaleta;
-
+import patrones.observer.ObservadorJuego;
+import patrones.memento.MementoPaletas;
+import patrones.strategy.colision.GestorColisiones;
 
 /**
  * Modelo principal del juego que contiene el estado completo
  * de la partida actual.
+ * <p>
+ * Esta clase actúa como el componente Modelo en el patrón MVC,
+ * coordinando todas las entidades del juego (pelota, paletas, bloques, items)
+ * y gestionando la lógica del game loop. También implementa el patrón Observable
+ * para notificar cambios de estado a los observadores registrados.
+ * </p>
  *
  * @author Equipo-polimorfo
  * @version 1.0
@@ -24,61 +32,528 @@ public class ModeloJuego {
 
     private Pelota pelota;
     private Paleta jugador1;
-    private Paleta jugador2; 
+    private Paleta jugador2;
     private List<Bloque> bloques;
     private List<Item> items;
     private Nivel nivel;
     private int puntaje1;
     private int puntaje2;
     private ModoJuego modoJuego;
-    private GestorPrototiposPaleta gestorPrototiposPaleta;
-
-    //MMM ESTO NO VIENE EN EL DIAGRAMA, CHECAR LOL
     private ModoJuego modoActual;
+    private List<ObservadorJuego> observadores;
+    private Option<MementoPaletas> mementoGuardado;
+    private Option<GestorColisiones> gestorColisiones;
+    private double tiempoTranscurrido;
+    private static final double DURACION_PARTIDA = 300.0;
+    private boolean juegoActivo;
 
+    /**
+     * Construye un nuevo modelo de juego con estado inicial vacío.
+     * <p>
+     * Inicializa todas las colecciones como listas inmutables vacías
+     * y establece los valores predeterminados para los atributos del juego.
+     * </p>
+     */
     public ModeloJuego() {
+        this.bloques = List.empty();
+        this.items = List.empty();
+        this.observadores = List.empty();
+        this.mementoGuardado = Option.none();
+        this.gestorColisiones = Option.none();
+        this.puntaje1 = 0;
+        this.puntaje2 = 0;
+        this.tiempoTranscurrido = 0.0;
+        this.juegoActivo = true;
     }
 
-    //AGREGAR AL DIAM
+    /**
+     * Actualiza el estado del juego basándose en el tiempo transcurrido.
+     * <p>
+     * Este método implementa el game loop principal, actualizando todas las
+     * entidades del juego, verificando colisiones, actualizando items activos
+     * y verificando condiciones de victoria/derrota.
+     * </p>
+     *
+     * @param tiempoDelta el tiempo transcurrido desde la última actualización en segundos
+     */
+    public void actualizar(double tiempoDelta) {
+        Try.run(() -> {
+            if (!juegoActivo) {
+                return;
+            }
+
+            tiempoTranscurrido = actualizarTiempo(tiempoTranscurrido, tiempoDelta);
+
+            Option.of(pelota).forEach(p -> p.actualizar(tiempoDelta));
+            Option.of(jugador1).forEach(j -> j.actualizar(tiempoDelta));
+            Option.of(jugador2).forEach(j -> j.actualizar(tiempoDelta));
+
+            bloques = actualizarBloques(bloques, tiempoDelta);
+            items = actualizarItems(items, tiempoDelta);
+
+            gestorColisiones.forEach(gc -> gc.verificarTodasColisiones(this));
+
+            verificarCondicionesFinales();
+        });
+    }
+
+    /**
+     * Actualiza el tiempo transcurrido y verifica el límite de la partida.
+     *
+     * @param tiempoActual el tiempo actual transcurrido
+     * @param delta el incremento de tiempo
+     * @return el nuevo tiempo transcurrido
+     */
+    private double actualizarTiempo(double tiempoActual, double delta) {
+        double nuevoTiempo = tiempoActual + delta;
+
+        if (nuevoTiempo >= DURACION_PARTIDA) {
+            finalizarPorTiempo();
+        }
+
+        return nuevoTiempo;
+    }
+
+    /**
+     * Actualiza todos los bloques del juego de forma funcional.
+     * <p>
+     * Nota: Aunque la lista es inmutable, los objetos Bloque internos
+     * son mutados por actualizar(). Esta limitacion existe debido a que
+     * las entidades del juego fueron disenadas con estado mutable por
+     * otros miembros del equipo.
+     * </p>
+     *
+     * @param bloquesActuales la lista actual de bloques
+     * @param tiempoDelta el tiempo transcurrido
+     * @return una nueva lista filtrada con bloques activos
+     */
+    private List<Bloque> actualizarBloques(List<Bloque> bloquesActuales, double tiempoDelta) {
+        return bloquesActuales
+            .filter(Bloque::estaActivo)
+            .peek(b -> b.actualizar(tiempoDelta));
+    }
+
+    /**
+     * Actualiza todos los items activos del juego de forma funcional.
+     * <p>
+     * Nota: Similar a actualizarBloques, los objetos Item son mutados
+     * internamente debido al diseno mutable de las entidades del juego.
+     * </p>
+     *
+     * @param itemsActuales la lista actual de items
+     * @param tiempoDelta el tiempo transcurrido
+     * @return una nueva lista filtrada con items activos
+     */
+    private List<Item> actualizarItems(List<Item> itemsActuales, double tiempoDelta) {
+        return itemsActuales
+            .filter(Item::estaActivo)
+            .peek(i -> Option.of(jugador1).forEach(j -> i.actualizar(tiempoDelta, j)));
+    }
+
+    /**
+     * Verifica las condiciones finales del juego (victoria o derrota).
+     */
+    private void verificarCondicionesFinales() {
+        if (todosBloquesDestruidos()) {
+            juegoActivo = false;
+            notificarCompletarNivel();
+        }
+    }
+
+    /**
+     * Verifica si todos los bloques han sido destruidos.
+     *
+     * @return true si no quedan bloques activos, false en caso contrario
+     */
+    private boolean todosBloquesDestruidos() {
+        return bloques.filter(b -> b.estaActivo()).isEmpty();
+    }
+
+    /**
+     * Finaliza el juego cuando se agota el tiempo de la partida.
+     */
+    private void finalizarPorTiempo() {
+        juegoActivo = false;
+        int ganador = determinarGanador();
+        notificarTerminarJuego(ganador);
+    }
+
+    /**
+     * Determina el ganador basándose en los puntajes.
+     *
+     * @return 1 si gana el jugador 1, 2 si gana el jugador 2, 0 si empate
+     */
+    private int determinarGanador() {
+        if (puntaje1 > puntaje2) {
+            return 1;
+        } else if (puntaje2 > puntaje1) {
+            return 2;
+        }
+        return 0;
+    }
+
+    /**
+     * Reinicia el estado del juego a sus valores iniciales.
+     * <p>
+     * Restablece las posiciones de las entidades, los puntajes,
+     * el tiempo transcurrido y reactiva el juego.
+     * </p>
+     */
+    public void reiniciar() {
+        Try.run(() -> {
+            Option.of(pelota).forEach(Pelota::reiniciar);
+            Option.of(jugador1).forEach(Paleta::restaurarEstado);
+            Option.of(jugador2).forEach(Paleta::restaurarEstado);
+
+            bloques = reiniciarBloques();
+            items = List.empty();
+            tiempoTranscurrido = 0.0;
+            juegoActivo = true;
+        });
+    }
+
+    /**
+     * Reinicia los bloques del nivel actual de forma funcional.
+     *
+     * @return una nueva lista con los bloques reiniciados
+     */
+    private List<Bloque> reiniciarBloques() {
+        return Option.of(nivel)
+            .map(n -> List.ofAll(n.obtenerBloques()))
+            .getOrElse(List.empty());
+    }
+
+    /**
+     * Agrega un bloque al juego de forma inmutable.
+     *
+     * @param bloque el bloque a agregar
+     */
+    public void agregarBloque(Bloque bloque) {
+        bloques = Option.of(bloque)
+            .map(b -> bloques.append(b))
+            .getOrElse(bloques);
+    }
+
+    /**
+     * Elimina un bloque del juego de forma inmutable.
+     *
+     * @param bloque el bloque a eliminar
+     */
+    public void eliminarBloque(Bloque bloque) {
+        bloques = bloques.remove(bloque);
+    }
+
+    /**
+     * Genera y agrega un nuevo item al juego.
+     * <p>
+     * Notifica a los observadores sobre la generación del item.
+     * </p>
+     *
+     * @param item el item a generar
+     */
+    public void generarItem(Item item) {
+        items = Option.of(item)
+            .map(i -> {
+                notificarGenerarItem(i);
+                return items.append(i);
+            })
+            .getOrElse(items);
+    }
+
+    /**
+     * Incrementa el puntaje de un jugador de forma inmutable.
+     * <p>
+     * Notifica a los observadores sobre el cambio de puntaje.
+     * </p>
+     *
+     * @param jugador el identificador del jugador (1 o 2)
+     * @param puntos la cantidad de puntos a incrementar
+     */
+    public void incrementarPuntaje(int jugador, int puntos) {
+        if (jugador == 1) {
+            puntaje1 = calcularNuevoPuntaje(puntaje1, puntos);
+            notificarCambioPuntaje(1, puntaje1);
+        } else if (jugador == 2) {
+            puntaje2 = calcularNuevoPuntaje(puntaje2, puntos);
+            notificarCambioPuntaje(2, puntaje2);
+        }
+    }
+
+    /**
+     * Calcula un nuevo puntaje de forma pura.
+     *
+     * @param puntajeActual el puntaje actual
+     * @param incremento el incremento a aplicar
+     * @return el nuevo puntaje calculado
+     */
+    private int calcularNuevoPuntaje(int puntajeActual, int incremento) {
+        return Math.max(0, puntajeActual + incremento);
+    }
+
+    /**
+     * Inicializa las paletas desde prototipos registrados.
+     * <p>
+     * Utiliza el patron Prototype a traves del gestor singleton
+     * para crear instancias de las paletas basadas en prototipos
+     * predefinidos.
+     * </p>
+     *
+     * @param nombreProto1 el nombre del prototipo para el jugador 1
+     * @param nombreProto2 el nombre del prototipo para el jugador 2
+     */
+    public void inicializarPaletasDesdePrototipos(String nombreProto1, String nombreProto2) {
+        GestorPrototiposPaleta gestor = GestorPrototiposPaleta.obtenerInstancia();
+
+        jugador1 = gestor.obtenerPrototipo(nombreProto1)
+            .getOrNull();
+
+        jugador2 = gestor.obtenerPrototipo(nombreProto2)
+            .getOrNull();
+    }
+
+    /**
+     * Guarda el estado actual de las paletas usando el patrón Memento.
+     * <p>
+     * Permite restaurar el estado posteriormente sin romper el encapsulamiento.
+     * </p>
+     */
+    public void guardarEstadoPaletas() {
+        mementoGuardado = Option.of(jugador1)
+            .flatMap(j1 -> Option.of(jugador2)
+                .map(j2 -> new MementoPaletas(j1, j2)));
+    }
+
+    /**
+     * Restaura el estado de las paletas desde el memento guardado.
+     * <p>
+     * Utiliza el patrón Memento para restaurar el estado previamente guardado.
+     * </p>
+     */
+    public void restaurarEstadoPaletas() {
+        mementoGuardado.forEach(memento -> {
+            Option.of(jugador1).forEach(memento::restaurarJugador1);
+            Option.of(jugador2).forEach(memento::restaurarJugador2);
+        });
+    }
+
+    /**
+     * Obtiene el modo de juego actual.
+     *
+     * @return el modo de juego actual
+     */
     public ModoJuego obtenerModoActual() {
         return modoActual;
     }
-//AGREGAR AL DIAGRAM
+
+    /**
+     * Establece el modo de juego actual.
+     *
+     * @param modo el nuevo modo de juego
+     */
     public void establecerModo(ModoJuego modo) {
         this.modoActual = modo;
     }
 
-    public void actulizar(double tiempoDelta){
-//aqui va su codigo 
+    /**
+     * Registra un observador para recibir notificaciones de eventos del juego.
+     *
+     * @param observador el observador a registrar
+     */
+    public void agregarObservador(ObservadorJuego observador) {
+        observadores = Option.of(observador)
+            .map(o -> observadores.append(o))
+            .getOrElse(observadores);
     }
-    public void reiniciar(){
-        //aqui va su codigo 
-    }
-    public void agregarBloque(Bloque bloque){
-        //aqui va su codigo
-    }
-    public void eliminarBloque(Bloque bloque){
 
+    /**
+     * Elimina un observador de la lista de notificaciones.
+     *
+     * @param observador el observador a eliminar
+     */
+    public void eliminarObservador(ObservadorJuego observador) {
+        observadores = observadores.remove(observador);
     }
-    public void generarItem(Item item){
-        //aqui va us codigo
+
+    /**
+     * Establece el gestor de colisiones para el juego.
+     *
+     * @param gestor el gestor de colisiones a utilizar
+     */
+    public void establecerGestorColisiones(GestorColisiones gestor) {
+        this.gestorColisiones = Option.of(gestor);
     }
-    public void incrementarPuntaje(int jugador, int puntos){
-        //aqui va us codigo
+
+    /**
+     * Establece el nivel actual del juego.
+     *
+     * @param nivel el nivel a establecer
+     */
+    public void establecerNivel(Nivel nivel) {
+        this.nivel = nivel;
+        this.bloques = Option.of(nivel)
+            .map(n -> List.ofAll(n.obtenerBloques()))
+            .getOrElse(List.empty());
     }
-    /** 
-    public DatosEstadoJuego obtenerEstado(){
-        return null;
-        //Aqui va su codigo
+
+    /**
+     * Notifica a todos los observadores sobre un cambio de puntaje.
+     *
+     * @param jugador el jugador cuyo puntaje cambió
+     * @param nuevoPuntaje el nuevo puntaje
+     */
+    private void notificarCambioPuntaje(int jugador, int nuevoPuntaje) {
+        observadores.forEach(o -> o.alcambiarPuntaje(jugador, nuevoPuntaje));
     }
-        */
-    public void inicializarPaletasDesdePrototipos(String nombreProto, String nombreProto2){
-        //aqui va us codigo 
+
+    /**
+     * Notifica a todos los observadores sobre la finalización del juego.
+     *
+     * @param ganador el jugador ganador
+     */
+    private void notificarTerminarJuego(int ganador) {
+        observadores.forEach(o -> o.alTerminarJuego(ganador));
     }
-    public void guardarEstadoPaletas(){
-        //aqui va us coifg 
+
+    /**
+     * Notifica a todos los observadores sobre la completación de un nivel.
+     */
+    private void notificarCompletarNivel() {
+        observadores.forEach(ObservadorJuego::alCompletarNivel);
     }
-    public void restaurarEstadoPaletas(){
-        //aqui va su codiog
+
+    /**
+     * Notifica a todos los observadores sobre la generación de un item.
+     *
+     * @param item el item generado
+     */
+    private void notificarGenerarItem(Item item) {
+        observadores.forEach(o -> o.alGenrarItem(item));
+    }
+
+    /**
+     * Obtiene la pelota del juego.
+     *
+     * @return la pelota actual
+     */
+    public Pelota obtenerPelota() {
+        return pelota;
+    }
+
+    /**
+     * Obtiene la paleta del jugador 1.
+     *
+     * @return la paleta del jugador 1
+     */
+    public Paleta obtenerJugador1() {
+        return jugador1;
+    }
+
+    /**
+     * Obtiene la paleta del jugador 2.
+     *
+     * @return la paleta del jugador 2
+     */
+    public Paleta obtenerJugador2() {
+        return jugador2;
+    }
+
+    /**
+     * Obtiene la lista inmutable de bloques del juego.
+     *
+     * @return la lista de bloques
+     */
+    public java.util.List<Bloque> obtenerBloques() {
+        return bloques.asJava();
+    }
+
+    /**
+     * Obtiene la lista inmutable de items del juego.
+     *
+     * @return la lista de items
+     */
+    public java.util.List<Item> obtenerItems() {
+        return items.asJava();
+    }
+
+    /**
+     * Obtiene el puntaje del jugador 1.
+     *
+     * @return el puntaje del jugador 1
+     */
+    public int obtenerPuntaje1() {
+        return puntaje1;
+    }
+
+    /**
+     * Obtiene el puntaje del jugador 2.
+     *
+     * @return el puntaje del jugador 2
+     */
+    public int obtenerPuntaje2() {
+        return puntaje2;
+    }
+
+    /**
+     * Obtiene el tiempo transcurrido en la partida.
+     *
+     * @return el tiempo transcurrido en segundos
+     */
+    public double obtenerTiempoTranscurrido() {
+        return tiempoTranscurrido;
+    }
+
+    /**
+     * Obtiene la duración total de una partida.
+     *
+     * @return la duración en segundos
+     */
+    public double obtenerDuracionPartida() {
+        return DURACION_PARTIDA;
+    }
+
+    /**
+     * Verifica si el juego está activo.
+     *
+     * @return true si el juego está activo, false en caso contrario
+     */
+    public boolean estaActivo() {
+        return juegoActivo;
+    }
+
+    /**
+     * Establece el estado activo del juego.
+     *
+     * @param activo el nuevo estado activo
+     */
+    public void establecerActivo(boolean activo) {
+        this.juegoActivo = activo;
+    }
+
+    /**
+     * Inicializa la pelota del juego con una instancia proporcionada.
+     * <p>
+     * Metodo de construccion que debe usarse durante la inicializacion
+     * del juego, no para modificacion dinamica durante el gameplay.
+     * </p>
+     *
+     * @param pelota la pelota inicial del juego
+     */
+    public void inicializarPelota(Pelota pelota) {
+        this.pelota = Option.of(pelota).getOrNull();
+    }
+
+    /**
+     * Inicializa ambas paletas del juego con instancias proporcionadas.
+     * <p>
+     * Metodo de construccion que debe usarse durante la inicializacion
+     * del juego, no para modificacion dinamica durante el gameplay.
+     * </p>
+     *
+     * @param jugador1 la paleta del jugador 1
+     * @param jugador2 la paleta del jugador 2
+     */
+    public void inicializarPaletas(Paleta jugador1, Paleta jugador2) {
+        this.jugador1 = Option.of(jugador1).getOrNull();
+        this.jugador2 = Option.of(jugador2).getOrNull();
     }
 }
