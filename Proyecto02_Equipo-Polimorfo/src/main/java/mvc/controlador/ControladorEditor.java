@@ -72,9 +72,6 @@ public class ControladorEditor extends ControladorBase {
     private Label etiquetaBloques;
 
     @FXML
-    private Label etiquetaPaletas;
-
-    @FXML
     private Button botonBloqueDestructible;
 
     @FXML
@@ -87,12 +84,6 @@ public class ControladorEditor extends ControladorBase {
     private Button botonBloqueMulti;
 
     @FXML
-    private Button botonPaletaIzq;
-
-    @FXML
-    private Button botonPaletaDer;
-
-    @FXML
     private Button botonBorrador;
 
     @FXML
@@ -100,9 +91,6 @@ public class ControladorEditor extends ControladorBase {
 
     @FXML
     private Button botonGuardar;
-
-    @FXML
-    private Button botonProbar;
 
     @FXML
     private Button botonCancelar;
@@ -424,8 +412,7 @@ public class ControladorEditor extends ControladorBase {
      * @return true si es valido, false en caso contrario
      */
     private boolean esValidoAgregarObjeto(double x, double y) {
-        return !existeObjetoEnPosicion(x, y) &&
-               !excedeLimitePaletas();
+        return !existeObjetoEnPosicion(x, y);
     }
 
     /**
@@ -441,28 +428,6 @@ public class ControladorEditor extends ControladorBase {
     }
 
     /**
-     * Verifica si se excede el limite de paletas al agregar una nueva.
-     *
-     * @return true si se excede el limite, false en caso contrario
-     */
-    private boolean excedeLimitePaletas() {
-        return (herramientaActual == HerramientaEditor.PALETA_IZQ ||
-                herramientaActual == HerramientaEditor.PALETA_DER) &&
-               contarPaletas() >= MAX_PALETAS;
-    }
-
-    /**
-     * Cuenta el numero de paletas en el mapa.
-     *
-     * @return Numero de paletas
-     */
-    private long contarPaletas() {
-        return objetosEnMapa.stream()
-                .filter(obj -> obj.tipo == TipoObjetoMapa.PALETA)
-                .count();
-    }
-
-    /**
      * Crea un objeto desde la herramienta actual.
      *
      * @param x Coordenada X
@@ -475,8 +440,6 @@ public class ControladorEditor extends ControladorBase {
             case BLOQUE_INDESTRUCTIBLE -> new ObjetoMapa(x, y, TipoObjetoMapa.BLOQUE, TipoBloque.INDESTRUCTIBLE);
             case BLOQUE_BONUS -> new ObjetoMapa(x, y, TipoObjetoMapa.BLOQUE, TipoBloque.BONUS);
             case BLOQUE_MULTI -> new ObjetoMapa(x, y, TipoObjetoMapa.BLOQUE, TipoBloque.MULTI_GOLPE);
-            case PALETA_IZQ -> new ObjetoMapa(x, y, TipoObjetoMapa.PALETA, null);
-            case PALETA_DER -> new ObjetoMapa(x, y, TipoObjetoMapa.PALETA, null);
             default -> throw new IllegalStateException("Herramienta no soportada: " + herramientaActual);
         };
     }
@@ -486,9 +449,7 @@ public class ControladorEditor extends ControladorBase {
      */
     private void actualizarEstadisticas() {
         long numBloques = contarBloques();
-        long numPaletas = contarPaletas();
-        etiquetaBloques.setText("Bloque: " + numBloques);
-        etiquetaPaletas.setText("Paletas: " + numPaletas);
+        etiquetaBloques.setText("Bloques: " + numBloques);
     }
 
     /**
@@ -585,7 +546,30 @@ public class ControladorEditor extends ControladorBase {
      */
     private void dibujarObjetos() {
         GraphicsContext gc = canvasMapa.getGraphicsContext2D();
+        dibujarPaletasFijas(gc);
         objetosEnMapa.forEach(obj -> dibujarObjeto(gc, obj));
+    }
+
+    /**
+     * Dibuja las paletas fijas en posiciones predeterminadas.
+     * Las paletas se muestran semi-transparentes para indicar que son automaticas.
+     *
+     * @param gc Contexto grafico del canvas
+     */
+    private void dibujarPaletasFijas(GraphicsContext gc) {
+        double centroY = (ALTO_CANVAS_BASE / 2.0) - (ANCHO_PALETA / 2.0);
+        double paletaIzqX = 30.0;
+        double paletaDerX = ANCHO_CANVAS_BASE - 30.0 - ALTO_PALETA;
+
+        gc.setGlobalAlpha(0.3);
+        gc.setFill(Color.WHITE);
+        gc.fillRect(paletaIzqX, centroY, ALTO_PALETA, ANCHO_PALETA);
+        gc.fillRect(paletaDerX, centroY, ALTO_PALETA, ANCHO_PALETA);
+        gc.setStroke(Color.GRAY);
+        gc.setLineWidth(1);
+        gc.strokeRect(paletaIzqX, centroY, ALTO_PALETA, ANCHO_PALETA);
+        gc.strokeRect(paletaDerX, centroY, ALTO_PALETA, ANCHO_PALETA);
+        gc.setGlobalAlpha(1.0);
     }
 
     /**
@@ -684,26 +668,6 @@ public class ControladorEditor extends ControladorBase {
     @FXML
     private void accionSeleccionarBloqueMulti(ActionEvent evento) {
         seleccionarHerramienta(HerramientaEditor.BLOQUE_MULTI, botonBloqueMulti);
-    }
-
-    /**
-     * Maneja la seleccion de la herramienta paleta izquierda.
-     *
-     * @param evento Evento de accion
-     */
-    @FXML
-    private void accionSeleccionarPaletaIzq(ActionEvent evento) {
-        seleccionarHerramienta(HerramientaEditor.PALETA_IZQ, botonPaletaIzq);
-    }
-
-    /**
-     * Maneja la seleccion de la herramienta paleta derecha.
-     *
-     * @param evento Evento de accion
-     */
-    @FXML
-    private void accionSeleccionarPaletaDer(ActionEvent evento) {
-        seleccionarHerramienta(HerramientaEditor.PALETA_DER, botonPaletaDer);
     }
 
     /**
@@ -850,20 +814,6 @@ public class ControladorEditor extends ControladorBase {
     }
 
     /**
-     * Maneja la accion de probar el nivel creado.
-     * Valida el nivel y navega al juego si es valido.
-     *
-     * @param evento Evento de accion
-     */
-    @FXML
-    private void accionProbarNivel(ActionEvent evento) {
-        if (validarNivel()) {
-            Nivel nivelConstruido = construirNivel();
-            navegarAlJuegoConNivel(nivelConstruido);
-        }
-    }
-
-    /**
      * Valida que el nivel tenga los elementos minimos requeridos.
      *
      * @return true si el nivel es valido, false en caso contrario
@@ -962,16 +912,6 @@ public class ControladorEditor extends ControladorBase {
     }
 
     /**
-     * Navega al juego con el nivel especificado.
-     *
-     * @param nivel Nivel a jugar
-     */
-    private void navegarAlJuegoConNivel(Nivel nivel) {
-        Optional.ofNullable(gestorEscenas)
-                .ifPresent(GestorEscenas::mostrarJuego);
-    }
-
-    /**
      * Maneja la accion de cancelar la edicion y volver al menu.
      *
      * @param evento Evento de accion
@@ -1037,8 +977,6 @@ public class ControladorEditor extends ControladorBase {
         BLOQUE_INDESTRUCTIBLE,
         BLOQUE_BONUS,
         BLOQUE_MULTI,
-        PALETA_IZQ,
-        PALETA_DER,
         BORRADOR
     }
 

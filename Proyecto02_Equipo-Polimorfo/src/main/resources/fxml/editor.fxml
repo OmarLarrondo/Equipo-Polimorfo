@@ -105,10 +105,6 @@
                        text="Bloques: 0"
                        styleClass="texto-info"
                        style="-fx-font-size: 9px;"/>
-                <Label fx:id="etiquetaPaletas"
-                       text="Paletas: 0"
-                       styleClass="texto-info"
-                       style="-fx-font-size: 9px;"/>
             </VBox>
         </VBox>
     </right>
@@ -178,38 +174,6 @@
                 <!-- Separador vertical -->
                 <VBox styleClass="separador" prefWidth="2" minWidth="2"/>
 
-                <!-- Sección: Paletas -->
-                <VBox spacing="5" alignment="CENTER">
-                    <Label text="PALETAS" styleClass="texto-info titulo-seccion"
-                           style="-fx-font-size: 8px;"/>
-                    <HBox spacing="10" alignment="CENTER">
-                        <Button fx:id="botonPaletaIzq"
-                                styleClass="boton-herramienta"
-                                onAction="#accionSeleccionarPaletaIzq">
-                            <graphic>
-                                <VBox spacing="5" alignment="CENTER">
-                                    <FontIcon iconLiteral="fas-chevron-left" iconSize="20"/>
-                                    <Label text="Izq." style="-fx-font-size: 7px;"/>
-                                </VBox>
-                            </graphic>
-                        </Button>
-
-                        <Button fx:id="botonPaletaDer"
-                                styleClass="boton-herramienta"
-                                onAction="#accionSeleccionarPaletaDer">
-                            <graphic>
-                                <VBox spacing="5" alignment="CENTER">
-                                    <FontIcon iconLiteral="fas-chevron-right" iconSize="20"/>
-                                    <Label text="Der." style="-fx-font-size: 7px;"/>
-                                </VBox>
-                            </graphic>
-                        </Button>
-                    </HBox>
-                </VBox>
-
-                <!-- Separador vertical -->
-                <VBox styleClass="separador" prefWidth="2" minWidth="2"/>
-
                 <!-- Sección: Herramientas -->
                 <VBox spacing="5" alignment="CENTER">
                     <Label text="HERRAMIENTAS" styleClass="texto-info titulo-seccion"
@@ -251,17 +215,6 @@
                             <HBox spacing="8" alignment="CENTER">
                                 <FontIcon iconLiteral="fas-save" iconSize="12"/>
                                 <Label text="Guardar"/>
-                            </HBox>
-                        </graphic>
-                    </Button>
-
-                    <Button fx:id="botonProbar"
-                            styleClass="boton-secundario"
-                            onAction="#accionProbarNivel">
-                        <graphic>
-                            <HBox spacing="8" alignment="CENTER">
-                                <FontIcon iconLiteral="fas-play" iconSize="12"/>
-                                <Label text="Probar"/>
                             </HBox>
                         </graphic>
                     </Button>
