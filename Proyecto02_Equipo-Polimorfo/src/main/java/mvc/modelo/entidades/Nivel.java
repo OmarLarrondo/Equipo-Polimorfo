@@ -1,4 +1,4 @@
-package patrones.factory.niveles;
+package mvc.modelo.entidades;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package patrones.factory.niveles;
+package mvc.modelo.enums;
 
 /**
  * Enumeración {@code TipoNivel} que representa los diferentes tipos de niveles 

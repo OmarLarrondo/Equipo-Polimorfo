@@ -2,7 +2,7 @@ package patrones.factory.ia;
 
 import java.util.Map;
 
-import patrones.factory.niveles.TipoNivel;
+import mvc.modelo.enums.TipoNivel;
 
 /**
  * Clase que encapsula la configuración necesaria para crear un {@code Nivel}

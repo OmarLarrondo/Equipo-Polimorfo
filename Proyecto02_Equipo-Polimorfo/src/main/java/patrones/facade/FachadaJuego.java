@@ -4,9 +4,7 @@ import java.util.List;
 
 import mvc.controlador.ControladorJuego;
 import mvc.modelo.enums.ModoJuego;
-import patrones.factory.niveles.FabricaNiveles;
-import patrones.factory.niveles.Nivel;
-import patrones.factory.niveles.ConfigNivel;
+import mvc.modelo.entidades.Nivel;
 import patrones.factory.ia.ServiciioIA;
 import patrones.singleton.GestorPuntajes;
 import patrones.singleton.Puntaje;
@@ -28,7 +26,6 @@ public class FachadaJuego {
     private ControladorJuego controladorJuego;
     private GestorPuntajes gestorPuntajes;
     private ServiciioIA servicioIA;
-    private FabricaNiveles fabricaNiveles;
 
     /**
      * Inicia un nuevo juego según el modo especificado.
@@ -82,12 +79,11 @@ public class FachadaJuego {
     }
 
     /**
-     * Crea un nuevo nivel en función de la configuración proporcionada por el user.
+     * Crea un nuevo nivel básico.
      *
-     * @param config la configuración del nivel a crear
      * @return el nuevo objeto {@code Nivel} generado
      */
-    public Nivel crearNivel(ConfigNivel config) {
+    public Nivel crearNivel() {
         //aqui va su codigo
         return null;
     }

@@ -1,6 +1,6 @@
 package patrones.builder;
 
-import patrones.factory.niveles.Nivel;
+import mvc.modelo.entidades.Nivel;
 
 /**
  * {@code DirectorNiveles} actúa como el <b>Director</b> en el patrón de diseño Builder.

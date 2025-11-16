@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mvc.modelo.entidades.Bloque;
-import patrones.factory.niveles.Nivel;
+import mvc.modelo.entidades.Nivel;
 
 /**
  * Implementación concreta de {@link BuilderNivel} que permite construir niveles del juego Pong.

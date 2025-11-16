@@ -3,7 +3,7 @@ package persistencia;
 import io.vavr.control.Try;
 import mvc.modelo.entidades.Bloque;
 import patrones.builder.TipoBloque;
-import patrones.factory.niveles.Nivel;
+import mvc.modelo.entidades.Nivel;
 import persistencia.conexion.ConexionSQLite;
 import persistencia.dto.BloqueDTO;
 import persistencia.dto.NivelDTO;

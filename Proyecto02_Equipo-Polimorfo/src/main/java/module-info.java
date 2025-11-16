@@ -19,7 +19,6 @@ module pong.evolved {
     exports mvc.vista;
     exports mvc.controlador;
     exports patrones.builder;
-    exports patrones.factory.niveles;
     exports patrones.factory.ia;
     exports patrones.prototype;
     exports patrones.strategy.movimiento;

@@ -1,6 +1,6 @@
 package patrones.builder;
 
-import patrones.factory.niveles.Nivel;
+import mvc.modelo.entidades.Nivel;
 
 /**
  * La interfaz {@code BuilderNivel} define el contrato que deben seguir

@@ -4,7 +4,7 @@ import io.vavr.collection.List;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 
-import patrones.factory.niveles.Nivel;
+import mvc.modelo.entidades.Nivel;
 import mvc.modelo.entidades.Bloque;
 import mvc.modelo.entidades.paleta.Paleta;
 import mvc.modelo.entidades.pelota.Pelota;

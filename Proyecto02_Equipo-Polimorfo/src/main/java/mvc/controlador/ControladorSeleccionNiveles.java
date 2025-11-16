@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import patrones.builder.ConstructorMapa;
 import patrones.builder.DirectorNiveles;
-import patrones.factory.niveles.Nivel;
+import mvc.modelo.entidades.Nivel;
 import org.kordamp.ikonli.javafx.FontIcon;
 import mvc.vista.GestorEscenas;
 

@@ -17,7 +17,7 @@ import javafx.util.Duration;
 import mvc.modelo.entidades.Bloque;
 import patrones.builder.ConstructorMapa;
 import patrones.builder.TipoBloque;
-import patrones.factory.niveles.Nivel;
+import mvc.modelo.entidades.Nivel;
 import mvc.modelo.entidades.paleta.Paleta;
 import mvc.vista.GestorEscenas;
 
