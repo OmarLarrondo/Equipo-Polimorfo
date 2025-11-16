@@ -200,6 +200,17 @@
                                 </VBox>
                             </graphic>
                         </Button>
+
+                        <Button fx:id="botonCargar"
+                                styleClass="boton-herramienta"
+                                onAction="#accionCargarNivel">
+                            <graphic>
+                                <VBox spacing="5" alignment="CENTER">
+                                    <FontIcon iconLiteral="fas-cloud-upload-alt" iconSize="20"/>
+                                    <Label text="Cargar" style="-fx-font-size: 7px;"/>
+                                </VBox>
+                            </graphic>
+                        </Button>
                     </HBox>
                 </VBox>
 

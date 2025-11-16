@@ -90,6 +90,9 @@ public class ControladorEditor extends ControladorBase {
     private Button botonToggleGrid;
 
     @FXML
+    private Button botonCargar;
+
+    @FXML
     private Button botonGuardar;
 
     @FXML
@@ -557,9 +560,11 @@ public class ControladorEditor extends ControladorBase {
      * @param gc Contexto grafico del canvas
      */
     private void dibujarPaletasFijas(GraphicsContext gc) {
-        double centroY = (ALTO_CANVAS_BASE / 2.0) - (ANCHO_PALETA / 2.0);
-        double paletaIzqX = 30.0;
-        double paletaDerX = ANCHO_CANVAS_BASE - 30.0 - ALTO_PALETA;
+        double anchoReal = canvasMapa.getWidth();
+        double altoReal = canvasMapa.getHeight();
+        double centroY = (altoReal / 2.0) - (ANCHO_PALETA / 2.0);
+        double paletaIzqX = 5.0;
+        double paletaDerX = anchoReal - ALTO_PALETA - 5.0;
 
         gc.setGlobalAlpha(0.3);
         gc.setFill(Color.WHITE);
@@ -720,6 +725,126 @@ public class ControladorEditor extends ControladorBase {
     private void accionToggleGrid(ActionEvent evento) {
         gridVisible = !gridVisible;
         dibujarGrid();
+    }
+
+    /**
+     * Maneja la accion de cargar un nivel existente desde la base de datos.
+     * Muestra un dialogo modal para seleccionar un nivel guardado y lo carga en el editor.
+     *
+     * @param evento Evento de accion
+     */
+    @FXML
+    private void accionCargarNivel(ActionEvent evento) {
+        io.vavr.control.Try.of(() -> util.CargadorRecursos.cargarFXMLLoader("fxml/dialogo-cargar-nivel.fxml"))
+            .filter(java.util.Objects::nonNull)
+            .flatMap(this::crearYMostrarDialogoCargar)
+            .peek(this::cargarNivelEnEditor)
+            .onFailure(error -> mostrarErrorValidacion(
+                "Error al cargar nivel",
+                "No se pudo abrir el dialogo de carga: " + error.getMessage()
+            ));
+    }
+
+    /**
+     * Crea y muestra el dialogo de carga de niveles.
+     *
+     * @param loader FXMLLoader configurado con el FXML del dialogo
+     * @return Try con el nivel seleccionado, o vacio si se cancelo
+     */
+    private io.vavr.control.Try<Nivel> crearYMostrarDialogoCargar(javafx.fxml.FXMLLoader loader) {
+        return io.vavr.control.Try.of(() -> {
+            javafx.scene.Parent root = loader.load();
+            ControladorDialogoCargarNivel controlador = loader.getController();
+
+            javafx.stage.Stage dialogo = new javafx.stage.Stage();
+            dialogo.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            dialogo.initOwner(botonCargar.getScene().getWindow());
+            dialogo.setTitle("Cargar Nivel");
+            dialogo.setResizable(false);
+
+            javafx.scene.Scene escena = new javafx.scene.Scene(root);
+            util.CargadorRecursos.obtenerRutaCSS("estilo-retro.css")
+                .ifPresent(ruta -> escena.getStylesheets().add(ruta));
+
+            dialogo.setScene(escena);
+            dialogo.showAndWait();
+
+            return controlador.obtenerNivelSeleccionado()
+                .getOrElseThrow(() -> new RuntimeException("No se selecciono ningun nivel"));
+        });
+    }
+
+    /**
+     * Carga un nivel en el editor, actualizando todos los campos y objetos del mapa.
+     *
+     * @param nivel Nivel a cargar
+     */
+    private void cargarNivelEnEditor(Nivel nivel) {
+        limpiarEditor();
+        actualizarCamposDesdeNivel(nivel);
+        convertirYAgregarBloques(nivel);
+        redibujarCanvas();
+    }
+
+    /**
+     * Limpia el estado actual del editor.
+     */
+    private void limpiarEditor() {
+        objetosEnMapa.clear();
+    }
+
+    /**
+     * Actualiza los campos del formulario con los datos del nivel.
+     *
+     * @param nivel Nivel cuyos datos se mostraran
+     */
+    private void actualizarCamposDesdeNivel(Nivel nivel) {
+        campoNombre.setText(nivel.getNombre());
+        deslizadorDificultad.setValue(nivel.getDificultad());
+        io.vavr.control.Option.of(nivel.getCreador())
+            .filter(creador -> !creador.isEmpty())
+            .peek(campoCreador::setText)
+            .onEmpty(() -> campoCreador.setText(""));
+    }
+
+    /**
+     * Convierte los bloques del nivel a objetos del mapa y los agrega a la lista.
+     *
+     * @param nivel Nivel con los bloques a convertir
+     */
+    private void convertirYAgregarBloques(Nivel nivel) {
+        io.vavr.collection.List.ofAll(nivel.getBloques())
+            .map(this::convertirBloqueAObjetoMapa)
+            .forEach(objetosEnMapa::add);
+
+        etiquetaBloques.setText("Bloques: " + objetosEnMapa.size());
+    }
+
+    /**
+     * Convierte un bloque del dominio a un objeto del mapa del editor.
+     *
+     * @param bloque Bloque a convertir
+     * @return ObjetoMapa equivalente
+     */
+    private ObjetoMapa convertirBloqueAObjetoMapa(Bloque bloque) {
+        return new ObjetoMapa(
+            bloque.obtenerX(),
+            bloque.obtenerY(),
+            TipoObjetoMapa.BLOQUE,
+            bloque.obtenerTipo()
+        );
+    }
+
+    /**
+     * Redibuja el canvas completo con los objetos actuales.
+     */
+    private void redibujarCanvas() {
+        limpiarCanvas();
+        GraphicsContext gc = canvasMapa.getGraphicsContext2D();
+        gc.setFill(Color.web("#1a1a2e"));
+        gc.fillRect(0, 0, canvasMapa.getWidth(), canvasMapa.getHeight());
+        dibujarPaletasFijas(gc);
+        dibujarObjetos();
     }
 
     /**

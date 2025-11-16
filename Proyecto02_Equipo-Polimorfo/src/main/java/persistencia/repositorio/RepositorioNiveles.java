@@ -296,13 +296,18 @@ public final class RepositorioNiveles {
      * @return NivelDTO construido
      */
     private NivelDTO construirNivel(ResultSet rs) throws Exception {
+        java.sql.Timestamp timestamp = rs.getTimestamp("fecha_creacion");
+        java.time.LocalDateTime fechaCreacion = io.vavr.control.Option.of(timestamp)
+            .map(java.sql.Timestamp::toLocalDateTime)
+            .getOrElse(java.time.LocalDateTime::now);
+
         return new NivelDTO(
             rs.getString("id"),
             rs.getString("nombre"),
             rs.getString("creador"),
             rs.getInt("dificultad"),
             rs.getInt("es_personalizado") == 1,
-            rs.getTimestamp("fecha_creacion").toLocalDateTime()
+            fechaCreacion
         );
     }
 
