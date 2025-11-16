@@ -61,6 +61,19 @@ public final class CargadorRecursos {
     }
 
     /**
+     * Carga un archivo FXML y retorna el FXMLLoader para acceder al controlador.
+     * Este método permite obtener el controlador asociado al FXML después de la carga.
+     *
+     * @param rutaRelativa Ruta relativa al directorio de recursos (ej: "fxml/juego.fxml")
+     * @return FXMLLoader configurado con la URL del FXML, o null si falla
+     */
+    public static FXMLLoader cargarFXMLLoader(String rutaRelativa) {
+        return obtenerURL(rutaRelativa)
+                .map(url -> new FXMLLoader(url))
+                .orElse(null);
+    }
+
+    /**
      * Carga un archivo FXML con un controlador específico.
      *
      * @param rutaRelativa Ruta relativa al directorio de recursos

@@ -1,8 +1,13 @@
 package app;
 
+import io.vavr.control.Try;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import mvc.controlador.ControladorEditor;
+import mvc.controlador.ControladorJuego;
 import mvc.controlador.ControladorMenu;
 import mvc.controlador.ControladorSeleccionDificultad;
 import mvc.controlador.ControladorSeleccionNiveles;
@@ -12,6 +17,7 @@ import mvc.vista.VistaMenu;
 import mvc.vista.VistaSeleccionDificultad;
 import mvc.vista.VistaSeleccionNiveles;
 import mvc.vista.GestorEscenas;
+import util.CargadorRecursos;
 
 /**
  * Clase principal de la aplicación Pong Evolved.
@@ -30,6 +36,7 @@ public class AplicacionPong extends Application {
     private ControladorSeleccionDificultad controladorDificultad;
     private ControladorSeleccionNiveles controladorNiveles;
     private ControladorEditor controladorEditor;
+    private ControladorJuego controladorJuego;
 
     /**
      * Método de inicialización ejecutado antes de start().
@@ -73,6 +80,7 @@ public class AplicacionPong extends Application {
         inicializarVistaSeleccionDificultad();
         inicializarVistaSeleccionNiveles();
         inicializarVistaEditor();
+        inicializarVistaJuego();
 
         gestorEscenas.mostrarMenu();
         inicializarMusicaFondo();
@@ -182,6 +190,33 @@ public class AplicacionPong extends Application {
         gestorEscenas.registrarEscena("editor", vista.obtenerEscena());
         gestorEscenas.registrarCallbackPreMostrar("editor",
                 () -> controladorEditor.reiniciarEstado());
+    }
+
+    /**
+     * Inicializa la vista del juego principal y la registra en el gestor.
+     */
+    private void inicializarVistaJuego() {
+        Try.run(() -> {
+            final FXMLLoader loader = CargadorRecursos.cargarFXMLLoader("fxml/juego.fxml");
+            final StackPane root = loader.load();
+            controladorJuego = loader.getController();
+
+            if (controladorJuego != null) {
+                controladorJuego.establecerGestorEscenas(gestorEscenas);
+            }
+
+            final Scene escenaJuego = new Scene(root, ANCHO_MINIMO, ALTO_MINIMO);
+            gestorEscenas.registrarEscena("juego", escenaJuego);
+            gestorEscenas.registrarCallbackPreMostrar("juego",
+                    () -> {
+                        if (controladorJuego != null) {
+                            controladorJuego.reiniciarEstado();
+                        }
+                    });
+        }).onFailure(e -> {
+            System.err.println("Error inicializando vista de juego: " + e.getMessage());
+            e.printStackTrace();
+        });
     }
 
     /**

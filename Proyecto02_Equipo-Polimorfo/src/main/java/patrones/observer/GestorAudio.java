@@ -13,8 +13,7 @@ import java.util.Map;
 
 /**
  * Gestor centralizado de audio del juego implementado como Singleton.
- * Administra la musica de fondo y efectos de sonido mediante programacion
- * funcional pura con Vavr.
+ * Administra la musica de fondo y efectos de sonido.
  *
  * <p>Esta clase proporciona control sobre la reproduccion de audio, volumen
  * y silenciado, desacoplando los componentes del juego de las APIs de JavaFX Media.</p>

@@ -163,4 +163,46 @@ public class ItemAumentoVelocidad  implements Item{
         tiempoRestante = duracion;
 
     }
+
+    /**
+     * Obtiene la posición X del item para renderizado.
+     * Los items de aumento de velocidad no tienen posición física, retorna 0.0 por defecto.
+     *
+     * @return 0.0 (sin posición física)
+     */
+    @Override
+    public double obtenerX() {
+        return 0.0;
+    }
+
+    /**
+     * Obtiene la posición Y del item para renderizado.
+     * Los items de aumento de velocidad no tienen posición física, retorna 0.0 por defecto.
+     *
+     * @return 0.0 (sin posición física)
+     */
+    @Override
+    public double obtenerY() {
+        return 0.0;
+    }
+
+    /**
+     * Obtiene el ancho del item para renderizado.
+     *
+     * @return 20.0 píxeles
+     */
+    @Override
+    public double obtenerAncho() {
+        return 20.0;
+    }
+
+    /**
+     * Obtiene el alto del item para renderizado.
+     *
+     * @return 20.0 píxeles
+     */
+    @Override
+    public double obtenerAlto() {
+        return 20.0;
+    }
 }

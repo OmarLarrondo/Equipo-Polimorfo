@@ -70,4 +70,34 @@ public interface Item {
      *               expira el tiempo
      */
     void actualizar(double deltaTiempo, ObjetoJuego objeto);
+
+    /**
+     * Obtiene la posición X del item en el campo de juego.
+     * Necesario para el renderizado visual del item.
+     *
+     * @return la coordenada X actual del item
+     */
+    double obtenerX();
+
+    /**
+     * Obtiene la posición Y del item en el campo de juego.
+     * Necesario para el renderizado visual del item.
+     *
+     * @return la coordenada Y actual del item
+     */
+    double obtenerY();
+
+    /**
+     * Obtiene el ancho del item para renderizado.
+     *
+     * @return el ancho del item en píxeles
+     */
+    double obtenerAncho();
+
+    /**
+     * Obtiene el alto del item para renderizado.
+     *
+     * @return el alto del item en píxeles
+     */
+    double obtenerAlto();
 }

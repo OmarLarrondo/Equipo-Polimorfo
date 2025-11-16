@@ -19,30 +19,48 @@ import mvc.vista.VistaJuego;
  * @version 1.0
  */
 public class ObservadorUI implements ObservadorJuego {
-    
+
     private VistaJuego vistaJuego;
+
+    /**
+     * Constructor que inicializa el observador con la vista del juego.
+     *
+     * @param vistaJuego la vista que será actualizada por este observador
+     */
+    public ObservadorUI(final VistaJuego vistaJuego) {
+        this.vistaJuego = vistaJuego;
+    }
 
     /**{@inheritDoc}*/
     @Override
     public void alcambiarPuntaje(int jugador, int nuevoPuntaje) {
-        // aqui va su codigo 
+        if (vistaJuego != null) {
+            vistaJuego.actualizarPuntaje(jugador, nuevoPuntaje);
+        }
     }
 
     /**{@inheritDoc}*/
     @Override
     public void alTerminarJuego(int ganador) {
-        // aqui va su codigo 
+        if (vistaJuego != null) {
+            final String mensaje = ganador == 0 ? "EMPATE" : "GANADOR: JUGADOR " + ganador;
+            vistaJuego.mostrarMensajeCentral(mensaje);
+        }
     }
 
     /**{@inheritDoc}*/
     @Override
     public void alCompletarNivel() {
-        // aqui va su codigo 
+        if (vistaJuego != null) {
+            vistaJuego.mostrarMensajeCentral("NIVEL COMPLETADO");
+        }
     }
 
     /**{@inheritDoc}*/
     @Override
     public void alGenrarItem(Item item) {
-        // aqui va su codigo 
+        if (vistaJuego != null) {
+            vistaJuego.mostrarMensajeCentral("POWER-UP");
+        }
     }
 }
