@@ -1,8 +1,8 @@
 package mvc.modelo.items;
 
 import mvc.modelo.entidades.ObjetoJuego;
-import mvc.modelo.entidades.Paleta;
-import mvc.modelo.entidades.Pelota;
+import mvc.modelo.entidades.paleta.Paleta;
+import mvc.modelo.entidades.pelota.Pelota;
 
 /**
  * Item que modifica temporalmente la velocidad de paletas o pelotas.
@@ -74,7 +74,7 @@ public class ItemAumentoVelocidad  implements Item{
     public void aplicar(ObjetoJuego objeto) {
         if(activo) return;
 
-        if(objeto instanceof Paleta paleta){
+        if(objeto instanceof mvc.modelo.entidades.paleta.Paleta paleta){
             double velocidadOriginal = paleta.obtenerVelocidad();
             paleta.establecerVelocidad(velocidadOriginal*multiplicadorVelocidad);
             paleta.establecerActivo(true);
@@ -83,7 +83,7 @@ public class ItemAumentoVelocidad  implements Item{
             desactivar(objeto);
 
         }
-        else if(objeto instanceof Pelota pelota){
+        else if(objeto instanceof mvc.modelo.entidades.pelota.Pelota pelota){
             double velocidadOriginal = pelota.obtenerVelocidad();
             pelota.establecerVelocidadGeneral(velocidadOriginal*multiplicadorVelocidad);
             pelota.establecerActivo(true);
@@ -147,14 +147,14 @@ public class ItemAumentoVelocidad  implements Item{
      */
     @Override
     public void desactivar(ObjetoJuego objeto) {
-        if(objeto instanceof Paleta){
-            ((Paleta)objeto).restaurarEstado();
-            ((Paleta)objeto).establecerActivo(false);
+        if(objeto instanceof mvc.modelo.entidades.paleta.Paleta){
+            ((mvc.modelo.entidades.paleta.Paleta)objeto).restaurarEstado();
+            ((mvc.modelo.entidades.paleta.Paleta)objeto).establecerActivo(false);
             activo = false;
         }
-        else if(objeto instanceof Pelota){
-            ((Pelota)objeto).restaurarEstado();
-            ((Pelota)objeto).establecerActivo(false);
+        else if(objeto instanceof mvc.modelo.entidades.pelota.Pelota){
+            ((mvc.modelo.entidades.pelota.Pelota)objeto).restaurarEstado();
+            ((mvc.modelo.entidades.pelota.Pelota)objeto).establecerActivo(false);
             activo = false;
         }else{
             throw new IllegalArgumentException("el objeto debe ser una paleta o una pelota");

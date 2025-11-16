@@ -6,7 +6,7 @@ import io.vavr.control.Option;
 import io.vavr.collection.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import mvc.modelo.entidades.Paleta;
+import mvc.modelo.entidades.paleta.Paleta;
 import javafx.scene.paint.Color;
 
 /**

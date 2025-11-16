@@ -10,8 +10,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import mvc.modelo.entidades.Bloque;
 import mvc.modelo.entidades.ObjetoJuego;
-import mvc.modelo.entidades.Paleta;
-import mvc.modelo.entidades.Pelota;
+import mvc.modelo.entidades.paleta.Paleta;
+import mvc.modelo.entidades.pelota.Pelota;
 import mvc.modelo.items.Item;
 
 /**

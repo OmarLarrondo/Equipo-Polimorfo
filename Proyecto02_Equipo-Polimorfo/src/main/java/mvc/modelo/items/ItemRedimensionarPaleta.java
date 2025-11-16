@@ -1,7 +1,7 @@
 package mvc.modelo.items;
 
 import mvc.modelo.entidades.ObjetoJuego;
-import mvc.modelo.entidades.Paleta;
+import mvc.modelo.entidades.paleta.Paleta;
 
 /**
  * Item que modifica temporalmente el tamaño de la paleta.
@@ -82,7 +82,7 @@ public class ItemRedimensionarPaleta implements Item {
     public void aplicar(ObjetoJuego objeto) {
         if(activo == true) return;
 
-        if(!(objeto instanceof Paleta p)) throw new IllegalArgumentException("Solo se puede aplicar a paletas.");
+        if(!(objeto instanceof mvc.modelo.entidades.paleta.Paleta p)) throw new IllegalArgumentException("Solo se puede aplicar a paletas.");
 
         anchoOriginal = p.obtenerAncho();
         altoOriginal = p.obtenerAlto();
@@ -127,7 +127,7 @@ public class ItemRedimensionarPaleta implements Item {
      */
     @Override
     public void desactivar(ObjetoJuego objeto) {
-        if(!(objeto instanceof Paleta p)) throw new IllegalArgumentException("Solo se puede aplicar a paletas.");
+        if(!(objeto instanceof mvc.modelo.entidades.paleta.Paleta p)) throw new IllegalArgumentException("Solo se puede aplicar a paletas.");
         p.setAlto(altoOriginal);
         p.setAncho(anchoOriginal);
         activo = false;

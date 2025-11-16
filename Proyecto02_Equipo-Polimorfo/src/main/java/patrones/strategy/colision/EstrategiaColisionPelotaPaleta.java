@@ -1,8 +1,8 @@
 package patrones.strategy.colision;
 
 import mvc.modelo.entidades.ObjetoJuego;
-import mvc.modelo.entidades.Paleta;
-import mvc.modelo.entidades.Pelota;
+import mvc.modelo.entidades.paleta.Paleta;
+import mvc.modelo.entidades.pelota.Pelota;
 
 public class EstrategiaColisionPelotaPaleta implements EstrategiaColision{
 

@@ -2,7 +2,7 @@ package patrones.factory.niveles;
 
 import mvc.modelo.entidades.Bloque;
 import patrones.builder.TipoBloque;
-import mvc.modelo.entidades.Paleta;
+import mvc.modelo.entidades.paleta.Paleta;
 
 /**
  * Implementación concreta de {@link NivelFactory} que crea instancias del nivel

@@ -5,7 +5,7 @@ import java.util.List;
 
 import mvc.modelo.entidades.ObjetoJuego;
 import mvc.modelo.entidades.ObjetoJuegoCompuesto;
-import mvc.modelo.entidades.Pelota;
+import mvc.modelo.entidades.pelota.Pelota;
 
 /**
  * Item que clona pelotas existentes para crear múltiples pelotas en juego.
@@ -86,7 +86,7 @@ public class ItemMultiPelota implements Item{
             List<ObjetoJuego> hijosConter = contenedor.obtenerHijos();
             int creadas = 0;
             for(int i = 0; i < hijosConter.size(); i++){
-                if(hijosConter.get(i) instanceof Pelota p){
+                if(hijosConter.get(i) instanceof mvc.modelo.entidades.pelota.Pelota p){
                     if(creadas>= cantidadPelotas) break;
                     Pelota copiaPelota = p.clonar();
                     double aleatorio = 0.8 + Math.random() * 0.4;

@@ -1,7 +1,7 @@
 package patrones.strategy.movimiento;
 
-import mvc.modelo.entidades.Paleta;
-import mvc.modelo.entidades.Pelota;
+import mvc.modelo.entidades.paleta.Paleta;
+import mvc.modelo.entidades.pelota.Pelota;
 import patrones.adapter.AdaptadorEntrada;
 import mvc.modelo.enums.Direccion;
 

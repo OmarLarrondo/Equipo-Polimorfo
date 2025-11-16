@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mvc.modelo.entidades.ObjetoJuego;
-import mvc.modelo.entidades.Paleta;
+import mvc.modelo.entidades.paleta.Paleta;
 
 /**
  * Implementación del patrón Prototype para la creación de objetos
