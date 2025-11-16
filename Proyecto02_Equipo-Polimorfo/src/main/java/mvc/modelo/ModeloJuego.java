@@ -6,8 +6,8 @@ import io.vavr.control.Try;
 
 import patrones.factory.niveles.Nivel;
 import mvc.modelo.entidades.Bloque;
-import mvc.modelo.entidades.Paleta;
-import mvc.modelo.entidades.Pelota;
+import mvc.modelo.entidades.paleta.Paleta;
+import mvc.modelo.entidades.pelota.Pelota;
 import mvc.modelo.items.Item;
 import mvc.modelo.enums.ModoJuego;
 import patrones.singleton.GestorPrototiposPaleta;

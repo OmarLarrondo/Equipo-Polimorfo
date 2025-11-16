@@ -3,8 +3,8 @@ package patrones.strategy.movimiento;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import mvc.modelo.enums.Direccion;
-import mvc.modelo.entidades.Paleta;
-import mvc.modelo.entidades.Pelota;
+import mvc.modelo.entidades.paleta.Paleta;
+import mvc.modelo.entidades.pelota.Pelota;
 
 /**
  * Estrategia de movimiento parametrizada para la Inteligencia Artificial del juego Pong.

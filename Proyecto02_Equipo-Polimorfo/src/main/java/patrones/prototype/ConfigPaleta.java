@@ -1,7 +1,7 @@
 package patrones.prototype;
 
 import javafx.scene.paint.Color;
-import mvc.modelo.entidades.Paleta;
+import mvc.modelo.entidades.paleta.Paleta;
 
 /**
  * Clase que encapsula la configuración visual y funcional de

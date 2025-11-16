@@ -1,7 +1,8 @@
 package patrones.memento;
 
-import mvc.modelo.entidades.Paleta;
-import patrones.prototype.ConfigPaleta;
+import java.util.ArrayList;
+import mvc.modelo.entidades.paleta.Paleta;
+import mvc.modelo.entidades.paleta.ConfigPaleta;
 
 /**
  * Implementación del patrón Memento para guardar y restaurar el estado
@@ -47,13 +48,19 @@ public final class MementoPaletas {
      * @return un objeto ConfigPaleta con el estado capturado
      */
     private ConfigPaleta capturarEstado(Paleta paleta) {
-        ConfigPaleta config = new ConfigPaleta();
-        config.setAncho(paleta.obtenerAncho());
-        config.setAlto(paleta.obtenerAlto());
-        config.setRapidez(paleta.obtenerVelocidad());
-        config.setColorPrimario(paleta.obtenerColor());
-        config.setCantidadEspinas(paleta.obtenerCantidadEspinas());
-        return config;
+        return new ConfigPaleta(
+            paleta.obtenerColisionEnX(),
+            paleta.obtenerCentro(),
+            (int)paleta.obtenerAlto(),
+            paleta.obtenerGrosor(),
+            (int)paleta.obtenerVelocidad(),
+            paleta.obtenerLimiteNorte(),
+            paleta.obtenerLimiteSur(),
+            new ArrayList<>(paleta.obtenerPuntosSuperioresEspinas()),
+            paleta.obtenerLadoPantalla(),
+            paleta.obtenerColorPrimario(),
+            paleta.obtenerColorSecundario()
+        );
     }
 
     /**
@@ -62,7 +69,7 @@ public final class MementoPaletas {
      * @param paleta la paleta del jugador 1 a restaurar
      */
     public void restaurarJugador1(Paleta paleta) {
-        estadoJugador1.aplicarA(paleta);
+        paleta.configurar(estadoJugador1);
         paleta.setEstadoOriginal(estadoJugador1);
     }
 
@@ -72,7 +79,7 @@ public final class MementoPaletas {
      * @param paleta la paleta del jugador 2 a restaurar
      */
     public void restaurarJugador2(Paleta paleta) {
-        estadoJugador2.aplicarA(paleta);
+        paleta.configurar(estadoJugador2);
         paleta.setEstadoOriginal(estadoJugador2);
     }
 

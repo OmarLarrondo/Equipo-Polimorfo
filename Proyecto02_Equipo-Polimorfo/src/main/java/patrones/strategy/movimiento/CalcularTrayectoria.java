@@ -1,7 +1,7 @@
 package patrones.strategy.movimiento;
 
 import io.vavr.control.Option;
-import mvc.modelo.entidades.Pelota;
+import mvc.modelo.entidades.pelota.Pelota;
 
 /**
  * Calculador de trayectoria que predice la posición de impacto de la pelota.

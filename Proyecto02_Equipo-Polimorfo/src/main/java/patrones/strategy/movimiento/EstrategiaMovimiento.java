@@ -1,8 +1,8 @@
 package patrones.strategy.movimiento;
 
 import mvc.modelo.enums.Direccion;
-import mvc.modelo.entidades.Paleta;
-import mvc.modelo.entidades.Pelota;
+import mvc.modelo.entidades.paleta.Paleta;
+import mvc.modelo.entidades.pelota.Pelota;
 
 /**
  * Define el contrato para las estrategias de movimiento de paletas en el juego Pong.

@@ -2,7 +2,7 @@ package mvc.modelo.items;
 
 import patrones.prototype.ConfigPaleta;
 import mvc.modelo.entidades.ObjetoJuego;
-import mvc.modelo.entidades.Paleta;
+import mvc.modelo.entidades.paleta.Paleta;
 
 /**
  * Item que agrega espinas temporalmente a la paleta del jugador.
@@ -75,7 +75,7 @@ public class ItemEspinas implements Item{
     public void aplicar(ObjetoJuego objeto) {
         if(activo )return;
 
-        if(objeto instanceof Paleta paleta){
+        if(objeto instanceof mvc.modelo.entidades.paleta.Paleta paleta){
             estadoOriginal = guardarEstadoOriginal(paleta);
 
             paleta.agregarEspina();
@@ -120,7 +120,7 @@ public class ItemEspinas implements Item{
      */
     @Override
     public void desactivar(ObjetoJuego objeto) {
-        if(objeto instanceof Paleta paleta){
+        if(objeto instanceof mvc.modelo.entidades.paleta.Paleta paleta){
             restaurarEstadoOriginal(paleta);
             paleta.eliminarEspinas();
             paleta.establecerActivo(false);

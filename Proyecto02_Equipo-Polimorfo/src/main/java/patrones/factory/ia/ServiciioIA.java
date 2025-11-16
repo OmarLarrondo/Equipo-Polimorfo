@@ -2,8 +2,8 @@ package patrones.factory.ia;
 
 import io.vavr.control.Option;
 import mvc.modelo.enums.Direccion;
-import mvc.modelo.entidades.Paleta;
-import mvc.modelo.entidades.Pelota;
+import mvc.modelo.entidades.paleta.Paleta;
+import mvc.modelo.entidades.pelota.Pelota;
 import patrones.strategy.movimiento.EstrategiaMovimiento;
 
 import java.util.Objects;

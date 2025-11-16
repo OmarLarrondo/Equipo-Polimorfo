@@ -3,7 +3,7 @@ package mvc.modelo.items;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import mvc.modelo.entidades.ObjetoJuego;
-import mvc.modelo.entidades.Paleta;
+import mvc.modelo.entidades.paleta.Paleta;
 
 /**
  * Item que crea una neblina visual sobre la paleta para dificultar la visibilidad.
@@ -65,7 +65,7 @@ public class ItemNeblina implements Item {
     @Override
     public void aplicar(ObjetoJuego objeto) {
         if (activo) return;
-        if (!(objeto instanceof Paleta)) {
+        if (!(objeto instanceof mvc.modelo.entidades.paleta.Paleta)) {
             throw new IllegalArgumentException("La neblina solo se puede aplicar a una paleta.");
         }
         activo = true;
@@ -101,6 +101,9 @@ public class ItemNeblina implements Item {
      */
     @Override
     public void desactivar(ObjetoJuego objeto) {
+        if (!(objeto instanceof mvc.modelo.entidades.paleta.Paleta)) {
+            return;
+        }
         activo = false;
         tiempoRestante = duracion;
     }
@@ -151,7 +154,7 @@ public class ItemNeblina implements Item {
      */
     @Deprecated
     public void render(GraphicsContext gc, ObjetoJuego objeto) {
-        if (!activo || !(objeto instanceof Paleta paleta)) return;
+        if (!activo || !(objeto instanceof mvc.modelo.entidades.paleta.Paleta paleta)) return;
 
         double x = paleta.obtenerX();
         double ancho = paleta.obtenerAncho();
