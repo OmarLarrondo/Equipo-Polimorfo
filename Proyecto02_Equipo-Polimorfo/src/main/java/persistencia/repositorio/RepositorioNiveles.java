@@ -184,6 +184,26 @@ public final class RepositorioNiveles {
     }
 
     /**
+     * Lista los niveles filtrados por dificultad especificada.
+     *
+     * @param dificultad nivel de dificultad a filtrar (1-10)
+     * @return Try con la lista de niveles de la dificultad especificada
+     */
+    public Try<List<NivelDTO>> listarPorDificultad(final int dificultad) {
+        return conexion.obtenerConexion().flatMap(conn ->
+            Try.withResources(() -> conn).of(c -> {
+                final String sql = "SELECT * FROM niveles WHERE dificultad = ? ORDER BY fecha_creacion DESC";
+                try (PreparedStatement stmt = c.prepareStatement(sql)) {
+                    stmt.setInt(1, dificultad);
+                    try (ResultSet rs = stmt.executeQuery()) {
+                        return construirListaNiveles(rs);
+                    }
+                }
+            })
+        );
+    }
+
+    /**
      * Busca un nivel por su ID.
      *
      * @param id identificador del nivel

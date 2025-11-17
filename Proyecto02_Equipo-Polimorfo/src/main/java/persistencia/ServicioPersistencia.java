@@ -92,6 +92,22 @@ public class ServicioPersistencia {
     }
 
     /**
+     * Carga los niveles filtrados por dificultad especificada.
+     *
+     * @param dificultad nivel de dificultad a filtrar (1-10)
+     * @return Try con la lista de niveles de la dificultad especificada
+     */
+    public Try<List<Nivel>> cargarNivelesPorDificultad(final int dificultad) {
+        return repositorio.listarPorDificultad(dificultad)
+            .map(niveles -> niveles
+                .map(nivelDTO -> repositorio.obtenerBloques(nivelDTO.id())
+                    .map(bloques -> convertirDTOANivel(nivelDTO, bloques))
+                    .getOrElseThrow(e -> new RuntimeException("Error al cargar bloques", e)))
+                .toJavaList()
+            );
+    }
+
+    /**
      * Carga todos los niveles (personalizados y predefinidos).
      *
      * @return Try con la lista de todos los niveles

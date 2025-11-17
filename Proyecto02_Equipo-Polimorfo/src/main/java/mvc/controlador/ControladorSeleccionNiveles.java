@@ -120,27 +120,20 @@ public class ControladorSeleccionNiveles extends ControladorBase {
     }
 
     /**
-     * Genera las tarjetas de niveles en el GridPane.
+     * Genera las tarjetas de categorias de dificultad en el GridPane.
      */
     private void generarTarjetasNiveles() {
         limpiarGrid();
-        int fila = 0;
-        int columna = 0;
 
-        for (int i = 0; i < nivelesDisponibles.size(); i++) {
-            Nivel nivel = nivelesDisponibles.get(i);
-            VBox tarjeta = crearTarjetaNivel(nivel, i);
-            gridNiveles.add(tarjeta, columna, fila);
-
-            columna++;
-            if (columna >= COLUMNAS_GRID) {
-                columna = 0;
-                fila++;
-            }
-        }
-
-        VBox tarjetaNuevo = crearTarjetaNuevoNivel();
-        gridNiveles.add(tarjetaNuevo, columna, fila);
+        final VBox tarjetaFacil = crearTarjetaDificultad("Nivel Fácil", 1, 1);
+        final VBox tarjetaMedio = crearTarjetaDificultad("Nivel Medio", 2, 2);
+        final VBox tarjetaDificil = crearTarjetaDificultad("Nivel Difícil", 3, 3);
+        final VBox tarjetaNuevo = crearTarjetaNuevoNivel();
+        
+        gridNiveles.add(tarjetaFacil, 0, 0);
+        gridNiveles.add(tarjetaMedio, 1, 0);
+        gridNiveles.add(tarjetaDificil, 0, 1);
+        gridNiveles.add(tarjetaNuevo, 1, 1);
     }
 
     /**
@@ -148,6 +141,93 @@ public class ControladorSeleccionNiveles extends ControladorBase {
      */
     private void limpiarGrid() {
         gridNiveles.getChildren().clear();
+    }
+
+    /**
+     * Crea una tarjeta visual para una categoria de dificultad.
+     *
+     * @param nombre nombre de la categoria
+     * @param dificultadVisual dificultad visual para mostrar estrellas
+     * @param dificultadFiltro dificultad usada para filtrar en la base de datos
+     * @return VBox con la tarjeta de la categoria
+     */
+    private VBox crearTarjetaDificultad(final String nombre, final int dificultadVisual, final int dificultadFiltro) {
+        final VBox tarjeta = new VBox(15);
+        configurarEstiloTarjeta(tarjeta);
+
+        final Label nombreLabel = new Label(nombre);
+        nombreLabel.getStyleClass().add("texto-titulo");
+        nombreLabel.setWrapText(true);
+        nombreLabel.setMaxWidth(ANCHO_TARJETA - 40);
+        nombreLabel.setAlignment(Pos.CENTER);
+
+        final String estrellas = generarEstrellasDificultad(dificultadVisual);
+        final Label dificultadLabel = new Label(String.format("Dificultad: %s", estrellas));
+        dificultadLabel.getStyleClass().add("texto-info");
+
+        final Button botonSeleccionar = new Button("Seleccionar");
+        botonSeleccionar.getStyleClass().add("boton-secundario");
+        botonSeleccionar.setOnAction(event -> abrirDialogoDificultad(dificultadFiltro));
+
+        tarjeta.getChildren().addAll(nombreLabel, dificultadLabel, botonSeleccionar);
+
+        return tarjeta;
+    }
+
+    /**
+     * Genera una representacion visual de la dificultad usando estrellas.
+     *
+     * @param dificultad nivel de dificultad (1-10)
+     * @return cadena con estrellas representando la dificultad
+     */
+    private String generarEstrellasDificultad(final int dificultad) {
+        return io.vavr.collection.List.range(0, dificultad)
+            .map(i -> "★")
+            .mkString("");
+    }
+
+    /**
+     * Abre el dialogo modal de seleccion de niveles por dificultad.
+     *
+     * @param dificultad nivel de dificultad a filtrar (1-10)
+     */
+    private void abrirDialogoDificultad(final int dificultad) {
+        io.vavr.control.Try.of(() -> {
+            final javafx.fxml.FXMLLoader loader = util.CargadorRecursos.cargarFXMLLoader("fxml/dialogo-seleccion-por-dificultad.fxml");
+            final javafx.scene.layout.BorderPane root = loader.load();
+            final ControladorDialogoSeleccionPorDificultad controlador = loader.getController();
+            
+            controlador.establecerDificultad(dificultad);
+            
+            final javafx.stage.Stage dialogo = new javafx.stage.Stage();
+            dialogo.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            dialogo.initOwner(gestorEscenas.obtenerEscenarioPrincipal());
+            dialogo.setTitle("Seleccionar Nivel");
+            
+            final javafx.scene.Scene escena = new javafx.scene.Scene(root);
+            util.CargadorRecursos.obtenerRutaCSS("css/estilo-retro.css")
+                .ifPresent(css -> escena.getStylesheets().add(css));
+            
+            dialogo.setScene(escena);
+            dialogo.showAndWait();
+            
+            return controlador.obtenerNivelSeleccionado();
+        })
+        .peek(nivelOpcional -> nivelOpcional.peek(this::establecerNivelSeleccionado))
+        .onFailure(error -> {
+            System.err.println("Error al abrir dialogo de dificultad: " + error.getMessage());
+            error.printStackTrace();
+        });
+    }
+
+    /**
+     * Establece el nivel seleccionado y muestra el boton de jugar.
+     *
+     * @param nivel nivel seleccionado
+     */
+    private void establecerNivelSeleccionado(final Nivel nivel) {
+        nivelSeleccionado = nivel;
+        botonJugar.setVisible(true);
     }
 
     /**

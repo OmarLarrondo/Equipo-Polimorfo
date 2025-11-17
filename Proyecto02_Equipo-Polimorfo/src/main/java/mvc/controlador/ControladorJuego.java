@@ -321,6 +321,26 @@ public class ControladorJuego extends ControladorBase {
     }
 
     /**
+     * Establece el nivel que se va a jugar.
+     *
+     * @param nivel nivel a establecer
+     */
+    public void establecerNivel(final mvc.modelo.entidades.Nivel nivel) {
+        io.vavr.control.Option.of(modeloJuego)
+            .peek(modelo -> modelo.establecerNivel(nivel));
+    }
+
+    /**
+     * Configura la dificultad de la inteligencia artificial.
+     *
+     * @param dificultad nivel de dificultad de la IA (1-10)
+     */
+    public void configurarDificultadIA(final int dificultad) {
+        // Por ahora este método está vacío, se implementará cuando se integre el sistema de IA
+        // La dificultad se puede pasar al servicio de IA cuando se inicialice
+    }
+
+    /**
      * Libera los recursos del controlador.
      */
     public void liberarRecursos() {

@@ -210,13 +210,30 @@ public class AplicacionPong extends Application {
             gestorEscenas.registrarCallbackPreMostrar("juego",
                     () -> {
                         if (controladorJuego != null) {
-                            controladorJuego.reiniciarEstado();
+                            configurarYReiniciarJuego();
                         }
                     });
         }).onFailure(e -> {
             System.err.println("Error inicializando vista de juego: " + e.getMessage());
             e.printStackTrace();
         });
+    }
+
+    /**
+     * Configura el juego con el nivel y dificultad seleccionados antes de iniciarlo.
+     * Lee el nivel seleccionado desde el controlador de niveles y la dificultad IA
+     * desde el controlador de dificultad, luego los aplica al modelo de juego.
+     */
+    private void configurarYReiniciarJuego() {
+        io.vavr.control.Option.of(controladorNiveles)
+            .flatMap(ctrl -> io.vavr.control.Option.ofOptional(ctrl.obtenerNivelSeleccionado()))
+            .peek(nivel -> controladorJuego.establecerNivel(nivel));
+
+        io.vavr.control.Option.of(controladorDificultad)
+            .flatMap(ctrl -> io.vavr.control.Option.ofOptional(ctrl.obtenerNivelSeleccionado()))
+            .peek(dificultad -> controladorJuego.configurarDificultadIA(dificultad));
+
+        controladorJuego.reiniciarEstado();
     }
 
     /**
