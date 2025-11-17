@@ -30,6 +30,9 @@ public class ControladorDialogoCargarNivel {
     @FXML
     private Button botonCancelar;
 
+    @FXML
+    private Button botonEliminar;
+
     private final ServicioPersistencia servicioPersistencia;
     private Option<Nivel> nivelSeleccionado;
 
@@ -192,6 +195,68 @@ public class ControladorDialogoCargarNivel {
     private void manejarCancelar() {
         nivelSeleccionado = Option.none();
         cerrarDialogo();
+    }
+
+    /**
+     * Maneja el evento de eliminacion del nivel seleccionado.
+     * Solicita confirmacion al usuario antes de eliminar el nivel de la base de datos.
+     * Si la eliminacion es exitosa, recarga la lista de niveles.
+     * 
+     * @throws NullPointerException si no hay un nivel seleccionado
+     */
+    @FXML
+    private void manejarEliminar() {
+        Option.of(listaNiveles.getSelectionModel().getSelectedItem())
+            .peek(nivel -> confirmarYEliminarNivel(nivel))
+            .onEmpty(() -> mostrarError("Sin selección", "Por favor, selecciona un nivel para eliminar"));
+    }
+
+    /**
+     * Solicita confirmacion al usuario y elimina el nivel si se confirma.
+     * Recarga la lista de niveles tras una eliminacion exitosa.
+     * 
+     * @param nivel El nivel a eliminar
+     */
+    private void confirmarYEliminarNivel(Nivel nivel) {
+        crearDialogoConfirmacion(nivel.getNombre())
+            .filter(confirmado -> confirmado)
+            .peek(__ -> eliminarNivelDeLaBaseDeDatos(nivel.getId()));
+    }
+
+    /**
+     * Crea un dialogo de confirmacion para eliminar un nivel.
+     * 
+     * @param nombreNivel El nombre del nivel a eliminar
+     * @return Option conteniendo true si el usuario confirma, false en caso contrario
+     */
+    private Option<Boolean> crearDialogoConfirmacion(String nombreNivel) {
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar eliminación");
+        confirmacion.setHeaderText("¿Eliminar nivel?");
+        confirmacion.setContentText(String.format(
+            "¿Estás seguro de que deseas eliminar el nivel '%s'?\nEsta acción no se puede deshacer.",
+            nombreNivel
+        ));
+        
+        return Option.of(confirmacion.showAndWait())
+            .flatMap(resultado -> Option.of(resultado.orElse(null)))
+            .map(botonPresionado -> botonPresionado == javafx.scene.control.ButtonType.OK);
+    }
+
+    /**
+     * Elimina un nivel de la base de datos usando su identificador.
+     * Recarga la lista de niveles si la eliminacion es exitosa.
+     * Muestra un mensaje de error si la eliminacion falla.
+     * 
+     * @param idNivel El identificador del nivel a eliminar
+     */
+    private void eliminarNivelDeLaBaseDeDatos(String idNivel) {
+        servicioPersistencia.eliminarNivel(idNivel)
+            .peek(__ -> Platform.runLater(this::cargarNiveles))
+            .onFailure(error -> Platform.runLater(() ->
+                mostrarError("Error al eliminar",
+                    String.format("No se pudo eliminar el nivel: %s", error.getMessage()))
+            ));
     }
 
     /**

@@ -22,11 +22,9 @@
             <padding>
                 <Insets top="20" bottom="10" left="20" right="20"/>
             </padding>
-            <Label text="CARGAR NIVEL" styleClass="texto-titulo"
-                   style="-fx-font-size: 18px;"/>
+            <Label text="CARGAR NIVEL" styleClass="texto-titulo"/>
             <Label text="Selecciona un nivel guardado para editar"
-                   styleClass="texto-info"
-                   style="-fx-font-size: 10px;"/>
+                   styleClass="texto-info"/>
         </VBox>
     </top>
 
@@ -37,8 +35,7 @@
                 <Insets top="10" bottom="10" left="20" right="20"/>
             </padding>
 
-            <Label text="Niveles Personalizados:" styleClass="texto-info"
-                   style="-fx-font-size: 11px;"/>
+            <Label text="Niveles Personalizados:" styleClass="texto-info"/>
 
             <ListView fx:id="listaNiveles"
                       styleClass="lista-niveles"
@@ -62,6 +59,16 @@
                     onAction="#manejarCargar">
                 <graphic>
                     <FontIcon iconLiteral="fas-folder-open" iconSize="14"/>
+                </graphic>
+            </Button>
+
+            <Button fx:id="botonEliminar"
+                    text="Eliminar"
+                    styleClass="boton-secundario"
+                    prefWidth="120"
+                    onAction="#manejarEliminar">
+                <graphic>
+                    <FontIcon iconLiteral="fas-trash" iconSize="14"/>
                 </graphic>
             </Button>
 

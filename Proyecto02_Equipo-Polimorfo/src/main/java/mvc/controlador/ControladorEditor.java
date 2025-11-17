@@ -763,7 +763,7 @@ public class ControladorEditor extends ControladorBase {
             dialogo.setResizable(false);
 
             javafx.scene.Scene escena = new javafx.scene.Scene(root);
-            util.CargadorRecursos.obtenerRutaCSS("estilo-retro.css")
+            util.CargadorRecursos.obtenerRutaCSS("css/estilo-retro.css")
                 .ifPresent(ruta -> escena.getStylesheets().add(ruta));
 
             dialogo.setScene(escena);
@@ -965,18 +965,36 @@ public class ControladorEditor extends ControladorBase {
     }
 
     /**
-     * Crea una alerta con los parametros especificados.
+     * Crea una alerta estilizada con los parámetros especificados.
+     * Aplica automáticamente los estilos retro del proyecto.
      *
      * @param tipo Tipo de alerta
-     * @param titulo Titulo
+     * @param titulo Título
      * @param contenido Contenido
-     * @return Alerta configurada
+     * @return Alerta configurada con estilos retro
      */
     private Alert crearAlerta(Alert.AlertType tipo, String titulo, String contenido) {
         Alert alerta = new Alert(tipo);
         alerta.setTitle(titulo);
         alerta.setHeaderText(null);
         alerta.setContentText(contenido);
+        return aplicarEstilosAAlert(alerta);
+    }
+
+    /**
+     * Aplica la hoja de estilos retro a un Alert de forma funcional y pura.
+     * Utiliza composición funcional con Vavr Option para manejar el DialogPane de manera segura.
+     *
+     * @param alerta Alert a estilizar
+     * @return el mismo Alert con estilos aplicados
+     */
+    private Alert aplicarEstilosAAlert(Alert alerta) {
+        io.vavr.control.Option.of(alerta.getDialogPane())
+            .forEach(dialogPane -> {
+                dialogPane.getStyleClass().add("dialogo-editor");
+                util.CargadorRecursos.obtenerRutaCSS("css/estilo-retro.css")
+                    .ifPresent(ruta -> dialogPane.getStylesheets().add(ruta));
+            });
         return alerta;
     }
 

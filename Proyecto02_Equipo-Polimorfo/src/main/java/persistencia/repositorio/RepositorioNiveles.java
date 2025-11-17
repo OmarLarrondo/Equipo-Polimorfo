@@ -51,6 +51,7 @@ public final class RepositorioNiveles {
 
     /**
      * Inserta un nuevo nivel en la base de datos.
+     * Convierte la fecha de creación a epoch en milisegundos para compatibilidad con SQLite.
      *
      * @param nivel datos del nivel a insertar
      * @return Try con void si la inserción es exitosa
@@ -68,7 +69,13 @@ public final class RepositorioNiveles {
                     stmt.setString(3, nivel.creador());
                     stmt.setInt(4, nivel.dificultad());
                     stmt.setInt(5, nivel.esPersonalizado() ? 1 : 0);
-                    stmt.setTimestamp(6, Timestamp.valueOf(nivel.fechaCreacion()));
+                    
+                    long epochMilis = nivel.fechaCreacion()
+                        .atZone(java.time.ZoneId.systemDefault())
+                        .toInstant()
+                        .toEpochMilli();
+                    stmt.setLong(6, epochMilis);
+                    
                     stmt.executeUpdate();
                     return null;
                 }
@@ -78,6 +85,7 @@ public final class RepositorioNiveles {
 
     /**
      * Actualiza un nivel existente en la base de datos.
+     * Convierte la fecha de creación a epoch en milisegundos para compatibilidad con SQLite.
      *
      * @param nivel datos del nivel a actualizar
      * @return Try con void si la actualización es exitosa
@@ -95,7 +103,13 @@ public final class RepositorioNiveles {
                     stmt.setString(2, nivel.creador());
                     stmt.setInt(3, nivel.dificultad());
                     stmt.setInt(4, nivel.esPersonalizado() ? 1 : 0);
-                    stmt.setTimestamp(5, Timestamp.valueOf(nivel.fechaCreacion()));
+                    
+                    long epochMilis = nivel.fechaCreacion()
+                        .atZone(java.time.ZoneId.systemDefault())
+                        .toInstant()
+                        .toEpochMilli();
+                    stmt.setLong(5, epochMilis);
+                    
                     stmt.setString(6, nivel.id());
                     stmt.executeUpdate();
                     return null;
@@ -291,14 +305,19 @@ public final class RepositorioNiveles {
 
     /**
      * Construye un NivelDTO desde la fila actual del ResultSet.
+     * Convierte epoch en milisegundos a LocalDateTime usando transformación funcional pura.
      *
      * @param rs ResultSet posicionado en una fila de nivel
      * @return NivelDTO construido
      */
     private NivelDTO construirNivel(ResultSet rs) throws Exception {
-        java.sql.Timestamp timestamp = rs.getTimestamp("fecha_creacion");
-        java.time.LocalDateTime fechaCreacion = io.vavr.control.Option.of(timestamp)
-            .map(java.sql.Timestamp::toLocalDateTime)
+        java.time.LocalDateTime fechaCreacion = io.vavr.control.Try.of(() -> rs.getLong("fecha_creacion"))
+            .toOption()
+            .filter(ms -> ms > 0)
+            .map(ms -> java.time.LocalDateTime.ofInstant(
+                java.time.Instant.ofEpochMilli(ms),
+                java.time.ZoneId.systemDefault()
+            ))
             .getOrElse(java.time.LocalDateTime::now);
 
         return new NivelDTO(
