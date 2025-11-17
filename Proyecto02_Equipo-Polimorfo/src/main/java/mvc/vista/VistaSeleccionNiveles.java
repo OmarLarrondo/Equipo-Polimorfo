@@ -114,7 +114,7 @@ public class VistaSeleccionNiveles {
      * Refresca la vista recargando los niveles disponibles.
      */
     public void refrescar() {
-        controlador.reiniciarEstado();
+        controlador.reiniciarSeleccionNivel();
     }
 
     /**

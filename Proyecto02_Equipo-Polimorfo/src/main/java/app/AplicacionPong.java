@@ -177,7 +177,9 @@ public class AplicacionPong extends Application {
         VistaSeleccionNiveles vista = new VistaSeleccionNiveles(controladorNiveles);
         gestorEscenas.registrarEscena("seleccion-niveles", vista.obtenerEscena());
         gestorEscenas.registrarCallbackPreMostrar("seleccion-niveles",
-                () -> controladorNiveles.reiniciarEstado());
+                () -> controladorNiveles.reiniciarSeleccionNivel());
+        gestorEscenas.registrarCallbackPreMostrar("limpiar-estado-niveles",
+                () -> controladorNiveles.reiniciarEstadoCompleto());
     }
 
     /**

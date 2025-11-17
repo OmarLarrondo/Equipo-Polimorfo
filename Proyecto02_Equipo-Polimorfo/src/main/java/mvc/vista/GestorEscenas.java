@@ -195,15 +195,25 @@ public class GestorEscenas {
     /**
      * Muestra el panel de seleccion de niveles con una dificultad de IA preconfigurada.
      * Utiliza programacion funcional pura para establecer la dificultad antes de navegar.
+     * Si se pasa Option.none(), limpia completamente el estado del controlador para modo 2 jugadores.
      *
-     * @param dificultad Option conteniendo el nivel de dificultad (1-10), o None si no aplica
+     * @param dificultad Option conteniendo el nivel de dificultad (1-10), o None si es modo 2 jugadores
      */
     public void mostrarSeleccionNivelesConDificultad(Option<Integer> dificultad) {
-        Option.of(configuradorDificultad)
-                .flatMap(configurador -> dificultad.map(d -> {
-                    configurador.accept(d);
-                    return d;
-                }));
+        dificultad.fold(
+            () -> {
+                // Modo 2 jugadores: limpiar configuracion de IA usando el callback registrado
+                Option.of(callbacksPreMostrar.get("limpiar-estado-niveles"))
+                        .peek(Runnable::run);
+                return null;
+            },
+            d -> {
+                // Modo 1 jugador: establecer dificultad IA
+                Option.of(configuradorDificultad)
+                        .peek(configurador -> configurador.accept(d));
+                return d;
+            }
+        );
 
         mostrarSeleccionNiveles();
     }

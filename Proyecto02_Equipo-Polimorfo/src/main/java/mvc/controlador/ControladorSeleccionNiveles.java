@@ -503,14 +503,43 @@ public class ControladorSeleccionNiveles extends ControladorBase {
     }
 
     /**
-     * Reinicia el estado del controlador al estado inicial.
+     * Reinicia solo la seleccion de nivel sin modificar configuracion de modo/dificultad.
+     * Utilizado cuando se muestra la pantalla de seleccion con configuracion preestablecida.
+     * Preserva los valores de esContraIA y dificultadIA para mantener el modo de juego.
      */
-    public void reiniciarEstado() {
+    public void reiniciarSeleccionNivel() {
         nivelSeleccionado = null;
         botonSeleccionado = null;
         botonJugar.setVisible(false);
         limpiarSeleccionPrevia();
         generarTarjetasNiveles();
+        actualizarVisualizacionDificultad();
+    }
+
+    /**
+     * Reinicia completamente el estado del controlador, incluyendo modo y dificultad.
+     * Utilizado cuando se vuelve al menu principal o se cambia de modo de juego.
+     * Limpia todos los flags de estado incluyendo esContraIA y dificultadIA.
+     */
+    public void reiniciarEstadoCompleto() {
+        nivelSeleccionado = null;
+        botonSeleccionado = null;
+        botonJugar.setVisible(false);
+        esContraIA = false;
+        dificultadIA = null;
+        limpiarSeleccionPrevia();
+        generarTarjetasNiveles();
+        actualizarVisualizacionDificultad();
+    }
+
+    /**
+     * Metodo legacy que redirige a reiniciarSeleccionNivel para compatibilidad.
+     *
+     * @deprecated Use reiniciarSeleccionNivel() o reiniciarEstadoCompleto() segun el caso.
+     */
+    @Deprecated
+    public void reiniciarEstado() {
+        reiniciarSeleccionNivel();
     }
 
     /**
