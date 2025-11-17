@@ -13,6 +13,8 @@ import mvc.modelo.ModeloJuego;
 import mvc.modelo.enums.Direccion;
 import mvc.modelo.enums.ModoJuego;
 import mvc.vista.VistaJuego;
+import patrones.factory.ia.DificultadIA;
+import patrones.factory.ia.ServiciioIA;
 import patrones.observer.ObservadorUI;
 import util.ParticleEmitter;
 import util.RenderizadorJuego;
@@ -38,6 +40,7 @@ public class ControladorJuego extends ControladorBase {
     private Option<AnimationTimer> gameLoop;
     private Option<ObservadorUI> observadorUI;
     private ParticleEmitter.SistemaParticulas sistemaParticulas;
+    private Option<ServiciioIA> servicioIA;
     private long ultimoTiempo;
     private boolean pausado;
     private boolean juegoIniciado;
@@ -49,6 +52,7 @@ public class ControladorJuego extends ControladorBase {
         this.gameLoop = Option.none();
         this.observadorUI = Option.none();
         this.sistemaParticulas = ParticleEmitter.SistemaParticulas.vacio();
+        this.servicioIA = Option.none();
         this.pausado = false;
         this.juegoIniciado = false;
     }
@@ -332,12 +336,22 @@ public class ControladorJuego extends ControladorBase {
 
     /**
      * Configura la dificultad de la inteligencia artificial.
+     * Convierte el nivel numerico a enum DificultadIA y crea el servicio de IA.
+     * Utiliza programacion funcional pura con Vavr Option para manejo seguro.
      *
      * @param dificultad nivel de dificultad de la IA (1-10)
      */
     public void configurarDificultadIA(final int dificultad) {
-        // Por ahora este método está vacío, se implementará cuando se integre el sistema de IA
-        // La dificultad se puede pasar al servicio de IA cuando se inicialice
+        this.servicioIA = DificultadIA.desdeNumeroNivel(dificultad)
+                .map(ServiciioIA::new)
+                .peek(servicio -> 
+                    System.out.println("IA configurada con dificultad: " + dificultad)
+                );
+
+        servicioIA.forEach(servicio ->
+                Option.of(modeloJuego)
+                        .forEach(modelo -> modelo.establecerServicioIA(servicio))
+        );
     }
 
     /**

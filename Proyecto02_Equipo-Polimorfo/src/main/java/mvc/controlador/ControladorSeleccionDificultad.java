@@ -2,6 +2,7 @@ package mvc.controlador;
 
 //AGREGARALDIAGRAMA. CREO
 
+import io.vavr.control.Option;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition;
@@ -497,11 +498,18 @@ public class ControladorSeleccionDificultad extends ControladorBase {
     }
 
     /**
-     * Navega a la pantalla de seleccion de niveles.
+     * Navega a la pantalla de seleccion de niveles con la dificultad seleccionada.
+     * Utiliza programacion funcional pura con Vavr para pasar la dificultad de manera tipo-segura.
      */
     private void navegarAlJuego() {
-        Optional.ofNullable(gestorEscenas)
-                .ifPresent(GestorEscenas::mostrarSeleccionNiveles);
+        Option.ofOptional(Optional.ofNullable(nivelSeleccionado))
+                .peek(nivel -> System.out.println("Navegando con dificultad: " + nivel))
+                .forEach(nivel ->
+                        Optional.ofNullable(gestorEscenas)
+                                .ifPresent(gestor ->
+                                        gestor.mostrarSeleccionNivelesConDificultad(Option.some(nivel))
+                                )
+                );
     }
 
     /**

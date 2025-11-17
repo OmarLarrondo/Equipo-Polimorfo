@@ -160,6 +160,7 @@ public class AplicacionPong extends Application {
 
     /**
      * Inicializa la vista de seleccion de niveles y la registra en el gestor.
+     * Configura el consumer funcional para recibir la dificultad desde el panel de seleccion.
      */
     private void inicializarVistaSeleccionNiveles() {
         controladorNiveles = new ControladorSeleccionNiveles();
@@ -168,6 +169,10 @@ public class AplicacionPong extends Application {
         if (fachadaJuego != null) {
             controladorNiveles.establecerFachadaJuego(fachadaJuego);
         }
+
+        gestorEscenas.establecerConfiguradorDificultad(
+                dificultad -> controladorNiveles.establecerDificultadIA(dificultad)
+        );
 
         VistaSeleccionNiveles vista = new VistaSeleccionNiveles(controladorNiveles);
         gestorEscenas.registrarEscena("seleccion-niveles", vista.obtenerEscena());

@@ -1,5 +1,6 @@
 package mvc.controlador;
 
+import io.vavr.control.Option;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -45,6 +46,9 @@ public class ControladorSeleccionNiveles extends ControladorBase {
 
     @FXML
     private Button botonJugar;
+
+    @FXML
+    private Label labelDificultad;
 
     private List<Nivel> nivelesDisponibles;
     private Nivel nivelSeleccionado;
@@ -526,11 +530,59 @@ public class ControladorSeleccionNiveles extends ControladorBase {
 
     /**
      * Establece el nivel de dificultad de IA seleccionado previamente.
+     * Actualiza la visualizacion del label de dificultad de manera funcional.
      *
      * @param dificultad Nivel de dificultad (1-10)
      */
     public void establecerDificultadIA(Integer dificultad) {
         this.dificultadIA = dificultad;
+        this.esContraIA = dificultad != null;
+        actualizarVisualizacionDificultad();
+    }
+
+    /**
+     * Actualiza la visualizacion del label de dificultad de manera funcional.
+     * Muestra u oculta el label dependiendo de si hay dificultad configurada.
+     * Utiliza programacion funcional pura con Vavr Option.
+     */
+    private void actualizarVisualizacionDificultad() {
+        io.vavr.control.Option.of(labelDificultad)
+                .peek(this::configurarVisibilidadLabel)
+                .peek(this::configurarTextoLabel);
+    }
+
+    /**
+     * Configura la visibilidad del label segun si hay dificultad.
+     *
+     * @param label Label a configurar
+     */
+    private void configurarVisibilidadLabel(Label label) {
+        boolean tieneDificultad = dificultadIA != null;
+        label.setVisible(tieneDificultad);
+        label.setManaged(tieneDificultad);
+    }
+
+    /**
+     * Configura el texto del label con el nivel de dificultad.
+     * Usa programacion funcional pura para manejar presencia/ausencia de dificultad.
+     *
+     * @param label Label a configurar
+     */
+    private void configurarTextoLabel(Label label) {
+        String texto = io.vavr.control.Option.of(dificultadIA)
+                .map(this::construirTextoDificultad)
+                .getOrElse("");
+        label.setText(texto);
+    }
+
+    /**
+     * Construye el texto de dificultad con formato retro.
+     *
+     * @param nivel Nivel de dificultad (1-10)
+     * @return Texto formateado
+     */
+    private String construirTextoDificultad(Integer nivel) {
+        return String.format("IA NIVEL: %d", nivel);
     }
 
     /**

@@ -23,6 +23,10 @@
                 <Insets top="40" bottom="20"/>
             </padding>
             <Label text="SELECCIONE EL NIVEL" styleClass="titulo-principal"/>
+            <Label fx:id="labelDificultad"
+                   styleClass="label-dificultad-ia"
+                   visible="false"
+                   managed="false"/>
         </VBox>
     </top>
 

@@ -10,10 +10,12 @@ import mvc.modelo.entidades.paleta.Paleta;
 import mvc.modelo.entidades.pelota.Pelota;
 import mvc.modelo.items.Item;
 import mvc.modelo.enums.ModoJuego;
+import mvc.modelo.enums.Direccion;
 import patrones.singleton.GestorPrototiposPaleta;
 import patrones.observer.ObservadorJuego;
 import patrones.memento.MementoPaletas;
 import patrones.strategy.colision.GestorColisiones;
+import patrones.factory.ia.ServiciioIA;
 
 /**
  * Modelo principal del juego que contiene el estado completo
@@ -43,6 +45,7 @@ public class ModeloJuego {
     private List<ObservadorJuego> observadores;
     private Option<MementoPaletas> mementoGuardado;
     private Option<GestorColisiones> gestorColisiones;
+    private Option<ServiciioIA> servicioIA;
     private double tiempoTranscurrido;
     private static final double DURACION_PARTIDA = 300.0;
     private boolean juegoActivo;
@@ -60,6 +63,7 @@ public class ModeloJuego {
         this.observadores = List.empty();
         this.mementoGuardado = Option.none();
         this.gestorColisiones = Option.none();
+        this.servicioIA = Option.none();
         this.puntaje1 = 0;
         this.puntaje2 = 0;
         this.tiempoTranscurrido = 0.0;
@@ -70,8 +74,8 @@ public class ModeloJuego {
      * Actualiza el estado del juego basándose en el tiempo transcurrido.
      * <p>
      * Este método implementa el game loop principal, actualizando todas las
-     * entidades del juego, verificando colisiones, actualizando items activos
-     * y verificando condiciones de victoria/derrota.
+     * entidades del juego, verificando colisiones, actualizando items activos,
+     * controlando la IA si está configurada, y verificando condiciones de victoria/derrota.
      * </p>
      *
      * @param tiempoDelta el tiempo transcurrido desde la última actualización en segundos
@@ -88,6 +92,8 @@ public class ModeloJuego {
             Option.of(jugador1).forEach(j -> j.actualizar(tiempoDelta));
             Option.of(jugador2).forEach(j -> j.actualizar(tiempoDelta));
 
+            aplicarMovimientoIA(tiempoDelta);
+
             bloques = actualizarBloques(bloques, tiempoDelta);
             items = actualizarItems(items, tiempoDelta);
 
@@ -95,6 +101,25 @@ public class ModeloJuego {
 
             verificarCondicionesFinales();
         });
+    }
+
+    /**
+     * Aplica el movimiento de la IA a la paleta del jugador 2 si hay servicio configurado.
+     * Utiliza programacion funcional pura con Vavr Option para composicion segura.
+     *
+     * @param tiempoDelta el tiempo transcurrido desde la última actualización en segundos
+     */
+    private void aplicarMovimientoIA(double tiempoDelta) {
+        servicioIA
+                .flatMap(servicio -> 
+                        Option.of(jugador2)
+                                .flatMap(paleta -> Option.of(pelota).map(p -> {
+                                    Direccion movimiento = servicio.calcularSiguienteMovimiento(
+                                            paleta, p, tiempoDelta);
+                                    paleta.moverEnDireccion(movimiento, tiempoDelta);
+                                    return movimiento;
+                                }))
+                );
     }
 
     /**
@@ -555,5 +580,15 @@ public class ModeloJuego {
     public void inicializarPaletas(Paleta jugador1, Paleta jugador2) {
         this.jugador1 = Option.of(jugador1).getOrNull();
         this.jugador2 = Option.of(jugador2).getOrNull();
+    }
+
+    /**
+     * Establece el servicio de IA para controlar la paleta del jugador 2.
+     * Utiliza programacion funcional pura con Vavr Option.
+     *
+     * @param servicio el servicio de IA configurado con una dificultad específica
+     */
+    public void establecerServicioIA(ServiciioIA servicio) {
+        this.servicioIA = Option.of(servicio);
     }
 }

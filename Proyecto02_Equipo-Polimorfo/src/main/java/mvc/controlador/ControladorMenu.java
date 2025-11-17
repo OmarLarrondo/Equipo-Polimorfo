@@ -1,5 +1,6 @@
 package mvc.controlador;
 
+import io.vavr.control.Option;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -299,15 +300,17 @@ public class ControladorMenu extends ControladorBase {
     }
 
     /**
-     * Maneja el evento de clic en el botón "2 jugadores".
+     * Maneja el evento de clic en el boton "2 jugadores".
+     * Navega directamente a seleccion de niveles sin configurar dificultad IA.
+     * Limpia cualquier dificultad previamente configurada usando programacion funcional.
      *
-     * @param evento Evento de acción
+     * @param evento Evento de accion
      */
     @FXML
     private void accionDosJugadores(ActionEvent evento) {
         System.out.println("Navegando a seleccion de niveles (2 jugadores)...");
         Optional.ofNullable(gestorEscenas)
-                .ifPresent(gestor -> gestor.mostrarSeleccionNiveles());
+                .ifPresent(gestor -> gestor.mostrarSeleccionNivelesConDificultad(Option.none()));
     }
 
     /**

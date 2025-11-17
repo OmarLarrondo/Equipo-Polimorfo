@@ -1,5 +1,6 @@
 package mvc.vista;
 
+import io.vavr.control.Option;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import patrones.singleton.ConfiguracionGlobal;
@@ -7,6 +8,7 @@ import patrones.singleton.ConfiguracionGlobal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +30,7 @@ public class GestorEscenas {
     private final Map<String, Runnable> callbacksPreMostrar;
     private final ConfiguracionGlobal configuracionGlobal;
     private String escenaActual;
+    private Consumer<Integer> configuradorDificultad;
 
     /**
      * Constructor del gestor de escenas.
@@ -187,6 +190,32 @@ public class GestorEscenas {
     public void mostrarSeleccionNiveles() {
         cambiarEscena(ESCENA_SELECCION_NIVELES);
         escenaActual = ESCENA_SELECCION_NIVELES;
+    }
+
+    /**
+     * Muestra el panel de seleccion de niveles con una dificultad de IA preconfigurada.
+     * Utiliza programacion funcional pura para establecer la dificultad antes de navegar.
+     *
+     * @param dificultad Option conteniendo el nivel de dificultad (1-10), o None si no aplica
+     */
+    public void mostrarSeleccionNivelesConDificultad(Option<Integer> dificultad) {
+        Option.of(configuradorDificultad)
+                .flatMap(configurador -> dificultad.map(d -> {
+                    configurador.accept(d);
+                    return d;
+                }));
+
+        mostrarSeleccionNiveles();
+    }
+
+    /**
+     * Establece el configurador funcional de dificultad.
+     * Este consumer sera invocado cuando se navegue a seleccion de niveles con dificultad.
+     *
+     * @param configurador Consumer que recibe el nivel de dificultad y lo aplica al controlador
+     */
+    public void establecerConfiguradorDificultad(Consumer<Integer> configurador) {
+        this.configuradorDificultad = configurador;
     }
 
     /**
