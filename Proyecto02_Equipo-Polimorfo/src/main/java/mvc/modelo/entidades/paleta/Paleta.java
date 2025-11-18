@@ -44,11 +44,11 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
         this(
             (int)x,  // colisionEnX
             (int)(y + alto/2),  // centro
-            (int)alto,  // ancho
-            (int)ancho,  // grosor
+            (int)ancho,  // ancho (corregido: era alto)
+            (int)alto,  // grosor (corregido: era ancho)
             300,  // velocidad por defecto
-            1,  // limNor - cambiado de 0 a 1 para cumplir validacion (debe ser > 0)
-            600,  // limSur
+            (int)(alto/2),  // limNor (dinámico: mitad del alto)
+            (int)(600 - alto/2),  // limSur (dinámico: altura - mitad del alto)
             new ArrayList<>(),  // sin espinas
             x < 400 ? LadoHorizontal.IZQUIERDA : LadoHorizontal.DERECHA,  // lado
             Color.WHITE,  // colorPrimario
@@ -147,21 +147,41 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
     /**
      * Mueve la plataforma hacia arriba.
      * Si la paleta llega al limite superior, la posicion del centro no se actualizara.
+     *
+     * @param deltaTime tiempo transcurrido en segundos
      */
-    public void moverArriba() {
-        if((this.centro-this.anchoLateral) - velocidad >= this.limiteNorte){
-            this.centro -= velocidad;
+    public void moverArriba(double deltaTime) {
+        int desplazamiento = (int)(velocidad * deltaTime);
+        if((this.centro-this.anchoLateral) - desplazamiento >= this.limiteNorte){
+            this.centro -= desplazamiento;
         }
     }
 
     /**
      * Mueve la plataforma hacia abajo.
      * Si la paleta llega al limite inferior, la posicion del centro no se actualizara.
+     *
+     * @param deltaTime tiempo transcurrido en segundos
+     */
+    public void moverAbajo(double deltaTime) {
+        int desplazamiento = (int)(velocidad * deltaTime);
+        if((this.centro+this.anchoLateral) + desplazamiento <= this.limiteSur){
+            this.centro += desplazamiento;
+        }
+    }
+
+    /**
+     * Mueve la plataforma hacia arriba (version sin deltaTime para compatibilidad).
+     */
+    public void moverArriba() {
+        moverArriba(1.0 / 60.0);
+    }
+
+    /**
+     * Mueve la plataforma hacia abajo (version sin deltaTime para compatibilidad).
      */
     public void moverAbajo() {
-        if((this.centro+this.anchoLateral) + velocidad <= this.limiteSur){
-            this.centro += velocidad;
-        }
+        moverAbajo(1.0 / 60.0);
     }
     
     /**
@@ -418,23 +438,6 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
         this.activo = activo;
     }
 
-    /**
-     * Mueve la paleta hacia arriba con velocidad especificada.
-     *
-     * @param deltaTime tiempo transcurrido
-     */
-    public void moverArriba(double deltaTime) {
-        moverArriba();
-    }
-
-    /**
-     * Mueve la paleta hacia abajo con velocidad especificada.
-     *
-     * @param deltaTime tiempo transcurrido
-     */
-    public void moverAbajo(double deltaTime) {
-        moverAbajo();
-    }
 
     /**
      * Agrega una espina a la paleta.
@@ -586,10 +589,10 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
     public void moverEnDireccion(mvc.modelo.enums.Direccion direccion, double deltaTime) {
         switch (direccion) {
             case ARRIBA:
-                moverArriba();
+                moverArriba(deltaTime);
                 break;
             case ABAJO:
-                moverAbajo();
+                moverAbajo(deltaTime);
                 break;
             default:
                 break;

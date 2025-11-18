@@ -70,4 +70,14 @@ public class AdaptadorEntradaTeclado implements AdaptadorEntrada {
     public boolean pausaPresionado() {
         return teclasPresionadas.contains(KeyCode.P) || teclasPresionadas.contains(KeyCode.ESCAPE);
     }
+
+    /**
+     * Verifica si una tecla específica está siendo presionada actualmente.
+     *
+     * @param key código de la tecla a verificar
+     * @return true si la tecla está presionada, false en caso contrario
+     */
+    public boolean esTeclaPresionada(KeyCode key) {
+        return teclasPresionadas.contains(key);
+    }
 }

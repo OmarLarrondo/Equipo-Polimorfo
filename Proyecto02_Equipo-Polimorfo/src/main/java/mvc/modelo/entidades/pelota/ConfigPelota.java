@@ -208,7 +208,7 @@ public class ConfigPelota extends mvc.modelo.entidades.ObjetoJuego {
      * @return la velocidad en el eje Y
      */
     public double obtenerVelocidadY() {
-        return this.velocidad * Math.sin(this.anguloDireccional);
+        return this.velocidad * -Math.sin(this.anguloDireccional);
     }
 
     /**

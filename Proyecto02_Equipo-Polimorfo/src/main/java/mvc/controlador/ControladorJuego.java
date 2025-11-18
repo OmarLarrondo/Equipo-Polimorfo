@@ -13,6 +13,7 @@ import mvc.modelo.ModeloJuego;
 import mvc.modelo.enums.Direccion;
 import mvc.modelo.enums.ModoJuego;
 import mvc.vista.VistaJuego;
+import patrones.adapter.AdaptadorEntradaTeclado;
 import patrones.factory.ia.DificultadIA;
 import patrones.factory.ia.ServiciioIA;
 import patrones.observer.ObservadorUI;
@@ -41,6 +42,7 @@ public class ControladorJuego extends ControladorBase {
     private Option<ObservadorUI> observadorUI;
     private ParticleEmitter.SistemaParticulas sistemaParticulas;
     private Option<ServiciioIA> servicioIA;
+    private AdaptadorEntradaTeclado adaptadorEntrada;
     private long ultimoTiempo;
     private boolean pausado;
     private boolean juegoIniciado;
@@ -94,9 +96,16 @@ public class ControladorJuego extends ControladorBase {
 
     private void configurarEntrada() {
         System.out.println("DEBUG: Configurando entrada de teclado...");
+        adaptadorEntrada = new AdaptadorEntradaTeclado();
         contenedorJuego.setFocusTraversable(true);
-        contenedorJuego.setOnKeyPressed(this::manejarTeclaPresionada);
-        contenedorJuego.setOnKeyReleased(this::manejarTeclaSoltada);
+        contenedorJuego.setOnKeyPressed(event -> {
+            adaptadorEntrada.teclaPresionada(event.getCode());
+            manejarTeclaPresionada(event);
+        });
+        contenedorJuego.setOnKeyReleased(event -> {
+            adaptadorEntrada.teclaLiberada(event.getCode());
+            manejarTeclaSoltada(event);
+        });
         contenedorJuego.requestFocus();
         System.out.println("DEBUG: Event handlers registrados. FocusTraversable=true, ¿Tiene foco? " + contenedorJuego.isFocused());
     }
@@ -248,10 +257,38 @@ public class ControladorJuego extends ControladorBase {
      */
     private void actualizar(final double delta) {
         Try.run(() -> {
+            procesarEntradaContinua(delta);
             modeloJuego.actualizar(delta);
             sistemaParticulas = sistemaParticulas.actualizar(delta);
             actualizarHUD();
         }).onFailure(e -> System.err.println("Error actualizando juego: " + e.getMessage()));
+    }
+
+    /**
+     * Procesa la entrada de teclado de forma continua en cada frame.
+     *
+     * @param delta Tiempo transcurrido en segundos
+     */
+    private void procesarEntradaContinua(final double delta) {
+        if (adaptadorEntrada == null) return;
+
+        final ModoJuego modo = modeloJuego.obtenerModoActual();
+
+        if (adaptadorEntrada.esTeclaPresionada(KeyCode.W)) {
+            modeloJuego.obtenerJugador1().moverEnDireccion(Direccion.ARRIBA, delta);
+        }
+        if (adaptadorEntrada.esTeclaPresionada(KeyCode.S)) {
+            modeloJuego.obtenerJugador1().moverEnDireccion(Direccion.ABAJO, delta);
+        }
+
+        if (modo == ModoJuego.DOS_JUGADORES) {
+            if (adaptadorEntrada.esTeclaPresionada(KeyCode.UP)) {
+                modeloJuego.obtenerJugador2().moverEnDireccion(Direccion.ARRIBA, delta);
+            }
+            if (adaptadorEntrada.esTeclaPresionada(KeyCode.DOWN)) {
+                modeloJuego.obtenerJugador2().moverEnDireccion(Direccion.ABAJO, delta);
+            }
+        }
     }
 
     /**

@@ -144,7 +144,7 @@ public class Pelota extends ConfigPelota implements ObjetoBaseJuego {
         if (!activo) return;
 
         double velocidadX = Math.cos(anguloDireccional) * velocidad;
-        double velocidadY = Math.sin(anguloDireccional) * velocidad;
+        double velocidadY = -Math.sin(anguloDireccional) * velocidad;
 
         this.centroEnX += (int)(velocidadX * deltaTime);
         this.centroEnY += (int)(velocidadY * deltaTime);
