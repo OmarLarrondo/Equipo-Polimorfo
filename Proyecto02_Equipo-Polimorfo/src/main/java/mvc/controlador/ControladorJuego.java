@@ -92,30 +92,28 @@ public class ControladorJuego extends ControladorBase {
         observadorUI.forEach(obs -> modeloJuego.agregarObservador(obs));
     }
 
-    /**
-     * Configura el manejo de entrada de teclado.
-     */
     private void configurarEntrada() {
+        System.out.println("DEBUG: Configurando entrada de teclado...");
         contenedorJuego.setFocusTraversable(true);
         contenedorJuego.setOnKeyPressed(this::manejarTeclaPresionada);
         contenedorJuego.setOnKeyReleased(this::manejarTeclaSoltada);
         contenedorJuego.requestFocus();
+        System.out.println("DEBUG: Event handlers registrados. FocusTraversable=true, ¿Tiene foco? " + contenedorJuego.isFocused());
     }
 
-    /**
-     * Maneja eventos de tecla presionada.
-     *
-     * @param event Evento de teclado
-     */
     private void manejarTeclaPresionada(final KeyEvent event) {
+        System.out.println("DEBUG: Tecla presionada: " + event.getCode() + ", juegoIniciado=" + juegoIniciado + ", pausado=" + pausado);
+        
         Try.run(() -> {
             if (event.getCode() == KeyCode.ALT) {
+                System.out.println("DEBUG: Alternando pausa...");
                 alternarPausa();
                 event.consume();
                 return;
             }
 
             if (event.getCode() == KeyCode.SPACE && !juegoIniciado) {
+                System.out.println("DEBUG: Iniciando juego con ESPACIO...");
                 iniciarJuego();
                 event.consume();
                 return;
@@ -187,26 +185,33 @@ public class ControladorJuego extends ControladorBase {
         }
     }
 
-    /**
-     * Inicia el juego.
-     */
     private void iniciarJuego() {
+        System.out.println("DEBUG: Entrando a iniciarJuego()...");
         Try.run(() -> {
             juegoIniciado = true;
             modeloJuego.establecerActivo(true);
             vistaJuego.actualizarInfo("W/S: Jugador 1 | Flechas: Jugador 2 | ALT: Pausa");
             vistaJuego.mostrarMensajeCentral("¡COMIENZA!");
             ultimoTiempo = System.nanoTime();
+            System.out.println("DEBUG: Juego iniciado correctamente. juegoIniciado=" + juegoIniciado);
         }).onFailure(e -> System.err.println("Error iniciando juego: " + e.getMessage()));
     }
 
-    /**
-     * Crea el game loop usando AnimationTimer.
-     */
     private void crearGameLoop() {
+        System.out.println("DEBUG: Creando game loop...");
         final AnimationTimer timer = new AnimationTimer() {
+            private long contadorFrames = 0;
+            
             @Override
             public void handle(final long ahora) {
+                contadorFrames++;
+                if (contadorFrames == 1) {
+                    System.out.println("DEBUG: Game loop handle() ejecutándose por primera vez");
+                }
+                if (contadorFrames % 60 == 0) {
+                    System.out.println("DEBUG: Game loop activo (frame " + contadorFrames + "), pausado=" + pausado + ", juegoIniciado=" + juegoIniciado);
+                }
+                
                 if (!pausado && juegoIniciado) {
                     final double delta = calcularDelta(ahora);
                     actualizar(delta);
@@ -219,7 +224,10 @@ public class ControladorJuego extends ControladorBase {
         };
 
         gameLoop = Option.of(timer);
-        gameLoop.forEach(AnimationTimer::start);
+        gameLoop.forEach(loop -> {
+            loop.start();
+            System.out.println("DEBUG: Game loop iniciado con start()");
+        });
         ultimoTiempo = System.nanoTime();
     }
 
@@ -265,11 +273,25 @@ public class ControladorJuego extends ControladorBase {
 
             RenderizadorJuego.limpiarCanvas(gc, ancho, alto);
             RenderizadorJuego.renderizarFondo(gc, ancho, alto);
+            
+            // Renderizar bloques
             RenderizadorJuego.renderizarBloques(gc, List.ofAll(modeloJuego.obtenerBloques()));
-            RenderizadorJuego.renderizarPaleta(gc, modeloJuego.obtenerJugador1());
-            RenderizadorJuego.renderizarPaleta(gc, modeloJuego.obtenerJugador2());
-            RenderizadorJuego.renderizarPelota(gc, modeloJuego.obtenerPelota());
+            
+            // Renderizar paletas solo si no son null
+            Option.of(modeloJuego.obtenerJugador1())
+                .forEach(paleta -> RenderizadorJuego.renderizarPaleta(gc, paleta));
+            
+            Option.of(modeloJuego.obtenerJugador2())
+                .forEach(paleta -> RenderizadorJuego.renderizarPaleta(gc, paleta));
+            
+            // Renderizar pelota solo si no es null
+            Option.of(modeloJuego.obtenerPelota())
+                .forEach(pelota -> RenderizadorJuego.renderizarPelota(gc, pelota));
+            
+            // Renderizar items
             RenderizadorJuego.renderizarItems(gc, List.ofAll(modeloJuego.obtenerItems()));
+            
+            // Renderizar sistema de partículas
             sistemaParticulas.renderizar(gc);
         }).onFailure(e -> System.err.println("Error renderizando: " + e.getMessage()));
     }
@@ -309,18 +331,40 @@ public class ControladorJuego extends ControladorBase {
         }).onFailure(e -> System.err.println("Error agregando partículas: " + e.getMessage()));
     }
 
-    /**
-     * Reinicia el estado del controlador al estado inicial.
-     */
     public void reiniciarEstado() {
+        System.out.println("DEBUG: Reiniciando estado del juego...");
         Try.run(() -> {
             pausado = false;
             juegoIniciado = false;
             sistemaParticulas = ParticleEmitter.SistemaParticulas.vacio();
-            modeloJuego.reiniciar();
+            
+            // Inicializar entidades del juego con dimensiones del canvas
+            Option.of(vistaJuego)
+                .peek(vista -> System.out.println("DEBUG: Dimensiones canvas: " + vista.obtenerAncho() + "x" + vista.obtenerAlto()))
+                .flatMap(vista -> Option.of(modeloJuego)
+                    .flatMap(modelo -> modelo.inicializarEntidadesJuego(
+                        vista.obtenerAncho(),
+                        vista.obtenerAlto()
+                    )));
+            
+            // Reiniciar solo los valores del juego sin tocar las entidades recien creadas
+            modeloJuego.reiniciarValoresJuego();
+            
             vistaJuego.actualizarInfo("ESPACIO: Iniciar | ALT: Pausa");
             vistaJuego.actualizarPuntaje(1, 0);
             vistaJuego.actualizarPuntaje(2, 0);
+            
+            // Solicitar foco DESPUÉS de que la escena esté completamente renderizada
+            javafx.application.Platform.runLater(() -> {
+                System.out.println("DEBUG: Solicitando foco en contenedorJuego...");
+                Option.of(contenedorJuego)
+                    .peek(contenedor -> {
+                        contenedor.requestFocus();
+                        System.out.println("DEBUG: Foco solicitado. ¿Tiene foco? " + contenedor.isFocused());
+                    });
+            });
+            
+            System.out.println("DEBUG: Estado reiniciado correctamente");
         }).onFailure(e -> System.err.println("Error reiniciando estado: " + e.getMessage()));
     }
 
@@ -352,6 +396,17 @@ public class ControladorJuego extends ControladorBase {
                 Option.of(modeloJuego)
                         .forEach(modelo -> modelo.establecerServicioIA(servicio))
         );
+    }
+
+    /**
+     * Establece el modo de juego (CONTRA_IA, DOS_JUGADORES, etc.).
+     * Propaga el modo al ModeloJuego para que sepa cómo manejar la lógica del juego.
+     *
+     * @param modo el modo de juego a establecer
+     */
+    public void establecerModo(final mvc.modelo.enums.ModoJuego modo) {
+        io.vavr.control.Option.of(modeloJuego)
+            .peek(modelo -> modelo.establecerModo(modo));
     }
 
     /**

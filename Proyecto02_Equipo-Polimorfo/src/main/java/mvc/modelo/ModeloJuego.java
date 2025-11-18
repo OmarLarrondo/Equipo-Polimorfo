@@ -1,6 +1,8 @@
 package mvc.modelo;
 
+import io.vavr.collection.HashMap;
 import io.vavr.collection.List;
+import io.vavr.collection.Map;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 
@@ -14,6 +16,10 @@ import mvc.modelo.enums.Direccion;
 import patrones.singleton.GestorPrototiposPaleta;
 import patrones.observer.ObservadorJuego;
 import patrones.memento.MementoPaletas;
+import patrones.strategy.colision.EstrategiaColision;
+import patrones.strategy.colision.EstrategiaColisionPelotaPared;
+import patrones.strategy.colision.EstrategiaColisionPelotaPaleta;
+import patrones.strategy.colision.EstrategiaColisionPelotaBloque;
 import patrones.strategy.colision.GestorColisiones;
 import patrones.factory.ia.ServiciioIA;
 
@@ -235,6 +241,95 @@ public class ModeloJuego {
             tiempoTranscurrido = 0.0;
             juegoActivo = true;
         });
+    }
+
+    /**
+     * Reinicia los valores del juego sin modificar las entidades existentes.
+     * <p>
+     * Este metodo resetea bloques, items, puntajes y tiempo transcurrido,
+     * pero mantiene intactas las entidades del juego (pelota y paletas)
+     * que fueron previamente inicializadas.
+     * </p>
+     * <p>
+     * Diseñado para usarse despues de crear nuevas entidades con
+     * {@link #inicializarEntidadesJuego(double, double)}, permitiendo
+     * resetear el estado del juego sin corromper las entidades recien creadas.
+     * </p>
+     * 
+     * @return un Option que contiene true si el reinicio fue exitoso,
+     *         o none si ocurrio un error
+     */
+    public Option<Boolean> reiniciarValoresJuego() {
+        return Try.of(() -> {
+            bloques = reiniciarBloques();
+            items = List.empty();
+            puntaje1 = 0;
+            puntaje2 = 0;
+            tiempoTranscurrido = 0.0;
+            juegoActivo = true;
+            return true;
+        }).toOption();
+    }
+
+    public Option<Boolean> inicializarEntidadesJuego(final double anchoCanvas, final double altoCanvas) {
+        System.out.println("DEBUG: Inicializando entidades con dimensiones: " + anchoCanvas + "x" + altoCanvas);
+        
+        // Validar dimensiones
+        if (anchoCanvas <= 0 || altoCanvas <= 0) {
+            System.err.println("ERROR: Dimensiones inválidas para inicializar entidades: " + anchoCanvas + "x" + altoCanvas);
+            return Option.none();
+        }
+        
+        return Try.of(() -> {
+            // Crear pelota en el centro del canvas
+            final Pelota pelotaNueva = new Pelota(
+                (int) (anchoCanvas / 2),  // centroEnX
+                (int) (altoCanvas / 2),   // centroEnY
+                10,                        // radio
+                300,                       // velocidadInicial
+                500,                       // velocidadMaxima
+                Math.toRadians(45)         // anguloDireccional (45 grados)
+            );
+
+            // Crear paleta jugador 1 (izquierda)
+            final Paleta paletaJugador1 = new Paleta(
+                50.0,                      // x (izquierda)
+                altoCanvas / 2 - 50,       // y (centrada verticalmente)
+                20.0,                      // ancho
+                100.0                      // alto
+            );
+
+            // Crear paleta jugador 2 (derecha)
+            final Paleta paletaJugador2 = new Paleta(
+                anchoCanvas - 70.0,        // x (derecha con offset)
+                altoCanvas / 2 - 50,       // y (centrada verticalmente)
+                20.0,                      // ancho
+                100.0                      // alto
+            );
+
+            // Inicializar pelota y paletas usando metodos existentes
+            inicializarPelota(pelotaNueva);
+            inicializarPaletas(paletaJugador1, paletaJugador2);
+
+            // Crear estrategias de colision
+            final EstrategiaColision estrategiaPared = new EstrategiaColisionPelotaPared(anchoCanvas, altoCanvas);
+            final EstrategiaColision estrategiaPaleta = new EstrategiaColisionPelotaPaleta();
+            final EstrategiaColision estrategiaBloque = new EstrategiaColisionPelotaBloque();
+
+            // Crear mapa de estrategias usando Vavr
+            final Map<String, EstrategiaColision> estrategias = HashMap.of(
+                "pelota-pared", estrategiaPared,
+                "pelota-paleta", estrategiaPaleta,
+                "pelota-bloque", estrategiaBloque
+            );
+
+            // Crear e inicializar gestor de colisiones
+            final GestorColisiones gestor = new GestorColisiones(estrategias.toJavaMap());
+            establecerGestorColisiones(gestor);
+
+            System.out.println("DEBUG: Entidades inicializadas correctamente");
+            return true;
+        }).toOption();
     }
 
     /**

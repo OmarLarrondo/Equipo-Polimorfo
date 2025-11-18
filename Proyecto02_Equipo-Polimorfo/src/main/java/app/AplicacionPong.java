@@ -226,20 +226,28 @@ public class AplicacionPong extends Application {
         });
     }
 
-    /**
-     * Configura el juego con el nivel y dificultad seleccionados antes de iniciarlo.
-     * Lee el nivel seleccionado desde el controlador de niveles y la dificultad IA
-     * desde el controlador de dificultad, luego los aplica al modelo de juego.
-     */
     private void configurarYReiniciarJuego() {
+        // Establecer nivel seleccionado
         io.vavr.control.Option.of(controladorNiveles)
             .flatMap(ctrl -> io.vavr.control.Option.ofOptional(ctrl.obtenerNivelSeleccionado()))
             .peek(nivel -> controladorJuego.establecerNivel(nivel));
 
-        io.vavr.control.Option.of(controladorDificultad)
-            .flatMap(ctrl -> io.vavr.control.Option.ofOptional(ctrl.obtenerNivelSeleccionado()))
-            .peek(dificultad -> controladorJuego.configurarDificultadIA(dificultad));
+        // Obtener dificultad IA (si existe)
+        final io.vavr.control.Option<Integer> dificultadIA =
+            io.vavr.control.Option.of(controladorDificultad)
+                .flatMap(ctrl -> io.vavr.control.Option.ofOptional(ctrl.obtenerNivelSeleccionado()));
 
+        // Configurar dificultad IA si existe
+        dificultadIA.peek(dificultad -> controladorJuego.configurarDificultadIA(dificultad));
+
+        // Establecer modo de juego basado en si hay IA configurada
+        final mvc.modelo.enums.ModoJuego modo = dificultadIA
+            .map(d -> mvc.modelo.enums.ModoJuego.CONTRA_IA)
+            .getOrElse(mvc.modelo.enums.ModoJuego.DOS_JUGADORES);
+
+        controladorJuego.establecerModo(modo);
+
+        // Reiniciar estado del juego
         controladorJuego.reiniciarEstado();
     }
 

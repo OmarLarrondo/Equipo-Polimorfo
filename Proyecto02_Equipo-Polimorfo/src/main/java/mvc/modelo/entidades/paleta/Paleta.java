@@ -47,7 +47,7 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
             (int)alto,  // ancho
             (int)ancho,  // grosor
             300,  // velocidad por defecto
-            0,  // limNor
+            1,  // limNor - cambiado de 0 a 1 para cumplir validacion (debe ser > 0)
             600,  // limSur
             new ArrayList<>(),  // sin espinas
             x < 400 ? LadoHorizontal.IZQUIERDA : LadoHorizontal.DERECHA,  // lado
@@ -149,7 +149,7 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
      * Si la paleta llega al limite superior, la posicion del centro no se actualizara.
      */
     public void moverArriba() {
-        if((this.centro-this.anchoLateral) - velocidad < this.limiteNorte){
+        if((this.centro-this.anchoLateral) - velocidad >= this.limiteNorte){
             this.centro -= velocidad;
         }
     }
@@ -159,7 +159,7 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
      * Si la paleta llega al limite inferior, la posicion del centro no se actualizara.
      */
     public void moverAbajo() {
-        if((this.centro+this.anchoLateral) + velocidad < this.limiteNorte){
+        if((this.centro+this.anchoLateral) + velocidad <= this.limiteSur){
             this.centro += velocidad;
         }
     }

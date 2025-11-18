@@ -38,8 +38,6 @@ public class ConfigPelota extends mvc.modelo.entidades.ObjetoJuego {
 
         if(velocidadInicial > velocidadMaxima)
             throw new IndexOutOfBoundsException("La velocidad inicial no puede exceder la maxima.");
-        if(velocidadMaxima > radio)
-            throw new IndexOutOfBoundsException("La velocidad maxima no puede exceder el radio.");
 
         this.centroEnX = x;
         this.centroEnY = y;
