@@ -211,14 +211,14 @@ public class Pelota extends ConfigPelota implements ObjetoBaseJuego {
      * Invierte la componente horizontal de la velocidad.
      */
     public void invertirX() {
-        alternarSentidoVertical();
+        alternarSentidoHorizontal();
     }
 
     /**
      * Invierte la componente vertical de la velocidad.
      */
     public void invertirY() {
-        alternarSentidoHorizontal();
+        alternarSentidoVertical();
     }
 
     /**

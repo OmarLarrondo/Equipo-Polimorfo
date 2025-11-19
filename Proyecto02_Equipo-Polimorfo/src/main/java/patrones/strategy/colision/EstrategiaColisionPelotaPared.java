@@ -2,6 +2,7 @@ package patrones.strategy.colision;
 
 import mvc.modelo.entidades.ObjetoJuego;
 import mvc.modelo.entidades.pelota.Pelota;
+import mvc.modelo.enums.LadoHorizontal;
 
 /**
  * Estrategia de colision entre la pelota y las paredes del campo de juego.
@@ -50,20 +51,20 @@ public class EstrategiaColisionPelotaPared implements EstrategiaColision {
             final double y = pelota.obtenerY();
             final double radio = pelota.obtenerAncho() / 2.0;
 
-            // Rebote en pared superior
             if (y - radio <= 0) {
                 pelota.invertirY();
             }
 
-            // Rebote en pared inferior
             if (y + radio >= altoCanvas) {
                 pelota.invertirY();
             }
 
-            // La pelota sale por la izquierda o derecha (punto)
-            // Solo reiniciamos la pelota, el puntaje lo maneja el GestorColisiones
-            if (x - radio <= 0 || x + radio >= anchoCanvas) {
-                pelota.reiniciar();
+            if (x - radio <= 0) {
+                pelota.restaurarEstado();
+                pelota.inicializaDireccionLateral(LadoHorizontal.IZQUIERDA);
+            } else if (x + radio >= anchoCanvas) {
+                pelota.restaurarEstado();
+                pelota.inicializaDireccionLateral(LadoHorizontal.DERECHA);
             }
         });
     }
@@ -86,11 +87,10 @@ public class EstrategiaColisionPelotaPared implements EstrategiaColision {
             final double y = pelota.obtenerY();
             final double radio = pelota.obtenerAncho() / 2.0;
 
-            // Verificar colision con cualquier pared
-            return (y - radio <= 0) ||                    // Pared superior
-                   (y + radio >= altoCanvas) ||           // Pared inferior
-                   (x - radio <= 0) ||                    // Pared izquierda
-                   (x + radio >= anchoCanvas);            // Pared derecha
+            return (y - radio <= 0) ||
+                   (y + radio >= altoCanvas) ||
+                   (x - radio <= 0) ||
+                   (x + radio >= anchoCanvas);
         }).getOrElse(false);
     }
 

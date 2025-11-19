@@ -55,7 +55,6 @@ public class GestorColisiones {
      */
     public void verificarTodasColisiones(final ModeloJuego modeloJuego) {
         io.vavr.control.Try.run(() -> {
-            // Obtener estrategias usando Vavr Option
             final io.vavr.control.Option<EstrategiaColision> estrategiaPared = 
                 io.vavr.control.Option.of(estrategias.get("pelota-pared"));
             final io.vavr.control.Option<EstrategiaColision> estrategiaPaleta = 
@@ -63,31 +62,31 @@ public class GestorColisiones {
             final io.vavr.control.Option<EstrategiaColision> estrategiaBloque = 
                 io.vavr.control.Option.of(estrategias.get("pelota-bloque"));
 
-            // Obtener pelota del modelo y envolver en Option
             io.vavr.control.Option.of(modeloJuego.obtenerPelota()).forEach(pelota -> {
                 
-                // 1. Verificar colision con paredes
                 estrategiaPared.forEach(estrategia -> {
                     if (estrategia.verificarColision(pelota, null)) {
-                        // Guardar posicion antes de manejar colision
-                        final double xAntes = pelota.obtenerX();
-                        
-                        estrategia.manejarColision(pelota, null);
-                        
-                        // Verificar si la pelota fue reiniciada (punto anotado)
                         if (estrategia instanceof EstrategiaColisionPelotaPared pared) {
-                            if (pared.pelotaSalioPorIzquierda(pelota) && xAntes <= 0) {
-                                // Punto para jugador 2
+                            final double xAntes = pelota.obtenerX();
+                            final double radio = pelota.obtenerAncho() / 2.0;
+                            final double anchoCanvas = 800.0;
+
+                            final boolean golPorIzquierda = (xAntes - radio <= 0);
+                            final boolean golPorDerecha = (xAntes + radio >= anchoCanvas);
+
+                            estrategia.manejarColision(pelota, null);
+
+                            if (golPorIzquierda) {
                                 modeloJuego.incrementarPuntaje(2, 1);
-                            } else if (pared.pelotaSalioPorDerecha(pelota)) {
-                                // Punto para jugador 1
+                            } else if (golPorDerecha) {
                                 modeloJuego.incrementarPuntaje(1, 1);
                             }
+                        } else {
+                            estrategia.manejarColision(pelota, null);
                         }
                     }
                 });
 
-                // 2. Verificar colision con paleta jugador 1
                 io.vavr.control.Option.of(modeloJuego.obtenerJugador1()).forEach(paleta1 -> {
                     estrategiaPaleta.forEach(estrategia -> {
                         if (estrategia.verificarColision(pelota, paleta1)) {
@@ -96,7 +95,6 @@ public class GestorColisiones {
                     });
                 });
 
-                // 3. Verificar colision con paleta jugador 2
                 io.vavr.control.Option.of(modeloJuego.obtenerJugador2()).forEach(paleta2 -> {
                     estrategiaPaleta.forEach(estrategia -> {
                         if (estrategia.verificarColision(pelota, paleta2)) {
@@ -105,17 +103,15 @@ public class GestorColisiones {
                     });
                 });
 
-                // 4. Verificar colisiones con bloques
-                final io.vavr.collection.List<Bloque> bloques = 
+                final io.vavr.collection.List<Bloque> bloques =
                     io.vavr.collection.List.ofAll(modeloJuego.obtenerBloques());
-                
+
                 bloques.filter(Bloque::estaActivo).forEach(bloque -> {
                     estrategiaBloque.forEach(estrategia -> {
                         if (estrategia.verificarColision(pelota, bloque)) {
                             estrategia.manejarColision(pelota, bloque);
-                            
-                            // Generar item si el bloque fue destruido y es BONUS
-                            if (bloque.estaDestruido() && 
+
+                            if (bloque.estaDestruido() &&
                                 estrategia instanceof EstrategiaColisionPelotaBloque bloqueEstrategia) {
                                 bloqueEstrategia.intentarGenerarItem(bloque)
                                     .forEach(modeloJuego::generarItem);
@@ -139,7 +135,6 @@ public class GestorColisiones {
      */
     public void manejarColision(final ObjetoJuego obj1, final ObjetoJuego obj2) {
         io.vavr.control.Try.run(() -> {
-            // Intentar con todas las estrategias hasta encontrar una aplicable
             estrategias.values().stream()
                 .filter(estrategia -> estrategia.verificarColision(obj1, obj2))
                 .findFirst()

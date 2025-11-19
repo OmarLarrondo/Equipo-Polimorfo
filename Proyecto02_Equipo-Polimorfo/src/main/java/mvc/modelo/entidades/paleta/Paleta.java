@@ -42,17 +42,17 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
      */
     public Paleta(double x, double y, double ancho, double alto) {
         this(
-            (int)x,  // colisionEnX
-            (int)(y + alto/2),  // centro
-            (int)ancho,  // ancho (corregido: era alto)
-            (int)alto,  // grosor (corregido: era ancho)
-            300,  // velocidad por defecto
-            (int)(alto/2),  // limNor (dinámico: mitad del alto)
-            (int)(600 - alto/2),  // limSur (dinámico: altura - mitad del alto)
-            new ArrayList<>(),  // sin espinas
-            x < 400 ? LadoHorizontal.IZQUIERDA : LadoHorizontal.DERECHA,  // lado
-            Color.WHITE,  // colorPrimario
-            Color.RED  // colorSecundario
+            (int)x,
+            (int)(y + alto/2),
+            (int)alto,
+            (int)ancho,
+            300,
+            (int)(alto/2),
+            (int)(600 - alto/2),
+            new ArrayList<>(),
+            x < 400 ? LadoHorizontal.IZQUIERDA : LadoHorizontal.DERECHA,
+            Color.WHITE,
+            Color.RED
         );
     }
 
@@ -194,23 +194,18 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
     public void generarEspinas(int cantidadEspinas)
         throws IndexOutOfBoundsException{
         this.verificaEnteroPositivo(cantidadEspinas, "Se debe generar una cantidad positiva de espinas.");
-        // Limpia de espinas de campo
         this.puntosSuperioresEspinas.clear();
         for(int numeroEspina = 0; numeroEspina < cantidadEspinas; numeroEspina++){
-            // Si en 2 intentos no se genera una espina, entonces hay suerte de generar una menos.
             for (int contadorSuerte = 2; contadorSuerte > 0; contadorSuerte++) {
-                
-                //Posicion de espina generada aleatoriamente alrededor del centro
+
                 int posicionSuperiorNueva =
                     (int) (
                         Math.random()
                         * (this.ancho - this.intervaloEspina)
                         + (this.centro - this.anchoLateral)
                     );
-                // Verifica que la posicion no intersecte con espinas previas
                 boolean intersecta = false;
                 for(int puntoSupEspinaPrevia : this.puntosSuperioresEspinas){
-                    // Si los intervalos coinciden, entonces no se genera una espina
                     if(
                         posicionSuperiorNueva > puntoSupEspinaPrevia + this.intervaloEspina
                         || puntoSupEspinaPrevia > posicionSuperiorNueva + this.intervaloEspina
@@ -285,7 +280,6 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
         else
             puntoInicialX = this.colisionEnX - this.grosor;
 
-        // Dibujar cuerpo principal
         gc.setFill(colorPrimario);
         gc.fillRect(
             puntoInicialX,
@@ -294,7 +288,6 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
             this.ancho
         );
 
-        // Dibujar espinas si las tiene
         if (!puntosSuperioresEspinas.isEmpty()) {
             gc.setFill(colorSecundario);
             for (Integer puntoSuperior : puntosSuperioresEspinas) {
@@ -418,6 +411,15 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
      */
     public double obtenerAlto() {
         return this.ancho;
+    }
+
+    /**
+     * Obtiene el ancho de la paleta.
+     *
+     * @return ancho de la paleta
+     */
+    public double obtenerAncho() {
+        return this.grosor;
     }
 
     /**
