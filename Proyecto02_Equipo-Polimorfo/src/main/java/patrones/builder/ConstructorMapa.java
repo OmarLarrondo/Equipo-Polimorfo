@@ -50,8 +50,6 @@ public class ConstructorMapa implements BuilderNivel {
         return this;
     }
 
-
-    //CHECARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
     /**
      * {@inheritDoc}
      * <p>Dependiendo del tipo de bloque indicado, se asignan sus valores de resistencia
@@ -83,10 +81,6 @@ public class ConstructorMapa implements BuilderNivel {
         return this;
     }
 
-    
-
-
-    //CHECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
     /**
      * Agrega un bloque destructible que puede eliminarse con un solo impacto.
      * 
@@ -120,9 +114,6 @@ public class ConstructorMapa implements BuilderNivel {
     public ConstructorMapa agregarBloqueBonus(double x, double y) {
         return agregarBloque(x, y, TipoBloque.BONUS);
     }
-
-
-    //CJHECAAAAAAAAAAAAAAAAR
 
     /**
      * Agrega un patrón de bloques predefinido.

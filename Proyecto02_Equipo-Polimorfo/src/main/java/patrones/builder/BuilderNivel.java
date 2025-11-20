@@ -23,8 +23,6 @@ import mvc.modelo.entidades.Nivel;
  *      .reiniciar()
  *      .establecerNombre("Nivel 1")
  *      .establecerDificultad(2)
- * //OJOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO.
- * //AUN NO SE CREARAN LOS BLOQUES
  *      .agregarBloque(100, 200, TipoBloque.DESTRUCTIBLE)
  *      .construir();
  * }</pre>
@@ -61,9 +59,6 @@ public interface BuilderNivel {
      */
     public BuilderNivel establecerDificultad(int dificultad);
 
-
-
-    //ESTO TODAVIA QUEDA PENDIENTE, NO SE SI ESTA BIEN, PUES SAUL SE ESTA ENCARGANDO DE ESO.
     /**
      * Agrega un bloque al nivel en la posición indicada y del tipo especificado.
      *

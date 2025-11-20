@@ -44,7 +44,6 @@ public class DirectorNiveles {
         return constructor.reiniciar()
                         .establecerNombre("Nivel Fácil")
                         .establecerDificultad(1)
-                        //CHECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
                         .agregarPatronBloques(50, 50)
                         .construir();
     }
@@ -61,7 +60,6 @@ public class DirectorNiveles {
         return constructor.reiniciar()
                         .establecerNombre("Nivel Medio")
                         .establecerDificultad(2)
-                        //CHECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
                         .agregarBloqueIndestructible(50, 25)
                         .agregarPatronBloques(50, 100)
                         .construir();
@@ -79,7 +77,6 @@ public class DirectorNiveles {
         return constructor.reiniciar()
                         .establecerNombre("Nivel Difícil")
                         .establecerDificultad(3)
-                        ///CHECAAAAAAAAAAAAAAAAR PLIS.
                         .agregarBloqueIndestructible(100, 50)
                         .agregarPatronBloques(50, 100)
                         .construir();
