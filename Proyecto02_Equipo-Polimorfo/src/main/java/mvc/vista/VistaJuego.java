@@ -350,6 +350,16 @@ public class VistaJuego {
      * @param mensaje Mensaje a mostrar
      */
     public void mostrarMensajeCentral(final String mensaje) {
+        mostrarMensajeCentral(mensaje, 2.0);
+    }
+
+    /**
+     * Muestra un mensaje temporal en el centro de la pantalla con duracion personalizada.
+     *
+     * @param mensaje Mensaje a mostrar
+     * @param duracionSegundos Duracion en segundos que el mensaje permanecera visible
+     */
+    public void mostrarMensajeCentral(final String mensaje, final double duracionSegundos) {
         Try.run(() -> {
             final Label labelMensaje = crearLabel(mensaje, TAMANIO_FUENTE_INFO * 1.5);
             labelMensaje.setStyle(
@@ -363,7 +373,7 @@ public class VistaJuego {
 
             new javafx.animation.Timeline(
                     new javafx.animation.KeyFrame(
-                            javafx.util.Duration.seconds(2),
+                            javafx.util.Duration.seconds(duracionSegundos),
                             event -> contenedor.getChildren().remove(labelMensaje)
                     )
             ).play();

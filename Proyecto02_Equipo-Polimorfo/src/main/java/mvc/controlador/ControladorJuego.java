@@ -90,8 +90,19 @@ public class ControladorJuego extends ControladorBase {
     private void inicializarModelo() {
         modeloJuego = new ModeloJuego();
 
-        observadorUI = Option.of(new ObservadorUI(vistaJuego));
+        final Option<Runnable> callbackDetener = Option.of(this::detenerGameLoop);
+        final Option<Runnable> callbackMenu = Option.of(this::navegarAlMenu);
+
+        observadorUI = Option.of(new ObservadorUI(vistaJuego, callbackDetener, callbackMenu));
         observadorUI.forEach(obs -> modeloJuego.agregarObservador(obs));
+    }
+
+    /**
+     * Navega al menu principal de forma segura.
+     */
+    private void navegarAlMenu() {
+        Option.of(gestorEscenas)
+            .peek(mvc.vista.GestorEscenas::mostrarMenu);
     }
 
     private void configurarEntrada() {
@@ -210,7 +221,7 @@ public class ControladorJuego extends ControladorBase {
         System.out.println("DEBUG: Creando game loop...");
         final AnimationTimer timer = new AnimationTimer() {
             private long contadorFrames = 0;
-            
+
             @Override
             public void handle(final long ahora) {
                 contadorFrames++;
@@ -220,7 +231,11 @@ public class ControladorJuego extends ControladorBase {
                 if (contadorFrames % 60 == 0) {
                     System.out.println("DEBUG: Game loop activo (frame " + contadorFrames + "), pausado=" + pausado + ", juegoIniciado=" + juegoIniciado);
                 }
-                
+
+                if (!modeloJuego.estaActivo()) {
+                    return;
+                }
+
                 if (!pausado && juegoIniciado) {
                     final double delta = calcularDelta(ahora);
                     actualizar(delta);
@@ -444,6 +459,17 @@ public class ControladorJuego extends ControladorBase {
     public void establecerModo(final mvc.modelo.enums.ModoJuego modo) {
         io.vavr.control.Option.of(modeloJuego)
             .peek(modelo -> modelo.establecerModo(modo));
+    }
+
+    /**
+     * Detiene el game loop del juego de forma segura.
+     * <p>
+     * Este metodo puede ser llamado cuando el juego termina para detener
+     * la actualizacion y renderizado del juego.
+     * </p>
+     */
+    public void detenerGameLoop() {
+        gameLoop.forEach(AnimationTimer::stop);
     }
 
     /**
