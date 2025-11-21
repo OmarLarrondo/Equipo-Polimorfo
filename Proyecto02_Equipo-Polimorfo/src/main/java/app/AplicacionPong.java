@@ -11,7 +11,6 @@ import mvc.controlador.ControladorJuego;
 import mvc.controlador.ControladorMenu;
 import mvc.controlador.ControladorSeleccionDificultad;
 import mvc.controlador.ControladorSeleccionNiveles;
-import patrones.facade.FachadaJuego;
 import mvc.vista.VistaEditor;
 import mvc.vista.VistaMenu;
 import mvc.vista.VistaSeleccionDificultad;
@@ -31,7 +30,6 @@ public class AplicacionPong extends Application {
     private static final int ALTO_MINIMO = 600;
 
     private GestorEscenas gestorEscenas;
-    private FachadaJuego fachadaJuego;
     private Stage escenarioPrincipal;
     private ControladorSeleccionDificultad controladorDificultad;
     private ControladorSeleccionNiveles controladorNiveles;
@@ -46,7 +44,6 @@ public class AplicacionPong extends Application {
     public void init() {
         System.out.println("Inicializando Pong Evolved...");
         inicializarBaseDatos();
-        inicializarModelo();
     }
 
     /**
@@ -89,18 +86,6 @@ public class AplicacionPong extends Application {
     }
 
     /**
-     * Inicializa el modelo del juego a través de la fachada.
-     */
-    private void inicializarModelo() {
-        try {
-            this.fachadaJuego = new FachadaJuego();
-        } catch (Exception e) {
-            System.err.println("Advertencia: FachadaJuego no disponible aún. Usando placeholder.");
-            this.fachadaJuego = null;
-        }
-    }
-
-    /**
      * Configura las propiedades del Stage principal.
      *
      * @param escenario Stage a configurar
@@ -133,10 +118,6 @@ public class AplicacionPong extends Application {
         ControladorMenu controladorMenu = new ControladorMenu();
         controladorMenu.establecerGestorEscenas(gestorEscenas);
 
-        if (fachadaJuego != null) {
-            controladorMenu.establecerFachadaJuego(fachadaJuego);
-        }
-
         VistaMenu vistaMenu = new VistaMenu(controladorMenu);
         gestorEscenas.registrarEscena("menu", vistaMenu.obtenerEscena());
     }
@@ -147,10 +128,6 @@ public class AplicacionPong extends Application {
     private void inicializarVistaSeleccionDificultad() {
         controladorDificultad = new ControladorSeleccionDificultad();
         controladorDificultad.establecerGestorEscenas(gestorEscenas);
-
-        if (fachadaJuego != null) {
-            controladorDificultad.establecerFachadaJuego(fachadaJuego);
-        }
 
         VistaSeleccionDificultad vista = new VistaSeleccionDificultad(controladorDificultad);
         gestorEscenas.registrarEscena("seleccion-dificultad", vista.obtenerEscena());
@@ -166,10 +143,6 @@ public class AplicacionPong extends Application {
         controladorNiveles = new ControladorSeleccionNiveles();
         controladorNiveles.establecerGestorEscenas(gestorEscenas);
 
-        if (fachadaJuego != null) {
-            controladorNiveles.establecerFachadaJuego(fachadaJuego);
-        }
-
         gestorEscenas.establecerConfiguradorDificultad(
                 dificultad -> controladorNiveles.establecerDificultadIA(dificultad)
         );
@@ -179,7 +152,10 @@ public class AplicacionPong extends Application {
         gestorEscenas.registrarCallbackPreMostrar("seleccion-niveles",
                 () -> controladorNiveles.reiniciarSeleccionNivel());
         gestorEscenas.registrarCallbackPreMostrar("limpiar-estado-niveles",
-                () -> controladorNiveles.reiniciarEstadoCompleto());
+                () -> io.vavr.control.Try.run(() -> {
+                    controladorNiveles.reiniciarEstadoCompleto();
+                    controladorDificultad.reiniciarEstado();
+                }).getOrElse(() -> null));
     }
 
     /**
@@ -188,10 +164,6 @@ public class AplicacionPong extends Application {
     private void inicializarVistaEditor() {
         controladorEditor = new ControladorEditor();
         controladorEditor.establecerGestorEscenas(gestorEscenas);
-
-        if (fachadaJuego != null) {
-            controladorEditor.establecerFachadaJuego(fachadaJuego);
-        }
 
         VistaEditor vista = new VistaEditor(controladorEditor);
         gestorEscenas.registrarEscena("editor", vista.obtenerEscena());

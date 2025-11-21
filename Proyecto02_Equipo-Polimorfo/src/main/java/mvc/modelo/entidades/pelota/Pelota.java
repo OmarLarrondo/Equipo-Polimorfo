@@ -2,20 +2,58 @@ package mvc.modelo.entidades.pelota;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import mvc.modelo.entidades.ObjetoBaseJuego;
+import mvc.modelo.entidades.ObjetoJuego;
 import mvc.modelo.enums.LadoHorizontal;
 
 /**
  * Representa la pelota del juego Pong.
  *
+ * <p>Esta clase encapsula el comportamiento y estado de una pelota,
+ * incluyendo su posicion, velocidad, direccion y estado de activacion.
+ * La pelota puede moverse, colisionar con objetos y cambiar su direccion.</p>
+ *
+ * <p><b>Características principales:</b></p>
+ * <ul>
+ *   <li>Movimiento basado en fisica vectorial</li>
+ *   <li>Sistema de velocidad con limite maximo</li>
+ *   <li>Capacidad de guardar y restaurar estado (patrón Memento)</li>
+ *   <li>Control de activacion/desactivacion</li>
+ * </ul>
+ *
  * @author Equipo-polimorfo
- * @version 1.0
+ * @version 2.0
+ * @see ConfigPelota
  */
-public class Pelota extends ConfigPelota implements ObjetoBaseJuego {
+public class Pelota extends ObjetoJuego {
 
+    // Constante PI para calculos
+    private static final double PI = Math.PI;
+
+    // Estado mutable de la pelota
+    private int centroEnX;
+    private int centroEnY;
+    private int radio;
+    private int velocidad;
+    private int velocidadMaxima;
+    private double anguloDireccional;
+
+    // Estado original para restauracion (Memento)
     private ConfigPelota estadoOriginal;
+
+    // Estado de activacion
     private boolean activo;
-    
+
+    /**
+     * Constructor principal de la pelota.
+     *
+     * @param centroEnX coordenada X del centro
+     * @param centroEnY coordenada Y del centro
+     * @param radio radio de la pelota
+     * @param velocidadInicial velocidad inicial
+     * @param velocidadMaxima velocidad maxima permitida
+     * @param anguloDireccional angulo de direccion en radianes
+     * @throws IndexOutOfBoundsException si los valores no son validos
+     */
     public Pelota(
         int centroEnX,
         int centroEnY,
@@ -24,25 +62,39 @@ public class Pelota extends ConfigPelota implements ObjetoBaseJuego {
         int velocidadMaxima,
         double anguloDireccional
     ) {
-        super(
-            centroEnX,
-            centroEnY,
-            radio,
-            velocidadInicial,
-            velocidadMaxima,
-            anguloDireccional
+        super(centroEnX - radio, centroEnY - radio, 2.0 * radio, 2.0 * radio);
+
+        // Validar con ConfigPelota para mantener consistencia
+        ConfigPelota validacion = new ConfigPelota(
+            centroEnX, centroEnY, radio,
+            velocidadInicial, velocidadMaxima, anguloDireccional
         );
-        this.estadoOriginal = new ConfigPelota(
-            centroEnX,
-            centroEnY,
-            radio,
-            velocidadInicial,
-            velocidadMaxima,
-            anguloDireccional
-        );
+
+        // Inicializar estado mutable desde la configuracion validada
+        this.centroEnX = validacion.centroEnX();
+        this.centroEnY = validacion.centroEnY();
+        this.radio = validacion.radio();
+        this.velocidad = validacion.velocidad();
+        this.velocidadMaxima = validacion.velocidadMaxima();
+        this.anguloDireccional = validacion.anguloDireccional();
+
+        // Guardar estado original
+        this.estadoOriginal = validacion;
         this.activo = true;
     }
 
+    /**
+     * Constructor con estado original especificado.
+     *
+     * @param centroEnX coordenada X del centro
+     * @param centroEnY coordenada Y del centro
+     * @param radio radio de la pelota
+     * @param velocidadInicial velocidad inicial
+     * @param velocidadMaxima velocidad maxima permitida
+     * @param anguloDireccional angulo de direccion en radianes
+     * @param estadoOriginal estado original para restauracion
+     * @throws IndexOutOfBoundsException si los valores no son validos
+     */
     public Pelota(
         int centroEnX,
         int centroEnY,
@@ -52,31 +104,16 @@ public class Pelota extends ConfigPelota implements ObjetoBaseJuego {
         double anguloDireccional,
         ConfigPelota estadoOriginal
     ) {
-        super(
-            centroEnX,
-            centroEnY,
-            radio,
-            velocidadInicial,
-            velocidadMaxima,
-            anguloDireccional
-        );
-        this.estadoOriginal = estadoOriginal;
-        this.activo = true;
-    }
-
-    /**
-     * Calcula las velocidades horizontal y vertical, y las suma a las posiciones en x,y
-     *  respectivamente.
-     */
-    public void moverse() {
-        this.centroEnX += Math.cos(velocidad);
-        this.centroEnY += Math.sin(velocidad);
+        this(centroEnX, centroEnY, radio, velocidadInicial, velocidadMaxima, anguloDireccional);
+        this.estadoOriginal = estadoOriginal != null ? estadoOriginal : this.estadoOriginal;
     }
 
     /**
      * Genera un angulo aleatorio con respecto al eje x, con una desviacion uniforme
-     *  de entre -pi/8 y pi/8, con respecto al sentido indicado.
+     * de entre -pi/8 y pi/8, con respecto al sentido indicado.
      * Sirve para dar dinamismo al comienzo de una ronda, siendo su direccion no siempre igual.
+     *
+     * @param sentido sentido horizontal inicial
      */
     public void inicializaDireccionLateral(LadoHorizontal sentido){
         if(sentido == LadoHorizontal.DERECHA)
@@ -86,8 +123,23 @@ public class Pelota extends ConfigPelota implements ObjetoBaseJuego {
     }
 
     /**
+     * Invierte el sentido horizontal de la pelota cambiando su angulo de direccion.
+     */
+    public void alternarSentidoHorizontal() {
+        this.anguloDireccional = PI - this.anguloDireccional;
+    }
+
+    /**
+     * Invierte el sentido vertical de la pelota cambiando su angulo de direccion.
+     */
+    public void alternarSentidoVertical() {
+        this.anguloDireccional = -this.anguloDireccional;
+    }
+
+    /**
      * Actualiza el estado base de la pelota.
-     * 
+     *
+     * @param configuracion nueva configuracion original
      * @throws NullPointerException si la configuracion es nula.
      */
     public void establecerEstadoOriginal(ConfigPelota configuracion)
@@ -95,13 +147,12 @@ public class Pelota extends ConfigPelota implements ObjetoBaseJuego {
         if(configuracion == null){
             throw new NullPointerException("Configuracion nula no es valida.");
         }
-
         this.estadoOriginal = configuracion;
     }
 
     /**
      * Devuelve el estado original de la pelota.
-     * 
+     *
      * @return configuracion original de la pelota
      */
     public ConfigPelota obtenerEstadoOriginal(){
@@ -110,25 +161,24 @@ public class Pelota extends ConfigPelota implements ObjetoBaseJuego {
 
     /**
      * Configura la pelota a un estado definido.
-     * 
+     *
      * @param configuracion estado de pelota
      * @throws NullPointerException si la configuracion es nula
      */
-    public void configurar(ConfigPelota configuracion)
-        throws NullPointerException {
+    public void configurar(ConfigPelota configuracion) throws NullPointerException {
         if(configuracion == null){
             throw new NullPointerException("Configuracion nula no es valida.");
         }
-        this.centroEnX = configuracion.obtenerCentroEnX();
-        this.centroEnY = configuracion.obtenerCentroEnY();
-        this.radio = configuracion.obtenerRadio();
-        this.velocidad = (int)configuracion.obtenerVelocidad();
-        this.velocidadMaxima = configuracion.obtenerVelocidadMaxima();
-        this.anguloDireccional = configuracion.obtenerAnguloDireccional();
+        this.centroEnX = configuracion.centroEnX();
+        this.centroEnY = configuracion.centroEnY();
+        this.radio = configuracion.radio();
+        this.velocidad = configuracion.velocidad();
+        this.velocidadMaxima = configuracion.velocidadMaxima();
+        this.anguloDireccional = configuracion.anguloDireccional();
     }
 
     /**
-     * Restaura la paleta a su estado original.
+     * Restaura la pelota a su estado original.
      */
     public void restaurarEstado() {
         this.configurar(this.estadoOriginal);
@@ -152,6 +202,8 @@ public class Pelota extends ConfigPelota implements ObjetoBaseJuego {
 
     /**
      * Devuelve un cuadrado bidimensional con las dimensiones de la pelota.
+     *
+     * @return rectangulo con las dimensiones de la pelota
      */
     @Override
     public Rectangle2D obtenerLimites() {
@@ -179,6 +231,209 @@ public class Pelota extends ConfigPelota implements ObjetoBaseJuego {
             2 * this.radio,
             2 * this.radio
         );
+    }
+
+    /**
+     * Crea una copia de la pelota.
+     *
+     * @return copia de la pelota
+     */
+    public Pelota clonar() {
+        Pelota copia = new Pelota(
+            this.centroEnX,
+            this.centroEnY,
+            this.radio,
+            this.velocidad,
+            this.velocidadMaxima,
+            this.anguloDireccional,
+            this.estadoOriginal
+        );
+        copia.activo = this.activo;
+        return copia;
+    }
+
+    // ========== METODOS DE ACCESO (GETTERS) ==========
+
+    /**
+     * Obtiene la coordenada X del centro.
+     *
+     * @return coordenada X del centro
+     */
+    public int obtenerCentroEnX() {
+        return this.centroEnX;
+    }
+
+    /**
+     * Obtiene la coordenada Y del centro.
+     *
+     * @return coordenada Y del centro
+     */
+    public int obtenerCentroEnY() {
+        return this.centroEnY;
+    }
+
+    /**
+     * Obtiene el radio de la pelota.
+     *
+     * @return radio
+     */
+    public int obtenerRadio() {
+        return this.radio;
+    }
+
+    /**
+     * Obtiene la velocidad actual de la pelota.
+     *
+     * @return velocidad actual
+     */
+    public double obtenerVelocidad() {
+        return (double)this.velocidad;
+    }
+
+    /**
+     * Obtiene la velocidad maxima.
+     *
+     * @return velocidad maxima
+     */
+    public int obtenerVelocidadMaxima() {
+        return this.velocidadMaxima;
+    }
+
+    /**
+     * Obtiene el angulo direccional.
+     *
+     * @return angulo direccional en radianes
+     */
+    public double obtenerAnguloDireccional() {
+        return this.anguloDireccional;
+    }
+
+    /**
+     * Obtiene la componente X de la velocidad.
+     *
+     * @return velocidad en el eje X
+     */
+    public double obtenerVelocidadX() {
+        return this.velocidad * Math.cos(this.anguloDireccional);
+    }
+
+    /**
+     * Obtiene la componente Y de la velocidad.
+     *
+     * @return velocidad en el eje Y
+     */
+    public double obtenerVelocidadY() {
+        return this.velocidad * -Math.sin(this.anguloDireccional);
+    }
+
+    // ========== METODOS DE MODIFICACION (SETTERS) ==========
+
+    /**
+     * Establece la coordenada X del centro.
+     *
+     * @param nuevoCentroEnX nueva coordenada X
+     * @throws IndexOutOfBoundsException si el valor no es positivo
+     */
+    public void establecerCentroEnX(int nuevoCentroEnX) throws IndexOutOfBoundsException {
+        if(nuevoCentroEnX <= 0) {
+            throw new IndexOutOfBoundsException("Valor de posicion horizontal no positivo no es valido.");
+        }
+        this.centroEnX = nuevoCentroEnX;
+    }
+
+    /**
+     * Establece la coordenada Y del centro.
+     *
+     * @param nuevoCentroEnY nueva coordenada Y
+     * @throws IndexOutOfBoundsException si el valor no es positivo
+     */
+    public void establecerCentroEnY(int nuevoCentroEnY) throws IndexOutOfBoundsException {
+        if(nuevoCentroEnY <= 0) {
+            throw new IndexOutOfBoundsException("Valor de posicion vertical no positivo no es valido.");
+        }
+        this.centroEnY = nuevoCentroEnY;
+    }
+
+    /**
+     * Establece la posicion del centro de la pelota.
+     *
+     * @param nuevoCentroEnX nueva coordenada X del centro
+     * @param nuevoCentroEnY nueva coordenada Y del centro
+     * @throws IndexOutOfBoundsException si alguno de los valores no es positivo
+     */
+    public void establecerPosicionCentro(int nuevoCentroEnX, int nuevoCentroEnY)
+            throws IndexOutOfBoundsException {
+        establecerCentroEnX(nuevoCentroEnX);
+        establecerCentroEnY(nuevoCentroEnY);
+    }
+
+    /**
+     * Establece el radio de la pelota.
+     *
+     * @param nuevoRadio nuevo radio
+     * @throws IndexOutOfBoundsException si el radio no es positivo o es menor que la velocidad maxima
+     */
+    public void establecerRadio(int nuevoRadio) throws IndexOutOfBoundsException {
+        if(nuevoRadio <= 0) {
+            throw new IndexOutOfBoundsException("Valor de radio no positivo no es valido.");
+        }
+        if(nuevoRadio < this.velocidadMaxima) {
+            throw new IndexOutOfBoundsException("El radio no puede ser menor que la velocidad maxima.");
+        }
+        this.radio = nuevoRadio;
+    }
+
+    /**
+     * Establece la velocidad actual de la pelota.
+     *
+     * @param nuevaVelocidad nueva velocidad
+     * @throws IndexOutOfBoundsException si la velocidad no es positiva o excede la maxima
+     */
+    public void establecerVelocidadActual(int nuevaVelocidad) throws IndexOutOfBoundsException {
+        if(nuevaVelocidad <= 0) {
+            throw new IndexOutOfBoundsException("Valor de velocidad no positivo no es valido.");
+        }
+        if(nuevaVelocidad > this.velocidadMaxima) {
+            throw new IndexOutOfBoundsException("El valor excede la velocidad maxima permitida.");
+        }
+        this.velocidad = nuevaVelocidad;
+    }
+
+    /**
+     * Establece la velocidad maxima de la pelota.
+     *
+     * @param nuevaVelocidadMaxima nueva velocidad maxima
+     * @throws IndexOutOfBoundsException si la velocidad maxima no es valida
+     */
+    public void establecerVelocidadMaxima(int nuevaVelocidadMaxima) throws IndexOutOfBoundsException {
+        if(nuevaVelocidadMaxima <= 0) {
+            throw new IndexOutOfBoundsException("Valor de velocidad maxima no positivo no es valido.");
+        }
+        if(nuevaVelocidadMaxima > this.radio) {
+            throw new IndexOutOfBoundsException(
+                "El valor excede el radio, esto podria generar problemas de colision."
+            );
+        }
+        if(nuevaVelocidadMaxima < this.velocidad) {
+            throw new IndexOutOfBoundsException(
+                "La velocidad maxima no puede ser menor que la velocidad actual."
+            );
+        }
+        this.velocidadMaxima = nuevaVelocidadMaxima;
+    }
+
+    /**
+     * Establece el angulo direccional de la pelota.
+     *
+     * @param nuevoAnguloDireccional nuevo angulo en radianes
+     * @throws IndexOutOfBoundsException si el angulo esta fuera del rango valido
+     */
+    public void establecerAnguloDireccional(double nuevoAnguloDireccional)
+            throws IndexOutOfBoundsException {
+        if(nuevoAnguloDireccional < 0 || nuevoAnguloDireccional >= 2*PI) {
+            throw new IndexOutOfBoundsException("El angulo direccional debe estar en el rango [0, 2*PI).");
+        }
+        this.anguloDireccional = nuevoAnguloDireccional;
     }
 
     // ========== METODOS DE COMPATIBILIDAD CON API ANTIGUA ==========
@@ -289,24 +544,5 @@ public class Pelota extends ConfigPelota implements ObjetoBaseJuego {
      */
     public void establecerActivo(boolean activo) {
         this.activo = activo;
-    }
-
-    /**
-     * Crea una copia de la pelota.
-     *
-     * @return copia de la pelota
-     */
-    public Pelota clonar() {
-        Pelota copia = new Pelota(
-            this.centroEnX,
-            this.centroEnY,
-            this.radio,
-            this.velocidad,
-            this.velocidadMaxima,
-            this.anguloDireccional,
-            this.estadoOriginal
-        );
-        copia.activo = this.activo;
-        return copia;
     }
 }

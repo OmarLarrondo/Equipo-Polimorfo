@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import patrones.facade.FachadaJuego;
 import mvc.vista.GestorEscenas;
 
 import java.util.Optional;
@@ -18,17 +17,7 @@ import java.util.Optional;
  */
 public abstract class ControladorBase {
 
-    protected FachadaJuego fachadaJuego;
     protected GestorEscenas gestorEscenas;
-
-    /**
-     * Establece la fachada del juego.
-     *
-     * @param fachadaJuego Fachada del modelo del juego
-     */
-    public void establecerFachadaJuego(FachadaJuego fachadaJuego) {
-        this.fachadaJuego = fachadaJuego;
-    }
 
     /**
      * Establece el gestor de escenas.

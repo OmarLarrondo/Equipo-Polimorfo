@@ -1,14 +1,13 @@
 package mvc.modelo.entidades.paleta;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import mvc.modelo.entidades.ObjetoBaseJuego;
+import mvc.modelo.entidades.ObjetoJuego;
 import mvc.modelo.enums.LadoHorizontal;
-import mvc.modelo.enums.LadoVertical;
 import patrones.strategy.movimiento.EstrategiaMovimiento;
 
 /**
@@ -29,16 +28,41 @@ import patrones.strategy.movimiento.EstrategiaMovimiento;
  * </ul>
  *
  * @author Equipo-polimorfo
- * @version 2.0
+ * @version 3.0
  * @see EstrategiaMovimiento
  * @see ConfigPaleta
  */
-public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
+public class Paleta extends ObjetoJuego {
 
+    // Estado mutable de la paleta
+    private int colisionEnX;
+    private int centro;
+    private int ancho;
+    private int anchoLateral;
+    private int grosor;
+    private int limiteNorte;
+    private int limiteSur;
+    private int velocidad;
+    private ArrayList<Integer> puntosSuperioresEspinas;
+    private int intervaloEspina;
+    private LadoHorizontal ladoPantalla;
+    private Color colorPrimario;
+    private Color colorSecundario;
+
+    // Estado original para restauración (Memento)
     private ConfigPaleta estadoOriginal;
+
+    // Campos adicionales
+    private boolean activo = true;
+    private EstrategiaMovimiento estrategiaMovimiento;
 
     /**
      * Constructor de compatibilidad con API antigua (4 parametros: x, y, ancho, alto).
+     *
+     * @param x posicion horizontal
+     * @param y posicion vertical
+     * @param ancho ancho de la paleta
+     * @param alto alto de la paleta
      */
     public Paleta(double x, double y, double ancho, double alto) {
         this(
@@ -56,6 +80,23 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
         );
     }
 
+    /**
+     * Constructor principal de la paleta.
+     *
+     * @param colisionEnX posicion horizontal de colision
+     * @param centro posicion vertical del centro
+     * @param ancho altura vertical de la paleta
+     * @param grosor ancho horizontal de la paleta
+     * @param velocidad velocidad de movimiento
+     * @param limNor limite superior
+     * @param limSur limite inferior
+     * @param puntosSuperioresEspinas lista de posiciones de espinas
+     * @param lado lado de la pantalla
+     * @param colorPrimario color principal
+     * @param colorSecundario color secundario
+     * @throws IndexOutOfBoundsException si los valores no son validos
+     * @throws NullPointerException si los parametros de referencia son nulos
+     */
     public Paleta(
         int colisionEnX,
         int centro,
@@ -68,35 +109,58 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
         LadoHorizontal lado,
         Color colorPrimario,
         Color colorSecundario
-    ) throws IndexOutOfBoundsException, NullPointerException{
+    ) throws IndexOutOfBoundsException, NullPointerException {
         super(
-            colisionEnX,
-            centro, 
-            ancho,
+            lado == LadoHorizontal.IZQUIERDA ? colisionEnX - grosor : colisionEnX,
+            centro - (ancho % 2 == 1 ? ancho - 1 : ancho) / 2,
             grosor,
-            velocidad,
-            limNor,
-            limSur,
-            puntosSuperioresEspinas,
-            lado,
-            colorPrimario,
-            colorSecundario
+            ancho % 2 == 1 ? ancho - 1 : ancho
         );
-        this.estadoOriginal = new ConfigPaleta(
-            colisionEnX,
-            centro, 
-            ancho,
-            grosor,
-            velocidad,
-            limNor,
-            limSur,
-            puntosSuperioresEspinas,
-            lado,
-            colorPrimario,
-            colorSecundario
+
+        // Validaciones (delegadas a ConfigPaleta para mantener consistencia)
+        ConfigPaleta validacion = new ConfigPaleta(
+            colisionEnX, centro, ancho, grosor, velocidad,
+            limNor, limSur, puntosSuperioresEspinas, lado,
+            colorPrimario, colorSecundario
         );
+
+        // Inicializar estado mutable desde la configuracion validada
+        this.colisionEnX = validacion.colisionEnX();
+        this.centro = validacion.centro();
+        this.ancho = validacion.ancho();
+        this.anchoLateral = this.ancho / 2;
+        this.grosor = validacion.grosor();
+        this.velocidad = validacion.velocidad();
+        this.limiteNorte = validacion.limiteNorte();
+        this.limiteSur = validacion.limiteSur();
+        this.puntosSuperioresEspinas = new ArrayList<>(validacion.puntosSuperioresEspinas());
+        this.intervaloEspina = validacion.obtenerIntervaloEspina();
+        this.ladoPantalla = validacion.ladoPantalla();
+        this.colorPrimario = validacion.colorPrimario();
+        this.colorSecundario = validacion.colorSecundario();
+
+        // Guardar estado original
+        this.estadoOriginal = validacion;
     }
 
+    /**
+     * Constructor con estado original especificado.
+     *
+     * @param colisionEnX posicion horizontal de colision
+     * @param centro posicion vertical del centro
+     * @param ancho altura vertical de la paleta
+     * @param grosor ancho horizontal de la paleta
+     * @param velocidad velocidad de movimiento
+     * @param limNor limite superior
+     * @param limSur limite inferior
+     * @param puntosSuperioresEspinas lista de posiciones de espinas
+     * @param lado lado de la pantalla
+     * @param colorPrimario color principal
+     * @param colorSecundario color secundario
+     * @param estadoOriginal estado original para restauracion
+     * @throws IndexOutOfBoundsException si los valores no son validos
+     * @throws NullPointerException si los parametros de referencia son nulos
+     */
     public Paleta(
         int colisionEnX,
         int centro,
@@ -110,38 +174,10 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
         Color colorPrimario,
         Color colorSecundario,
         ConfigPaleta estadoOriginal
-    ) throws IndexOutOfBoundsException, NullPointerException{
-        super(
-            colisionEnX,
-            centro, 
-            ancho,
-            grosor,
-            velocidad,
-            limNor,
-            limSur,
-            puntosSuperioresEspinas,
-            lado,
-            colorPrimario,
-            colorSecundario
-        );
-
-        this.estadoOriginal = estadoOriginal;
-    }
-
-    /**
-     * Mueve la plataforma en la direccion indicada.
-     * Si la paleta llega a un limite, la posicion del centro no se actualizara.
-     * 
-     * @param direccion sentido de movimiento
-     */
-    public void moverse(LadoVertical sentido){
-        if(sentido == null)
-            throw new NullPointerException("El lado de movimiento no puede ser nulo.");
-
-        if(sentido == LadoVertical.ARRIBA)
-            this.moverArriba();
-        else
-            this.moverAbajo();
+    ) throws IndexOutOfBoundsException, NullPointerException {
+        this(colisionEnX, centro, ancho, grosor, velocidad, limNor, limSur,
+             puntosSuperioresEspinas, lado, colorPrimario, colorSecundario);
+        this.estadoOriginal = estadoOriginal != null ? estadoOriginal : this.estadoOriginal;
     }
 
     /**
@@ -152,7 +188,7 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
      */
     public void moverArriba(double deltaTime) {
         int desplazamiento = (int)(velocidad * deltaTime);
-        if((this.centro-this.anchoLateral) - desplazamiento >= this.limiteNorte){
+        if((this.centro - this.anchoLateral) - desplazamiento >= this.limiteNorte){
             this.centro -= desplazamiento;
         }
     }
@@ -165,7 +201,7 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
      */
     public void moverAbajo(double deltaTime) {
         int desplazamiento = (int)(velocidad * deltaTime);
-        if((this.centro+this.anchoLateral) + desplazamiento <= this.limiteSur){
+        if((this.centro + this.anchoLateral) + desplazamiento <= this.limiteSur){
             this.centro += desplazamiento;
         }
     }
@@ -183,33 +219,30 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
     public void moverAbajo() {
         moverAbajo(1.0 / 60.0);
     }
-    
+
     /**
      * Genera espinas en la plataforma con posiciones aleatorias.
      * Existe un factor suerte que permite generar menos espinas de las indicadas,
-     *  pero se debe generar al menos una.
-     * 
+     * pero se debe generar al menos una.
+     *
+     * @param cantidadEspinas cantidad de espinas a generar
      * @throws IndexOutOfBoundsException si la cantidad de espinas no es positiva
      */
-    public void generarEspinas(int cantidadEspinas)
-        throws IndexOutOfBoundsException{
-        this.verificaEnteroPositivo(cantidadEspinas, "Se debe generar una cantidad positiva de espinas.");
+    public void generarEspinas(int cantidadEspinas) throws IndexOutOfBoundsException {
+        if(cantidadEspinas <= 0) {
+            throw new IndexOutOfBoundsException("Se debe generar una cantidad positiva de espinas.");
+        }
         this.puntosSuperioresEspinas.clear();
         for(int numeroEspina = 0; numeroEspina < cantidadEspinas; numeroEspina++){
             for (int contadorSuerte = 2; contadorSuerte > 0; contadorSuerte++) {
-
-                int posicionSuperiorNueva =
-                    (int) (
-                        Math.random()
-                        * (this.ancho - this.intervaloEspina)
-                        + (this.centro - this.anchoLateral)
-                    );
+                int posicionSuperiorNueva = (int) (
+                    Math.random() * (this.ancho - this.intervaloEspina)
+                    + (this.centro - this.anchoLateral)
+                );
                 boolean intersecta = false;
                 for(int puntoSupEspinaPrevia : this.puntosSuperioresEspinas){
-                    if(
-                        posicionSuperiorNueva > puntoSupEspinaPrevia + this.intervaloEspina
-                        || puntoSupEspinaPrevia > posicionSuperiorNueva + this.intervaloEspina
-                    )
+                    if(posicionSuperiorNueva > puntoSupEspinaPrevia + this.intervaloEspina
+                        || puntoSupEspinaPrevia > posicionSuperiorNueva + this.intervaloEspina)
                         intersecta = true;
                 }
                 if(!intersecta)
@@ -221,22 +254,9 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
     /**
      * Elimina todas las espinas de la paleta.
      */
-    public void eliminarEspinaAleatoria(){
-        if(this.puntosSuperioresEspinas.isEmpty())
-            throw new IllegalArgumentException("No hay espinas en la plataforma.");
-
-        Random rand = new Random();
-        int valor = rand.nextInt(this.puntosSuperioresEspinas.size() + 1);
-        this.puntosSuperioresEspinas.remove(valor);
-    }
-
-    /**
-     * Elimina todas las espinas de la paleta.
-     */
     public void eliminarTodasLasEspinas(){
         this.puntosSuperioresEspinas.clear();
     }
-
 
     /**
      * Actualiza el estado de la paleta basado en el tiempo transcurrido.
@@ -250,14 +270,14 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
 
     /**
      * Devuelve un rectangulo bidimensional con las dimensiones de la paleta.
+     *
+     * @return rectangulo con las dimensiones de la paleta
      */
     @Override
     public Rectangle2D obtenerLimites() {
-        int puntoInicialX;
-        if(ladoPantalla == LadoHorizontal.DERECHA)
-            puntoInicialX = this.colisionEnX;
-        else
-            puntoInicialX = this.colisionEnX-this.grosor;
+        int puntoInicialX = ladoPantalla == LadoHorizontal.DERECHA
+            ? this.colisionEnX
+            : this.colisionEnX - this.grosor;
 
         return new Rectangle2D(
             puntoInicialX,
@@ -274,11 +294,9 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
      */
     @Override
     public void dibujar(GraphicsContext gc) {
-        int puntoInicialX;
-        if (ladoPantalla == LadoHorizontal.DERECHA)
-            puntoInicialX = this.colisionEnX;
-        else
-            puntoInicialX = this.colisionEnX - this.grosor;
+        int puntoInicialX = ladoPantalla == LadoHorizontal.DERECHA
+            ? this.colisionEnX
+            : this.colisionEnX - this.grosor;
 
         gc.setFill(colorPrimario);
         gc.fillRect(
@@ -307,17 +325,16 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
      *
      * @return una nueva instancia de {@code Paleta} con los mismos valores que esta
      */
-    @Override
     public Paleta clonar(){
-        return new Paleta( 
+        return new Paleta(
             this.colisionEnX,
-            this.centro, 
+            this.centro,
             this.ancho,
             this.grosor,
             this.velocidad,
             this.limiteNorte,
             this.limiteSur,
-            this.puntosSuperioresEspinas,
+            new ArrayList<>(this.puntosSuperioresEspinas),
             this.ladoPantalla,
             this.colorPrimario,
             this.colorSecundario,
@@ -327,7 +344,8 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
 
     /**
      * Actualiza el estado base de la paleta.
-     * 
+     *
+     * @param configuracion nueva configuracion original
      * @throws NullPointerException si la configuracion es nula.
      */
     public void establecerEstadoOriginal(ConfigPaleta configuracion)
@@ -335,41 +353,41 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
         if(configuracion == null){
             throw new NullPointerException("Configuracion nula no es valida.");
         }
-
         this.estadoOriginal = configuracion;
     }
 
     /**
-     * Devuelve el estado original de la pelota.
-     * 
-     * @return configuracion original de la pelota
+     * Devuelve el estado original de la paleta.
+     *
+     * @return configuracion original de la paleta
      */
     public ConfigPaleta obtenerEstadoOriginal() {
         return this.estadoOriginal;
     }
 
-
     /**
      * Configura la paleta a un estado definido.
-     *  
+     *
      * @param configuracion estado de paleta
      * @throws NullPointerException si la configuracion es nula
      */
-    public void configurar(ConfigPaleta configuracion)
-        throws NullPointerException {
+    public void configurar(ConfigPaleta configuracion) throws NullPointerException {
         if(configuracion == null){
             throw new NullPointerException("Configuracion nula no es valida.");
         }
-        this.colisionEnX = configuracion.obtenerColisionEnX();
-        this.centro = configuracion.obtenerCentro();
-        this.establecerAncho((int)configuracion.obtenerAncho());
-        this.grosor = configuracion.obtenerGrosor();
-        this.velocidad = (int)configuracion.obtenerVelocidad();
-        this.limiteNorte = configuracion.obtenerLimiteNorte();
-        this.limiteSur = configuracion.obtenerLimiteSur();
-        this.ladoPantalla = configuracion.obtenerLadoPantalla();
-        this.colorPrimario = configuracion.obtenerColorPrimario();
-        this.colorSecundario = configuracion.obtenerColorSecundario();
+        this.colisionEnX = configuracion.colisionEnX();
+        this.centro = configuracion.centro();
+        this.ancho = configuracion.ancho();
+        this.anchoLateral = this.ancho / 2;
+        this.grosor = configuracion.grosor();
+        this.velocidad = configuracion.velocidad();
+        this.limiteNorte = configuracion.limiteNorte();
+        this.limiteSur = configuracion.limiteSur();
+        this.puntosSuperioresEspinas = new ArrayList<>(configuracion.puntosSuperioresEspinas());
+        this.intervaloEspina = configuracion.obtenerIntervaloEspina();
+        this.ladoPantalla = configuracion.ladoPantalla();
+        this.colorPrimario = configuracion.colorPrimario();
+        this.colorSecundario = configuracion.colorSecundario();
     }
 
     /**
@@ -379,10 +397,130 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
         this.configurar(this.estadoOriginal);
     }
 
-    // ========== METODOS DE COMPATIBILIDAD CON API ANTIGUA ==========
+    /**
+     * Establece el ancho de la paleta.
+     *
+     * @param nuevoAncho nuevo ancho de la paleta
+     * @throws IndexOutOfBoundsException si el ancho no es valido
+     */
+    public void establecerAncho(int nuevoAncho) throws IndexOutOfBoundsException {
+        if(nuevoAncho <= 0) {
+            throw new IndexOutOfBoundsException("Valor de ancho no positivo no es valido.");
+        }
+        if(nuevoAncho % 2 == 1)
+            nuevoAncho--;
 
-    private boolean activo = true;
-    private EstrategiaMovimiento estrategiaMovimiento;
+        if(this.centro - nuevoAncho/2 < this.limiteNorte)
+            throw new IndexOutOfBoundsException("El nuevo ancho obligaria a la paleta a exceder el limite norte.");
+        if(this.centro + nuevoAncho/2 > this.limiteSur)
+            throw new IndexOutOfBoundsException("El nuevo ancho obligaria a la paleta a exceder el limite sur.");
+
+        this.ancho = nuevoAncho;
+        this.anchoLateral = nuevoAncho/2;
+    }
+
+    // ========== METODOS DE ACCESO (GETTERS) ==========
+
+    /**
+     * Obtiene la posicion horizontal de colision.
+     *
+     * @return posicion X de colision
+     */
+    public int obtenerColisionEnX() {
+        return this.colisionEnX;
+    }
+
+    /**
+     * Obtiene la posicion vertical del centro.
+     *
+     * @return posicion Y del centro
+     */
+    public int obtenerCentro() {
+        return this.centro;
+    }
+
+    /**
+     * Obtiene el grosor (ancho horizontal) de la paleta.
+     *
+     * @return grosor
+     */
+    public int obtenerGrosor() {
+        return this.grosor;
+    }
+
+    /**
+     * Obtiene la velocidad de movimiento.
+     *
+     * @return velocidad
+     */
+    public double obtenerVelocidad() {
+        return (double)this.velocidad;
+    }
+
+    /**
+     * Obtiene el limite norte (superior).
+     *
+     * @return limite norte
+     */
+    public int obtenerLimiteNorte() {
+        return this.limiteNorte;
+    }
+
+    /**
+     * Obtiene el limite sur (inferior).
+     *
+     * @return limite sur
+     */
+    public int obtenerLimiteSur() {
+        return this.limiteSur;
+    }
+
+    /**
+     * Obtiene el lado de la pantalla.
+     *
+     * @return lado de la pantalla
+     */
+    public LadoHorizontal obtenerLadoPantalla() {
+        return this.ladoPantalla;
+    }
+
+    /**
+     * Obtiene el color primario.
+     *
+     * @return color primario
+     */
+    public Color obtenerColorPrimario() {
+        return this.colorPrimario;
+    }
+
+    /**
+     * Obtiene el color secundario.
+     *
+     * @return color secundario
+     */
+    public Color obtenerColorSecundario() {
+        return this.colorSecundario;
+    }
+
+    /**
+     * Obtiene la lista de puntos superiores de espinas.
+     *
+     * @return lista de posiciones de espinas
+     */
+    public ArrayList<Integer> obtenerPuntosSuperioresEspinas() {
+        return this.puntosSuperioresEspinas;
+    }
+
+    /**
+     * Verifica si la paleta tiene espinas.
+     *
+     * @return true si tiene espinas
+     */
+    public boolean tieneEspinas() {
+        return !this.puntosSuperioresEspinas.isEmpty();
+    }
+
+    // ========== METODOS DE COMPATIBILIDAD CON API ANTIGUA ==========
 
     /**
      * Obtiene la posicion X de la paleta.
@@ -418,6 +556,7 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
      *
      * @return ancho de la paleta
      */
+    @Override
     public double obtenerAncho() {
         return this.grosor;
     }
@@ -439,7 +578,6 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
     public void establecerActivo(boolean activo) {
         this.activo = activo;
     }
-
 
     /**
      * Agrega una espina a la paleta.
@@ -613,7 +751,7 @@ public class Paleta extends ConfigPaleta implements ObjetoBaseJuego {
             this.velocidad,
             this.limiteNorte,
             this.limiteSur,
-            new ArrayList<>(this.puntosSuperioresEspinas),
+            this.puntosSuperioresEspinas,
             this.ladoPantalla,
             this.colorPrimario,
             this.colorSecundario

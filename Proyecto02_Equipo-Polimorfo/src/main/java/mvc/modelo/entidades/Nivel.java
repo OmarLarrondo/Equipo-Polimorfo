@@ -3,7 +3,6 @@ package mvc.modelo.entidades;
 import java.util.ArrayList;
 import java.util.List;
 import mvc.modelo.entidades.Bloque;
-import mvc.modelo.entidades.Bloque;
 
 /**
  * Representa un {@code Nivel} del juego Pong, con atributos como su identificador,

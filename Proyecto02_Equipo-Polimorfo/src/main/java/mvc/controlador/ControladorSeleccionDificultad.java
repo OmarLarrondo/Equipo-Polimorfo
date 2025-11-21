@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import patrones.facade.FachadaJuego;
 import mvc.vista.GestorEscenas;
 
 import java.util.Arrays;

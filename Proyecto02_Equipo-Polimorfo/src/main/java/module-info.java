@@ -25,7 +25,6 @@ module pong.evolved {
     exports patrones.strategy.colision;
     exports patrones.observer;
     exports patrones.singleton;
-    exports patrones.facade;
     exports patrones.adapter;
     exports persistencia;
     exports persistencia.conexion;

@@ -110,22 +110,25 @@ public class ModeloJuego {
     }
 
     /**
-     * Aplica el movimiento de la IA a la paleta del jugador 2 si hay servicio configurado.
+     * Aplica el movimiento de la IA a la paleta del jugador 2 si hay servicio configurado
+     * y el modo de juego actual es CONTRA_IA.
      * Utiliza programacion funcional pura con Vavr Option para composicion segura.
      *
      * @param tiempoDelta el tiempo transcurrido desde la última actualización en segundos
      */
     private void aplicarMovimientoIA(double tiempoDelta) {
-        servicioIA
-                .flatMap(servicio -> 
-                        Option.of(jugador2)
-                                .flatMap(paleta -> Option.of(pelota).map(p -> {
-                                    Direccion movimiento = servicio.calcularSiguienteMovimiento(
-                                            paleta, p, tiempoDelta);
-                                    paleta.moverEnDireccion(movimiento, tiempoDelta);
-                                    return movimiento;
-                                }))
-                );
+        if (modoActual == ModoJuego.CONTRA_IA) {
+            servicioIA
+                    .flatMap(servicio ->
+                            Option.of(jugador2)
+                                    .flatMap(paleta -> Option.of(pelota).map(p -> {
+                                        Direccion movimiento = servicio.calcularSiguienteMovimiento(
+                                                paleta, p, tiempoDelta);
+                                        paleta.moverEnDireccion(movimiento, tiempoDelta);
+                                        return movimiento;
+                                    }))
+                    );
+        }
     }
 
     /**
@@ -281,6 +284,7 @@ public class ModeloJuego {
         }
         
         return Try.of(() -> {
+            System.out.println("DEBUG: Creando pelota...");
             // Crear pelota en el centro del canvas
             final Pelota pelotaNueva = new Pelota(
                 (int) (anchoCanvas / 2),  // centroEnX
@@ -290,7 +294,9 @@ public class ModeloJuego {
                 500,                       // velocidadMaxima
                 Math.toRadians(45)         // anguloDireccional (45 grados)
             );
+            System.out.println("DEBUG: Pelota creada exitosamente");
 
+            System.out.println("DEBUG: Creando paleta jugador 1...");
             // Crear paleta jugador 1 (izquierda)
             final Paleta paletaJugador1 = new Paleta(
                 50.0,                      // x (izquierda)
@@ -298,7 +304,9 @@ public class ModeloJuego {
                 20.0,                      // ancho
                 100.0                      // alto
             );
+            System.out.println("DEBUG: Paleta jugador 1 creada exitosamente");
 
+            System.out.println("DEBUG: Creando paleta jugador 2...");
             // Crear paleta jugador 2 (derecha)
             final Paleta paletaJugador2 = new Paleta(
                 anchoCanvas - 70.0,        // x (derecha con offset)
@@ -306,11 +314,15 @@ public class ModeloJuego {
                 20.0,                      // ancho
                 100.0                      // alto
             );
+            System.out.println("DEBUG: Paleta jugador 2 creada exitosamente");
 
+            System.out.println("DEBUG: Inicializando pelota y paletas en el modelo...");
             // Inicializar pelota y paletas usando metodos existentes
             inicializarPelota(pelotaNueva);
             inicializarPaletas(paletaJugador1, paletaJugador2);
+            System.out.println("DEBUG: Pelota y paletas inicializadas en el modelo");
 
+            System.out.println("DEBUG: Creando estrategias de colision...");
             // Crear estrategias de colision
             final EstrategiaColision estrategiaPared = new EstrategiaColisionPelotaPared(anchoCanvas, altoCanvas);
             final EstrategiaColision estrategiaPaleta = new EstrategiaColisionPelotaPaleta();
@@ -322,14 +334,22 @@ public class ModeloJuego {
                 "pelota-paleta", estrategiaPaleta,
                 "pelota-bloque", estrategiaBloque
             );
+            System.out.println("DEBUG: Estrategias de colision creadas");
 
+            System.out.println("DEBUG: Creando gestor de colisiones...");
             // Crear e inicializar gestor de colisiones
             final GestorColisiones gestor = new GestorColisiones(estrategias.toJavaMap());
             establecerGestorColisiones(gestor);
+            System.out.println("DEBUG: Gestor de colisiones establecido");
 
             System.out.println("DEBUG: Entidades inicializadas correctamente");
             return true;
-        }).toOption();
+        })
+        .onFailure(e -> {
+            System.err.println("ERROR: Fallo al inicializar entidades del juego:");
+            e.printStackTrace();
+        })
+        .toOption();
     }
 
     /**
