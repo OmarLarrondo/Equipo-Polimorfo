@@ -219,24 +219,4 @@ public class ServicioPersistencia {
         );
     }
 
-    /**
-     * Guarda la lista de puntajes en la base de datos.
-     * NOTA: Esta funcionalidad está pendiente de implementación.
-     *
-     * @param puntajes lista de puntajes a guardar
-     */
-    public void guardarPuntajes(List<patrones.singleton.Puntaje> puntajes) {
-        throw new UnsupportedOperationException("Guardado de puntajes aún no implementado");
-    }
-
-    /**
-     * Carga la lista de puntajes desde la base de datos.
-     * NOTA: Esta funcionalidad está pendiente de implementación.
-     *
-     * @return lista de puntajes cargados
-     */
-    public List<patrones.singleton.Puntaje> cargarPuntajes() {
-        throw new UnsupportedOperationException("Carga de puntajes aún no implementado");
-    }
-
 }

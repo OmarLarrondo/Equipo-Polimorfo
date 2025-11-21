@@ -39,7 +39,6 @@ public class EstrategiaColisionPelotaBloque implements EstrategiaColision {
     @Override
     public void manejarColision(final ObjetoJuego obj1, final ObjetoJuego obj2) {
         io.vavr.control.Try.run(() -> {
-            // Determinar cual es la pelota y cual es el bloque
             final io.vavr.control.Option<Pelota> pelotaOpt = io.vavr.control.Option.of(obj1)
                 .filter(o -> o instanceof Pelota)
                 .map(o -> (Pelota) o)
@@ -54,31 +53,23 @@ public class EstrategiaColisionPelotaBloque implements EstrategiaColision {
                     .filter(o -> o instanceof Bloque)
                     .map(o -> (Bloque) o));
 
-            // Aplicar logica de colision usando programacion funcional
             pelotaOpt.flatMap(pelota -> bloqueOpt.map(bloque -> {
-                // Reducir resistencia del bloque
                 bloque.reducirResistencia();
                 
-                // Calcular direccion del rebote basado en posicion relativa
                 final double pelotaCentroX = pelota.obtenerX();
                 final double pelotaCentroY = pelota.obtenerY();
                 final double bloqueCentroX = bloque.obtenerX() + bloque.obtenerAncho() / 2.0;
                 final double bloqueCentroY = bloque.obtenerY() + bloque.obtenerAlto() / 2.0;
                 
-                // Calcular diferencias
                 final double deltaX = Math.abs(pelotaCentroX - bloqueCentroX);
                 final double deltaY = Math.abs(pelotaCentroY - bloqueCentroY);
                 
-                // Determinar si rebota horizontalmente o verticalmente
                 if (deltaX > deltaY) {
-                    // Colision por el lado (izquierda o derecha)
                     pelota.invertirX();
                 } else {
-                    // Colision por arriba o abajo
                     pelota.invertirY();
                 }
                 
-                // Desactivar bloque si fue destruido
                 if (bloque.estaDestruido()) {
                     bloque.establecerActivo(false);
                 }
@@ -102,7 +93,6 @@ public class EstrategiaColisionPelotaBloque implements EstrategiaColision {
     @Override
     public boolean verificarColision(final ObjetoJuego obj1, final ObjetoJuego obj2) {
         return io.vavr.control.Try.of(() -> {
-            // Determinar cual es la pelota y cual es el bloque
             final io.vavr.control.Option<Pelota> pelotaOpt = io.vavr.control.Option.of(obj1)
                 .filter(o -> o instanceof Pelota)
                 .map(o -> (Pelota) o)
@@ -117,7 +107,6 @@ public class EstrategiaColisionPelotaBloque implements EstrategiaColision {
                     .filter(o -> o instanceof Bloque)
                     .map(o -> (Bloque) o));
 
-            // Verificar colision solo si el bloque esta activo
             final Boolean resultado = pelotaOpt.flatMap(pelota -> bloqueOpt
                 .filter(Bloque::estaActivo)
                 .map(bloque -> {
@@ -130,7 +119,6 @@ public class EstrategiaColisionPelotaBloque implements EstrategiaColision {
                     final double bloqueAncho = bloque.obtenerAncho();
                     final double bloqueAlto = bloque.obtenerAlto();
 
-                    // AABB collision detection
                     final boolean colisiona = (pelotaX + pelotaRadio >= bloqueX) &&
                                               (pelotaX - pelotaRadio <= bloqueX + bloqueAncho) &&
                                               (pelotaY + pelotaRadio >= bloqueY) &&
