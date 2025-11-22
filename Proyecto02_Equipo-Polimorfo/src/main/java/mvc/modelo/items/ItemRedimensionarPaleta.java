@@ -50,6 +50,11 @@ public class ItemRedimensionarPaleta implements Item {
     private double altoOriginal;
 
     /**
+     * Paleta objetivo a redimensionar.
+     */
+    private Paleta paletaObjetivo;
+
+    /**
      * Construye un nuevo item de redimensionamiento de paleta.
      *
      * @param multiplicadorTamanio factor de escala para las dimensiones,
@@ -66,6 +71,7 @@ public class ItemRedimensionarPaleta implements Item {
         this.duracion = duracion;
         this.activo = false;
         this.tiempoRestante = duracion;
+        this.paletaObjetivo = null;
     }
 
     /**
@@ -92,6 +98,7 @@ public class ItemRedimensionarPaleta implements Item {
         p.setAncho(nuevoAncho);
         activo = true;
         tiempoRestante = duracion;
+        paletaObjetivo = p;
 
     }
 
@@ -127,11 +134,16 @@ public class ItemRedimensionarPaleta implements Item {
      */
     @Override
     public void desactivar(ObjetoJuego objeto) {
+        if (!(objeto instanceof mvc.modelo.entidades.paleta.Paleta) && paletaObjetivo != null) {
+            objeto = paletaObjetivo;
+        }
+
         if(!(objeto instanceof mvc.modelo.entidades.paleta.Paleta p)) throw new IllegalArgumentException("Solo se puede aplicar a paletas.");
         p.setAlto(altoOriginal);
         p.setAncho(anchoOriginal);
         activo = false;
         tiempoRestante = duracion;
+        paletaObjetivo = null;
     }
 
     /**
@@ -150,7 +162,7 @@ public class ItemRedimensionarPaleta implements Item {
 
         tiempoRestante = tiempoRestante - deltaTiempo;
         if(tiempoRestante <= 0){
-            desactivar(objeto);
+            desactivar(paletaObjetivo != null ? paletaObjetivo : objeto);
         }
     }
 

@@ -114,7 +114,12 @@ public class GestorColisiones {
                             if (bloque.estaDestruido() &&
                                 estrategia instanceof EstrategiaColisionPelotaBloque bloqueEstrategia) {
                                 bloqueEstrategia.intentarGenerarItem(bloque)
-                                    .forEach(modeloJuego::generarItem);
+                                    .forEach(item -> {
+                                        modeloJuego.generarItem(item);
+
+                                        pelota.obtenerUltimaPaletaQueGolpeo()
+                                            .forEach(paleta -> item.aplicar(paleta));
+                                    });
                             }
                         }
                     });

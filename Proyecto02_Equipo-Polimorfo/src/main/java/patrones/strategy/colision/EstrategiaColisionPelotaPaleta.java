@@ -70,6 +70,9 @@ public class EstrategiaColisionPelotaPaleta implements EstrategiaColision {
                 pelota.establecerVelocidadX(nuevaVelocidad * Math.cos(nuevoAngulo));
                 pelota.establecerVelocidadY(nuevaVelocidad * Math.sin(nuevoAngulo));
 
+                // Rastrear que esta paleta golpeo la pelota (para aplicar power-ups)
+                pelota.establecerUltimaPaletaQueGolpeo(paleta);
+
                 return pelota;
             }));
         });

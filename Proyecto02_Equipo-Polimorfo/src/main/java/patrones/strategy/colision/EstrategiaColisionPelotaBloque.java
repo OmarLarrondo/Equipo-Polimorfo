@@ -22,8 +22,9 @@ public class EstrategiaColisionPelotaBloque implements EstrategiaColision {
 
     /**
      * Probabilidad de generacion de item al destruir bloque BONUS (0.0 - 1.0).
+     * 1.0 implica que SIEMPRE se genera un item al destruir un bloque BONUS.
      */
-    private static final double PROBABILIDAD_ITEM = 0.2;
+    private static final double PROBABILIDAD_ITEM = 1.0;
 
     /**
      * Maneja la colision entre una pelota y un bloque.

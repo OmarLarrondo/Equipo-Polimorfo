@@ -1,8 +1,10 @@
 package mvc.modelo.entidades.pelota;
 
+import io.vavr.control.Option;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import mvc.modelo.entidades.ObjetoJuego;
+import mvc.modelo.entidades.paleta.Paleta;
 import mvc.modelo.enums.LadoHorizontal;
 
 /**
@@ -43,6 +45,9 @@ public class Pelota extends ObjetoJuego {
     // Estado de activacion
     private boolean activo;
 
+    // Tracking de la ultima paleta que golpeo esta pelota (para power-ups)
+    private Option<Paleta> ultimaPaletaQueGolpeo;
+
     /**
      * Constructor principal de la pelota.
      *
@@ -81,6 +86,7 @@ public class Pelota extends ObjetoJuego {
         // Guardar estado original
         this.estadoOriginal = validacion;
         this.activo = true;
+        this.ultimaPaletaQueGolpeo = Option.none();
     }
 
     /**
@@ -249,6 +255,7 @@ public class Pelota extends ObjetoJuego {
             this.estadoOriginal
         );
         copia.activo = this.activo;
+        copia.ultimaPaletaQueGolpeo = this.ultimaPaletaQueGolpeo;
         return copia;
     }
 
@@ -544,5 +551,32 @@ public class Pelota extends ObjetoJuego {
      */
     public void establecerActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    /**
+     * Obtiene la ultima paleta que golpeo esta pelota.
+     * <p>
+     * Este metodo se utiliza para rastrear cual paleta debe recibir
+     * los beneficios de los power-ups cuando se rompe un bloque bonus.
+     * </p>
+     *
+     * @return Option conteniendo la paleta si existe, Option.none() en caso contrario
+     */
+    public Option<Paleta> obtenerUltimaPaletaQueGolpeo() {
+        return this.ultimaPaletaQueGolpeo;
+    }
+
+    /**
+     * Establece la ultima paleta que golpeo esta pelota.
+     * <p>
+     * Este metodo debe ser llamado por el sistema de colisiones cada vez
+     * que una paleta golpea la pelota, para poder aplicar correctamente
+     * los power-ups a la paleta responsable de romper bloques bonus.
+     * </p>
+     *
+     * @param paleta la paleta que acaba de golpear esta pelota
+     */
+    public void establecerUltimaPaletaQueGolpeo(final Paleta paleta) {
+        this.ultimaPaletaQueGolpeo = Option.of(paleta);
     }
 }

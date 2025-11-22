@@ -30,9 +30,7 @@ public final class FabricaItems {
      * Cada proveedor es una funcion pura que crea una nueva instancia de item.
      */
     private static final List<Supplier<Item>> proveedoresItems = List.of(
-        () -> new ItemMultiPelota(3, DURACION_PREDETERMINADA, true),
-        () -> new ItemAumentoVelocidad(1.5, DURACION_PREDETERMINADA, true, DURACION_PREDETERMINADA),
-        () -> new ItemEspinas(5, DURACION_PREDETERMINADA, true),
+        () -> new ItemAumentoVelocidad(1.5, DURACION_PREDETERMINADA, false, DURACION_PREDETERMINADA),
         () -> new ItemNeblina(DURACION_PREDETERMINADA),
         () -> new ItemRedimensionarPaleta(1.3, DURACION_PREDETERMINADA)
     );

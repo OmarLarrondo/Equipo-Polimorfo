@@ -19,6 +19,7 @@ import patrones.factory.ia.ServiciioIA;
 import patrones.observer.ObservadorUI;
 import util.ParticleEmitter;
 import util.RenderizadorJuego;
+import mvc.modelo.items.ItemNeblina;
 
 /**
  * Controlador del panel del juego principal.
@@ -336,12 +337,22 @@ public class ControladorJuego extends ControladorBase {
             Option.of(modeloJuego.obtenerJugador2())
                 .forEach(paleta -> RenderizadorJuego.renderizarPaleta(gc, paleta));
             
-            // Renderizar pelota solo si no es null
+            // Renderizar pelota principal solo si no es null
             Option.of(modeloJuego.obtenerPelota())
                 .forEach(pelota -> RenderizadorJuego.renderizarPelota(gc, pelota));
             
             // Renderizar items
-            RenderizadorJuego.renderizarItems(gc, List.ofAll(modeloJuego.obtenerItems()));
+            final List<mvc.modelo.items.Item> items = List.ofAll(modeloJuego.obtenerItems());
+            RenderizadorJuego.renderizarItems(gc, items);
+
+            // Renderizar neblina si hay algún ItemNeblina activo
+            final boolean neblinaActiva = items
+                .filter(item -> item instanceof ItemNeblina)
+                .exists(item -> item.estaActivo());
+
+            if (neblinaActiva) {
+                RenderizadorJuego.renderizarNeblina(gc, ancho, alto, 1.0);
+            }
             
             // Renderizar sistema de partículas
             sistemaParticulas.renderizar(gc);

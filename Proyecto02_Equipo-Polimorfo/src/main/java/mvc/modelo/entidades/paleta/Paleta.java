@@ -15,20 +15,19 @@ import patrones.strategy.movimiento.EstrategiaMovimiento;
  *
  * <p>Esta clase encapsula el comportamiento y estado de una paleta, que puede ser
  * controlada por un jugador humano o por inteligencia artificial mediante el patrón
- * Strategy. La paleta puede tener diversos estados y modificadores como espinas,
+ * Strategy. La paleta puede tener diversos estados y modificadores como
  * velocidad variable y dimensiones personalizables.</p>
  *
  * <p><b>Características principales:</b></p>
  * <ul>
  *   <li>Movimiento vertical con velocidad configurable</li>
  *   <li>Soporte para estrategias de movimiento (jugador o IA)</li>
- *   <li>Sistema de espinas para modificar colisiones</li>
  *   <li>Capacidad de guardar y restaurar estado (patrón Memento)</li>
  *   <li>Dimensiones y color personalizables</li>
  * </ul>
  *
  * @author Equipo-polimorfo
- * @version 3.0
+ * @version 3.1
  * @see EstrategiaMovimiento
  * @see ConfigPaleta
  */
@@ -43,8 +42,6 @@ public class Paleta extends ObjetoJuego {
     private int limiteNorte;
     private int limiteSur;
     private int velocidad;
-    private ArrayList<Integer> puntosSuperioresEspinas;
-    private int intervaloEspina;
     private LadoHorizontal ladoPantalla;
     private Color colorPrimario;
     private Color colorSecundario;
@@ -73,7 +70,6 @@ public class Paleta extends ObjetoJuego {
             300,
             (int)(alto/2),
             (int)(600 - alto/2),
-            new ArrayList<>(),
             x < 400 ? LadoHorizontal.IZQUIERDA : LadoHorizontal.DERECHA,
             Color.WHITE,
             Color.RED
@@ -90,7 +86,6 @@ public class Paleta extends ObjetoJuego {
      * @param velocidad velocidad de movimiento
      * @param limNor limite superior
      * @param limSur limite inferior
-     * @param puntosSuperioresEspinas lista de posiciones de espinas
      * @param lado lado de la pantalla
      * @param colorPrimario color principal
      * @param colorSecundario color secundario
@@ -105,7 +100,6 @@ public class Paleta extends ObjetoJuego {
         int velocidad,
         int limNor,
         int limSur,
-        ArrayList<Integer> puntosSuperioresEspinas,
         LadoHorizontal lado,
         Color colorPrimario,
         Color colorSecundario
@@ -120,7 +114,7 @@ public class Paleta extends ObjetoJuego {
         // Validaciones (delegadas a ConfigPaleta para mantener consistencia)
         ConfigPaleta validacion = new ConfigPaleta(
             colisionEnX, centro, ancho, grosor, velocidad,
-            limNor, limSur, puntosSuperioresEspinas, lado,
+            limNor, limSur, lado,
             colorPrimario, colorSecundario
         );
 
@@ -133,8 +127,6 @@ public class Paleta extends ObjetoJuego {
         this.velocidad = validacion.velocidad();
         this.limiteNorte = validacion.limiteNorte();
         this.limiteSur = validacion.limiteSur();
-        this.puntosSuperioresEspinas = new ArrayList<>(validacion.puntosSuperioresEspinas());
-        this.intervaloEspina = validacion.obtenerIntervaloEspina();
         this.ladoPantalla = validacion.ladoPantalla();
         this.colorPrimario = validacion.colorPrimario();
         this.colorSecundario = validacion.colorSecundario();
@@ -153,7 +145,6 @@ public class Paleta extends ObjetoJuego {
      * @param velocidad velocidad de movimiento
      * @param limNor limite superior
      * @param limSur limite inferior
-     * @param puntosSuperioresEspinas lista de posiciones de espinas
      * @param lado lado de la pantalla
      * @param colorPrimario color principal
      * @param colorSecundario color secundario
@@ -169,14 +160,13 @@ public class Paleta extends ObjetoJuego {
         int velocidad,
         int limNor,
         int limSur,
-        ArrayList<Integer> puntosSuperioresEspinas,
         LadoHorizontal lado,
         Color colorPrimario,
         Color colorSecundario,
         ConfigPaleta estadoOriginal
     ) throws IndexOutOfBoundsException, NullPointerException {
         this(colisionEnX, centro, ancho, grosor, velocidad, limNor, limSur,
-             puntosSuperioresEspinas, lado, colorPrimario, colorSecundario);
+             lado, colorPrimario, colorSecundario);
         this.estadoOriginal = estadoOriginal != null ? estadoOriginal : this.estadoOriginal;
     }
 
@@ -218,44 +208,6 @@ public class Paleta extends ObjetoJuego {
      */
     public void moverAbajo() {
         moverAbajo(1.0 / 60.0);
-    }
-
-    /**
-     * Genera espinas en la plataforma con posiciones aleatorias.
-     * Existe un factor suerte que permite generar menos espinas de las indicadas,
-     * pero se debe generar al menos una.
-     *
-     * @param cantidadEspinas cantidad de espinas a generar
-     * @throws IndexOutOfBoundsException si la cantidad de espinas no es positiva
-     */
-    public void generarEspinas(int cantidadEspinas) throws IndexOutOfBoundsException {
-        if(cantidadEspinas <= 0) {
-            throw new IndexOutOfBoundsException("Se debe generar una cantidad positiva de espinas.");
-        }
-        this.puntosSuperioresEspinas.clear();
-        for(int numeroEspina = 0; numeroEspina < cantidadEspinas; numeroEspina++){
-            for (int contadorSuerte = 2; contadorSuerte > 0; contadorSuerte++) {
-                int posicionSuperiorNueva = (int) (
-                    Math.random() * (this.ancho - this.intervaloEspina)
-                    + (this.centro - this.anchoLateral)
-                );
-                boolean intersecta = false;
-                for(int puntoSupEspinaPrevia : this.puntosSuperioresEspinas){
-                    if(posicionSuperiorNueva > puntoSupEspinaPrevia + this.intervaloEspina
-                        || puntoSupEspinaPrevia > posicionSuperiorNueva + this.intervaloEspina)
-                        intersecta = true;
-                }
-                if(!intersecta)
-                    this.puntosSuperioresEspinas.add(posicionSuperiorNueva);
-            }
-        }
-    }
-
-    /**
-     * Elimina todas las espinas de la paleta.
-     */
-    public void eliminarTodasLasEspinas(){
-        this.puntosSuperioresEspinas.clear();
     }
 
     /**
@@ -305,16 +257,6 @@ public class Paleta extends ObjetoJuego {
             this.grosor,
             this.ancho
         );
-
-        if (!puntosSuperioresEspinas.isEmpty()) {
-            gc.setFill(colorSecundario);
-            for (Integer puntoSuperior : puntosSuperioresEspinas) {
-                double espinaX = ladoPantalla == LadoHorizontal.DERECHA
-                    ? puntoInicialX + grosor
-                    : puntoInicialX - 5;
-                gc.fillRect(espinaX, puntoSuperior, 5, 10);
-            }
-        }
     }
 
     /**
@@ -334,7 +276,6 @@ public class Paleta extends ObjetoJuego {
             this.velocidad,
             this.limiteNorte,
             this.limiteSur,
-            new ArrayList<>(this.puntosSuperioresEspinas),
             this.ladoPantalla,
             this.colorPrimario,
             this.colorSecundario,
@@ -383,8 +324,6 @@ public class Paleta extends ObjetoJuego {
         this.velocidad = configuracion.velocidad();
         this.limiteNorte = configuracion.limiteNorte();
         this.limiteSur = configuracion.limiteSur();
-        this.puntosSuperioresEspinas = new ArrayList<>(configuracion.puntosSuperioresEspinas());
-        this.intervaloEspina = configuracion.obtenerIntervaloEspina();
         this.ladoPantalla = configuracion.ladoPantalla();
         this.colorPrimario = configuracion.colorPrimario();
         this.colorSecundario = configuracion.colorSecundario();
@@ -502,24 +441,6 @@ public class Paleta extends ObjetoJuego {
         return this.colorSecundario;
     }
 
-    /**
-     * Obtiene la lista de puntos superiores de espinas.
-     *
-     * @return lista de posiciones de espinas
-     */
-    public ArrayList<Integer> obtenerPuntosSuperioresEspinas() {
-        return this.puntosSuperioresEspinas;
-    }
-
-    /**
-     * Verifica si la paleta tiene espinas.
-     *
-     * @return true si tiene espinas
-     */
-    public boolean tieneEspinas() {
-        return !this.puntosSuperioresEspinas.isEmpty();
-    }
-
     // ========== METODOS DE COMPATIBILIDAD CON API ANTIGUA ==========
 
     /**
@@ -577,20 +498,6 @@ public class Paleta extends ObjetoJuego {
      */
     public void establecerActivo(boolean activo) {
         this.activo = activo;
-    }
-
-    /**
-     * Agrega una espina a la paleta.
-     */
-    public void agregarEspina() {
-        generarEspinas(1);
-    }
-
-    /**
-     * Elimina todas las espinas de la paleta.
-     */
-    public void eliminarEspinas() {
-        eliminarTodasLasEspinas();
     }
 
     /**
@@ -657,24 +564,6 @@ public class Paleta extends ObjetoJuego {
      */
     public void setVelocidad(double velocidad) {
         this.velocidad = (int)velocidad;
-    }
-
-    /**
-     * Obtiene la cantidad de espinas.
-     *
-     * @return cantidad de espinas
-     */
-    public int obtenerCantidadEspinas() {
-        return this.puntosSuperioresEspinas.size();
-    }
-
-    /**
-     * Establece la cantidad de espinas.
-     *
-     * @param cantidad nueva cantidad
-     */
-    public void setCantidadEspinas(int cantidad) {
-        // No implementado - las espinas se manejan diferente en la nueva arquitectura
     }
 
     /**
@@ -751,7 +640,6 @@ public class Paleta extends ObjetoJuego {
             this.velocidad,
             this.limiteNorte,
             this.limiteSur,
-            this.puntosSuperioresEspinas,
             this.ladoPantalla,
             this.colorPrimario,
             this.colorSecundario

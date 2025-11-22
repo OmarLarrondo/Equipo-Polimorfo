@@ -10,7 +10,7 @@ import mvc.modelo.enums.LadoHorizontal;
  * Representa la configuracion inmutable de una paleta en el juego Pong.
  *
  * <p>Esta clase es un objeto de valor (Value Object) que almacena el estado
- * completo de una paleta, incluyendo posicion, dimensiones, velocidad, espinas
+ * completo de una paleta, incluyendo posicion, dimensiones, velocidad
  * y apariencia visual. Al ser un record inmutable, es thread-safe y puede
  * ser compartido de forma segura entre componentes.</p>
  *
@@ -18,7 +18,6 @@ import mvc.modelo.enums.LadoHorizontal;
  * <ul>
  *   <li>Inmutabilidad completa (thread-safe)</li>
  *   <li>Gestion de posicion y dimensiones de la paleta</li>
- *   <li>Sistema de espinas personalizables</li>
  *   <li>Configuracion de limites de movimiento</li>
  *   <li>Personalizacion de colores</li>
  * </ul>
@@ -30,7 +29,6 @@ import mvc.modelo.enums.LadoHorizontal;
  * @param velocidad velocidad de movimiento de la paleta
  * @param limiteNorte limite superior de movimiento
  * @param limiteSur limite inferior de movimiento
- * @param puntosSuperioresEspinas lista inmutable de posiciones Y de las espinas
  * @param ladoPantalla lado de la pantalla donde se ubica la paleta
  * @param colorPrimario color principal de la paleta
  * @param colorSecundario color secundario de la paleta
@@ -46,7 +44,6 @@ public record ConfigPaleta(
     int velocidad,
     int limiteNorte,
     int limiteSur,
-    List<Integer> puntosSuperioresEspinas,
     LadoHorizontal ladoPantalla,
     Color colorPrimario,
     Color colorSecundario
@@ -108,58 +105,6 @@ public record ConfigPaleta(
         if (colorSecundario == null) {
             throw new NullPointerException("Color secundario no puede ser nulo.");
         }
-        if (puntosSuperioresEspinas == null) {
-            throw new NullPointerException("Lista de espinas no puede ser nula.");
-        }
-        if (puntosSuperioresEspinas.contains(null)) {
-            throw new NullPointerException("Lista contiene espinas nulas.");
-        }
-
-        // Hacer la lista de espinas inmutable
-        puntosSuperioresEspinas = List.copyOf(puntosSuperioresEspinas);
-    }
-
-    /**
-     * Constructor auxiliar que acepta ArrayList para compatibilidad con codigo existente.
-     *
-     * @param colisionEnX posicion horizontal de colision
-     * @param centro posicion vertical del centro
-     * @param ancho altura vertical de la paleta
-     * @param grosor ancho horizontal de la paleta
-     * @param velocidad velocidad de movimiento
-     * @param limiteNorte limite superior de movimiento
-     * @param limiteSur limite inferior de movimiento
-     * @param puntosSuperioresEspinas ArrayList de posiciones de espinas
-     * @param ladoPantalla lado de la pantalla
-     * @param colorPrimario color principal
-     * @param colorSecundario color secundario
-     */
-    public ConfigPaleta(
-        int colisionEnX,
-        int centro,
-        int ancho,
-        int grosor,
-        int velocidad,
-        int limiteNorte,
-        int limiteSur,
-        ArrayList<Integer> puntosSuperioresEspinas,
-        LadoHorizontal ladoPantalla,
-        Color colorPrimario,
-        Color colorSecundario
-    ) {
-        this(
-            colisionEnX,
-            centro,
-            ancho,
-            grosor,
-            velocidad,
-            limiteNorte,
-            limiteSur,
-            (List<Integer>) puntosSuperioresEspinas,
-            ladoPantalla,
-            colorPrimario,
-            colorSecundario
-        );
     }
 
     /**
@@ -172,42 +117,12 @@ public record ConfigPaleta(
     }
 
     /**
-     * Obtiene el intervalo entre espinas.
-     *
-     * @return el intervalo entre espinas, o 0 si no hay espinas
-     */
-    public int obtenerIntervaloEspina() {
-        return puntosSuperioresEspinas.isEmpty()
-            ? 0
-            : this.ancho / puntosSuperioresEspinas.size();
-    }
-
-    /**
      * Obtiene la velocidad como double para compatibilidad.
      *
      * @return la velocidad como double
      */
     public double obtenerVelocidad() {
         return (double) this.velocidad;
-    }
-
-    /**
-     * Verifica si la paleta tiene espinas.
-     *
-     * @return true si tiene espinas, false en caso contrario
-     */
-    public boolean tieneEspinas() {
-        return !this.puntosSuperioresEspinas.isEmpty();
-    }
-
-    /**
-     * Obtiene la lista de posiciones de las espinas.
-     * La lista devuelta es inmutable.
-     *
-     * @return lista inmutable de posiciones Y de las espinas
-     */
-    public ArrayList<Integer> obtenerPuntosSuperioresEspinas() {
-        return new ArrayList<>(this.puntosSuperioresEspinas);
     }
 
     /**

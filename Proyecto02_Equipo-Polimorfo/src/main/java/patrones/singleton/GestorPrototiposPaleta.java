@@ -24,7 +24,7 @@ import javafx.scene.paint.Color;
  * </p>
  *
  * @author Equipo-polimorfo
- * @version 1.0
+ * @version 1.1
  */
 public enum GestorPrototiposPaleta {
     INSTANCE;
@@ -60,7 +60,7 @@ public enum GestorPrototiposPaleta {
      * <li>estandar: configuracion balanceada</li>
      * <li>rapida: optimizada para velocidad</li>
      * <li>defensiva: optimizada para cobertura</li>
-     * <li>ofensiva: incluye espinas para ataques</li>
+     * <li>ofensiva: configuracion de alta velocidad</li>
      * </ul>
      * </p>
      */
@@ -116,7 +116,7 @@ public enum GestorPrototiposPaleta {
     /**
      * Crea una paleta con configuracion ofensiva.
      * <p>
-     * Incluye espinas para causar efectos especiales en colisiones.
+     * Paleta de alta velocidad para un juego agresivo.
      * </p>
      *
      * @return una nueva paleta con capacidades ofensivas
@@ -125,7 +125,6 @@ public enum GestorPrototiposPaleta {
         Paleta paleta = new Paleta(0, 0, 15, 100);
         paleta.setVelocidad(450);
         paleta.setColor(Color.RED);
-        paleta.agregarEspina();
         return paleta;
     }
 
@@ -185,8 +184,6 @@ public enum GestorPrototiposPaleta {
 
         Option.of(original.obtenerColor())
             .forEach(clon::setColor);
-
-        clon.setCantidadEspinas(original.obtenerCantidadEspinas());
 
         return clon;
     }

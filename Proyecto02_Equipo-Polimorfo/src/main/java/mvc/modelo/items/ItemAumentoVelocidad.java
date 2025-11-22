@@ -39,6 +39,11 @@ public class ItemAumentoVelocidad  implements Item{
     private double tiempoRestante;
 
     /**
+     * Objeto objetivo al que se le aplica el efecto.
+     */
+    private ObjetoJuego objetivo;
+
+    /**
      * Construye un nuevo item de aumento de velocidad.
      *
      * @param multiplicadorVelocidad factor por el cual se multiplicará la velocidad,
@@ -53,6 +58,7 @@ public class ItemAumentoVelocidad  implements Item{
         this.duracion = duracion;
         this.activo = activo;
         this.tiempoRestante = tiempoRestante;
+        this.objetivo = null;
     }
 
     /**
@@ -79,15 +85,14 @@ public class ItemAumentoVelocidad  implements Item{
             paleta.establecerVelocidad(velocidadOriginal*multiplicadorVelocidad);
             paleta.establecerActivo(true);
             activo = true;
-
-            desactivar(objeto);
-
+            objetivo = objeto;
         }
         else if(objeto instanceof mvc.modelo.entidades.pelota.Pelota pelota){
             double velocidadOriginal = pelota.obtenerVelocidad();
             pelota.establecerVelocidadGeneral(velocidadOriginal*multiplicadorVelocidad);
             pelota.establecerActivo(true);
             activo = true;
+            objetivo = objeto;
 
         }else{
             throw new IllegalArgumentException("el objeto debe ser una paleta o una pelota");
@@ -126,12 +131,13 @@ public class ItemAumentoVelocidad  implements Item{
      * @param deltaTiempo tiempo transcurrido desde la última actualización en segundos
      * @param objeto el objeto cuyo estado será restaurado si expira el tiempo
      */
+    @Override
     public void actualizar(double deltaTiempo, ObjetoJuego objeto){
         if(!activo) return;
 
         tiempoRestante -= deltaTiempo;
         if(tiempoRestante<= 0){
-            desactivar(objeto);
+            desactivar(objetivo != null ? objetivo : objeto);
         }
     }
 
@@ -147,6 +153,9 @@ public class ItemAumentoVelocidad  implements Item{
      */
     @Override
     public void desactivar(ObjetoJuego objeto) {
+        if (objeto == null && objetivo != null) {
+            objeto = objetivo;
+        }
         if(objeto instanceof mvc.modelo.entidades.paleta.Paleta){
             ((mvc.modelo.entidades.paleta.Paleta)objeto).restaurarEstado();
             ((mvc.modelo.entidades.paleta.Paleta)objeto).establecerActivo(false);
@@ -161,6 +170,7 @@ public class ItemAumentoVelocidad  implements Item{
         }
         activo = false;
         tiempoRestante = duracion;
+        objetivo = null;
 
     }
 

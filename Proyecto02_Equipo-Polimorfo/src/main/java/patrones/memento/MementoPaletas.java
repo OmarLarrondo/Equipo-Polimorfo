@@ -1,6 +1,5 @@
 package patrones.memento;
 
-import java.util.ArrayList;
 import mvc.modelo.entidades.paleta.Paleta;
 import mvc.modelo.entidades.paleta.ConfigPaleta;
 
@@ -14,7 +13,7 @@ import mvc.modelo.entidades.paleta.ConfigPaleta;
  * </p>
  *
  * @author Equipo-polimorfo
- * @version 1.0
+ * @version 1.1
  */
 public final class MementoPaletas {
 
@@ -56,7 +55,6 @@ public final class MementoPaletas {
             (int)paleta.obtenerVelocidad(),
             paleta.obtenerLimiteNorte(),
             paleta.obtenerLimiteSur(),
-            new ArrayList<>(paleta.obtenerPuntosSuperioresEspinas()),
             paleta.obtenerLadoPantalla(),
             paleta.obtenerColorPrimario(),
             paleta.obtenerColorSecundario()

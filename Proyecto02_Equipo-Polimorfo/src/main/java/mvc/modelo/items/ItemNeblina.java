@@ -40,6 +40,11 @@ public class ItemNeblina implements Item {
     private Color colorNeblina = Color.rgb(200, 200, 200, 0.50);
 
     /**
+     * Paleta objetivo sobre la que se aplica la neblina.
+     */
+    private Paleta paletaObjetivo;
+
+    /**
      * Construye un nuevo item de neblina.
      *
      * @param duracion tiempo en segundos que durará el efecto visual
@@ -51,6 +56,7 @@ public class ItemNeblina implements Item {
         this.duracion = duracion;
         this.tiempoRestante = duracion;
         this.activo = false;
+        this.paletaObjetivo = null;
     }
 
     /**
@@ -65,11 +71,12 @@ public class ItemNeblina implements Item {
     @Override
     public void aplicar(ObjetoJuego objeto) {
         if (activo) return;
-        if (!(objeto instanceof mvc.modelo.entidades.paleta.Paleta)) {
+        if (!(objeto instanceof mvc.modelo.entidades.paleta.Paleta paleta)) {
             throw new IllegalArgumentException("La neblina solo se puede aplicar a una paleta.");
         }
         activo = true;
         tiempoRestante = duracion;
+        paletaObjetivo = paleta;
     }
 
     /**
@@ -101,11 +108,12 @@ public class ItemNeblina implements Item {
      */
     @Override
     public void desactivar(ObjetoJuego objeto) {
-        if (!(objeto instanceof mvc.modelo.entidades.paleta.Paleta)) {
+        if (!(objeto instanceof mvc.modelo.entidades.paleta.Paleta) && paletaObjetivo == null) {
             return;
         }
         activo = false;
         tiempoRestante = duracion;
+        paletaObjetivo = null;
     }
 
     /**
@@ -122,7 +130,7 @@ public class ItemNeblina implements Item {
     public void actualizar(double deltaTiempo, ObjetoJuego objeto) {
         if (!activo) return;
         tiempoRestante = tiempoRestante - deltaTiempo;
-        if (tiempoRestante <= 0) desactivar(objeto);
+        if (tiempoRestante <= 0) desactivar(paletaObjetivo != null ? paletaObjetivo : objeto);
     }
 
     /**

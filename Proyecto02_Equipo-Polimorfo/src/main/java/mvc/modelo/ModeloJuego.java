@@ -39,6 +39,7 @@ import patrones.factory.ia.ServiciioIA;
 public class ModeloJuego {
 
     private Pelota pelota;
+    private List<Pelota> pelotas;
     private Paleta jugador1;
     private Paleta jugador2;
     private List<Bloque> bloques;
@@ -66,6 +67,7 @@ public class ModeloJuego {
     public ModeloJuego() {
         this.bloques = List.empty();
         this.items = List.empty();
+        this.pelotas = List.empty();
         this.observadores = List.empty();
         this.mementoGuardado = Option.none();
         this.gestorColisiones = Option.none();
@@ -181,7 +183,7 @@ public class ModeloJuego {
     private List<Item> actualizarItems(List<Item> itemsActuales, double tiempoDelta) {
         return itemsActuales
             .filter(Item::estaActivo)
-            .peek(i -> Option.of(jugador1).forEach(j -> i.actualizar(tiempoDelta, j)));
+            .peek(i -> i.actualizar(tiempoDelta, null));
     }
 
     /**

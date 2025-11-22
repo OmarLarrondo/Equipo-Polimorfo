@@ -12,6 +12,7 @@ import mvc.modelo.entidades.Bloque;
 import mvc.modelo.entidades.ObjetoJuego;
 import mvc.modelo.entidades.paleta.Paleta;
 import mvc.modelo.entidades.pelota.Pelota;
+import mvc.modelo.enums.LadoHorizontal;
 import mvc.modelo.items.Item;
 
 /**
@@ -22,8 +23,6 @@ import mvc.modelo.items.Item;
 public final class RenderizadorJuego {
 
     private static final double RADIO_PELOTA_BASE = 5.0;
-    private static final double GROSOR_ESPINA = 2.0;
-    private static final double ALTURA_ESPINA = 8.0;
     private static final int SEGMENTOS_TRAIL = 5;
     private static final double OPACIDAD_TRAIL_BASE = 0.6;
 
@@ -60,7 +59,7 @@ public final class RenderizadorJuego {
 
     /**
      * Renderiza una paleta en el contexto gráfico especificado.
-     * Dibuja el cuerpo de la paleta con color específico y añade espinas si la paleta las tiene.
+     * Dibuja el cuerpo de la paleta con color específico.
      *
      * @param gc     Contexto gráfico donde se dibujará la paleta
      * @param paleta Instancia de Paleta que se va a renderizar
@@ -79,10 +78,6 @@ public final class RenderizadorJuego {
             gc.setStroke(Color.WHITE);
             gc.setLineWidth(2.0);
             gc.strokeRect(x, y, ancho, alto);
-
-            if (paleta.obtenerCantidadEspinas() > 0) {
-                renderizarEspinas(gc, paleta);
-            }
         });
     }
 
@@ -202,41 +197,6 @@ public final class RenderizadorJuego {
 
             gc.setFill(Color.color(1.0, 1.0, 1.0, opacidad));
             gc.fillOval(trailX - radio * 0.8, trailY - radio * 0.8, radio * 1.6, radio * 1.6);
-        }
-    }
-
-    /**
-     * Renderiza las espinas en una paleta en el contexto gráfico especificado.
-     * Dibuja triángulos rojos a lo largo del borde izquierdo de la paleta.
-     *
-     * @param gc     Contexto gráfico donde se dibujarán las espinas
-     * @param paleta Instancia de Paleta que contiene las espinas a renderizar
-     */
-    private static void renderizarEspinas(final GraphicsContext gc, final Paleta paleta) {
-        final double x = paleta.obtenerX();
-        final double y = paleta.obtenerY();
-        final double ancho = paleta.obtenerAncho();
-        final double alto = paleta.obtenerAlto();
-        final int cantidadEspinas = paleta.obtenerCantidadEspinas();
-
-        gc.setFill(Color.RED);
-        gc.setStroke(Color.DARKRED);
-        gc.setLineWidth(1.0);
-
-        final double separacion = alto / (cantidadEspinas + 1);
-
-        for (int i = 1; i <= cantidadEspinas; i++) {
-            final double espinaY = y + separacion * i;
-
-            final double[] xPoints = {x, x - ALTURA_ESPINA, x};
-            final double[] yPoints = {
-                    espinaY - GROSOR_ESPINA,
-                    espinaY,
-                    espinaY + GROSOR_ESPINA
-            };
-
-            gc.fillPolygon(xPoints, yPoints, 3);
-            gc.strokePolygon(xPoints, yPoints, 3);
         }
     }
 
