@@ -120,7 +120,7 @@ public class ControladorDialogoCargarNivel {
      */
     private VBox crearContenidoCelda(String nombre, String creador, String estrellas, int cantidadBloques) {
         Text textoNombre = new Text(nombre);
-        textoNombre.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        textoNombre.getStyleClass().add("texto-nivel-titulo");
 
         Text textoInfo = new Text(String.format(
             "Creador: %s | Dificultad: %s | Bloques: %d",
@@ -128,7 +128,7 @@ public class ControladorDialogoCargarNivel {
             estrellas,
             cantidadBloques
         ));
-        textoInfo.setStyle("-fx-font-size: 10px; -fx-fill: gray;");
+        textoInfo.getStyleClass().add("texto-nivel-detalle");
 
         VBox contenedor = new VBox(3, textoNombre, textoInfo);
         contenedor.setStyle("-fx-padding: 2px;");
