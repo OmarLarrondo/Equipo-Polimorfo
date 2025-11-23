@@ -84,7 +84,6 @@ public class Nivel {
      * @return {@code false} por defecto.
      */
     public boolean estaCompletado() {
-        // Lógica pendiente: determinar si el nivel está completado.
         // Actualmente no implementado, ya que se eliminó la mecánica tipo "Breakout".
         return false;
     }

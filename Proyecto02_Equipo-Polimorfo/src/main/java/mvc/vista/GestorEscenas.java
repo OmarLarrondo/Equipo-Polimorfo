@@ -202,13 +202,11 @@ public class GestorEscenas {
     public void mostrarSeleccionNivelesConDificultad(Option<Integer> dificultad) {
         dificultad.fold(
             () -> {
-                // Modo 2 jugadores: limpiar configuracion de IA usando el callback registrado
                 Option.of(callbacksPreMostrar.get("limpiar-estado-niveles"))
                         .peek(Runnable::run);
                 return null;
             },
             d -> {
-                // Modo 1 jugador: establecer dificultad IA
                 Option.of(configuradorDificultad)
                         .peek(configurador -> configurador.accept(d));
                 return d;

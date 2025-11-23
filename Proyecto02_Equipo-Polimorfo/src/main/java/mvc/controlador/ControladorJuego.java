@@ -327,25 +327,20 @@ public class ControladorJuego extends ControladorBase {
             RenderizadorJuego.limpiarCanvas(gc, ancho, alto);
             RenderizadorJuego.renderizarFondo(gc, ancho, alto);
             
-            // Renderizar bloques
             RenderizadorJuego.renderizarBloques(gc, List.ofAll(modeloJuego.obtenerBloques()));
             
-            // Renderizar paletas solo si no son null
             Option.of(modeloJuego.obtenerJugador1())
                 .forEach(paleta -> RenderizadorJuego.renderizarPaleta(gc, paleta));
             
             Option.of(modeloJuego.obtenerJugador2())
                 .forEach(paleta -> RenderizadorJuego.renderizarPaleta(gc, paleta));
             
-            // Renderizar pelota principal solo si no es null
             Option.of(modeloJuego.obtenerPelota())
                 .forEach(pelota -> RenderizadorJuego.renderizarPelota(gc, pelota));
             
-            // Renderizar items
             final List<mvc.modelo.items.Item> items = List.ofAll(modeloJuego.obtenerItems());
             RenderizadorJuego.renderizarItems(gc, items);
 
-            // Renderizar neblina si hay algún ItemNeblina activo
             final boolean neblinaActiva = items
                 .filter(item -> item instanceof ItemNeblina)
                 .exists(item -> item.estaActivo());
@@ -354,7 +349,6 @@ public class ControladorJuego extends ControladorBase {
                 RenderizadorJuego.renderizarNeblina(gc, ancho, alto, 1.0);
             }
             
-            // Renderizar sistema de partículas
             sistemaParticulas.renderizar(gc);
         }).onFailure(e -> System.err.println("Error renderizando: " + e.getMessage()));
     }
@@ -401,7 +395,6 @@ public class ControladorJuego extends ControladorBase {
             juegoIniciado = false;
             sistemaParticulas = ParticleEmitter.SistemaParticulas.vacio();
             
-            // Inicializar entidades del juego con dimensiones del canvas
             Option.of(vistaJuego)
                 .peek(vista -> System.out.println("DEBUG: Dimensiones canvas: " + vista.obtenerAncho() + "x" + vista.obtenerAlto()))
                 .flatMap(vista -> Option.of(modeloJuego)
@@ -410,14 +403,12 @@ public class ControladorJuego extends ControladorBase {
                         vista.obtenerAlto()
                     )));
             
-            // Reiniciar solo los valores del juego sin tocar las entidades recien creadas
             modeloJuego.reiniciarValoresJuego();
             
             vistaJuego.actualizarInfo("ESPACIO: Iniciar | ALT: Pausa");
             vistaJuego.actualizarPuntaje(1, 0);
             vistaJuego.actualizarPuntaje(2, 0);
             
-            // Solicitar foco DESPUÉS de que la escena esté completamente renderizada
             javafx.application.Platform.runLater(() -> {
                 System.out.println("DEBUG: Solicitando foco en contenedorJuego...");
                 Option.of(contenedorJuego)

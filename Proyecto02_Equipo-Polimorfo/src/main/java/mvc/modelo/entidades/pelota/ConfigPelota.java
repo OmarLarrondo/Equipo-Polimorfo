@@ -49,7 +49,6 @@ public record ConfigPelota(
      *         o si las relaciones entre valores son invalidas
      */
     public ConfigPelota {
-        // Validaciones de positividad
         if (centroEnX <= 0) {
             throw new IndexOutOfBoundsException("Valor de posicion horizontal no positivo no es valido.");
         }
@@ -66,7 +65,6 @@ public record ConfigPelota(
             throw new IndexOutOfBoundsException("Valor de velocidad maxima no positivo no es valido.");
         }
 
-        // Validaciones de relaciones
         if (velocidad > velocidadMaxima) {
             throw new IndexOutOfBoundsException("La velocidad inicial no puede exceder la maxima.");
         }
@@ -76,7 +74,6 @@ public record ConfigPelota(
             );
         }
 
-        // Normalizar angulo a [0, 2π)
         anguloDireccional = anguloDireccional % (2 * PI);
         if (anguloDireccional < 0) {
             anguloDireccional += 2 * PI;

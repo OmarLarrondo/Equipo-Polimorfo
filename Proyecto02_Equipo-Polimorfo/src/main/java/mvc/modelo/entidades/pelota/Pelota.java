@@ -28,10 +28,8 @@ import mvc.modelo.enums.LadoHorizontal;
  */
 public class Pelota extends ObjetoJuego {
 
-    // Constante PI para calculos
     private static final double PI = Math.PI;
 
-    // Estado mutable de la pelota
     private int centroEnX;
     private int centroEnY;
     private int radio;
@@ -39,13 +37,10 @@ public class Pelota extends ObjetoJuego {
     private int velocidadMaxima;
     private double anguloDireccional;
 
-    // Estado original para restauracion (Memento)
     private ConfigPelota estadoOriginal;
 
-    // Estado de activacion
     private boolean activo;
 
-    // Tracking de la ultima paleta que golpeo esta pelota (para power-ups)
     private Option<Paleta> ultimaPaletaQueGolpeo;
 
     /**
@@ -69,13 +64,11 @@ public class Pelota extends ObjetoJuego {
     ) {
         super(centroEnX - radio, centroEnY - radio, 2.0 * radio, 2.0 * radio);
 
-        // Validar con ConfigPelota para mantener consistencia
         ConfigPelota validacion = new ConfigPelota(
             centroEnX, centroEnY, radio,
             velocidadInicial, velocidadMaxima, anguloDireccional
         );
 
-        // Inicializar estado mutable desde la configuracion validada
         this.centroEnX = validacion.centroEnX();
         this.centroEnY = validacion.centroEnY();
         this.radio = validacion.radio();
@@ -83,7 +76,6 @@ public class Pelota extends ObjetoJuego {
         this.velocidadMaxima = validacion.velocidadMaxima();
         this.anguloDireccional = validacion.anguloDireccional();
 
-        // Guardar estado original
         this.estadoOriginal = validacion;
         this.activo = true;
         this.ultimaPaletaQueGolpeo = Option.none();

@@ -73,7 +73,6 @@ public class Bloque extends ObjetoJuego {
      */
     @Override
     public void actualizar(double deltaTime) {
-        //aqui va su codigo
         // Los bloques generalmente son estáticos, sin lógica de actualización
     }
 
@@ -84,7 +83,6 @@ public class Bloque extends ObjetoJuego {
      */
     @Override
     public javafx.geometry.Rectangle2D obtenerLimites() {
-        //aqui va su codigo
         throw new UnsupportedOperationException("Unimplemented method 'obtenerLimites'");
     }
 
@@ -95,7 +93,6 @@ public class Bloque extends ObjetoJuego {
      */
     @Override
     public void dibujar(javafx.scene.canvas.GraphicsContext gc) {
-        //aqui va su codigo
         throw new UnsupportedOperationException("Unimplemented method 'dibujar'");
     }
 }

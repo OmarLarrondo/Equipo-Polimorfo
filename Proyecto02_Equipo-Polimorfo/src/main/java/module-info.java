@@ -20,7 +20,6 @@ module pong.evolved {
     exports mvc.controlador;
     exports patrones.builder;
     exports patrones.factory.ia;
-    exports patrones.prototype;
     exports patrones.strategy.movimiento;
     exports patrones.strategy.colision;
     exports patrones.observer;

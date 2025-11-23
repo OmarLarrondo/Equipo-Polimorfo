@@ -279,7 +279,6 @@ public class ModeloJuego {
     public Option<Boolean> inicializarEntidadesJuego(final double anchoCanvas, final double altoCanvas) {
         System.out.println("DEBUG: Inicializando entidades con dimensiones: " + anchoCanvas + "x" + altoCanvas);
         
-        // Validar dimensiones
         if (anchoCanvas <= 0 || altoCanvas <= 0) {
             System.err.println("ERROR: Dimensiones inválidas para inicializar entidades: " + anchoCanvas + "x" + altoCanvas);
             return Option.none();
@@ -287,50 +286,49 @@ public class ModeloJuego {
         
         return Try.of(() -> {
             System.out.println("DEBUG: Creando pelota...");
-            // Crear pelota en el centro del canvas
+	    
             final Pelota pelotaNueva = new Pelota(
-                (int) (anchoCanvas / 2),  // centroEnX
-                (int) (altoCanvas / 2),   // centroEnY
-                10,                        // radio
-                300,                       // velocidadInicial
-                500,                       // velocidadMaxima
-                Math.toRadians(45)         // anguloDireccional (45 grados)
+                (int) (anchoCanvas / 2),  
+                (int) (altoCanvas / 2),   
+                10,                        
+                300,                       
+                500,                       
+                Math.toRadians(45)       
             );
             System.out.println("DEBUG: Pelota creada exitosamente");
 
             System.out.println("DEBUG: Creando paleta jugador 1...");
-            // Crear paleta jugador 1 (izquierda)
+	    
             final Paleta paletaJugador1 = new Paleta(
-                50.0,                      // x (izquierda)
-                altoCanvas / 2 - 50,       // y (centrada verticalmente)
-                20.0,                      // ancho
-                100.0                      // alto
+                50.0,                      
+                altoCanvas / 2 - 50,      
+                20.0,                      
+                100.0                      
             );
             System.out.println("DEBUG: Paleta jugador 1 creada exitosamente");
 
             System.out.println("DEBUG: Creando paleta jugador 2...");
-            // Crear paleta jugador 2 (derecha)
+	    
             final Paleta paletaJugador2 = new Paleta(
-                anchoCanvas - 70.0,        // x (derecha con offset)
-                altoCanvas / 2 - 50,       // y (centrada verticalmente)
-                20.0,                      // ancho
-                100.0                      // alto
+                anchoCanvas - 70.0,        
+                altoCanvas / 2 - 50,      
+                20.0,                      
+                100.0                    
             );
             System.out.println("DEBUG: Paleta jugador 2 creada exitosamente");
 
             System.out.println("DEBUG: Inicializando pelota y paletas en el modelo...");
-            // Inicializar pelota y paletas usando metodos existentes
+	    
             inicializarPelota(pelotaNueva);
             inicializarPaletas(paletaJugador1, paletaJugador2);
             System.out.println("DEBUG: Pelota y paletas inicializadas en el modelo");
 
             System.out.println("DEBUG: Creando estrategias de colision...");
-            // Crear estrategias de colision
+	    
             final EstrategiaColision estrategiaPared = new EstrategiaColisionPelotaPared(anchoCanvas, altoCanvas);
             final EstrategiaColision estrategiaPaleta = new EstrategiaColisionPelotaPaleta();
             final EstrategiaColision estrategiaBloque = new EstrategiaColisionPelotaBloque();
 
-            // Crear mapa de estrategias usando Vavr
             final Map<String, EstrategiaColision> estrategias = HashMap.of(
                 "pelota-pared", estrategiaPared,
                 "pelota-paleta", estrategiaPaleta,
@@ -339,7 +337,7 @@ public class ModeloJuego {
             System.out.println("DEBUG: Estrategias de colision creadas");
 
             System.out.println("DEBUG: Creando gestor de colisiones...");
-            // Crear e inicializar gestor de colisiones
+	    
             final GestorColisiones gestor = new GestorColisiones(estrategias.toJavaMap());
             establecerGestorColisiones(gestor);
             System.out.println("DEBUG: Gestor de colisiones establecido");

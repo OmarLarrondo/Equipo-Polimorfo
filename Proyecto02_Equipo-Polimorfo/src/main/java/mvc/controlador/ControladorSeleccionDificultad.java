@@ -1,6 +1,5 @@
 package mvc.controlador;
 
-//AGREGARALDIAGRAMA. CREO
 
 import io.vavr.control.Option;
 import javafx.animation.FadeTransition;

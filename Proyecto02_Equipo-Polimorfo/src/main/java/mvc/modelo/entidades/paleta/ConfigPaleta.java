@@ -56,7 +56,6 @@ public record ConfigPaleta(
      * @throws NullPointerException si algun parametro de referencia es nulo
      */
     public ConfigPaleta {
-        // Validaciones de positividad
         if (colisionEnX <= 0) {
             throw new IndexOutOfBoundsException("Valor de colision horizontal no positivo no es valido.");
         }
@@ -79,12 +78,10 @@ public record ConfigPaleta(
             throw new IndexOutOfBoundsException("Valor de limite sur no positivo no es valido.");
         }
 
-        // Normalizar ancho a par
         if (ancho % 2 == 1) {
             ancho--;
         }
 
-        // Validaciones de limites
         if (centro - ancho / 2 < limiteNorte) {
             throw new IndexOutOfBoundsException("Cara superior del trampolin excede limite norte.");
         }
@@ -95,7 +92,6 @@ public record ConfigPaleta(
             throw new IndexOutOfBoundsException("El limite sur debe estar por debajo del limite norte.");
         }
 
-        // Validaciones de nulidad
         if (ladoPantalla == null) {
             throw new NullPointerException("Lado de la pantalla no puede ser nulo.");
         }

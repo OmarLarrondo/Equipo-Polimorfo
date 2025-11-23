@@ -33,7 +33,6 @@ import patrones.strategy.movimiento.EstrategiaMovimiento;
  */
 public class Paleta extends ObjetoJuego {
 
-    // Estado mutable de la paleta
     private int colisionEnX;
     private int centro;
     private int ancho;
@@ -46,10 +45,8 @@ public class Paleta extends ObjetoJuego {
     private Color colorPrimario;
     private Color colorSecundario;
 
-    // Estado original para restauración (Memento)
     private ConfigPaleta estadoOriginal;
 
-    // Campos adicionales
     private boolean activo = true;
     private EstrategiaMovimiento estrategiaMovimiento;
 
@@ -111,14 +108,12 @@ public class Paleta extends ObjetoJuego {
             ancho % 2 == 1 ? ancho - 1 : ancho
         );
 
-        // Validaciones (delegadas a ConfigPaleta para mantener consistencia)
         ConfigPaleta validacion = new ConfigPaleta(
             colisionEnX, centro, ancho, grosor, velocidad,
             limNor, limSur, lado,
             colorPrimario, colorSecundario
         );
 
-        // Inicializar estado mutable desde la configuracion validada
         this.colisionEnX = validacion.colisionEnX();
         this.centro = validacion.centro();
         this.ancho = validacion.ancho();
@@ -131,7 +126,6 @@ public class Paleta extends ObjetoJuego {
         this.colorPrimario = validacion.colorPrimario();
         this.colorSecundario = validacion.colorSecundario();
 
-        // Guardar estado original
         this.estadoOriginal = validacion;
     }
 
