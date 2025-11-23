@@ -121,7 +121,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>${javafx.maven.plugin.version}</version>
                 <configuration>
-                    <mainClass>app.AplicacionPong</mainClass>
+                    <mainClass>pong.evolved/app.AplicacionPong</mainClass>
                     <options>
                         <option>--add-modules</option>
                         <option>javafx.controls,javafx.fxml,javafx.media,javafx.graphics</option>

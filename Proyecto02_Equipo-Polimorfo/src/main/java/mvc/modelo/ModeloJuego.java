@@ -277,54 +277,38 @@ public class ModeloJuego {
     }
 
     public Option<Boolean> inicializarEntidadesJuego(final double anchoCanvas, final double altoCanvas) {
-        System.out.println("DEBUG: Inicializando entidades con dimensiones: " + anchoCanvas + "x" + altoCanvas);
-        
         if (anchoCanvas <= 0 || altoCanvas <= 0) {
             System.err.println("ERROR: Dimensiones inválidas para inicializar entidades: " + anchoCanvas + "x" + altoCanvas);
             return Option.none();
         }
-        
+
         return Try.of(() -> {
-            System.out.println("DEBUG: Creando pelota...");
-	    
             final Pelota pelotaNueva = new Pelota(
-                (int) (anchoCanvas / 2),  
-                (int) (altoCanvas / 2),   
-                10,                        
-                300,                       
-                500,                       
-                Math.toRadians(45)       
+                (int) (anchoCanvas / 2),
+                (int) (altoCanvas / 2),
+                10,
+                300,
+                500,
+                Math.toRadians(45)
             );
-            System.out.println("DEBUG: Pelota creada exitosamente");
 
-            System.out.println("DEBUG: Creando paleta jugador 1...");
-	    
             final Paleta paletaJugador1 = new Paleta(
-                50.0,                      
-                altoCanvas / 2 - 50,      
-                20.0,                      
-                100.0                      
+                50.0,
+                altoCanvas / 2 - 50,
+                20.0,
+                100.0
             );
-            System.out.println("DEBUG: Paleta jugador 1 creada exitosamente");
 
-            System.out.println("DEBUG: Creando paleta jugador 2...");
-	    
             final Paleta paletaJugador2 = new Paleta(
-                anchoCanvas - 70.0,        
-                altoCanvas / 2 - 50,      
-                20.0,                      
-                100.0                    
+                anchoCanvas - 70.0,
+                altoCanvas / 2 - 50,
+                20.0,
+                100.0
             );
-            System.out.println("DEBUG: Paleta jugador 2 creada exitosamente");
 
-            System.out.println("DEBUG: Inicializando pelota y paletas en el modelo...");
-	    
             inicializarPelota(pelotaNueva);
             inicializarPaletas(paletaJugador1, paletaJugador2);
-            System.out.println("DEBUG: Pelota y paletas inicializadas en el modelo");
 
-            System.out.println("DEBUG: Creando estrategias de colision...");
-	    
             final EstrategiaColision estrategiaPared = new EstrategiaColisionPelotaPared(anchoCanvas, altoCanvas);
             final EstrategiaColision estrategiaPaleta = new EstrategiaColisionPelotaPaleta();
             final EstrategiaColision estrategiaBloque = new EstrategiaColisionPelotaBloque();
@@ -334,15 +318,10 @@ public class ModeloJuego {
                 "pelota-paleta", estrategiaPaleta,
                 "pelota-bloque", estrategiaBloque
             );
-            System.out.println("DEBUG: Estrategias de colision creadas");
 
-            System.out.println("DEBUG: Creando gestor de colisiones...");
-	    
             final GestorColisiones gestor = new GestorColisiones(estrategias.toJavaMap());
             establecerGestorColisiones(gestor);
-            System.out.println("DEBUG: Gestor de colisiones establecido");
 
-            System.out.println("DEBUG: Entidades inicializadas correctamente");
             return true;
         })
         .onFailure(e -> {
