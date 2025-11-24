@@ -15,7 +15,7 @@ import mvc.modelo.enums.ModoJuego;
 import mvc.vista.VistaJuego;
 import patrones.adapter.AdaptadorEntradaTeclado;
 import patrones.factory.ia.DificultadIA;
-import patrones.factory.ia.ServiciioIA;
+import patrones.factory.ia.ServicioIA;
 import patrones.observer.ObservadorUI;
 import util.ParticleEmitter;
 import util.RenderizadorJuego;
@@ -42,7 +42,7 @@ public class ControladorJuego extends ControladorBase {
     private Option<AnimationTimer> gameLoop;
     private Option<ObservadorUI> observadorUI;
     private ParticleEmitter.SistemaParticulas sistemaParticulas;
-    private Option<ServiciioIA> servicioIA;
+    private Option<ServicioIA> servicioIA;
     private AdaptadorEntradaTeclado adaptadorEntrada;
     private long ultimoTiempo;
     private boolean pausado;
@@ -411,7 +411,7 @@ public class ControladorJuego extends ControladorBase {
      */
     public void configurarDificultadIA(final int dificultad) {
         this.servicioIA = DificultadIA.desdeNumeroNivel(dificultad)
-                .map(ServiciioIA::new)
+                .map(ServicioIA::new)
                 .peek(servicio -> 
                     System.out.println("IA configurada con dificultad: " + dificultad)
                 );

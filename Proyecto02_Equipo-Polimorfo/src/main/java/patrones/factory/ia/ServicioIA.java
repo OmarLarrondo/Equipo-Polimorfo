@@ -31,7 +31,7 @@ import java.util.Objects;
  * <p><b>Ciclo de vida típico:</b></p>
  * <pre>
  * // 1. Crear servicio
- * ServiciioIA servicio = new ServiciioIA();
+ * ServicioIA servicio = new ServicioIA();
  *
  * // 2. Establecer dificultad (ej: nivel seleccionado por el usuario)
  * servicio.establecerDificultad(DificultadIA.NIVEL_7);
@@ -50,7 +50,7 @@ import java.util.Objects;
  * @see FabricaIA
  * @see EstrategiaMovimiento
  */
-public class ServiciioIA {
+public class ServicioIA {
 
     private final FabricaIA fabricaIA;
     private DificultadIA dificultadActual;
@@ -62,7 +62,7 @@ public class ServiciioIA {
      * <p>La estrategia de movimiento se creará cuando se llame a
      * {@link #establecerDificultad(DificultadIA)} por primera vez.</p>
      */
-    public ServiciioIA() {
+    public ServicioIA() {
         this.fabricaIA = FabricaIA.obtenerInstancia();
         this.dificultadActual = null;
         this.estrategiaActual = null;
@@ -77,7 +77,7 @@ public class ServiciioIA {
      * @throws NullPointerException     si {@code dificultadInicial} es {@code null}
      * @throws IllegalArgumentException si no se puede crear la estrategia para el nivel especificado
      */
-    public ServiciioIA(final DificultadIA dificultadInicial) {
+    public ServicioIA(final DificultadIA dificultadInicial) {
         this();
         establecerDificultad(Objects.requireNonNull(dificultadInicial,
                 "La dificultad inicial no puede ser null"));
@@ -98,7 +98,7 @@ public class ServiciioIA {
      *
      * <p><b>Ejemplo de uso:</b></p>
      * <pre>
-     * ServiciioIA servicio = new ServiciioIA();
+     * ServicioIA servicio = new ServicioIA();
      *
      * Option<EstrategiaMovimiento> estrategia =
      *     servicio.establecerDificultad(DificultadIA.NIVEL_5);
@@ -135,7 +135,7 @@ public class ServiciioIA {
      * // Usuario selecciona nivel 7 desde la UI
      * int nivelSeleccionado = controladorDificultad.obtenerNivelSeleccionado().get();
      *
-     * ServiciioIA servicio = new ServiciioIA();
+     * ServicioIA servicio = new ServicioIA();
      * Option<EstrategiaMovimiento> estrategia =
      *     servicio.establecerDificultadPorNumero(nivelSeleccionado);
      * </pre>
@@ -288,7 +288,7 @@ public class ServiciioIA {
 
         final String estadoEstrategia = estaConfigurado() ? "Activa" : "Inactiva";
 
-        return String.format("ServiciioIA[dificultad=%s, estrategia=%s]",
+        return String.format("ServicioIA[dificultad=%s, estrategia=%s]",
                 estadoDificultad, estadoEstrategia);
     }
 }

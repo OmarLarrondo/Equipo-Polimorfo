@@ -21,7 +21,7 @@ import patrones.strategy.colision.EstrategiaColisionPelotaPared;
 import patrones.strategy.colision.EstrategiaColisionPelotaPaleta;
 import patrones.strategy.colision.EstrategiaColisionPelotaBloque;
 import patrones.strategy.colision.GestorColisiones;
-import patrones.factory.ia.ServiciioIA;
+import patrones.factory.ia.ServicioIA;
 
 /**
  * Modelo principal del juego que contiene el estado completo
@@ -52,7 +52,7 @@ public class ModeloJuego {
     private List<ObservadorJuego> observadores;
     private Option<MementoPaletas> mementoGuardado;
     private Option<GestorColisiones> gestorColisiones;
-    private Option<ServiciioIA> servicioIA;
+    private Option<ServicioIA> servicioIA;
     private double tiempoTranscurrido;
     private static final double DURACION_PARTIDA = 300.0;
     private boolean juegoActivo;
@@ -682,7 +682,7 @@ public class ModeloJuego {
      *
      * @param servicio el servicio de IA configurado con una dificultad específica
      */
-    public void establecerServicioIA(ServiciioIA servicio) {
+    public void establecerServicioIA(ServicioIA servicio) {
         this.servicioIA = Option.of(servicio);
     }
 }
